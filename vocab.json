@@ -1,0 +1,133 @@
+{
+  "systems": [
+    "Chatbot",
+    "News summarization",
+    "Writing assistance",
+    "Quote generation",
+    "Deepfake generation",
+    "Synthetic video/image generation",
+    "Translation",
+    "Editing",
+    "Remixing/repurposing"
+  ],
+  "developers": [
+    "In-house AI system",
+    "AI vendor",
+    "Unknown/unspecified"
+  ],
+  "actor": [
+    "News organization/publisher",
+    "Individual journalist",
+    "AI developer",
+    "Tech platform",
+    "Third-party aggregator/content farm",
+    "Disinformation actor",
+    "SEO/platform-manipulation actor",
+    "PR/marketing agency",
+    "Unknown/unspecified",
+    "other"
+  ],
+  "factor": [
+    "Inadequate human oversight",
+    "Contextually inappropriate application of AI",
+    "Lack of transparency/disclosure",
+    "Publishers' lack of control over AI content presentation",
+    "Publisher's lack of due diligence",
+    "Inadequate content moderation by platforms",
+    "Deployment of AI with intention to harm or mislead",
+    "AI-based impersonation of journalists/outlets",
+    "AI-based mimicry of journalists' likeness/style",
+    "SEO/algorithm gaming",
+    "Expired domain abuse",
+    "AI substitution for human journalists",
+    "AI cited to justify job cuts",
+    "Lack of internal transparency about AI-related management decisions",
+    "Lack of internal standards regarding AI use"
+  ],
+  "harm": [
+    "Publication of low quality outputs / ai slop",
+    "Plagiarism",
+    "Citation issues",
+    "Inaccurate summarization",
+    "Amplification of misinformation",
+    "Propaganda/disinformation",
+    "Reputational harm",
+    "Undermining of journalistic standards",
+    "Journalists being duped",
+    "Breach of contract",
+    "Displacement of human judgement",
+    "Displacement of human labor",
+    "Increased workload / burden on journalists",
+    "Economic harm to publisher(s)/journalist(s)",
+    "Disintermediation",
+    "Perpetuation of stereotypes",
+    "Dignity harm to individuals depicted",
+    "Misrepresentation of individuals depicted",
+    "Loss of diversity",
+    "Privacy harm",
+    "Scams"
+  ],
+  "harmed_party": [
+    "Journalist(s)",
+    "News organization/publisher",
+    "Sources/subjects of coverage",
+    "Audience/readers",
+    "General public"
+  ],
+  "factor_groups": {
+    "Process/Governance Failures": [
+      "Inadequate human oversight",
+      "Contextually inappropriate application of AI",
+      "Lack of transparency/disclosure",
+      "Publishers' lack of control over AI content presentation",
+      "Publisher's lack of due diligence",
+      "Inadequate content moderation by platforms"
+    ],
+    "Intentional Misuse": [
+      "Deployment of AI with intention to harm or mislead",
+      "AI-based impersonation of journalists/outlets",
+      "AI-based mimicry of journalists' likeness/style",
+      "SEO/algorithm gaming",
+      "Expired domain abuse"
+    ],
+    "Labor/organizational decisions": [
+      "AI substitution for human journalists",
+      "AI cited to justify job cuts",
+      "Lack of internal transparency about AI-related management decisions",
+      "Lack of internal standards regarding AI use"
+    ]
+  },
+  "harm_groups": {
+    "Information/content-quality (epistemic) harms": [
+      "Publication of low quality outputs / ai slop",
+      "Plagiarism",
+      "Citation issues",
+      "Inaccurate summarization",
+      "Amplification of misinformation",
+      "Propaganda/disinformation"
+    ],
+    "Institutional/professional harms": [
+      "Reputational harm",
+      "Undermining of journalistic standards",
+      "Journalists being duped"
+    ],
+    "Labor/economic harms": [
+      "Breach of contract",
+      "Displacement of human judgement",
+      "Displacement of human labor",
+      "Increased workload / burden on journalists",
+      "Economic harm to publisher(s)/journalist(s)",
+      "Disintermediation"
+    ],
+    "Representational harms": [
+      "Perpetuation of stereotypes",
+      "Dignity harm to individuals depicted",
+      "Misrepresentation of individuals depicted",
+      "Loss of diversity"
+    ],
+    "Individual harms": [
+      "Privacy harm",
+      "Scams"
+    ]
+  }
+}

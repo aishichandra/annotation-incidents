@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Incident coder</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  :root {
+    --fg: #1a1a1a; --muted: #6b7280; --line: #e5e7eb;
+    --rail: #f4f4f5; --accent: #2563eb; --bar-h: 52px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: var(--fg); font: 15px/1.6 -apple-system, system-ui, sans-serif; }
+
+  .bar { position: fixed; top: 0; left: 0; right: 0; height: var(--bar-h); z-index: 30;
+    display: flex; align-items: center; gap: 14px; padding: 0 20px;
+    background: #fff; border-bottom: 1px solid var(--line); }
+  .bar select { font: inherit; padding: 6px 10px; border: 1px solid var(--line);
+    border-radius: 8px; max-width: 560px; }
+  .bar .status { color: var(--muted); font-size: 13px; margin-left: auto; }
+  .bar .hint { color: var(--muted); font-size: 12px; }
+
+  .app { position: relative; padding-top: var(--bar-h); }
+  .reader { margin-right: 440px; padding: 40px 48px 160px; }
+  .side { position: fixed; top: var(--bar-h); right: 0; bottom: 0; width: 440px;
+    background: #fff; border-left: 1px solid var(--line); overflow-y: auto;
+    padding: 8px 22px 48px; }
+
+  /* Article prose */
+  #text { font-family: Georgia, 'Times New Roman', serif; font-size: 19px;
+    line-height: 1.85; max-width: 40em; }
+  #text h1, #text h2, #text h3 { line-height: 1.25; margin: 1.4em 0 .5em; font-weight: 700; }
+  #text h1 { font-size: 1.5em; } #text h2 { font-size: 1.28em; } #text h3 { font-size: 1.1em; }
+  #text p { margin: 0 0 1.1em; }
+  #text ul, #text ol { margin: 0 0 1.1em; padding-left: 1.4em; }
+  #text a { color: #1a1a1a; text-decoration: underline; text-decoration-color: #bbb; }
+  #text img { max-width: 100%; height: auto; border-radius: 6px; }
+  .doctitle { font-family: Georgia, serif; font-size: 30px; font-weight: 700;
+    line-height: 1.2; margin: 0 0 8px; max-width: 40em; }
+  .docurl { display: block; margin: 0 0 28px; font-size: 13px; color: var(--accent);
+    text-decoration: none; word-break: break-all; max-width: 40em; }
+  .docurl:hover { text-decoration: underline; }
+  mark { background: transparent; padding: 1px 0 0; cursor: pointer; }
+  mark.active { box-shadow: 0 0 0 2px rgba(0,0,0,.4); }
+
+  /* Coding form — clean, monospace, hairline dividers (no boxes) */
+  #form { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace; }
+  .card { border-top: 1px solid var(--line); padding: 20px 2px; }
+  .card:first-child { border-top: none; padding-top: 8px; }
+  .card.armed { background: #fbfbfa; }
+  .card .head { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .card .sq { width: 13px; height: 13px; border-radius: 3px; flex: none; }
+  .card .label { font-weight: 700; font-size: 13px; }
+  .card .arm { margin-left: auto; font-size: 11px; color: #888; border: 1px solid #dadada;
+    border-radius: 5px; padding: 3px 9px; white-space: nowrap; letter-spacing: .01em; }
+  .card.armed .arm { color: #111; border-color: #111; }
+  .card .body { margin-top: 13px; padding-left: 23px; }
+  .card textarea, .card input[type=text] { width: 100%; border: 1px solid #dcdcdc;
+    border-radius: 5px; padding: 7px 8px; font: inherit; font-size: 12.5px; color: #333;
+    resize: vertical; background: #fff; }
+  .card textarea:focus, .card input:focus { outline: none; border-color: #999; }
+  /* multi-select dropdown */
+  .select { position: relative; }
+  .select-control { display: flex; flex-wrap: wrap; gap: 5px; align-items: center;
+    min-height: 34px; border: 1px solid #dcdcdc; border-radius: 5px; padding: 5px 26px 5px 8px;
+    cursor: pointer; background: #fff; }
+  .select-control:hover { border-color: #999; }
+  .select.open .select-control { border-color: #111; }
+  .select-ph { color: #aaa; font-size: 12px; }
+  .select-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px;
+    background: #f0f0ef; border: 1px solid #ddd; border-radius: 4px; padding: 2px 4px 2px 7px; }
+  .select-tag button { border: none; background: none; color: #999; cursor: pointer;
+    font-size: 12px; line-height: 1; padding: 0; }
+  .select-tag button:hover { color: #dc2626; }
+  /* committed free-text answer: plain, settled text (press Enter to set) */
+  .text-answer { display: flex; align-items: flex-start; gap: 8px; padding: 4px 2px;
+    font-size: 12.5px; color: #111; line-height: 1.5; cursor: pointer; }
+  .text-answer:hover { color: #000; }
+  .text-answer .val { flex: 1; white-space: pre-wrap; word-break: break-word; }
+  .text-answer .x { border: none; background: none; color: #ccc; cursor: pointer;
+    font-size: 13px; line-height: 1; padding: 0; flex: none; }
+  .text-answer .x:hover { color: #dc2626; }
+  /* incident id: input + existing-incident picker */
+  .incident-id { display: flex; flex-direction: column; gap: 6px; padding: 2px; }
+  .inc-input { font: inherit; font-size: 13px; padding: 6px 8px; border: 1px solid #ddd;
+    border-radius: 6px; width: 100%; box-sizing: border-box; }
+  .inc-input:focus { outline: none; border-color: #111; }
+  .inc-row { display: flex; gap: 6px; }
+  .inc-select { flex: 1; font: inherit; font-size: 12px; padding: 5px 6px; border: 1px solid #ddd;
+    border-radius: 6px; background: #fff; cursor: pointer; }
+  .inc-new { font: inherit; font-size: 12px; padding: 5px 10px; border: 1px solid #ddd;
+    border-radius: 6px; background: #fafafa; cursor: pointer; white-space: nowrap; }
+  .inc-new:hover { border-color: #111; background: #fff; }
+  .caret { position: absolute; right: 9px; top: 9px; color: #999; font-size: 10px;
+    pointer-events: none; }
+  .select-menu { position: absolute; z-index: 20; left: 0; right: 0; top: calc(100% + 4px);
+    background: #fff; border: 1px solid #ccc; border-radius: 6px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.12); max-height: 260px; overflow-y: auto;
+    padding: 5px; display: none; }
+  .select.open .select-menu { display: block; }
+  .menu-opt { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #333;
+    padding: 6px 8px; border-radius: 5px; cursor: pointer; }
+  .menu-opt:hover { background: #f5f5f4; }
+  .menu-opt input { margin: 0; accent-color: #111; }
+  .menu-opt.sel { color: #111; font-weight: 600; }
+  .menu-add { display: flex; gap: 6px; padding: 7px 6px 4px; border-top: 1px solid #eee;
+    margin-top: 4px; }
+  .menu-add input { flex: 1; font-size: 12px; padding: 5px 8px; }
+  .menu-add button { font-size: 12px; border: 1px solid #dcdcdc; background: #fff;
+    border-radius: 5px; padding: 5px 10px; cursor: pointer; color: #333; }
+  .menu-add button:hover { border-color: #111; }
+  .sub { font-size: 10px; text-transform: uppercase; letter-spacing: .08em;
+    color: #b0b0b0; margin: 17px 0 7px; }
+  .quotes { display: flex; flex-direction: column; gap: 6px; }
+  .quote { font-size: 12px; line-height: 1.5; color: #555; background: none;
+    border-left: 2px solid #ccc; padding: 1px 20px 1px 12px;
+    position: relative; cursor: pointer; }
+  .quote .x { position: absolute; top: 1px; right: 4px; border: none; background: none;
+    color: #ccc; cursor: pointer; font-size: 13px; line-height: 1; }
+  .quote .x:hover { color: #dc2626; }
+  .quotes-empty { font-size: 11.5px; color: #bbb; }
+  .comments { margin-top: 0; }
+
+  /* Role highlights carry a subscript claim number; hovering links a claim's marks */
+  mark.role-mark[data-badge]::after { content: attr(data-badge); display: inline-block;
+    box-sizing: border-box; width: 1.4em; height: 1.4em; line-height: 1.4em; text-align: center;
+    font-size: .66em; font-weight: 800; border-radius: 50%; background: #111; color: #fff;
+    vertical-align: super; margin-left: 3px; }
+  mark.linked { box-shadow: 0 0 0 2px rgba(0,0,0,.55); }
+  #arrows { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 6; }
+  .arrow-path { fill: none; stroke: #111; stroke-width: 1.6; opacity: .7; }
+
+  /* highlight-first category pop-up */
+  .cat-menu { position: fixed; z-index: 40; background: #fff; border: 1px solid #ccc;
+    border-radius: 8px; box-shadow: 0 8px 28px rgba(0,0,0,.16); padding: 9px 10px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; max-width: 300px; }
+  .cat-title { font-size: 11px; color: #666; margin-bottom: 8px; max-width: 280px; }
+  .cat-group { margin-bottom: 6px; }
+  .cat-group-label { font-size: 9.5px; text-transform: uppercase; letter-spacing: .06em;
+    color: #aaa; margin-bottom: 5px; }
+  .cat-btns { display: flex; flex-wrap: wrap; gap: 5px; }
+  .cat-btn { display: inline-flex; align-items: center; gap: 5px; font: inherit; font-size: 11.5px;
+    border: 1px solid #ddd; background: #fff; border-radius: 6px; padding: 4px 9px; cursor: pointer; color: #222; }
+  .cat-btn:hover { border-color: #111; }
+  .cat-dot { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+  .cat-btn-wrap { display: inline-flex; align-items: stretch; }
+  .cat-btn-wrap .cat-btn { border-radius: 6px 0 0 6px; border-right: none; }
+  .cat-caret { font: inherit; font-size: 9px; border: 1px solid #ddd; background: #fafafa;
+    border-radius: 0 6px 6px 0; padding: 0 6px; cursor: pointer; color: #888; }
+  .cat-caret:hover { border-color: #111; color: #111; background: #fff; }
+  .cat-vlist { max-height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 3px; }
+  .cat-vopt { display: block; width: 100%; text-align: left; font: inherit; font-size: 12px;
+    border: 1px solid #eee; background: #fff; border-radius: 6px; padding: 5px 9px; cursor: pointer; color: #222; }
+  .cat-vopt:hover { border-color: #111; }
+  .cat-vopt-text { color: #2563eb; border-color: #cfe0ff; margin-bottom: 3px; }
+  .cat-vopt-text:hover { border-color: #2563eb; }
+  .cat-back { font-size: 11px; border: none; background: none; color: #888; cursor: pointer;
+    padding: 5px 2px 2px; }
+  .cat-back:hover { color: #111; }
+  .cat-newclaim { font-size: 11px; border: 1px dashed #cfcfcf; background: #fff; border-radius: 6px;
+    padding: 5px 9px; cursor: pointer; color: #555; margin: 2px 0 6px; width: 100%; }
+  .cat-newclaim:hover { border-color: #111; color: #111; }
+  .cat-div { border-top: 1px solid #eee; margin: 4px 0 8px; }
+  .cat-del { display: block; width: 100%; text-align: left; font: inherit; font-size: 12px;
+    border: 1px solid #f0c4c4; background: #fff; color: #b91c1c; border-radius: 6px;
+    padding: 6px 9px; cursor: pointer; margin-bottom: 5px; }
+  .cat-del:hover { background: #fef2f2; border-color: #b91c1c; }
+  .cat-goto { display: block; width: 100%; text-align: left; font: inherit; font-size: 12px;
+    border: 1px solid #ddd; background: #fff; color: #333; border-radius: 6px;
+    padding: 6px 9px; cursor: pointer; }
+  .cat-goto:hover { border-color: #111; }
+  /* multi-select chip state */
+  .cat-btn.on { border-color: #111; background: #111; color: #fff; }
+  .cat-btn .cat-check { display: inline-block; width: 9px; font-size: 10px; line-height: 1; }
+  .cat-done { display: block; width: 100%; text-align: center; font: inherit; font-size: 12px;
+    font-weight: 600; border: 1px solid #111; background: #111; color: #fff; border-radius: 6px;
+    padding: 6px 9px; cursor: pointer; margin-top: 8px; }
+  .cat-done:hover { background: #333; }
+  /* span menu: one row per category on a shared highlight */
+  .span-row { display: flex; align-items: center; gap: 7px; padding: 4px 2px; }
+  .span-name { flex: 1; font-size: 12px; color: #333; }
+  .span-x { border: none; background: none; color: #b91c1c; cursor: pointer; font-size: 12px;
+    padding: 0 4px; line-height: 1; }
+  .span-x:hover { color: #7f1d1d; }
+
+  /* Claims panel — actor ↔ harm ↔ factor ↔ harmed party */
+  .claims-section { border-top: 2px solid var(--line); margin-top: 26px; padding: 20px 2px 8px; }
+  .claims-head { display: flex; align-items: baseline; gap: 8px; }
+  .claims-head .label { font-weight: 700; font-size: 13px; }
+  .claims-empty { font-size: 11.5px; color: #bbb; margin: 10px 0; }
+  .claim-list { display: flex; flex-direction: column; gap: 14px; }
+  .claim-row { border: 1px solid #e2e2e2; border-radius: 8px; padding: 11px 12px; background: #fcfcfc; }
+  .claim-top { display: flex; align-items: center; margin-bottom: 10px; }
+  .claim-num { font-size: 13px; font-weight: 800; color: #111; letter-spacing: .02em; }
+  .claim-del { margin-left: auto; border: none; background: none; color: #ccc; cursor: pointer;
+    font-size: 15px; line-height: 1; padding: 0; }
+  .claim-del:hover { color: #dc2626; }
+  .claim-chain { display: flex; flex-direction: column; gap: 4px; }
+  .role-slot { border-radius: 6px; padding: 6px 7px; }
+  .role-slot.armed { background: #fbfbfa; box-shadow: inset 0 0 0 1px #111; }
+  .role-slot .role-head { display: flex; align-items: center; gap: 7px; }
+  .role-dot { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+  .role-name { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+    color: #555; min-width: 84px; }
+  .role-arm { margin-left: auto; font-size: 10px; color: #888; border: 1px solid #dadada;
+    border-radius: 5px; padding: 2px 8px; white-space: nowrap; cursor: pointer; }
+  .role-slot.armed .role-arm { color: #111; border-color: #111; }
+  .role-select { margin-top: 6px; }
+
+  /* per-selection justification — clean list, no boxes */
+  .value-ev { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+  .ev-none { font-size: 11px; color: #bbb; }
+  .ev-row { padding: 0; }
+  .ev-head { display: flex; align-items: center; gap: 8px; }
+  .ev-dot { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+  .ev-val { font-size: 13px; color: #111; font-weight: 600; }
+  .ev-count { font-size: 10.5px; color: #bbb; white-space: nowrap; }
+  .ev-warn { font-size: 10.5px; color: #d97706; font-weight: 700; white-space: nowrap; }
+  .ev-arm { margin-left: auto; font-size: 10px; color: #9a9a9a; border: none; background: none;
+    cursor: pointer; padding: 2px 4px; }
+  .ev-arm:hover { color: #111; }
+  .ev-row.armed .ev-arm { color: #111; font-weight: 700; }
+  .ev-row .quotes { margin: 5px 0 0 2px; }
+  .claim-arrow { color: #cbd5e1; font-size: 12px; text-align: center; line-height: 1; margin: 1px 0; }
+  .claim-add { margin-top: 14px; font-size: 12px; border: 1px dashed #cfcfcf; background: #fff;
+    border-radius: 6px; padding: 8px 12px; cursor: pointer; color: #555; width: 100%; }
+  .claim-add:hover { border-color: #111; color: #111; }
+</style>
+</head>
+<body>
+<div class="bar">
+  <select id="docSelect"></select>
+  <span class="hint" id="armHint"></span>
+  <span class="status" id="status"></span>
+</div>
+
+<div class="app">
+  <div class="reader">
+    <div class="doctitle" id="docTitle">Loading…</div>
+    <a class="docurl" id="docUrl" target="_blank" rel="noopener"></a>
+    <div id="text"></div>
+  </div>
+  <div class="side"><div id="form"></div></div>
+</div>
+
+<!-- overlay for arrows connecting a claim's highlighted characteristics -->
+<svg id="arrows" aria-hidden="true">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7"
+            orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#111"></path>
+    </marker>
+  </defs>
+  <g id="arrowLines"></g>
+</svg>
+
+<script>
+const COLORS = ['#fde68a','#a5d6b0','#bfdbfe','#f3b7ac','#ddd6fe','#f9c9e0','#a7f3d0',
+                '#fed7aa','#c7d2fe','#fecdd3','#bbf7d0','#e9d5ff'];
+let SCHEMA = [];           // [{key,label,type,options}]
+const color = {};          // field key -> highlight color
+let curDoc = null;         // {index,title,url,markdown,ann:{fields,quotes,claims},_plain}
+let saveTimer = null;
+
+// A claim links four roles; each highlight is colored by ROLE and carries the
+// claim's number so evidence for the same claim reads as connected.
+// Four maximally-distinct hues so role highlights never read as the same color.
+const ROLES = [
+  { role: 'actor',        label: 'Actor',        color: '#fde047' },  // yellow
+  { role: 'harm',         label: 'Harm',         color: '#fca5a5' },  // red
+  { role: 'factor',       label: 'Factor',       color: '#86efac' },  // green
+  { role: 'harmed_party', label: 'Harmed party', color: '#7dd3fc' },  // blue
+];
+const ROLE = Object.fromEntries(ROLES.map(r => [r.role, r]));
+let SCHEMA_ROLES = [];      // [{role,label,options}] from schema.claim_roles
+function roleOptions(role) {
+  const r = SCHEMA_ROLES.find(x => x.role === role);
+  return (r && r.options) || [];
+}
+function setRoleOptions(role, opts) {
+  const r = SCHEMA_ROLES.find(x => x.role === role);
+  if (r) r.options = opts;
+}
+
+// What's currently receiving highlights: a specific selected value in a field or
+// claim-role multiselect (value is undefined for a whole text field).
+// null | {type:'field', key, value} | {type:'role', claim, role, value}
+let armed = null;
+function sameArm(t) {
+  if (!armed || armed.type !== t.type) return false;
+  if (t.type === 'field') return armed.key === t.key && armed.value === t.value;
+  return armed.claim === t.claim && armed.role === t.role && armed.value === t.value;
+}
+function setArm(t) { armed = sameArm(t) ? null : t; afterArm(); }
+
+async function init() {
+  const schema = await (await fetch('/api/schema')).json();
+  SCHEMA = schema.fields;
+  SCHEMA_ROLES = schema.claim_roles || [];
+  SCHEMA.forEach((f, i) => color[f.key] = COLORS[i % COLORS.length]);
+  const docs = await (await fetch('/api/docs')).json();
+  const sel = document.getElementById('docSelect');
+  sel.innerHTML = docs.map(d =>
+    `<option value="${d.index}">${d.title.slice(0,80)}${d.n ? '  ('+d.n+')' : ''}</option>`).join('');
+  sel.onchange = () => loadDoc(+sel.value);
+  loadDoc(docs.length ? docs[0].index : 0);
+}
+
+// Existing incident IDs (for the "connect to another article" picker) + the next
+// suggested new ID. Refreshed from the server whenever a document loads.
+let INCIDENT_IDS = [], INCIDENT_NEXT = '', INCIDENT_TITLES = {};
+async function refreshIncidentIds() {
+  try {
+    const d = await (await fetch('/api/incident_ids')).json();
+    INCIDENT_IDS = d.ids || []; INCIDENT_NEXT = d.next || ''; INCIDENT_TITLES = d.titles || {};
+  } catch (e) { INCIDENT_IDS = []; INCIDENT_NEXT = ''; INCIDENT_TITLES = {}; }
+}
+
+// If an incident ID belongs to an existing incident, copy that incident's title
+// in. `overwrite` replaces an existing title (used when explicitly connecting);
+// otherwise it only fills a blank title. Returns true if it changed the title.
+function fillTitleForIncident(id, overwrite) {
+  const t = INCIDENT_TITLES[id];
+  if (!t) return false;
+  const ta = fieldAnn('incident_title');
+  if (!overwrite && ta.answer && String(ta.answer).trim()) return false;
+  if (ta.answer === t) return false;
+  ta.answer = t;
+  return true;
+}
+
+async function loadDoc(i) {
+  const d = await (await fetch('/api/doc/' + i)).json();
+  curDoc = { ...d, ann: d.annotation };
+  if (!Array.isArray(curDoc.ann.claims)) curDoc.ann.claims = [];
+  // start every article with one claim ready (not saved until it gets content)
+  if (!curDoc.ann.claims.length) {
+    curDoc.ann.claims.push({ id: '1', actor: [], harm: [], factor: [], harmed_party: [] });
+  }
+  // Auto-populate a fresh incident ID for a not-yet-coded article (the coder can
+  // still pick an existing one to connect it to another article).
+  await refreshIncidentIds();
+  const idAnn = fieldAnn('incident_id');
+  if (!(idAnn.answer && String(idAnn.answer).trim()) && INCIDENT_NEXT) {
+    idAnn.answer = INCIDENT_NEXT;
+    persist();
+  }
+  // If this article's incident ID matches an existing incident, adopt its title.
+  if (idAnn.answer && fillTitleForIncident(idAnn.answer, false)) persist();
+  armed = null;
+  document.getElementById('docTitle').textContent = curDoc.title;
+  const u = document.getElementById('docUrl');
+  const hasUrl = curDoc.url && curDoc.url !== 'nan';
+  u.textContent = hasUrl ? curDoc.url : ''; u.href = hasUrl ? curDoc.url : '#';
+  u.style.display = hasUrl ? 'block' : 'none';
+  updateArmHint();
+  renderArticle();
+  renderForm();
+  window.scrollTo(0, 0);
+}
+
+function field(key) { return SCHEMA.find(f => f.key === key); }
+function fieldAnn(key) {
+  if (!curDoc.ann.fields[key]) curDoc.ann.fields[key] = { answer: null, comments: '' };
+  return curDoc.ann.fields[key];
+}
+function quotesFor(key) { return curDoc.ann.quotes.filter(q => q.category === key); }
+
+// ---------- article + highlights ----------
+function getTextNodes() {
+  const root = document.getElementById('text');
+  const out = []; const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  let n; while ((n = w.nextNode())) out.push(n);
+  return out;
+}
+
+function renderArticle(keepScroll) {
+  const y = window.scrollY;
+  const el = document.getElementById('text');
+  el.innerHTML = window.marked ? marked.parse(curDoc.markdown) : escapeHtml(curDoc.markdown);
+  curDoc._plain = el.textContent;
+  paintUnderlines();
+  if (keepScroll) requestAnimationFrame(() => window.scrollTo(0, y));
+}
+
+function quoteColor(q) {
+  return q.role ? ((ROLE[q.role] || {}).color || '#eee') : (color[q.category] || '#fde68a');
+}
+function quoteLabel(q) {
+  const base = q.role ? ((ROLE[q.role] || {}).label || q.role)
+                      : ((field(q.category) || {}).label || q.category);
+  return base + (q.value ? ' · ' + q.value : '') + (q.role ? ' · claim ' + q.claim : '');
+}
+
+// Draw each quote's underline at its own fixed lane, so every category is one
+// continuous parallel line at a stable height (lane 0 just under the text,
+// higher lanes stacked below). All marks reserve the same padding so lines from
+// different stretches align. `lines` = [{color, lane}]; totalLanes fixed per doc.
+const UL_THICK = 2, UL_GAP = 2, UL_STEP = UL_THICK + UL_GAP;
+function applyUnderlines(m, lines, totalLanes) {
+  m.style.backgroundImage = lines.map(l => `linear-gradient(${l.color}, ${l.color})`).join(', ');
+  m.style.backgroundSize = lines.map(() => `100% ${UL_THICK}px`).join(', ');
+  m.style.backgroundPosition = lines.map(l => `0 calc(100% - ${(totalLanes - l.lane) * UL_STEP}px)`).join(', ');
+  m.style.backgroundRepeat = 'no-repeat';
+  m.style.paddingBottom = ((totalLanes + 1) * UL_STEP) + 'px';
+}
+
+// Assign a stable lane to each quote (greedy interval colouring): overlapping
+// quotes get different lanes; non-overlapping ones reuse the lowest free lane.
+function assignLanes(quotes) {
+  const laneOf = {}, laneEnds = [];
+  quotes.map((q, idx) => ({ q, idx }))
+    .sort((a, b) => a.q.start - b.q.start || a.q.end - b.q.end)
+    .forEach(({ q, idx }) => {
+      let l = 0;
+      while (l < laneEnds.length && laneEnds[l] > q.start) l++;
+      laneOf[idx] = l;
+      laneEnds[l] = q.end;
+    });
+  return { laneOf, totalLanes: laneEnds.length };
+}
+
+// Paint underlines per character-interval: split the text at every quote
+// boundary, and under each stretch draw one line for EVERY quote covering it.
+// So overlapping/adjacent selections keep their own lines and stack where they
+// overlap — no highlight is ever hidden by another.
+function paintUnderlines() {
+  const quotes = curDoc.ann.quotes;
+  if (!quotes.length) return;
+  const { laneOf, totalLanes } = assignLanes(quotes);
+  const cuts = [...new Set(quotes.flatMap(q => [q.start, q.end]))].sort((a, b) => a - b);
+  const intervals = [];
+  for (let k = 0; k < cuts.length - 1; k++) {
+    const a = cuts[k], b = cuts[k + 1];
+    const items = [];
+    quotes.forEach((q, idx) => { if (q.start <= a && q.end >= b) items.push({ q, idx }); });
+    if (items.length) intervals.push({ a, b, items });
+  }
+  // Place each claim's badge on the last interval its role-quote reaches.
+  const claimLast = {};
+  intervals.forEach((iv, ii) => iv.items.forEach(it => { if (it.q.role) claimLast[it.q.claim] = ii; }));
+  intervals.forEach((iv, ii) => wrapInterval(iv, ii, claimLast, laneOf, totalLanes));
+}
+
+function wrapInterval(iv, ii, claimLast, laneOf, totalLanes) {
+  const lines = iv.items.map(it => ({ color: quoteColor(it.q), lane: laneOf[it.idx] }));
+  const idxs = iv.items.map(it => it.idx);
+  const roleItems = iv.items.filter(it => it.q.role);
+  const claims = [...new Set(roleItems.map(it => it.q.claim))];
+  const title = iv.items.map(it => quoteLabel(it.q)).join('  |  ');
+
+  const segs = []; let acc = 0;
+  for (const node of getTextNodes()) {
+    const ns = acc; acc += node.textContent.length;
+    if (node.parentElement && node.parentElement.closest('mark')) continue;
+    const s = Math.max(iv.a, ns), e = Math.min(iv.b, acc);
+    if (s < e) segs.push({ node, s: s - ns, e: e - ns });
+  }
+  segs.forEach(({ node, s, e }, si) => {
+    const r = document.createRange(); r.setStart(node, s); r.setEnd(node, e);
+    const m = document.createElement('mark');
+    applyUnderlines(m, lines, totalLanes);
+    m.dataset.idxs = idxs.join(' ');   // which quotes this stretch belongs to
+    m.title = title;
+    if (roleItems.length) {
+      m.classList.add('role-mark');
+      m.dataset.claims = claims.join(' ');
+      const badges = claims.filter(cl => claimLast[cl] === ii);
+      if (si === segs.length - 1 && badges.length) m.dataset.badge = badges.join(',');
+      m.onmouseenter = () => claims.forEach(cl => linkClaim(cl, true));
+      m.onmouseleave = () => claims.forEach(cl => linkClaim(cl, false));
+    }
+    m.onclick = () => showSpanMenu(iv.a, iv.b, m.getBoundingClientRect());
+    try { r.surroundContents(m); } catch (err) {}
+  });
+}
+
+// Emphasize a claim's highlights and draw arrows connecting them (hover-to-connect).
+function linkClaim(claim, on) {
+  document.querySelectorAll(`mark[data-claims~="${claim}"]`)
+    .forEach(m => m.classList.toggle('linked', on));
+  if (on) drawArrows(claim); else clearArrows();
+}
+
+const SVGNS = 'http://www.w3.org/2000/svg';
+// Draw arrows between a claim's highlighted characteristics, in reading order.
+function drawArrows(claim) {
+  const g = document.getElementById('arrowLines');
+  g.innerHTML = '';
+  const pts = [];
+  ROLES.forEach(r => {
+    // find a quote for this claim+role, then any mark painting that quote
+    const qi = curDoc.ann.quotes.findIndex(q => q.claim === claim && q.role === r.role);
+    const m = qi >= 0 ? document.querySelector(`mark[data-idxs~="${qi}"]`) : null;
+    if (m) {
+      const rc = m.getBoundingClientRect();
+      pts.push({ x: rc.left + rc.width / 2, top: rc.top, bottom: rc.bottom });
+    }
+  });
+  pts.sort((a, b) => (a.top - b.top) || (a.x - b.x));   // reading order: top-to-bottom
+  for (let i = 0; i < pts.length - 1; i++) {
+    const a = pts[i], b = pts[i + 1];
+    const x1 = a.x, y1 = a.bottom + 2;   // leave bottom of a
+    const x2 = b.x, y2 = b.top - 4;      // enter top of b
+    // Cubic that bends as needed: exits straight down from a, then curves toward b
+    // and enters its top angled by the horizontal offset — so it's ~straight when
+    // aligned, bendier when offset, and the arrowhead follows the entry tangent.
+    const k = Math.min(Math.max(Math.abs(y2 - y1) * 0.5, 14), 44);
+    const c1x = x1, c1y = y1 + k;
+    const c2x = x2 + (x1 - x2) * 0.35, c2y = y2 - k;
+    const path = document.createElementNS(SVGNS, 'path');
+    path.setAttribute('d', `M ${x1} ${y1} C ${c1x} ${c1y} ${c2x} ${c2y} ${x2} ${y2}`);
+    path.setAttribute('class', 'arrow-path');
+    path.setAttribute('marker-end', 'url(#ah)');
+    g.appendChild(path);
+  }
+}
+function clearArrows() {
+  const g = document.getElementById('arrowLines');
+  if (g) g.innerHTML = '';
+}
+
+function textOffset(node, offset) {
+  let total = 0;
+  const w = document.createTreeWalker(document.getElementById('text'), NodeFilter.SHOW_TEXT);
+  let n; while ((n = w.nextNode())) { if (n === node) return total + offset; total += n.textContent.length; }
+  return total;
+}
+
+// If this selection is the same text as an already-highlighted quote at the same
+// place, reuse that quote's exact span so a second category stacks its underline
+// (rather than landing on a near-miss span that renders nothing).
+function snapSpan(start, end, text) {
+  const t = (text || '').trim();
+  if (!t) return { start, end, text };
+  const hit = curDoc.ann.quotes.find(q =>
+    (q.text || '').trim() === t && q.start < end && start < q.end);   // overlap + same text
+  return hit ? { start: hit.start, end: hit.end, text: hit.text } : { start, end, text };
+}
+
+document.getElementById('text').addEventListener('mouseup', () => {
+  const sel = window.getSelection();
+  if (!curDoc || sel.isCollapsed || !sel.toString().trim()) return;
+  const r = sel.getRangeAt(0);
+  const rect = r.getBoundingClientRect();
+  let start = textOffset(r.startContainer, r.startOffset);
+  let end = textOffset(r.endContainer, r.endOffset);
+  if (start > end) [start, end] = [end, start];
+  let text = curDoc._plain.slice(start, end);
+  ({ start, end, text } = snapSpan(start, end, text));
+  sel.removeAllRanges();
+
+  if (armed) {
+    // arm-then-highlight: attach this highlight to the armed field/value
+    const q = { text, start, end };
+    if (armed.type === 'field') { q.category = armed.key; if (armed.value !== undefined) q.value = armed.value; }
+    else { q.claim = armed.claim; q.role = armed.role; q.value = armed.value; }
+    curDoc.ann.quotes.push(q);
+    persist(); renderArticle(true);
+    if (armed.type === 'field') renderCard(armed.key); else renderClaims();
+  } else {
+    // highlight-first: choose which category this highlight belongs to
+    showCategoryMenu({ start, end, text }, rect);
+  }
+});
+
+// ---------- highlight-first: file a highlight under a category ----------
+let catMenuEl = null;
+function closeCategoryMenu() {
+  if (catMenuEl) {
+    if (catMenuEl._onDown) document.removeEventListener('mousedown', catMenuEl._onDown);
+    catMenuEl.remove();
+    catMenuEl = null;
+  }
+}
+
+// File the highlight under a category. `value` defaults to the highlighted text,
+// but can be an existing option chosen from the value picker.
+function assignHighlight(pending, target, value) {
+  value = (value !== undefined ? value : pending.text).trim();
+  if (!value) return;
+  if (target.type === 'role') {
+    const c = curDoc.ann.claims.find(x => x.id === target.claim);
+    if (!Array.isArray(c[target.role])) c[target.role] = [];
+    if (!c[target.role].includes(value)) c[target.role].push(value);
+    curDoc.ann.quotes.push({ claim: target.claim, role: target.role, value,
+      text: pending.text, start: pending.start, end: pending.end });
+  } else {
+    const fa = fieldAnn(target.key);
+    if (!Array.isArray(fa.answer)) fa.answer = fa.answer ? [fa.answer] : [];
+    if (!fa.answer.includes(value)) fa.answer.push(value);
+    curDoc.ann.quotes.push({ category: target.key, value,
+      text: pending.text, start: pending.start, end: pending.end });
+  }
+  persist();
+  renderArticle(true);
+  renderForm();
+}
+
+// Does a quote sit on this span under this exact category/role?
+function quoteMatchesTarget(q, target) {
+  if (target.type === 'role') return q.role === target.role && q.claim === target.claim;
+  return !q.role && q.category === target.key;
+}
+function spanTargetIdx(pending, target) {
+  return curDoc.ann.quotes.findIndex(q =>
+    q.start === pending.start && q.end === pending.end && quoteMatchesTarget(q, target));
+}
+// Toggle a category for a span: add it (text as value) if absent, else remove it.
+function toggleTarget(pending, target) {
+  const i = spanTargetIdx(pending, target);
+  if (i >= 0) removeQuote(i);
+  else assignHighlight(pending, target, pending.text);
+}
+
+function showCategoryMenu(pending, rect) {
+  closeCategoryMenu();
+  const menu = document.createElement('div');
+  menu.className = 'cat-menu';
+  catMenuEl = menu;
+
+  const title = document.createElement('div');
+  title.className = 'cat-title';
+  const snip = pending.text.length > 42 ? pending.text.slice(0, 42) + '…' : pending.text;
+  title.textContent = `Tag “${snip}” (pick one or more):`;
+  menu.appendChild(title);
+
+  const groupOf = (label, buttons) => {
+    const grp = document.createElement('div'); grp.className = 'cat-group';
+    const lbl = document.createElement('div'); lbl.className = 'cat-group-label'; lbl.textContent = label;
+    const btns = document.createElement('div'); btns.className = 'cat-btns';
+    buttons.forEach(b => btns.appendChild(b));
+    grp.appendChild(lbl); grp.appendChild(btns);
+    return grp;
+  };
+  // A category chip: click the label to use the highlighted text as the value,
+  // click the ▾ caret to pick an existing value from the dropdown instead.
+  const catChip = (target, label, dot) => {
+    const on = spanTargetIdx(pending, target) >= 0;
+    const wrap = document.createElement('span'); wrap.className = 'cat-btn-wrap';
+    const b = document.createElement('button'); b.className = 'cat-btn' + (on ? ' on' : '');
+    b.innerHTML = `<span class="cat-check">${on ? '✓' : ''}</span>` +
+      (dot ? `<span class="cat-dot" style="background:${dot}"></span>` : '') + label;
+    // Toggle this category, then reopen the menu so more can be added to the same text.
+    b.onclick = () => { toggleTarget(pending, target); showCategoryMenu(pending, rect); };
+    const caret = document.createElement('button');
+    caret.className = 'cat-caret'; caret.textContent = '▾'; caret.title = 'Pick an existing value';
+    caret.onclick = () => showValuePicker(pending, target, rect);
+    wrap.appendChild(b); wrap.appendChild(caret);
+    return wrap;
+  };
+
+  curDoc.ann.claims.forEach(c =>
+    menu.appendChild(groupOf(`Claim ${c.id}`,
+      ROLES.map(r => catChip({ type: 'role', claim: c.id, role: r.role }, r.label, r.color)))));
+
+  const nc = document.createElement('button');
+  nc.className = 'cat-newclaim'; nc.textContent = '+ New claim';
+  nc.onclick = () => {
+    const id = nextClaimId();
+    curDoc.ann.claims.push({ id, actor: [], harm: [], factor: [], harmed_party: [] });
+    persist();
+    showCategoryMenu(pending, rect);   // reopen with the new claim's roles
+  };
+  menu.appendChild(nc);
+
+  const multiFields = SCHEMA.filter(f => f.type === 'multi');
+  if (multiFields.length) {
+    const div = document.createElement('div'); div.className = 'cat-div'; menu.appendChild(div);
+    menu.appendChild(groupOf('Fields', multiFields.map(f =>
+      catChip({ type: 'field', key: f.key }, f.label, color[f.key]))));
+  }
+
+  const done = document.createElement('button');
+  done.className = 'cat-done'; done.textContent = 'Done';
+  done.onclick = () => closeCategoryMenu();
+  menu.appendChild(done);
+
+  document.body.appendChild(menu);
+  positionMenu(menu, rect);
+  addOutsideClose(menu);
+}
+
+function positionMenu(menu, rect) {
+  const mw = menu.offsetWidth, mh = menu.offsetHeight;
+  let left = rect.left, top = rect.bottom + 6;
+  if (left + mw > window.innerWidth - 8) left = window.innerWidth - mw - 8;
+  if (top + mh > window.innerHeight - 8) top = rect.top - mh - 6;
+  menu.style.left = Math.max(8, left) + 'px';
+  menu.style.top = Math.max(8, top) + 'px';
+}
+function addOutsideClose(menu) {
+  setTimeout(() => {
+    const onDown = (e) => { if (!e.target.closest('.cat-menu')) closeCategoryMenu(); };
+    document.addEventListener('mousedown', onDown);
+    menu._onDown = onDown;
+  }, 0);
+}
+
+// A category's existing values: its schema options plus any already-selected values.
+function valueOptions(target) {
+  let opts = [], selected = [];
+  if (target.type === 'role') {
+    opts = roleOptions(target.role).slice();
+    const c = curDoc.ann.claims.find(x => x.id === target.claim);
+    if (c && Array.isArray(c[target.role])) selected = c[target.role];
+  } else {
+    const f = field(target.key);
+    opts = ((f && f.options) || []).slice();
+    const fa = curDoc.ann.fields[target.key];
+    if (fa && Array.isArray(fa.answer)) selected = fa.answer;
+  }
+  const seen = new Set(), out = [];
+  [...opts, ...selected].forEach(v => { if (v && !seen.has(v)) { seen.add(v); out.push(v); } });
+  return out;
+}
+
+// Second step of the highlight menu: pick which value the highlight pertains to.
+function showValuePicker(pending, target, rect) {
+  closeCategoryMenu();
+  const menu = document.createElement('div');
+  menu.className = 'cat-menu';
+  catMenuEl = menu;
+
+  const label = target.type === 'role'
+    ? `${(ROLE[target.role] || {}).label} · claim ${target.claim}`
+    : `${(field(target.key) || {}).label}`;
+  const title = document.createElement('div');
+  title.className = 'cat-title'; title.textContent = `${label} — which value?`;
+  menu.appendChild(title);
+
+  const list = document.createElement('div'); list.className = 'cat-vlist';
+  const snip = pending.text.length > 30 ? pending.text.slice(0, 30) + '…' : pending.text;
+  const useText = document.createElement('button');
+  useText.className = 'cat-vopt cat-vopt-text';
+  useText.textContent = `＋ Use “${snip}”`;
+  useText.onclick = () => { assignHighlight(pending, target, pending.text); showCategoryMenu(pending, rect); };
+  list.appendChild(useText);
+
+  valueOptions(target).forEach(o => {
+    const b = document.createElement('button'); b.className = 'cat-vopt';
+    b.textContent = o;
+    b.onclick = () => { assignHighlight(pending, target, o); showCategoryMenu(pending, rect); };
+    list.appendChild(b);
+  });
+  menu.appendChild(list);
+
+  const back = document.createElement('button');
+  back.className = 'cat-back'; back.textContent = '← Back';
+  back.onclick = () => showCategoryMenu(pending, rect);
+  menu.appendChild(back);
+
+  document.body.appendChild(menu);
+  positionMenu(menu, rect);
+  addOutsideClose(menu);
+}
+
+// Click a highlight to see every category covering that stretch of text; remove
+// them one at a time, add more, or clear them all. Takes the clicked interval
+// [a,b) and recomputes covering quotes fresh (robust to index shifts on remove).
+function showSpanMenu(a, b, rect) {
+  closeCategoryMenu();
+  const items = curDoc.ann.quotes
+    .map((q, idx) => ({ q, idx }))
+    .filter(it => it.q.start <= a && it.q.end >= b);
+  if (!items.length) return;
+  const menu = document.createElement('div');
+  menu.className = 'cat-menu';
+  catMenuEl = menu;
+
+  const text = items[0].q.text || '';
+  const title = document.createElement('div');
+  title.className = 'cat-title';
+  const snip = text.length > 34 ? text.slice(0, 34) + '…' : text;
+  title.textContent = `Categories on “${snip}”`;
+  menu.appendChild(title);
+
+  items.forEach(it => {
+    const row = document.createElement('div'); row.className = 'span-row';
+    const dot = document.createElement('span'); dot.className = 'cat-dot';
+    dot.style.background = quoteColor(it.q);
+    const name = document.createElement('span'); name.className = 'span-name';
+    name.textContent = quoteLabel(it.q);
+    const x = document.createElement('button'); x.className = 'span-x';
+    x.textContent = '✕'; x.title = 'Remove this category';
+    x.onclick = () => { removeQuote(it.idx); showSpanMenu(a, b, rect); };  // reopen with the rest
+    row.appendChild(dot); row.appendChild(name); row.appendChild(x);
+    menu.appendChild(row);
+  });
+
+  const add = document.createElement('button');
+  add.className = 'cat-goto'; add.textContent = '＋ Add another category';
+  add.onclick = () => showCategoryMenu({ start: items[0].q.start, end: items[0].q.end, text }, rect);
+  menu.appendChild(add);
+
+  const del = document.createElement('button');
+  del.className = 'cat-del'; del.textContent = '✕ Remove all here';
+  del.onclick = () => {
+    curDoc.ann.quotes.map((q, idx) => ({ q, idx }))
+      .filter(it => it.q.start <= a && it.q.end >= b)
+      .map(it => it.idx).sort((x, y) => y - x)   // remove high indices first
+      .forEach(idx => removeQuote(idx));
+    closeCategoryMenu();
+  };
+  menu.appendChild(del);
+
+  document.body.appendChild(menu);
+  positionMenu(menu, rect);
+  addOutsideClose(menu);
+}
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCategoryMenu(); });
+
+// Drop a selected value from its field answer / claim role.
+function removeValue(q) {
+  if (q.role) {
+    const c = curDoc.ann.claims.find(x => x.id === q.claim);
+    if (c && Array.isArray(c[q.role])) {
+      const i = c[q.role].indexOf(q.value);
+      if (i >= 0) c[q.role].splice(i, 1);
+    }
+  } else {
+    const fa = curDoc.ann.fields[q.category];
+    if (fa && Array.isArray(fa.answer)) {
+      const i = fa.answer.indexOf(q.value);
+      if (i >= 0) fa.answer.splice(i, 1);
+    }
+  }
+}
+
+function removeQuote(globalIdx) {
+  const q = curDoc.ann.quotes[globalIdx];
+  curDoc.ann.quotes.splice(globalIdx, 1);
+  // If this was the last highlight justifying its selected value, drop the value too.
+  if (q && q.value !== undefined) {
+    const stillJustified = q.role
+      ? curDoc.ann.quotes.some(x => x.claim === q.claim && x.role === q.role && x.value === q.value)
+      : curDoc.ann.quotes.some(x => x.category === q.category && x.value === q.value);
+    if (!stillJustified) {
+      removeValue(q);
+      if (armed && sameArm(q.role
+        ? { type: 'role', claim: q.claim, role: q.role, value: q.value }
+        : { type: 'field', key: q.category, value: q.value })) {
+        armed = null;
+        updateArmHint();
+      }
+    }
+  }
+  persist();
+  renderArticle(true);
+  if (q.role) renderClaims(); else renderCard(q.category);
+}
+
+// ---------- coding form ----------
+function renderForm() {
+  const root = document.getElementById('form');
+  root.innerHTML = '';
+  // Claims panel sits just above the Incident aftermath card.
+  SCHEMA.forEach(f => {
+    if (f.key === 'incident_aftermath') root.appendChild(buildClaims());
+    root.appendChild(buildCard(f));
+  });
+  if (!SCHEMA.some(f => f.key === 'incident_aftermath')) root.appendChild(buildClaims());
+}
+
+// rebuild a single card in place (keeps the rest of the form untouched)
+function renderCard(key) {
+  const old = document.querySelector(`.card[data-key="${key}"]`);
+  if (old) old.replaceWith(buildCard(field(key)));
+}
+
+function subLabel(text) {
+  const d = document.createElement('div'); d.className = 'sub'; d.textContent = text; return d;
+}
+
+function buildCard(f) {
+  const isMulti = f.type === 'multi';
+  const canJustify = f.justify !== false;
+  const fieldArmed = !isMulti && canJustify && sameArm({ type: 'field', key: f.key, value: undefined });
+
+  const card = document.createElement('div');
+  card.className = 'card' + (fieldArmed ? ' armed' : '');
+  card.dataset.key = f.key;
+
+  const head = document.createElement('div');
+  head.className = 'head';
+  head.innerHTML = canJustify
+    ? `<span class="sq" style="background:${color[f.key]}"></span>` +
+      `<span class="label">${f.label}</span>` +
+      // multiselects justify per selection, so no whole-field arm here
+      (isMulti ? '' : `<span class="arm">${fieldArmed ? 'highlighting' : 'highlight'}</span>`)
+    : `<span class="label">${f.label}</span>`;
+  if (canJustify && !isMulti) head.onclick = () => armField(f.key, undefined);
+  else head.style.cursor = 'default';
+  card.appendChild(head);
+
+  const body = document.createElement('div');
+  body.className = 'body';
+  const fa = fieldAnn(f.key);
+
+  if (f.key === 'incident_id') {
+    body.appendChild(buildIncidentId(fa));
+  } else if (!isMulti) {
+    body.appendChild(buildText(fa, 'answer', false));
+    if (canJustify) {
+      body.appendChild(subLabel('Justification (highlighted quotes)'));
+      body.appendChild(buildQuotes(f.key));
+    }
+  } else {
+    // multiselect + per-selection justification
+    if (!Array.isArray(fa.answer)) fa.answer = fa.answer ? [fa.answer] : [];
+    const evBox = document.createElement('div');
+    const refreshEv = () => {
+      evBox.innerHTML = '';
+      evBox.appendChild(buildValueEvidence(fa.answer, {
+        color: color[f.key],
+        armTarget: (v) => ({ type: 'field', key: f.key, value: v }),
+        getQuotes: (v) => curDoc.ann.quotes.map((q, gi) => ({ q, gi }))
+          .filter(x => x.q.category === f.key && x.q.value === v),
+      }));
+    };
+    const select = buildSelect({
+      options: f.options || [],
+      selected: fa.answer,
+      onChange: () => { persistSoon(); refreshEv(); },
+      onRemoveValue: (v) => {
+        curDoc.ann.quotes = curDoc.ann.quotes.filter(q => !(q.category === f.key && q.value === v));
+        renderArticle(true);
+      },
+      onAdd: async (val) => {
+        const res = await fetch('/api/schema/option', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ field: f.key, option: val }),
+        });
+        field(f.key).options = (await res.json()).options;
+        return field(f.key).options;
+      },
+    });
+    body.appendChild(select);
+    body.appendChild(subLabel('Justification (highlight each selection)'));
+    body.appendChild(evBox);
+    refreshEv();
+  }
+
+  if (f.comments !== false) {
+    body.appendChild(subLabel('Additional comments'));
+    body.appendChild(buildText(fa, 'comments', true));
+  }
+
+  card.appendChild(body);
+  return card;
+}
+
+// Per-selection justification: each selected value gets its own arm + highlights,
+// and is flagged "needs evidence" until it has at least one highlight.
+function buildValueEvidence(values, opts) {
+  const wrap = document.createElement('div');
+  wrap.className = 'value-ev';
+  if (!values.length) {
+    const none = document.createElement('div');
+    none.className = 'ev-none'; none.textContent = 'No selections yet.';
+    wrap.appendChild(none);
+    return wrap;
+  }
+  values.forEach(v => {
+    const t = opts.armTarget(v);
+    const on = sameArm(t);
+    const qs = opts.getQuotes(v);
+    const row = document.createElement('div');
+    row.className = 'ev-row' + (on ? ' armed' : '');
+    row.dataset.arm = JSON.stringify(t);
+
+    const head = document.createElement('div');
+    head.className = 'ev-head';
+    const flag = qs.length
+      ? `<span class="ev-count">${qs.length} quote${qs.length === 1 ? '' : 's'}</span>`
+      : `<span class="ev-warn">⚠ needs evidence</span>`;
+    head.innerHTML =
+      `<span class="ev-dot" style="background:${opts.color}"></span>` +
+      `<span class="ev-val">${escapeHtml(v)}</span>` + flag +
+      `<span class="ev-arm">${on ? 'highlighting' : 'highlight'}</span>`;
+    head.querySelector('.ev-arm').onclick = () => setArm(t);
+    row.appendChild(head);
+
+    if (qs.length) {
+      const q = document.createElement('div');
+      q.className = 'quotes';
+      qs.forEach(({ q: qq, gi }) => {
+        const el = document.createElement('div');
+        el.className = 'quote';
+        el.style.borderLeftColor = opts.color;
+        el.innerHTML = `“${escapeHtml(qq.text.slice(0, 180))}”<button class="x" title="Remove">×</button>`;
+        el.onclick = (e) => { if (e.target.classList.contains('x')) return; scrollToMark(gi); };
+        el.querySelector('.x').onclick = (e) => { e.stopPropagation(); removeQuote(gi); };
+        q.appendChild(el);
+      });
+      row.appendChild(q);
+    }
+    wrap.appendChild(row);
+  });
+  return wrap;
+}
+
+// settable free text: type + Enter sets it to plain, settled text;
+// click the text to edit, × to clear. For multiline, Shift+Enter adds a newline.
+function buildText(fa, prop, multiline) {
+  const wrap = document.createElement('div');
+
+  function render(focus) {
+    wrap.innerHTML = '';
+    const val = typeof fa[prop] === 'string' ? fa[prop].trim() : '';
+    const editing = wrap.dataset.editing === '1';
+
+    if (val && !editing) {
+      const box = document.createElement('div');
+      box.className = 'text-answer';
+      box.innerHTML = `<span class="val">${escapeHtml(val)}</span><button class="x" title="Clear">×</button>`;
+      box.querySelector('.x').onclick = (e) => {
+        e.stopPropagation();
+        fa[prop] = ''; wrap.dataset.editing = ''; persist(); render(true);
+      };
+      box.onclick = (e) => {
+        if (e.target.classList.contains('x')) return;
+        wrap.dataset.editing = '1'; render(true);
+      };
+      wrap.appendChild(box);
+    } else {
+      const inp = document.createElement(multiline ? 'textarea' : 'input');
+      if (multiline) { inp.className = 'comments'; inp.rows = 2; } else { inp.type = 'text'; }
+      inp.value = fa[prop] || '';
+      inp.oninput = () => { fa[prop] = inp.value; persistSoon(); };
+      inp.onkeydown = (e) => {
+        if (e.key === 'Enter' && !(multiline && e.shiftKey)) {
+          e.preventDefault(); wrap.dataset.editing = ''; render(false); persist();
+        }
+      };
+      inp.onblur = () => {
+        if (!document.body.contains(inp)) return;   // ignore blur from our own re-render
+        if ((inp.value || '').trim()) { wrap.dataset.editing = ''; render(false); persistSoon(); }
+      };
+      wrap.appendChild(inp);
+      if (focus) inp.focus();
+    }
+  }
+
+  render(false);
+  return wrap;
+}
+
+// Incident ID: an editable text box (auto-populated with a fresh ID), plus a
+// dropdown to connect this article to an existing incident, and a "New ID" button.
+function buildIncidentId(fa) {
+  const wrap = document.createElement('div');
+  wrap.className = 'incident-id';
+
+  const inp = document.createElement('input');
+  inp.type = 'text'; inp.className = 'inc-input'; inp.value = fa.answer || '';
+  inp.oninput = () => { fa.answer = inp.value; persistSoon(); };
+  inp.onblur = () => {
+    fa.answer = (inp.value || '').trim(); inp.value = fa.answer;
+    if (fillTitleForIncident(fa.answer, false)) renderCard('incident_title');
+    persistSoon();
+  };
+  wrap.appendChild(inp);
+
+  const row = document.createElement('div'); row.className = 'inc-row';
+
+  const sel = document.createElement('select'); sel.className = 'inc-select';
+  const ph = document.createElement('option');
+  ph.value = ''; ph.textContent = 'Connect to existing incident…';
+  sel.appendChild(ph);
+  INCIDENT_IDS.forEach(id => {
+    const o = document.createElement('option'); o.value = id; o.textContent = id;
+    if (id === fa.answer) o.selected = true;
+    sel.appendChild(o);
+  });
+  sel.onchange = () => {
+    if (!sel.value) return;
+    fa.answer = sel.value; inp.value = sel.value;
+    // Connecting to an existing incident adopts its title.
+    if (fillTitleForIncident(sel.value, true)) renderCard('incident_title');
+    persist();
+  };
+  row.appendChild(sel);
+
+  const nb = document.createElement('button');
+  nb.type = 'button'; nb.className = 'inc-new'; nb.textContent = 'New ID';
+  nb.title = 'Assign a fresh incident ID';
+  nb.onclick = async () => {
+    await refreshIncidentIds();
+    if (INCIDENT_NEXT) { fa.answer = INCIDENT_NEXT; inp.value = INCIDENT_NEXT; persist(); }
+    renderCard('incident_id');   // refresh the picker with the new value selected
+  };
+  row.appendChild(nb);
+
+  wrap.appendChild(row);
+  return wrap;
+}
+
+// Generic multiselect dropdown with tags + "add option". `selected` is an array
+// mutated in place; onChange fires after any change; onAdd (optional) persists a
+// new option and returns the updated options list.
+function buildSelect(cfg) {
+  const selected = cfg.selected;
+  let options = cfg.options || [];
+  const sel = document.createElement('div');
+  sel.className = 'select';
+
+  const control = document.createElement('div');
+  control.className = 'select-control';
+  control.onclick = (e) => {
+    if (e.target.closest('.select-tag button')) return;
+    const willOpen = !sel.classList.contains('open');
+    document.querySelectorAll('.select.open').forEach(s => s.classList.remove('open'));
+    sel.classList.toggle('open', willOpen);
+  };
+  sel.appendChild(control);
+
+  const menu = document.createElement('div');
+  menu.className = 'select-menu';
+  sel.appendChild(menu);
+
+  function renderControl() {
+    control.innerHTML = '';
+    if (!selected.length) {
+      const ph = document.createElement('span');
+      ph.className = 'select-ph'; ph.textContent = 'Select…';
+      control.appendChild(ph);
+    } else {
+      selected.forEach(o => {
+        const tag = document.createElement('span');
+        tag.className = 'select-tag';
+        tag.innerHTML = `${escapeHtml(o)}<button title="Remove">×</button>`;
+        tag.querySelector('button').onclick = (e) => {
+          e.stopPropagation();
+          const i = selected.indexOf(o); if (i >= 0) selected.splice(i, 1);
+          if (cfg.onRemoveValue) cfg.onRemoveValue(o);
+          renderControl(); syncMenu(); cfg.onChange();
+        };
+        control.appendChild(tag);
+      });
+    }
+    const caret = document.createElement('span');
+    caret.className = 'caret'; caret.textContent = '▾';
+    control.appendChild(caret);
+  }
+
+  function syncMenu() {
+    menu.querySelectorAll('.menu-opt').forEach(row => {
+      const on = selected.includes(row.dataset.opt);
+      row.classList.toggle('sel', on);
+      row.querySelector('input').checked = on;
+    });
+  }
+
+  function buildMenu() {
+    menu.innerHTML = '';
+    options.forEach(o => {
+      const on = selected.includes(o);
+      const row = document.createElement('label');
+      row.className = 'menu-opt' + (on ? ' sel' : '');
+      row.dataset.opt = o;
+      row.innerHTML = `<input type="checkbox" ${on ? 'checked' : ''}><span>${escapeHtml(o)}</span>`;
+      row.querySelector('input').onchange = (e) => {
+        if (e.target.checked) { if (!selected.includes(o)) selected.push(o); }
+        else {
+          const i = selected.indexOf(o); if (i >= 0) selected.splice(i, 1);
+          if (cfg.onRemoveValue) cfg.onRemoveValue(o);
+        }
+        row.classList.toggle('sel', e.target.checked);
+        renderControl(); cfg.onChange();
+      };
+      menu.appendChild(row);
+    });
+    if (cfg.onAdd) {
+      const add = document.createElement('div');
+      add.className = 'menu-add';
+      add.innerHTML = `<input type="text" placeholder="add option…"><button>Add</button>`;
+      const inp = add.querySelector('input');
+      const go = async () => {
+        const val = inp.value.trim();
+        if (!val) return;
+        const updated = await cfg.onAdd(val);
+        if (Array.isArray(updated)) options = updated;
+        if (!selected.includes(val)) selected.push(val);
+        cfg.onChange();
+        buildMenu(); renderControl();
+      };
+      add.querySelector('button').onclick = (e) => { e.stopPropagation(); go(); };
+      inp.onclick = (e) => e.stopPropagation();
+      inp.onkeydown = (e) => { if (e.key === 'Enter') { e.stopPropagation(); go(); } };
+      menu.appendChild(add);
+    }
+  }
+
+  buildMenu();
+  renderControl();
+  return sel;
+}
+
+function buildQuotes(key) {
+  const wrap = document.createElement('div');
+  wrap.className = 'quotes';
+  const mine = curDoc.ann.quotes
+    .map((q, gi) => ({ q, gi }))
+    .filter(x => x.q.category === key);
+  if (!mine.length) return wrap;
+  mine.forEach(({ q, gi }) => {
+    const el = document.createElement('div');
+    el.className = 'quote';
+    el.style.borderLeftColor = color[key] || '#ccc';
+    el.innerHTML = `“${escapeHtml(q.text.slice(0, 220))}”<button class="x" title="Remove">×</button>`;
+    el.onclick = (e) => { if (e.target.classList.contains('x')) return; scrollToMark(gi); };
+    el.querySelector('.x').onclick = (e) => { e.stopPropagation(); removeQuote(gi); };
+    wrap.appendChild(el);
+  });
+  return wrap;
+}
+
+function armField(key, value) { setArm({ type: 'field', key, value }); }
+function armRole(claim, role, value) { setArm({ type: 'role', claim, role, value }); }
+function afterArm() { updateArmHint(); refreshArmedStyles(); }
+
+// Toggle armed styling on text-field cards and per-selection evidence rows.
+function refreshArmedStyles() {
+  document.querySelectorAll('.card').forEach(c => {
+    const arm = c.querySelector(':scope > .head > .arm');
+    if (!arm) return;   // multi fields justify per selection, not per field
+    const on = sameArm({ type: 'field', key: c.dataset.key, value: undefined });
+    c.classList.toggle('armed', on);
+    arm.textContent = on ? 'highlighting' : 'highlight';
+  });
+  document.querySelectorAll('.ev-row[data-arm]').forEach(row => {
+    const on = sameArm(JSON.parse(row.dataset.arm));
+    row.classList.toggle('armed', on);
+    const b = row.querySelector('.ev-arm');
+    if (b) b.textContent = on ? 'highlighting' : 'highlight';
+  });
+}
+
+function updateArmHint() {
+  const h = document.getElementById('armHint');
+  if (!armed) { h.textContent = ''; return; }
+  const val = armed.value ? ' · ' + armed.value : '';
+  h.textContent = armed.type === 'field'
+    ? `Highlighting → ${(field(armed.key) || {}).label}${val}`
+    : `Highlighting → claim ${armed.claim} · ${(ROLE[armed.role] || {}).label}${val}`;
+}
+function flashHint() {
+  const h = document.getElementById('armHint');
+  h.style.color = '#dc2626'; h.textContent = 'Arm a field or a claim role first ↗';
+  setTimeout(() => { h.style.color = ''; updateArmHint(); }, 1500);
+}
+
+function scrollToCard(key) {
+  const c = document.querySelector(`.card[data-key="${key}"]`);
+  if (c) c.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+function scrollToClaim(id) {
+  const c = document.querySelector(`.claim-row[data-claim="${id}"]`);
+  if (c) c.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+function scrollToMark(gi) {
+  const m = document.querySelector(`mark[data-q="${gi}"]`);
+  if (m) {
+    m.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    m.classList.add('active'); setTimeout(() => m.classList.remove('active'), 1200);
+  }
+}
+
+// ---------- claims: actor ↔ harm ↔ factor ↔ harmed party ----------
+function nextClaimId() {
+  const nums = curDoc.ann.claims.map(c => parseInt(c.id, 10)).filter(n => !isNaN(n));
+  return String((nums.length ? Math.max(...nums) : 0) + 1);
+}
+function renderClaims() {
+  const old = document.querySelector('.claims-section');
+  if (old) old.replaceWith(buildClaims());
+}
+
+function buildClaims() {
+  const section = document.createElement('div');
+  section.className = 'claims-section';
+
+  const head = document.createElement('div');
+  head.className = 'claims-head';
+  head.innerHTML = `<span class="label">Claims</span>`;
+  section.appendChild(head);
+
+  const list = document.createElement('div');
+  list.className = 'claim-list';
+  if (!curDoc.ann.claims.length) {
+    const empty = document.createElement('div');
+    empty.className = 'claims-empty'; empty.textContent = 'No claims yet.';
+    list.appendChild(empty);
+  }
+  curDoc.ann.claims.forEach(c => list.appendChild(buildClaimRow(c)));
+  section.appendChild(list);
+
+  const add = document.createElement('button');
+  add.className = 'claim-add'; add.textContent = '+ Add claim';
+  add.onclick = () => {
+    curDoc.ann.claims.push({ id: nextClaimId(), actor: [], harm: [], factor: [], harmed_party: [] });
+    persist(); renderClaims();
+  };
+  section.appendChild(add);
+  return section;
+}
+
+function buildClaimRow(c) {
+  const row = document.createElement('div');
+  row.className = 'claim-row';
+  row.dataset.claim = c.id;
+
+  const top = document.createElement('div');
+  top.className = 'claim-top';
+  const num = document.createElement('span');
+  num.className = 'claim-num'; num.textContent = c.id;
+  const del = document.createElement('button');
+  del.className = 'claim-del'; del.title = 'Remove claim'; del.textContent = '×';
+  del.onclick = () => removeClaim(c.id);
+  top.appendChild(num); top.appendChild(del);
+  row.appendChild(top);
+
+  const chain = document.createElement('div');
+  chain.className = 'claim-chain';
+  ROLES.forEach((r, i) => {
+    chain.appendChild(buildRoleSlot(c, r));
+    if (i < ROLES.length - 1) {
+      const arr = document.createElement('div');
+      arr.className = 'claim-arrow'; arr.textContent = '↓';
+      chain.appendChild(arr);
+    }
+  });
+  row.appendChild(chain);
+  return row;
+}
+
+function buildRoleSlot(c, r) {
+  const slot = document.createElement('div');
+  slot.className = 'role-slot';
+  slot.dataset.claim = c.id; slot.dataset.role = r.role;
+  slot.onmouseenter = () => linkClaim(c.id, true);
+  slot.onmouseleave = () => linkClaim(c.id, false);
+
+  const head = document.createElement('div');
+  head.className = 'role-head';
+  head.innerHTML =
+    `<span class="role-dot" style="background:${r.color}"></span>` +
+    `<span class="role-name">${r.label}</span>`;
+  slot.appendChild(head);
+
+  // multiselect bound to c[r.role] (an array); options come from schema.claim_roles
+  if (!Array.isArray(c[r.role])) c[r.role] = c[r.role] ? [String(c[r.role])] : [];
+  const evBox = document.createElement('div');
+  const refreshEv = () => {
+    evBox.innerHTML = '';
+    evBox.appendChild(buildValueEvidence(c[r.role], {
+      color: r.color,
+      armTarget: (v) => ({ type: 'role', claim: c.id, role: r.role, value: v }),
+      getQuotes: (v) => curDoc.ann.quotes.map((q, gi) => ({ q, gi }))
+        .filter(x => x.q.claim === c.id && x.q.role === r.role && x.q.value === v),
+    }));
+  };
+  const select = buildSelect({
+    options: roleOptions(r.role),
+    selected: c[r.role],
+    onChange: () => { persistSoon(); refreshEv(); },
+    onRemoveValue: (v) => {
+      curDoc.ann.quotes = curDoc.ann.quotes.filter(
+        q => !(q.claim === c.id && q.role === r.role && q.value === v));
+      renderArticle(true);
+    },
+    onAdd: async (val) => {
+      const res = await fetch('/api/schema/role_option', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ role: r.role, option: val }),
+      });
+      const updated = (await res.json()).options;
+      setRoleOptions(r.role, updated);
+      return updated;
+    },
+  });
+  select.classList.add('role-select');
+  slot.appendChild(select);
+
+  slot.appendChild(evBox);
+  refreshEv();
+  return slot;
+}
+
+function removeClaim(id) {
+  curDoc.ann.claims = curDoc.ann.claims.filter(c => c.id !== id);
+  curDoc.ann.quotes = curDoc.ann.quotes.filter(q => q.claim !== id);
+  if (armed && armed.type === 'role' && armed.claim === id) armed = null;
+  persist();
+  renderArticle(true);
+  renderClaims();
+  updateArmHint();
+}
+
+// ---------- persistence ----------
+function persistSoon() { clearTimeout(saveTimer); saveTimer = setTimeout(persist, 500); }
+async function persist() {
+  clearTimeout(saveTimer);
+  const res = await fetch('/api/doc/' + curDoc.index + '/annotations', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(curDoc.ann),
+  });
+  const j = await res.json();
+  document.getElementById('status').textContent =
+    `Saved ✓ ${j.n} quote${j.n === 1 ? '' : 's'} → data_annotated.csv`;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
+
+// close any open dropdown when clicking outside of it
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.select')) {
+    document.querySelectorAll('.select.open').forEach(s => s.classList.remove('open'));
+  }
+});
+
+init();
+</script>
+</body>
+</html>
