@@ -1,0 +1,6 @@
+# Railway builds with mise. Old python-build-standalone releases lack GitHub
+# artifact attestations, which mise verifies by default and fails on. We pin a
+# modern (attested) Python in runtime.txt; this also disables the check as a
+# safety net so the build never fails on attestation.
+[settings]
+python.github_attestations = false
