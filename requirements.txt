@@ -1,0 +1,5 @@
+Flask>=3.0
+pandas>=2.0
+pymongo[srv]>=4.6
+trafilatura>=1.8
+gunicorn>=21.2

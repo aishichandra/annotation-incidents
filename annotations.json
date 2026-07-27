@@ -1,0 +1,92 @@
+{
+  "CNYBJSJX": {
+    "claims": [
+      {
+        "id": "1",
+        "actor": [],
+        "harm": [],
+        "factor": [],
+        "harmed_party": []
+      }
+    ],
+    "fields": {
+      "incident_id": {
+        "answer": "INC-001",
+        "comments": ""
+      }
+    },
+    "quotes": []
+  },
+  "JWXU9JYL": {
+    "claims": [
+      {
+        "id": "1",
+        "actor": [],
+        "harm": [],
+        "factor": [],
+        "harmed_party": []
+      }
+    ],
+    "fields": {
+      "incident_id": {
+        "answer": "INC-002",
+        "comments": ""
+      }
+    },
+    "quotes": []
+  },
+  "DQYGI23J": {
+    "claims": [
+      {
+        "id": "1",
+        "actor": [],
+        "harm": [],
+        "factor": [],
+        "harmed_party": []
+      }
+    ],
+    "fields": {
+      "incident_id": {
+        "answer": "INC-003",
+        "comments": ""
+      }
+    },
+    "quotes": []
+  },
+  "R95RRQFZ": {
+    "claims": [
+      {
+        "id": "1",
+        "actor": [],
+        "harm": [],
+        "factor": [],
+        "harmed_party": []
+      }
+    ],
+    "fields": {
+      "incident_id": {
+        "answer": "INC-004",
+        "comments": ""
+      }
+    },
+    "quotes": []
+  },
+  "69MWSX4Q": {
+    "claims": [
+      {
+        "id": "1",
+        "actor": [],
+        "harm": [],
+        "factor": [],
+        "harmed_party": []
+      }
+    ],
+    "fields": {
+      "incident_id": {
+        "answer": "INC-005",
+        "comments": ""
+      }
+    },
+    "quotes": []
+  }
+}

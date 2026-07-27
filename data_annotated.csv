@@ -1,0 +1,311 @@
+zotero_key,title,url,markdown,snapshot,doc_key,incident_id,incident_title,incident_system,incident_developer,incident_aftermath,annotations_json
+CNYBJSJX,Florida nonprofit news reporters ask board to investigate their editor’s AI use,https://www.niemanlab.org/2025/11/florida-nonprofit-news-reporters-ask-board-to-investigate-their-editors-ai-use/,"Nieman Foundation at [Harvard](https://www.harvard.edu/)
+ 
+
+ 
+ Nov. 19, 2025, 1:07 p.m.
+
+Suncoast Searchlight’s four reporters told the board their editor-in-chief was using AI editing tools and inserting hallucinations into drafts. The next day, one of the reporters was fired.
+
+ 
+Suncoast Searchlight launched this past February with the goal of bringing rigorous local investigative reporting to greater Sarasota, Fla. As of last week, the nonprofit publication had four full-time staff reporters and two editors breaking stories about communities across Sarasota, Manatee, and DeSoto counties. In recent days, though, the small newsroom has become a flashpoint for the ethics of using generative AI to edit stories without disclosure.
+
+On Tuesday, November 11, all four reporters at Suncoast Searchlight sent a letter to the nonprofit’s [board of directors](https://suncoastsearchlight.org/our-board/) accusing their editor-in-chief, [Emily Le Coz](https://www.linkedin.com/in/emily-le-coz-1a51501/), of using generative AI tools, including ChatGPT, to edit stories and hiding that use from staff. The letter stated that Le Coz’s use of these tools introduced hallucinated quotes, a reference to a nonexistent state law, and other factual inaccuracies into multiple reporters’ story drafts. After reporters questioned her about the edits, they say she did not immediately disclose her use of AI tools but instead claimed she’d made the errors herself.
+
+“We fear that there may be extensive undisclosed AI-generated content on our website and have questions about what retroactive disclosure is needed for our readers,” the reporters wrote. “We also expressed to Le Coz the breach of trust that her actions have created among us.”
+
+The reporters asked the board, which includes prominent media executives and investigative journalists, as well as local business people, to intervene. They outlined several requests, including implementing an AI policy and a thorough fact-checking process, conducting an internal audit to identify AI-generated writing that might have been published on the site, and asking Le Coz to promise not to use AI tools for editing in the future.
+
+The following morning, less than 24 hours after the board received the letter, Le Coz and her deputy editor fired one of the reporters who’d signed it. McKenna Oxenden, who had started in her role 33 days earlier, says they told her she was being terminated for performance issues, including story output and news judgment.Oxenden, who was previously a reporter at the Houston Landing and a breaking news fellow at The New York Times, told me she was not on a performance improvement plan (PIP) and hadn’t received any previous performance-related warnings. Among several cited in the meeting as evidence of poor performance, two examples — a missed story deadline and a failure to follow up with sources — occurred on November 11. That was “the same day we had a long meeting that ended with staffers telling Emily that we essentially had no trust in her,” Oxenden said.
+
+In [LinkedIn](https://www.linkedin.com/posts/mckennaoxenden_this-week-i-was-fired-from-suncoast-searchlight-activity-7395136968608677888-YH4s/) and [X](https://x.com/mack_oxenden/status/1989371227279110588) posts last Friday, Oxenden wrote, “It is not lost on me that I was fired one day after several staffers, myself included, raised concerns to our executive editor about her undisclosed AI usage during the editing and writing process.”
+
+The three other journalists who signed the letter were not fired.
+
+Oxenden told me that she felt obligated to bring the issue to the board because of how challenging it was for the reporting team to hold Le Coz accountable for her undisclosed ChatGPT usage. “If any employee was found to be using AI in this manner, I firmly believe that their boss should be notified. The board happens to be Emily’s boss,” she said.
+
+On Thursday, November 13, board chair [Keith Woods](https://www.linkedin.com/in/keith-woods-88480421/), who retired from his position as NPR’s chief diversity officer earlier this year, responded to the staff letter, writing that several board members had spoken with Le Coz about her use of AI tools. After those conversations, he said, the board had “full confidence in her editing processes, her sense of ethics, and the integrity of her published work.” The board also agreed that the newsroom should adopt an AI policy in the coming weeks.
+
+In the social media posts about her firing, Oxenden claimed the board “did not ask to speak with any staffers nor examine the evidence we had to prove the questionable AI usage” before sending that email reaffirming Le Coz’s leadership.
+
+The board is now conducting an internal review. “While the investigation remains ongoing, no issues have surfaced concerning the accuracy of Searchlight’s journalism or the ethics of the editorial process. The board remains highly confident in the integrity of the Searchlight team’s journalism,” Woods said in a statement to Nieman Lab on behalf of the board. “We are proud of their work and value the contributions of every team member.”
+
+Woods maintained that, so far, no errors have been identified in published stories as result of AI use. “It is important to state clearly that no concerns were raised about the accuracy of Searchlight’s work product,’ he added.
+
+The board declined to answer questions about Oxenden’s firing, saying they were unable to comment on personnel matters. Le Coz, the editor-in-chief, did not respond to my requests for comment.
+
+Earlier this month, Le Coz edited a staff reporter’s story about a Florida Senate housing bill. While reviewing Le Coz’s edits, the reporter noticed a fabricated quote attributed to one of her sources, according to a document detailing the incident shared with Suncoast Searchlight staff and the board of directors earlier this week that I reviewed.
+
+In the draft, someone opposing the bill is quoted as saying, “This state is so diverse — Tallahassee shouldn’t be telling people how to live.” The second half of that quote was not in any of the reporter’s notes. When the reporter asked Le Coz where the quote came from, she said she’d written it as an example of the type of quote she wanted in that section, but forgot to flag that in the document.The reporter then went into the version history of the Google document. Earlier that day, Le Coz was working on the document when suddenly several blocks of text were added over the course of four minutes. In that document version was “language resembling an AI chatbot prompt, which was quickly replaced with paragraphs of unexplained text that reflected the prompt-like instructions,” wrote the reporter in the document sent to the board. This included “confusing statements and numerous outright fabrications which were not present in my original draft.”
+
+For example, this new text said that the “roots of Senate Bill 180 trace back to the ‘Local Government Emergency and Recovery Management Act,’ a 2023 measure passed in the wake of Hurricane Ian.” That law does not exist. The copy also included odd phrases like “infrastructure timing” and falsely stated that Florida Gov. Ron DeSantis signed the housing bill into law in May 2025. The correct date was in the reporter’s original draft. A second new quote was also added, which stated the bill wasn’t helping hurricane victims. That quote was attributed to an unnamed source, referred to in the copy as a “local official involved in post-Ian planning.” The reporter never spoke to such an official. (Screenshots of the Google document version history corroborate these details.)
+
+Le Coz removed some of those factual inaccuracies before sharing her finished pass with the reporter, but not all of them. The reporter removed the partially hallucinated quote and other inaccuracies before it was [published on November 7](https://suncoastsearchlight.org/home-rule-fight-over-floridas-sb-180-exposes-republican-rift/). It has since been republished by regional and statewide outlets, including the [Tampa Bay Times](https://www.tampabay.com/news/florida-politics/2025/11/09/sarasota-manatee-sb-180-home-rule-development-gop-republican-party/). Language disclosing the use of AI text generation or research tools was not included in the Suncoast Searchlight version of the story or in its republished versions.
+
+The day after the story ran, the reporter confronted Le Coz with sections of the final story she worried contained undisclosed AI-generated text. In the same document shared with the board, the reporter wrote that Le Coz “initially [completely] denied using AI to rewrite my story, but later stated that she had messed up and said she didn’t want me to feel like she cheated.”
+
+This was not the first hallucinated quote Le Coz introduced into a reporter’s story draft. “Several staffers had warned me to fact-check my stories extra carefully and watch for new content that was put in stories,” Oxenden, the former staff reporter, told me, referring to her first weeks on the job this fall. “They said there were instances where hallucinated quotes were placed in their story with no explanation.”
+
+For example, Suncoast Searchlight regularly produces shortened versions of its stories in order for them to run in partner publications. The reduced word count makes the stories more attractive to local publishers like [Observer Media Group](https://www.yourobserver.com/about-us/), which owns several print newspapers, magazines, and news sites serving Sarasota, Longboat Key, and Manatee County, Fla. After publication of this story, Observer Media Group said that despite its partnership it has not published any Suncoast Searchlight stories to date.
+
+In that same November 11 meeting, Le Coz claimed none of these “experiments” with ChatGPT ultimately made it into the hands of partner publications. Screenshots of a Google Drive folder I reviewed, however, show that the same shortened story about mental health programming had been shared with a representative of Observer Media Group. No disclosure that generative AI writing or editing tools were used to produce that story were included in the document.
+
+As AI text generators and search tools are [increasingly](https://www.status.news/p/business-insider-ai-policy-chatgpt) normalized in newsrooms, tensions have [boiled over](https://www.niemanlab.org/2025/07/law360-mandates-reporters-use-ai-bias-detection-on-all-stories/) [at several](https://www.theverge.com/news/623638/la-times-ai-generated-views-summaries-political-bias) [newsrooms](https://www.niemanlab.org/2025/08/politicos-recent-ai-experiments-shouldnt-be-subject-to-newsroom-editorial-standards-its-editors-testify/) where staff and management have differing adoption philosophies. Disclosure is one of the most [hotly](https://reutersinstitute.politics.ox.ac.uk/news/neither-humans-loop-nor-transparency-labels-will-save-news-media-when-it-comes-ai) [debated](https://www.sciencedirect.com/science/article/pii/S0749597825000172) [topics](https://www.niemanlab.org/2023/12/most-readers-want-publishers-to-label-ai-generated-articles-but-trust-outlets-less-when-they-do/). Should readers be notified when a generative search tool was used to research a story, but that story was still fact checked before publication? What about when ChatGPT was used to produce a block of AI-generated text, but not an article wholesale? In Suncoast Searchlight’s case, no such disclosures have occurred with its readers or with its partner publications — despite the investigative outlet [centering transparency](https://suncoastsearchlight.org/our-mission/) in its work.
+
+Far less debated is the view that AI usage should be disclosed internally in newsrooms: that reporters and editors have a responsibility to share with their colleagues which AI tools they are using, as well as when and how they are using them. That’s especially true of a product like ChatGPT that produces errors [often, and confidently](https://openai.com/index/why-language-models-hallucinate/). The risk of masking this usage isn’t merely the chance that a hallucinated quote ends up in print, but eroded trust among colleagues.
+
+Suncoast Searchlight currently has no public or internal AI editorial policy. In response to the concerns of staffers the board said it will be adopting one. “We will continue our review, adopt AI guidelines, and work with the newsroom to ensure Suncoast Searchlight’s continued success in covering news of import in Sarasota, Manatee and DeSoto counties,” said Woods in a statement on behalf of the board.
+
+Woods did not answer questions about whether the board will be auditing other stories edited by Le Coz or looking into Oxenden’s firing as part of its investigation.
+
+On her decision to go public last week, Oxenden said, “I felt strongly about standing up for journalism ethics and morals when I was an employee and that didn’t change when I lost my job.”
+
+*This story has been updated to clarify that Observer Media Group has not published stories by Suncoast Searchlight.*
+
+Photo of downtown Sarasota, Fla. by [Info Creates](https://stock.adobe.com/contributor/207186027/info-creates?load_type=author&prev_url=detail) used under a Adobe Stock license.
+
+Join the 60,000 who get the freshest future-of-journalism news in our daily email.",/Users/aisvarya/Zotero/storage/F8WCUVAT/florida-nonprofit-news-reporters-ask-board-to-investigate-their-editors-ai-use.html,CNYBJSJX,INC-001,,,,,"{""fields"": {""incident_id"": {""answer"": ""INC-001"", ""comments"": """"}}, ""quotes"": [], ""claims"": [{""id"": ""1"", ""actor"": [], ""harm"": [], ""factor"": [], ""harmed_party"": []}]}"
+JWXU9JYL,Suncoast Searchlight Board Of Directors Response To Recent Concerns Over Use Of AI,https://suncoastsearchlight.org/board-directors-response-concerns-ai/,"# Suncoast Searchlight Board Of Directors Response To Recent Concerns Over Use Of AI
+
+**November 25, 2025**
+
+Recently, after Suncoast Searchlight reporters raised concerns about the use of AI in editing, the Board of Directors worked with staff and management to review how AI has been used in the newsroom.
+
+In our review, we have found that nothing published by the Searchlight team was created by generative AI. One staff-written story in the spring was trimmed as an experimental use of AI and then further edited by journalists. It is now labeled to reflect that process. We will have a public-facing policy governing the use of AI in research and writing before the end of the year.
+
+Based on our investigation, every journalist on staff stands firmly behind the factual accuracy of their published work.
+
+The board remains firmly behind the integrity of the journalism, the editorial processes and the leadership of the Searchlight team. We are proud of what the team has accomplished.
+
+Signed,
+
+Chris Davis, Carol LoCicero, Kelly McBride, Greg Parris, Sam Scott and Keith Woods",/Users/aisvarya/Zotero/storage/ZSI754FR/board-directors-response-concerns-ai.html,JWXU9JYL,INC-002,,,,,"{""fields"": {""incident_id"": {""answer"": ""INC-002"", ""comments"": """"}}, ""quotes"": [], ""claims"": [{""id"": ""1"", ""actor"": [], ""harm"": [], ""factor"": [], ""harmed_party"": []}]}"
+DQYGI23J,Fox News' Alba Cuebas-Fantauzzi Duped By AI Video,https://www.mediaite.com/media/news/gobsmacking-media-industry-observers-call-out-fox-news-for-getting-duped-by-ai-generated-video-then-attempting-to-sweep-it-under-the-rug/,"# ‘Gobsmacking’: Media Industry Observers Call Out Fox News’s Website for Getting Duped By AI-Generated Video, Then Attempting to Sweep it Under the Rug
+
+Fox News’s website is drawing heat from media industry observers for getting duped by an AI-generated video — and then failing to take sufficient accountability for the error.
+
+In a piece [published Friday to Foxnews.com](https://www.foxnews.com/media/snap-beneficiaries-threaten-ransack-stores-over-government-shutdown), writer **Alba Cuebas-Fantauzzi** posted about SNAP beneficiaries threatening to loot stores amid the government shutdown. The piece, originally headlined “SNAP Beneficiaries Threaten to Ransack Stores Over Government Shutdown,” quoted Black women claiming to be SNAP recipients complaining about the cutoff of benefits due to the shutdown. 
+
+“I have seven different baby daddies and none of ‘em no good for me,” one purported SNAP recipient said.
+
+The site was promptly called out for running with a phony video. [In a 7-minute video](https://www.thebulwark.com/p/fox-news-got-duped-by-aiand-lied?utm_campaign=post&utm_medium=web) titled “Fox News Got Duped by AI—and Lied About It,” *The Bulwark’s* **Tim Miller** trashed the site for “horrific news judgment” in falling for the fake footage. 
+
+“Fox News got fooled by a series of racist AI videos purporting to be Black women complaining about losing their SNAP benefits, and they reported those ‘complaints’ made computers pretending to be humans as if they were real news,” Miller said. “Yikes.”
+
+After getting called out, the headline of the post was amended to read, “AI videos of SNAP beneficiaries complaining about cuts go viral.” The change was accompanied by a brief editor’s note at the bottom.
+
+“This article previously reported on some videos that appear to have been generated by AI without noting that,” the note read. “This has been corrected.”
+
+CNN’s **Andrew Kaczynski** posted screenshots on X showing the original and amended headlines side-by-side.
+
+“Not sure if I’ve seen anything like this before — Fox fell for an AI video and basically rewrote their whole story when called out,” Kaczynski wrote.
+
+CNN’s **Brian Stelter** delivered a similar condemnation in his *Reliable Sources* newsletter on Sunday. 
+
+“It’s gobsmacking,” Stelter wrote. “So is the editor’s note now tacked to the bottom.”
+
+——
+
+**New: The Mediaite One-Sheet ""Newsletter of Newsletters""**
+
+Your daily summary and analysis of what the many, many media newsletters are saying and reporting. [Subscribe now!](https://www.mediaite.com/subscribe)",/Users/aisvarya/Zotero/storage/XJFKLL8V/gobsmacking-media-industry-observers-call-out-fox-news-for-getting-duped-by-ai-generated-video-.html,DQYGI23J,INC-003,,,,,"{""fields"": {""incident_id"": {""answer"": ""INC-003"", ""comments"": """"}}, ""quotes"": [], ""claims"": [{""id"": ""1"", ""actor"": [], ""harm"": [], ""factor"": [], ""harmed_party"": []}]}"
+B8KG7HK6,Zombie Alt-Weeklies Are Stuffed With AI Slop About OnlyFans,https://www.wired.com/story/zombie-alt-weeklies-are-stuffed-with-ai-slop-about-onlyfans/,"Several of the most prominent alt-weekly newspapers in the United States are running search-engine-optimized listicles about porn performers, which appear to be AI-generated, alongside their editorial content.
+
+If you pull up the homepage for the Village Voice on your phone, for example, you’ll see reporting from freelancers—longtime columnist Michael Musto still files occasionally—as well as archival work from big-name former writers such as Greg Tate, the Pulitzer Prize–winning music critic. You’ll also see a tab on its drop-down menu labeled “OnlyFans.” Clicking on it pulls up a catalog of listicles ranking different types of pornographic performers by demographic, from “Turkish” to “incest” to “granny.” These blog posts link out to hundreds of different [OnlyFans](https://www.wired.com/tag/onlyfans/) accounts and are presented as editorial work, largely without labels indicating they are advertisements or sponsored. [After publication, the Village Voice removed the OnlyFans tab from its navigation menu and took several of these articles offline.]
+
+Similar content appears on the websites of LA Weekly, which is owned by Street Media, the same parent company as the Village Voice, as well as the St. Louis–based alt-weekly the Riverfront Times. Although there is a chance some of these posts could be written by human freelancers, some of the writing bears markers of [AI slop.](https://www.wired.com/story/confessions-of-an-ai-clickbait-kingpin/)
+
+According to AI detection startup Reality Defender, which scanned a sampling of these posts from the Village Voice, the content in the articles registers as having a “high probability” of containing AI-generated text.“We’re seeing an ever-increasing part of old media be reborn as AI-generated new media,” says Reality Defender cofounder and CTO Ali Shahriyari. “Unfortunately, this means way less informational and newsworthy content and more SEO-focused ‘slop’ that really just wastes people’s time and attention. Tracking these kinds of publications isn’t even part of our day to day, yet we’re seeing them pop up more and more.”
+
+The majority of LA Weekly’s staff were [offered buyouts](https://lamag.com/news/la-weekly-losing-staff-buyouts) in March 2024, while the Riverfront Times [laid off](https://www.stlpr.org/2024-05-22/rft-sold-riverfront-times-rip-alt-weekly-staff-laid-off) its entire staff in May 2024 after it was sold by parent company Big Lou Holdings to an unnamed buyer. Chris Keating, the Riverfront Times’ former owner, says he is bound by a confidentiality agreement and cannot name the new buyer.
+
+R.C. Baker, the Village Voice’s sole remaining editor (according to its masthead) says he is not involved with the OnlyFans posts, although it appears on the site as editorial content. “I handle only news and cultural reporting out of New York City. I have nothing to do with OnlyFans. That content is handled by a separate team that is based, I believe, in LA,” he told WIRED.
+
+Likewise, former LA Weekly editor in chief Darrick Rainey says he, too, had nothing to do with the OnlyFans listicles when he worked there. Neither did his colleagues in editorial. “We weren’t happy about it at all, and we were absolutely not involved in putting it up,” he says.
+
+Street Media owner Brian Calle did not respond to WIRED’s requests for comment prior to publication. Several weeks after this article was published, though, Calle did respond, and claimed that the premise of the article was untrue. He also denied that AI was used to produce any of the articles WIRED found in its reporting. Calle was then asked to further clarify his responses, but he did not.
+
+Former employees are disturbed to see their archival work comingling with SEO porn slop. “It’s wrenching in so many ways,” says former Riverfront Times writer Danny Wicentowski. “Like watching a loved home get devoured by vines, or left to rot.”
+
+This is a new twist in the grim growing world of SEO slop. WIRED has reported on a variety of defunct news and media outlets that have been resurrected by new owners and [stuffed with AI-generated clickbait](https://www.wired.com/story/confessions-of-an-ai-clickbait-kingpin/), from a [small-town Iowa newspaper](https://www.wired.com/story/iowa-newspaper-website-ai-generated-clickbait-factory/) to the [beloved feminist blog](https://www.wired.com/story/plaintext-hairpin-blog-ai-clickbait-farm/) the Hairpin. In the case of the alt-weeklies and OnlyFans listicles, the clickbait has appeared alongside actual editorial content, both archival and new.
+
+LA Weekly and the Village Voice are both owned by the same parent company, Street Media, which acquired the publications in 2017 and 2020, respectively, and some of their OnlyFans content is identical. Meanwhile, the Riverfront Times publishes its OnlyFans blogs under the byline “RFT staff.”
+
+Daniela LaFave, an Austin-based SEO expert who is bylined on the majority of the Village Voice OnlyFans blog posts as well as some of the LA Weekly posts, confirmed to WIRED that she is the same person named as the author. She declined to answer whether she used AI tools to create the posts.
+
+Another frequent byline on the Village Voice and LA Weekly posts, “Jasmine Ramer,” has published [more than 900 articles](https://muckrack.com/jasmine-ramer/articles) primarily for these two outlets in 2023 and 2024 according to the public relations platform MuckRack. (Sample headlines: “The Best Fart Fetish Onlyfans Accounts of 2023” and “Top 10 Finnish OnlyFans & Hottest Finnish OnlyFans 2023.”) There is a profile on LinkedIn listed as a senior staff writer at LA Weekly for an Austria-based woman named Jasmine Ramer, but there is little other digital footprint for the writer. When Reality Defender analyzed the profile photo on Ramer’s LinkedIn account, it found it was likely AI-generated. There is also at least one other account using the same photo claiming to be a digital marketing executive in the UK. (WIRED did not receive a response when it asked Ramer for comment via LinkedIn.)
+
+OnlyFans is an online porn behemoth, one which has spawned numerous cottage industries, like [professional proxy chatters](https://www.wired.com/story/i-went-undercover-secret-onlyfans-chatter-wasnt-pretty/) who impersonate the platform’s stars. There are marketing agencies devoted to promoting OnlyFans creators, and many social platforms from Reddit to X are swarmed with bots trying to entice potential customers. These efforts are known as “OnlyFans funnels.”
+
+Risqué sex ads have played a major role in the rise and fall of some alt-weeklies. The founders of New Times Media—also known as Village Voice Media—which once owned the Village Voice, LA Weekly, and the Riverfront Times as well as other US-based alt-weeklies, created the classified website Backpage.com in 2004 to compete with Craigslist. It created a lucrative revenue stream, buoying many titles for years, but [ginned up major controversy](https://www.wired.com/story/inside-backpage-vicious-battle-feds/) for hosting sex ads.
+
+Vice President Kamala Harris, serving as California attorney general at the time, dubbed Backpage “the world’s top online brothel” in 2016 and [arrested](https://www.theringer.com/2016/12/2/16042908/backpage-pimping-lawsuit-c4577180c95e) its founders and CEO, charging each with several felony counts of pimping. With this recent history in mind, the decision to lean into sexual advertorial is especially brash. (These charges were dismissed, though the founders have since been charged with various felonies including money laundering.)
+
+It may be that these alt-weeklies are creating these blog posts in an effort to drum up web traffic to their sites, which could in turn help boost digital ad sales. They may also be accepting money from the accounts or from representatives of the accounts promoted, which would mean the posts were unlabeled advertorial. “Online ads, print ads, they all dried up,” Rainey says. “But this OnlyFans stuff is there.”
+
+“OnlyFans has no financial arrangement with these outlets,” an OnlyFans spokesperson who identified herself only as “Brixie” told WIRED via email.
+
+“I think the creators paid to be included,” opines Luka Sek, SEO manager for an OnlyFans promotion company called Social Rise. Speaking generally about online OnlyFans articles, Sek believes these published articles would have been handled by a third-party, such as “an agency that handles multiple models, or someone doing the marketing for such agencies.”
+
+Whatever the reason, it marks a grim new pit stop for declining media publications, one in which blatant SEO bait sits side by side with culturally valuable archival journalistic work and, in the case of the Village Voice, ongoing contemporary reportage.
+
+Tricia Romano, a former Village Voice writer who recently published an oral history of the newspaper, *The Freaks Came Out to Write*, sees the apparent arrival of SEO slop as keeping with the recent deterioration of alt-weeklies. “This is the logical dystopian conclusion,” she says. “But who’s reading it?”
+
+*Correction: 9/4/2024, noon EDT: WIRED has corrected some of its reporting, including which newspapers and articles were flagged by Reality Defender and the departure of the LA Weekly's staff. WIRED has also clarified several details, including its reporting on the Village Voice's masthead, a quote from Luka Sek and his generalized knowledge of online OnlyFans content, and the legacy of New Times Media and its relationship with law enforcement. WIRED updated several aspects of its reporting post-publication, such as article counts and edits to the Village Voice's mobile navigation menu.*",/Users/aisvarya/Zotero/storage/QH3ECG8Y/zombie-alt-weeklies-are-stuffed-with-ai-slop-about-onlyfans.html,B8KG7HK6,,,,,,"{""fields"": {}, ""quotes"": [], ""claims"": []}"
+GVYZ9GGM,CNET found errors in more than half of its AI-written stories,https://www.theverge.com/2023/1/25/23571082/cnet-ai-written-stories-errors-corrections-red-ventures,"*CNET* issued corrections on 41 of the 77 stories the outlet published that were written using an AI tool. In a [note published today](https://www.cnet.com/tech/cnet-is-testing-an-ai-engine-heres-what-weve-learned-mistakes-and-all/), *CNET *editor-in-chief Connie Guglielmo defended the use of the AI writing tool but said that an internal review of stories uncovered numerous errors in the articles at the center of the controversy.
+
+# CNET found errors in more than half of its AI-written stories
+
+The tech news site came under scrutiny this month after it was reported the outlet was using AI to write articles. Last week, executives said the use of the AI tool would be paused ‘for now.’
+
+The tech news site came under scrutiny this month after it was reported the outlet was using AI to write articles. Last week, executives said the use of the AI tool would be paused ‘for now.’
+
+Articles with corrections include ones titled “[What Is Compound Interest?](http://et.com/personal-finance/banking/what-is-compound-interest/),” “[How Much Should You Keep in a CD?](https://www.cnet.com/personal-finance/banking/how-much-should-you-keep-in-a-cd/),” “[Does a Home Equity Loan Affect Private Mortgage Insurance?](https://www.cnet.com/personal-finance/mortgages/does-home-equity-loan-affect-pmi/)” and dozens more. A handful of articles, [like this one](https://www.cnet.com/personal-finance/banking/how-to-close-bank-account/), had the correction note reading, “We’ve replaced phrases that were not entirely original,” indicating that some of their language may have been plagiarized.
+
+Earlier this month, [ Futurism broke the news](https://futurism.com/the-byte/cnet-publishing-articles-by-ai) that 
+
+*CNET*had been quietly publishing articles written by AI for months without drawing much public attention or making a formal announcement. In
+
+[a follow-up story](https://futurism.com/cnet-ai-errors), the outlet noted numerous errors in a
+
+*CNET*article about compound interest, which eventually resulted in a lengthy correction. Following the errors, a disclaimer appeared at the top of all AI-written stories: “We are currently reviewing this story for accuracy. If we find errors, we will update and issue corrections.”
+
+Last week, *The Verge *[reported](https://www.theverge.com/2023/1/19/23562966/cnet-ai-written-stories-red-ventures-seo-marketing) that automated tools have been in use at CNET for much longer than the article-writing robot and that staff sometimes didn’t know if content was written by a machine or a human co-worker. The AI-written articles are designed to game Google searches with SEO-friendly keywords so lucrative affiliate ads can be plastered on the pages. *CNET*’s parent company, Red Ventures, which also owns publications like Bankrate, *The Points Guy*, and CreditCards.com, stands to benefit every time a reader signs up for a credit card from one of the highly trafficked articles.
+
+After weeks of debate about CNET’s disclosure policies around AI tools, Red Ventures and *CNET* leadership told staff [in a meeting on Friday](https://www.theverge.com/2023/1/20/23564311/cnet-pausing-ai-articles-bot-red-ventures) that the company was temporarily pausing AI-generated content across all websites. The errors, though, don’t appear to be stopping *CNET*’s use of AI tools.
+
+“Expect CNET to continue exploring and testing how AI can be used to help our teams as they go about their work testing, researching and crafting the [unbiased advice and fact-based reporting](https://adfontesmedia.com/interactive-media-bias-chart/) we’re known for,” Guglielmo wrote in her memo today. “The process may not always be easy or pretty, but we’re going to continue embracing it – and any new tech that we believe makes life better.”
+
+[12 Comments](https://www.theverge.com#comments)
+
+**Follow topics and authors**from this story to see more like this in your personalized homepage feed and to receive email updates.
+
+## Most Popular
+
+- The US is charging an American citizen for wiping his phone at the border
+- Apple is banking on privacy to set its smart glasses apart
+- Marvel announces Ryan Gosling as Ghost Rider, a new Black Panther, and more
+- Meta is royally screwing up its smart glasses rollout
+- Forget expensive sleepbuds. Buy this pillow instead",/Users/aisvarya/Zotero/storage/DQVMALES/cnet-ai-written-stories-errors-corrections-red-ventures.html,GVYZ9GGM,,,,,,"{""fields"": {}, ""quotes"": [], ""claims"": []}"
+69MWSX4Q,Bloomberg Has a Rocky Start With A.I. Summaries,https://www.nytimes.com/2025/03/29/business/media/bloomberg-ai-summaries.html,"# Bloomberg Has a Rocky Start With A.I. Summaries
+
+The outlet has issued dozens of corrections to A.I.-generated news summaries since it started using the technology to write them this year.
+
+Bloomberg, the financial news powerhouse, has been experimenting with using artificial intelligence to help produce its journalism.
+
+It hasn’t always gone smoothly.
+
+The news outlet has had to correct at least three dozen A.I.-generated summaries of articles published this year. One happened on Wednesday, when Bloomberg [broke news](https://www.bloomberg.com/news/articles/2025-03-26/trump-prepares-auto-tariff-announcement-as-soon-as-wednesday) about President Trump’s auto tariffs.
+
+The article correctly reported that Mr. Trump would announce the tariffs as soon as that day. But the bullet-point summary of the article written by A.I. inaccurately said when a broader tariff action would take place.
+
+Bloomberg is not alone in trying A.I. — many news outlets are figuring out how best to embrace the new technology and use it in their reporting and editing. The newspaper chain Gannett [uses](https://www.theverge.com/2024/5/16/24158531/gannett-ai-generated-overviews-usa-today-memo) similar A.I.-generated summaries on its articles, and The Washington Post has a [tool](https://www.washingtonpost.com/ask-the-post-ai/) called “Ask the Post” that generates answers to questions from published Post articles.
+
+And problems have popped up elsewhere. Earlier this month, The Los Angeles Times removed its A.I. tool from an opinion article after the technology described the Ku Klux Klan as something other than a racist organization.
+
+Bloomberg News said in a statement that it publishes thousands of articles each day, and “currently 99 percent of A.I. summaries meet our editorial standards.”
+
+“We’re transparent when stories are updated or corrected, and when A.I. has been used,” a spokeswoman said. “Journalists have full control over whether a summary appears — both before and after publication — and can remove any that don’t meet our standards.”
+
+The A.I. summaries are “meant to complement our journalism, not replace it,” the statement added.
+
+Bloomberg [announced](https://www.bloomberg.com/company/press/bloomberg-launches-gen-ai-summarization-for-news-content/) on Jan. 15 that it would roll out the A.I.-generated summaries on top of news articles. The summaries consist of three bullet points condensing the main points of the article.
+
+John Micklethwait, Bloomberg’s editor in chief, laid out the thinking about the A.I. summaries in a Jan. 10 [essay](https://www.bloomberg.com/news/articles/2025-01-10/8-ways-ai-will-transform-journalism), which was an excerpt from a lecture he had given at City St. George’s, University of London.
+
+“Customers like it — they can quickly see what any story is about. Journalists are more suspicious,” he wrote. “Reporters worry that people will just read the summary rather than their story.”
+
+But, he acknowledged, “an A.I. summary is only as good as the story it is based on. And getting the stories is where the humans still matter.”
+
+One summary was removed from a March 6 [article](https://www.bloomberg.com/news/articles/2025-03-06/trump-s-tariffs-prompt-canadian-fuel-tankers-to-head-to-europe) because it inaccurately stated that Mr. Trump had imposed tariffs on Canadian goods last year, instead of this year. Another, on a March 18 [article](https://www.bloomberg.com/news/articles/2025-03-18/fund-bosses-hungry-for-returns-are-now-piling-into-defense-bets?sref=zVYYYI5e) about managers of sustainable funds, “failed to distinguish between actively and passively managed funds, providing incorrect figures as a result,” according to a correction.
+
+Other errors have included incorrect figures, incorrect attribution and references to the wrong U.S. presidential election.
+
+For Wednesday’s [scoop](https://www.bloomberg.com/news/articles/2025-03-26/trump-prepares-auto-tariff-announcement-as-soon-as-wednesday) on Mr. Trump’s tariff announcement, a correction was soon appended that noted that the summary had been removed because it had “misstated when the broader tariff action was to take place.” An updated version of the correction attributed it to lacking “attribution on tariff timing.”
+
+The Bloomberg spokeswoman said feedback had been positive to the summaries in general “and we continue to refine the experience.”
+
+ covers the media industry for The Times. Email: [katie.robertson@nytimes.com](mailto:katie.robertson@nytimes.com)
+
+[Order Reprints](https://nytimes.wrightsmedia.com/)|
+
+[Today’s Paper](https://www.nytimes.com/section/todayspaper)|
+
+[Subscribe](https://www.nytimes.com/subscriptions/Multiproduct/lp8HYKU.html?campaignId=48JQY)",/Users/aisvarya/Zotero/storage/TAHAAHZ8/bloomberg-ai-summaries.html,69MWSX4Q,INC-005,,,,,"{""fields"": {""incident_id"": {""answer"": ""INC-005"", ""comments"": """"}}, ""quotes"": [], ""claims"": [{""id"": ""1"", ""actor"": [], ""harm"": [], ""factor"": [], ""harmed_party"": []}]}"
+R95RRQFZ,ChatGPT is hallucinating fake links to its news partners’ biggest investigations,https://www.niemanlab.org/2024/06/chatgpt-is-hallucinating-fake-links-to-its-news-partners-biggest-investigations/,"Nieman Foundation at [Harvard](https://www.harvard.edu/)
+ 
+
+ 
+ June 27, 2024, 2:32 p.m.
+
+Nieman Lab’s tests show ChatGPT is directing users to broken URLs for at least 10 publications with OpenAI licensing deals.
+
+ 
+Over the past year, several major news media companies have signed on the dotted line with OpenAI, entering a content licensing partnership with the developer of ChatGPT. Most of those partnership announcements state that as part of the deals, ChatGPT will produce attributed summaries of each media company’s reporting and link to their publications’ websites.
+
+On June 13,Now, my reporting confirms that ChatGPT is hallucinating URLs for at least 10 other publications that are part of OpenAI’s ongoing licensing deals. These publications include The Associated Press, The Wall Street Journal, the Financial Times, The Times (UK), Le Monde, El País, The Atlantic, The Verge, Vox, and Politico.
+
+In my testing, I repeatedly prompted ChatGPT to link out to these publications’ marquee articles, including Pulitzer Prize-winning stories and years-long investigations. These types of stories are editorial investments that can be both incredibly valuable to a brand’s reputation, and incredibly costly to produce.
+
+All together, my tests show that ChatGPT is currently unable to reliably link out to even these most noteworthy stories by partner publications.
+
+While the specific language differs, most partnered media companies have explicitly stated that ChatGPT will link out to their websites. “Queries that surface The Atlantic will include attribution and a link to read the full article on theatlantic.com,” reads The Atlantic’s licensing deal [announcement](https://www.theatlantic.com/press-releases/archive/2024/05/atlantic-product-content-partnership-openai/678529/) from last month. “ChatGPT’s answers to user queries will include attribution and links to the full articles for transparency and further information,” reads a similar [announcement](https://www.axelspringer.com/en/ax-press-release/axel-springer-and-openai-partner-to-deepen-beneficial-use-of-ai-in-journalism) by Berlin-based publisher Axel Springer from December 2023. OpenAI has also pitched news publishers “priority placement and ‘richer brand expression’ in chat conversations” and “more prominent link treatments” in ChatGPT, according to reporting earlier this year by Adweek on [leaked OpenAI slide decks](https://www.adweek.com/media/openai-preferred-publisher-program-deck/).
+
+It is unclear how OpenAI can guarantee these attribution and citation features for its partners while the underlying ChatGPT product is regularly outputting broken links to those same websites.
+
+OpenAI told me in a statement that it has not yet launched the citation features promised in its licensing contracts. “Together with our news publisher partners, we’re building an experience that blends conversational capabilities with their latest news content, ensuring proper attribution and linking to source material — an enhanced experience still in development and not yet available in ChatGPT,” said Kayla Wood, an OpenAI spokesperson. OpenAI declined to answer questions on the hallucinations I documented or explain how new features might address the problem of fake URLs.
+
+From my testing across 10 publications, it appears that currently, ChatGPT is often doing what its predictive text generation does best: predicting the most likely version of the URL for a given story — rather than the correct one.
+
+To test ChatGPT’s ability to link out to its partner publications, I mostly prompted the chatbot to search the web for information on exclusive investigations by each respective outlet. For example, in 2019, the Financial Times broke news of a massive fraud scandal in the world of payment processing. Its [investigation into Wirecard](https://www.ft.com/content/03a5e318-2479-11e9-8ce6-5db4543da632) not only won awards, but prompted action by international regulatory bodies and contributed to the company’s swift decline, leading to its insolvency filing in 2020.
+
+When I prompted ChatGPT to search the web for news articles on the Wirecard fraud scandal, ChatGPT answered that the FT broke the story in February 2019. But at first it only cited links to websites like [Money Laundering Watch](https://www.moneylaunderingnews.com/2020/07/wirecard-a-scandal/) and [Markets Business Insider](https://markets.businessinsider.com/news/stocks/wirecard-timeline-what-you-need-to-know-2bn-fintech-scandal-2020-6-1029337346), which had both aggregated the FT’s original reporting. 
+
+When I followed up and asked ChatGPT to share a link to the original story, it told me to read the story on the FT’s website at this URL: [https://www.ft.com/content/44dcb5d2-2a29-11e9-b2e4-601dbf7d9eff](https://www.ft.com/content/44dcb5d2-2a29-11e9-b2e4-601dbf7d9eff)
+
+The Wirecard story wasn’t the only prestigious investigation to turn up in ChatGPT with a fake URL. In my tests, I documented hallucinated links to two [Pulitzer Prize-winning stories,](https://www.pulitzer.org/winners/staff-wall-street-journal-0) including [The Wall Street Journal’s 2018 reporting](https://www.wsj.com/articles/donald-trump-played-central-role-in-hush-payoffs-to-stormy-daniels-and-karen-mcdougal-1541786601) on Donald Trump’s involvement in hush money payments made to Stormy Daniels and Karen McDougal during his presidential campaign. That reporting helped trigger a criminal investigation that recently culminated in a jury finding [Trump guilty on 34 felony counts](https://www.wsj.com/us-news/trumps-hush-money-a-history-of-the-wsjs-investigation-fccf8096). Despite the investigation’s notoriety, the link offered by ChatGPT to the WSJ’s reporting once again landed on a 404 error. (In May, the WSJ’s parent company, Newscorp, signed a reported [$250 million dollar licensing contract with OpenAI](https://www.wsj.com/business/media/openai-news-corp-strike-deal-23f186ba).)
+
+“We are sharing insights with OpenAI to help create the best product experience for both users and publishers, where provenance and attribution are explicit, more accurate, and more intentional,” Rhonda Taylor, an FT spokesperson, told me in a statement, emphasizing that publisher citations are a work in progress. “The new experience is still under development and not yet live in ChatGPT, but the priority should be a better experience with high quality attribution, not speed of release.”
+
+Several publications declined to share details about this updated “experience” or a general timeline for its release, but there have been early signs that ChatGPT is experimenting with how it cites its sources. In March, OpenAI started rolling out a new feature that makes links more prominent in ChatGPT, by including the name of a cited website in parentheses with a hyperlink to the specific story it is citing.
+
+
+While hallucinated URLs did sometimes appear in these parentheses across my tests, these hyperlinks had a much higher rate of accuracy than the hyperlinks that appeared in other parts of ChatGPT’s responses. OpenAI declined to answer questions about how ChatGPT generates its hyperlinks or how the methodology for these two types of citations may differ.
+
+Often in my tests ChatGPT would, on first pass, link out in parentheses to news outlets or blogs that don’t have partnership deals with OpenAI. For the most part, these articles aggregated major investigations by the likes of [Le Monde](https://www.connexionfrance.com/news/perrier-vittel-french-brands-illegally-filtered-contaminated-water/613761), [Politico](https://www.independent.co.uk/news/world/americas/us-politics/eric-lander-biden-bullying-apology-b2009507.html) and [The Verge](https://www.retailtouchpoints.com/features/news-briefs/away-ceo-resigns-following-report-of-toxic-working-environment). With some exceptions, these URLs to aggregations were accurate. And to its credit, in almost all of my tests, ChatGPT was able to at least correctly name the outlet that broke a major news story, occasionally detailing the publication date and naming the author in its response. 
+
+It was when I asked ChatGPT to share a link to the first outlet that reported a given story, or to share a link to reporting that it had already correctly identified and summarized, that the URLs were most likely to break.
+
+For example, I prompted ChatGPT to search the web for the first news article that exposed the use of popular copyrighted novels in Book3 — a database widely used by Silicon Valley AI developers to train LLMs. ChatGPT correctly answered that Alex Reisner broke that story in The Atlantic as part of an [exclusive series](https://www.theatlantic.com/technology/archive/2023/08/books3-ai-meta-llama-pirated-books/675063/). 
+
+The slug in the URL it provided included the correct vertical on the site, the correct publication month and year, and a plausible string of search-engine-optimized keywords: [technology/archive/2023/09/books3-dataset-ai-copyright-infringement/675324](https://www.theatlantic.com/technology/archive/2023/09/books3-dataset-ai-copyright-infringement/675324)
+
+Whoever chose the actual URL for The Atlantic’s Book3 investigation ended up making a similar, but marginally different, choice. This is the actual slug for one of the articles: [technology/archive/2023/09/books3-database-generative-ai-training-copyright-infringement/675363/](https://www.theatlantic.com/technology/archive/2023/09/books3-database-generative-ai-training-copyright-infringement/675363/)
+
+Examples like this seem to indicate that ChatGPT is, at times, outputting the most likely URL in its response — predicting what the slug for a story could be, without knowing what it actually is. Across my tests ChatGPT’s hallucinated links regularly followed the standard URL format of a given website, but got the specific words or numbers in that URL wrong. Sometimes when I repeated a question, ChatGPT would even output slight variations on the same fake URL, leading to a string of 404 errors.
+
+“Hallucinations in LLMs are known issues. We’re raising to OpenAI any inaccuracies we encounter involving The Atlantic,” Anna Bross, a spokesperson for The Atlantic, told me in a statement. “We believe that participating with AI search in its early stages — and shaping it in a way that values, respects, and protects our work — could be an important way to help build our audience in the future.”
+
+As I detailed in [my previous reporting](https://www.niemanlab.org/2024/06/insider-union-chatgpt-hallucinating-links-business-insider-articles-openai-deal/) on the Business Insider Union’s letter to management, many journalists in newsrooms that have partnered with OpenAI have [publicly expressed](https://www.theatlantic.com/technology/archive/2024/05/a-devils-bargain-with-openai/678537/) [skepticism](https://www.nyguild.org/front-page-details/statement-new-york-magazine-union-demands-transparency-on-vox-medias-openai-partnership) about ChatGPT’s potential as a search tool. In May, The Atlantic Union published its own [open letter](https://www.nyguild.org/front-page-details/statement-the-atlantic-union-alarmed-demands-answers-after-licensing-product-deal-with-openai) demanding more transparency from its employer about its contract with OpenAI. On Wednesday, The Atlantic published a story [documenting similar problems](https://www.theatlantic.com/technology/archive/2024/06/chatgpt-citations-rag/678796/) with ChatGPT’s ability to link out to its own reporting.
+
+“These hallucinations are deeply concerning, and point to why we raised questions about The Atlantic’s agreement with OpenAI,” said David A. Graham, a staff writer and member of the union’s editorial bargaining committee. “We need to know much more about what the agreement says, and the company must work with us to demand protections for the integrity of our journalism and The Atlantic’s legacy.”
+
+All of my testing used ChatGPT’s free and most widely accessible version, which only requires a basic login. Most of my testing was also conducted using [GPT-4o](https://openai.com/index/hello-gpt-4o/) (OpenAI’s latest multimodal model that offers real-time web browsing to generate ChatGPT’s responses). But I was also able to replicate the URL hallucinations using models without real-time web browsing. 
+
+For example, without using free GPT-4o credits, I asked ChatGPT to share a link to the first investigation into Hollywood director Bryan Singer’s sexual misconduct allegations.
+
+ChatGPT correctly identified The Atlantic as the outlet behind the [headline-making 2019 investigation](https://www.theatlantic.com/magazine/archive/2019/03/bryan-singers-accusers-speak-out/580462/), but wrongly stated the story ran in October 2014. Even though ChatGPT claimed it could not browse the web, it still provided a hallucinated link to the supposed 2014 article and suggested I read more there. That broken link redirected to a different October 2014 story on The Atlantic [about the Nigerian militant group, Boko Haram](https://www.theatlantic.com/international/archive/2014/10/why-nigeria-stopped-ebola-but-not-boko-haram/381442/).
+
+The hallucinations were also not specific to English-language publications. ChatGPT hallucinated links to major national investigations in French by the publisher Le Monde, and stories in Spanish published by the outlet El País (owned by Prisa Media). Both international media companies [entered](https://openai.com/index/global-news-partnerships-le-monde-and-prisa-media/) content licensing deals with Open AI in March.
+
+Several of the publications I tested also only announced their OpenAI licensing deals in the past two months. That includes The Verge and Vox ([owned by Vox Media](https://www.voxmedia.com/2024/5/29/24166483/vox-media-openai-strategic-content-and-product-partnership)), The Wall Street Journal and The Times ([owned by NewsCorp](https://newscorp.com/2024/05/22/news-corp-and-openai-sign-landmark-multi-year-global-partnership/)), and [The Atlantic](https://www.theatlantic.com/press-releases/archive/2024/05/atlantic-product-content-partnership-openai/678529/). But from my tests, it doesn’t appear that the length of time an OpenAI partnership has been ongoing has a strong bearing on whether or not ChatGPT, in its current form, will produce a hallucinated URL. 
+
+ChatGPT output fake URLs to [Politico](https://www.politico.com/news/2022/02/07/eric-lander-white-house-investigation-00006077) and [Business Insider](https://www.businessinsider.com/barstool-sports-dave-portnoy-sex-choking-violent-stoolies) investigations. Both outlets are owned by Axel Springer, which signed its content licensing deal with OpenAI over six months ago for a reported “[tens of millions of euros](https://www.bloomberg.com/news/articles/2023-12-13/openai-axel-springer-ink-deal-to-use-news-content-in-chatgpt).” 
+
+I also documented fake URLs to stories by the AP, which was the [first major publisher](https://apnews.com/article/openai-chatgpt-associated-press-ap-f86f84c5bcc2f3b98074b38521f5f75a) to sign a licensing deal with OpenAI in July 2023. Nearly a year later, in our testing, ChatGPT was still unable to correctly link out to an two-year-long investigation on West African migrants that [won the AP a Livingston Award](https://wallacehouse.umich.edu/announcing-the-2024-livingston-award-winners/) for International Reporting earlier this month.
+
+Overall, the stories I tested for were often groundbreaking investigations and articles that incited a wave of follow-up coverage, sometimes kicking off a years-long news cycle. For digital publishers, these types of stories are often expensive and core to building a brand’s reputation and audience. If a product used by more than 200 million people a month republishes the contents of this reporting without properly linking back to the source, the return on those editorial investments could take a hit.
+
+My tests demonstrate that ChatGPT is hallucinating URLs frequently, and that the product is currently unable to reliably link out to the most noteworthy stories by its partners. That said, this was not a full audit of ChatGPT and I plan to follow up with more reporting on the technical factors that might be at play here. If these URL hallucinations are happening at scale, though, OpenAI would likely need to resolve the issue to follow through on its general pitch to news publishers. That includes both ChatGPT accurately citing publications it has licensing deals with and its commitment to becoming a dependable source of referral traffic to their websites.
+
+Join the 60,000 who get the freshest future-of-journalism news in our daily email.",/Users/aisvarya/Zotero/storage/4CLBSW4F/chatgpt-is-hallucinating-fake-links-to-its-news-partners-biggest-investigations.html,R95RRQFZ,INC-004,,,,,"{""fields"": {""incident_id"": {""answer"": ""INC-004"", ""comments"": """"}}, ""quotes"": [], ""claims"": [{""id"": ""1"", ""actor"": [], ""harm"": [], ""factor"": [], ""harmed_party"": []}]}"
