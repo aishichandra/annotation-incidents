@@ -18,8 +18,113 @@
     background: #fff; border-bottom: 1px solid var(--line); }
   .bar select { font: inherit; padding: 6px 10px; border: 1px solid var(--line);
     border-radius: 8px; max-width: 560px; }
+  .bar .pull { font: inherit; font-size: 13px; padding: 6px 12px; border: 1px solid var(--line);
+    border-radius: 8px; background: #fff; color: #555; cursor: pointer; white-space: nowrap; }
+  .bar .pull:hover { border-color: #111; color: #111; }
+  .bar .pull:disabled { opacity: .5; cursor: default; }
   .bar .status { color: var(--muted); font-size: 13px; margin-left: auto; }
   .bar .hint { color: var(--muted); font-size: 12px; }
+  .viewtabs { display: flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; flex: none; }
+  .viewtabs .tab { font: inherit; font-size: 13px; padding: 6px 14px; border: none;
+    background: #fff; color: #666; cursor: pointer; }
+  .viewtabs .tab + .tab { border-left: 1px solid var(--line); }
+  .viewtabs .tab.active { background: #111; color: #fff; }
+
+  /* ---- Incident (by-incident) view — styled after the Tow/CJR P+P tracker ---- */
+  /* Brand: deep blue #254c6f, Tow orange #de5a35, hairline #e0e0e0, square cards,
+     serif headlines, tiny uppercase gray field labels. */
+  body.view-incidents .app, body.view-incidents #arrows,
+  body.view-incidents #docSelect { display: none; }
+  #incidents { display: none; }
+  body.view-incidents #incidents { display: block; }
+  #incidents { padding: calc(var(--bar-h) + 40px) 24px 100px; background: #f6f6f4;
+    min-height: 100vh; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+  .inc-wrap { max-width: 1000px; margin: 0 auto; }
+  .inc-pagehead { margin: 0 0 26px; padding-bottom: 16px; border-bottom: 2px solid #de5a35; }
+  .inc-pagehead h1 { font-family: Georgia, 'Times New Roman', serif; font-size: 30px;
+    color: #254c6f; margin: 0 0 4px; font-weight: 700; letter-spacing: -.01em; }
+  .inc-pagehead p { margin: 0; color: #6e6e6e; font-size: 13px; }
+  .iempty { color: var(--muted); padding: 40px 4px; text-align: center; }
+
+  .tow-card { background: #fff; border: 1px solid #e0e0e0; margin-bottom: 20px; }
+  .tow-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 14px;
+    padding: 14px 20px; background: #fafafa; border-bottom: 1px solid #e0e0e0; }
+  .tow-id { font: 600 11px 'Helvetica Neue', Helvetica, sans-serif; text-transform: uppercase;
+    letter-spacing: .06em; color: #254c6f; background: #eaf0f6; border: 1px solid #d6e0eb;
+    padding: 3px 9px; border-radius: 3px; flex: none; }
+  .tow-title { font-family: Georgia, 'Times New Roman', serif; font-size: 20px; font-weight: 700;
+    color: #222; line-height: 1.25; flex: 1 1 260px; min-width: 0; }
+  .tow-meta { font-size: 12px; color: #999; flex: none; }
+  .tow-meta b { color: #444; font-weight: 600; }
+
+  .tow-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0; padding: 20px; }
+  .tow-col { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+  .tow-col.c1 { padding-right: 22px; border-right: 1px solid #e0e0e0; }
+  .tow-col.c2 { padding-left: 22px; }
+  @media (max-width: 720px) {
+    .tow-body { grid-template-columns: 1fr; gap: 18px; }
+    .tow-col.c1 { padding-right: 0; border-right: none; border-bottom: 1px solid #e0e0e0;
+      padding-bottom: 18px; }
+    .tow-col.c2 { padding-left: 0; }
+  }
+
+  .tow-field { display: flex; flex-direction: column; gap: 5px; }
+  .tow-label { font-size: 11px; font-weight: 400; text-transform: uppercase;
+    letter-spacing: .06em; color: #999; }
+  .tow-value { font-size: 14px; line-height: 1.5; color: #1a1a1a; word-break: break-word; }
+  .tow-nodata { font-size: 13px; color: #b8b8b8; font-style: italic; }
+  .tow-chip { display: inline-block; background: #f5f5f5; border: 1px solid #e0e0e0;
+    color: #333; padding: 3px 9px; border-radius: 3px; font-size: 13px; font-weight: 500;
+    margin: 0 5px 5px 0; }
+  .tow-comment { font-size: 12px; color: #6e6e6e; font-style: italic; margin-top: 3px; }
+
+  /* Drag-to-group: palette of pooled characteristics + group drop zones.
+     Grid so every role's chips start at the same left edge and wrapped chips
+     line up under the first one (not back at the label). */
+  .pal-row { display: grid; grid-template-columns: 74px 1fr; align-items: start;
+    gap: 10px; margin-bottom: 9px; }
+  .pal-role { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700;
+    line-height: 1.3; padding-top: 5px; }
+  .pal-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .drag-chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px;
+    border-radius: 3px; font-size: 12.5px; border: 1px solid; cursor: grab; user-select: none; }
+  .drag-chip[draggable="true"]:active { cursor: grabbing; }
+  .drag-chip .chip-role { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+  .drag-chip .chip-x { border: none; background: none; color: #888; cursor: pointer; font-size: 14px;
+    line-height: 1; padding: 0 0 0 2px; }
+  .drag-chip .chip-x:hover { color: #dc2626; }
+  .grp-hint { font-size: 12px; color: #b8b8b8; font-style: italic; margin: 4px 0 8px; }
+  .grp-box { border: 1px solid #e0e0e0; border-radius: 4px; margin-bottom: 10px; background: #fcfcfc; }
+  .grp-top { display: flex; align-items: center; padding: 6px 10px; border-bottom: 1px solid #eee; }
+  .grp-name { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+    color: #555; }
+  .grp-del { margin-left: auto; border: none; background: none; color: #ccc; cursor: pointer;
+    font-size: 16px; line-height: 1; }
+  .grp-del:hover { color: #dc2626; }
+  .grp-add { font-size: 12px; border: 1px dashed #cfcfcf; background: #fff; color: #555;
+    border-radius: 4px; padding: 6px 12px; cursor: pointer; }
+  .grp-add:hover { border-color: #254c6f; color: #254c6f; }
+  .grp-section { margin-top: 26px; }
+  /* The sentence is the drop zone; dropping a characteristic fills its gap. */
+  .grp-sentence { padding: 12px; font-size: 14px; line-height: 2.4; color: #333;
+    font-family: Georgia, 'Times New Roman', serif; border-radius: 0 0 4px 4px;
+    transition: background .15s ease; }
+  .grp-sentence.over { background: #eaf0f6; box-shadow: inset 0 0 0 2px #254c6f; }
+  .grp-sentence .sent-v { display: inline-flex; align-items: center; gap: 3px; margin: 0 3px;
+    padding: 2px 5px 2px 8px; border-radius: 3px; border: 1px solid #e0e0e0;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif; font-size: 12.5px; line-height: 1.3;
+    vertical-align: middle; }
+  .grp-sentence .sent-x { border: none; background: none; color: #999; cursor: pointer;
+    font-size: 13px; line-height: 1; padding: 0; }
+  .grp-sentence .sent-x:hover { color: #dc2626; }
+  .grp-sentence .sent-ph { color: #bbb; font-style: italic; }
+
+  .tow-doc { display: flex; gap: 8px; align-items: baseline; font-size: 13px; margin-bottom: 7px;
+    cursor: pointer; }
+  .tow-doc .dtitle { color: #254c6f; text-decoration: none; flex: 1 1 auto; }
+  .tow-doc:hover .dtitle { text-decoration: underline; }
+  .tow-doc .durl { color: #999; font-size: 11px; text-decoration: none; flex: none; }
+  .tow-doc .durl:hover { color: #254c6f; text-decoration: underline; }
 
   .app { position: relative; padding-top: var(--bar-h); }
   .reader { margin-right: 440px; padding: 40px 48px 160px; }
@@ -147,6 +252,8 @@
   .cat-dot { width: 10px; height: 10px; border-radius: 3px; flex: none; }
   .cat-btn-wrap { display: inline-flex; align-items: stretch; }
   .cat-btn-wrap .cat-btn { border-radius: 6px 0 0 6px; border-right: none; }
+  /* Chips with no value-picker caret (e.g. aftermath) keep a full, closed button. */
+  .cat-btn-wrap .cat-btn:only-child { border-radius: 6px; border-right: 1px solid #ddd; }
   .cat-caret { font: inherit; font-size: 9px; border: 1px solid #ddd; background: #fafafa;
     border-radius: 0 6px 6px 0; padding: 0 6px; cursor: pointer; color: #888; }
   .cat-caret:hover { border-color: #111; color: #111; background: #fff; }
@@ -231,10 +338,19 @@
 </head>
 <body>
 <div class="bar">
+  <div class="viewtabs">
+    <button id="tabIncidents" class="tab active">Incidents</button>
+    <button id="tabDocs" class="tab">Documents</button>
+  </div>
   <select id="docSelect"></select>
+  <button id="pushBtn" class="pull" title="Push all local coding + claim groups up to MongoDB">Push to Mongo</button>
+  <button id="pullBtn" class="pull" title="Overwrite local annotations with the copy in MongoDB (Mongo wins)">Pull from Mongo</button>
   <span class="hint" id="armHint"></span>
   <span class="status" id="status"></span>
 </div>
+
+<!-- By-incident view: one card per incident, populated from /api/incidents -->
+<div id="incidents"></div>
 
 <div class="app">
   <div class="reader">
@@ -288,10 +404,13 @@ function setRoleOptions(role, opts) {
 // claim-role multiselect (value is undefined for a whole text field).
 // null | {type:'field', key, value} | {type:'role', claim, role, value}
 let armed = null;
+// A just-completed text selection must not also trigger a highlighted mark's
+// span menu (which would replace the tag menu). Set on selection, cleared next tick.
+let skipSpanClick = false;
 function sameArm(t) {
   if (!armed || armed.type !== t.type) return false;
   if (t.type === 'field') return armed.key === t.key && armed.value === t.value;
-  return armed.claim === t.claim && armed.role === t.role && armed.value === t.value;
+  return armed.role === t.role && armed.value === t.value;
 }
 function setArm(t) { armed = sameArm(t) ? null : t; afterArm(); }
 
@@ -305,7 +424,297 @@ async function init() {
   sel.innerHTML = docs.map(d =>
     `<option value="${d.index}">${d.title.slice(0,80)}${d.n ? '  ('+d.n+')' : ''}</option>`).join('');
   sel.onchange = () => loadDoc(+sel.value);
+  document.getElementById('pullBtn').onclick = pullFromMongo;
+  document.getElementById('pushBtn').onclick = pushToMongo;
+  document.getElementById('tabDocs').onclick = () => setView('docs');
+  document.getElementById('tabIncidents').onclick = () => setView('incidents');
   loadDoc(docs.length ? docs[0].index : 0);
+  setView('incidents');   // land on the Incidents view first
+}
+
+// ---------- by-incident view ----------
+// Toggle between the per-document coder ('docs') and the incident overview
+// ('incidents'). CSS keyed off body.view-incidents shows/hides each surface.
+function setView(v) {
+  document.body.classList.toggle('view-incidents', v === 'incidents');
+  document.getElementById('tabDocs').classList.toggle('active', v === 'docs');
+  document.getElementById('tabIncidents').classList.toggle('active', v === 'incidents');
+  if (v === 'incidents') loadIncidents();
+}
+
+async function loadIncidents() {
+  const wrap = document.getElementById('incidents');
+  wrap.innerHTML = '<div class="inc-wrap"><div class="iempty">Loading…</div></div>';
+  let data;
+  try { data = await (await fetch('/api/incidents')).json(); }
+  catch (e) {
+    wrap.innerHTML = '<div class="inc-wrap"><div class="iempty">Failed to load incidents.</div></div>'; return;
+  }
+  INCIDENTS = {};
+  data.incidents.forEach(inc => { INCIDENTS[inc.incident_id] = inc; });
+  const body = data.incidents.length
+    ? data.incidents.map(inc => incidentCard(inc, data.fields)).join('')
+    : '<div class="iempty">No incidents coded yet.</div>';
+  wrap.innerHTML = `<div class="inc-wrap">${body}</div>`;
+  // Clicking a source document opens it in the coder (Documents view).
+  wrap.querySelectorAll('.tow-doc').forEach(el => {
+    el.onclick = (e) => {
+      if (e.target.closest('.durl')) return;   // let the external link work
+      const i = +el.dataset.index;
+      setView('docs');
+      document.getElementById('docSelect').value = i;
+      loadDoc(i);
+    };
+  });
+  // Wire the interactive drag-to-group area on each card to its live incident.
+  wrap.querySelectorAll('.tow-groups').forEach(el => buildGroupsUI(el, INCIDENTS[el.dataset.inc]));
+}
+
+const NODATA = '<span class="tow-nodata">No data</span>';
+let INCIDENTS = {};   // incident_id -> incident object, for post-render handlers
+
+// A Tow/CJR-styled card carrying every detail the JSON holds for one incident.
+// Anything un-coded renders as "No data". The characteristics palette + claim
+// groups are an interactive placeholder filled in by buildGroupsUI after render.
+function incidentCard(inc, fields) {
+  const chips = arr => arr.map(v => `<span class="tow-chip">${escapeHtml(v)}</span>`).join('');
+
+  // Every schema field (System, Developer, Deployer, …) — value chips or "No data",
+  // plus any coder comments left on the field.
+  const fieldBlocks = fields.map(f => {
+    const vals = inc.field_values[f.key] || [];
+    const cmts = (inc.field_comments && inc.field_comments[f.key]) || [];
+    const valHtml = vals.length ? chips(vals) : NODATA;
+    const cmtHtml = cmts.map(c => `<div class="tow-comment">“${escapeHtml(c)}”</div>`).join('');
+    return `<div class="tow-field"><div class="tow-label">${escapeHtml(f.label)}</div>`
+      + `<div class="tow-value">${valHtml}${cmtHtml}</div></div>`;
+  }).join('');
+
+  const docsHtml = inc.documents.map(d => {
+    const url = d.url
+      ? `<a class="durl" href="${escapeHtml(d.url)}" target="_blank" rel="noopener">source ↗</a>` : '';
+    return `<div class="tow-doc" data-index="${d.index}">`
+      + `<span class="dtitle">${escapeHtml(d.title || '(untitled document)')}</span>${url}</div>`;
+  }).join('');
+
+  return `<div class="tow-card">
+    <div class="tow-head">
+      <span class="tow-id">${escapeHtml(inc.incident_id)}</span>
+      <span class="tow-title">${inc.title ? escapeHtml(inc.title) : 'No data'}</span>
+    </div>
+    <div class="tow-body">
+      <div class="tow-col c1">
+        <div class="tow-field"><div class="tow-label">Source documents</div><div class="tow-value">${docsHtml}</div></div>
+        ${fieldBlocks}
+      </div>
+      <div class="tow-col c2">
+        <div class="tow-groups" data-inc="${escapeHtml(inc.incident_id)}"></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+const roleColor = (role) => (ROLE[role] && ROLE[role].color) || '#e5e7eb';
+const roleLabel = (role) => (ROLE[role] && ROLE[role].label) || role;
+
+// Persist an incident's groups (debounced-ish: fire immediately, it's small).
+async function saveGroups(inc) {
+  try {
+    await fetch('/api/incident/' + encodeURIComponent(inc.incident_id) + '/groups', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ groups: inc.groups }),
+    });
+  } catch (e) { /* non-fatal: local drag state stays until reload */ }
+}
+
+// The drag-to-group surface: a palette of pooled role values (draggable) above a
+// set of group drop-zones. Dropping a value into a group links it into that claim.
+// Rebuilds itself on every change and persists per incident.
+function buildGroupsUI(container, inc) {
+  if (!inc) return;
+  // Always start with one claim ready (auto-selected). Empty groups aren't saved
+  // server-side, so this just seeds the first sentence template each load.
+  if (!inc.groups.length) inc.groups.push({ id: '1', members: [] });
+  container.innerHTML = '';
+
+  // ---- palette: pooled characteristics, grouped by role, each chip draggable ----
+  const palette = document.createElement('div');
+  palette.className = 'tow-field';
+  palette.innerHTML = `<div class="tow-label">Characteristics</div>`;
+  const anyValues = ROLES.some(r => (inc.role_values[r.role] || []).length);
+  if (!anyValues) {
+    const nd = document.createElement('div'); nd.innerHTML = NODATA;
+    palette.appendChild(nd);
+  } else {
+    ROLES.forEach(r => {
+      const vals = inc.role_values[r.role] || [];
+      if (!vals.length) return;
+      const row = document.createElement('div'); row.className = 'pal-row';
+      const lbl = document.createElement('span');
+      lbl.className = 'pal-role'; lbl.style.color = roleColor(r.role); lbl.textContent = r.label;
+      const chips = document.createElement('div'); chips.className = 'pal-chips';
+      vals.forEach(v => chips.appendChild(makeChip(r.role, v)));
+      row.appendChild(lbl); row.appendChild(chips);
+      palette.appendChild(row);
+    });
+  }
+  container.appendChild(palette);
+
+  // ---- groups: each is a claim sentence + drop zone ----
+  const groupsWrap = document.createElement('div');
+  groupsWrap.className = 'tow-field grp-section';
+  groupsWrap.innerHTML = `<div class="tow-label">Groups (linked claims)</div>`;
+  inc.groups.forEach(grp => groupsWrap.appendChild(buildGroupBox(inc, grp, container)));
+
+  const add = document.createElement('button');
+  add.className = 'grp-add'; add.textContent = '+ New group';
+  add.onclick = () => {
+    const n = inc.groups.reduce((mx, g) => Math.max(mx, parseInt(g.id, 10) || 0), 0) + 1;
+    inc.groups.push({ id: String(n), members: [] });
+    saveGroups(inc);
+    buildGroupsUI(container, inc);
+  };
+  groupsWrap.appendChild(add);
+  container.appendChild(groupsWrap);
+}
+
+// A draggable palette chip (characteristics palette only).
+function makeChip(role, value) {
+  const chip = document.createElement('span');
+  chip.className = 'drag-chip';
+  chip.style.background = roleColor(role) + '44';
+  chip.style.borderColor = roleColor(role);
+  chip.draggable = true;
+  chip.title = roleLabel(role) + ' — drag into a claim';
+  chip.textContent = value;
+  chip.ondragstart = (e) => {
+    e.dataTransfer.setData('text/plain', JSON.stringify({ role, value }));
+    e.dataTransfer.effectAllowed = 'copy';
+  };
+  return chip;
+}
+
+// A group is just the claim sentence; the sentence itself is the drop target and
+// dropping a characteristic fills its slot. Filled values are removable chips.
+function buildGroupBox(inc, grp, container) {
+  const box = document.createElement('div');
+  box.className = 'grp-box';
+
+  const top = document.createElement('div');
+  top.className = 'grp-top';
+  top.innerHTML = `<span class="grp-name">Claim ${escapeHtml(grp.id)}</span>`;
+  const del = document.createElement('button');
+  del.className = 'grp-del'; del.textContent = '×'; del.title = 'Delete claim';
+  del.onclick = () => {
+    inc.groups = inc.groups.filter(g => g !== grp);
+    saveGroups(inc);
+    buildGroupsUI(container, inc);
+  };
+  top.appendChild(del);
+  box.appendChild(top);
+
+  box.appendChild(groupSentence(inc, grp, container));
+  return box;
+}
+
+// [actors] allegedly caused [harms] to [parties] because of [factors].
+// The whole sentence is one drop zone; the dragged chip's role decides which
+// gap it fills. Empty gaps show a muted placeholder; filled values are chips
+// with a × to remove them.
+function groupSentence(inc, grp, container) {
+  const s = document.createElement('div');
+  s.className = 'grp-sentence';
+
+  const slot = (role, placeholder) => {
+    const span = document.createElement('span');
+    span.className = 'sent-slot';
+    const vals = grp.members.filter(m => m.role === role).map(m => m.value);
+    if (!vals.length) {
+      span.innerHTML = `<span class="sent-ph">[${escapeHtml(placeholder)}]</span>`;
+      return span;
+    }
+    vals.forEach((v, i) => {
+      if (i) span.appendChild(document.createTextNode(' & '));
+      const chip = document.createElement('span');
+      chip.className = 'sent-v';
+      chip.style.background = roleColor(role) + '33';
+      chip.style.borderColor = roleColor(role);
+      chip.appendChild(document.createTextNode(v));
+      const x = document.createElement('button');
+      x.className = 'sent-x'; x.textContent = '×'; x.title = 'Remove';
+      x.onclick = () => {
+        grp.members = grp.members.filter(m => !(m.role === role && m.value === v));
+        saveGroups(inc);
+        buildGroupsUI(container, inc);
+      };
+      chip.appendChild(x);
+      span.appendChild(chip);
+    });
+    return span;
+  };
+
+  const txt = (t) => s.appendChild(document.createTextNode(t));
+  s.appendChild(slot('actor', 'actor(s)'));
+  txt(' allegedly caused ');
+  s.appendChild(slot('harm', 'harm(s)'));
+  txt(' to ');
+  s.appendChild(slot('harmed_party', 'party/ies'));
+  txt(' because of ');
+  s.appendChild(slot('factor', 'factor(s)'));
+
+  s.ondragover = (e) => { e.preventDefault(); s.classList.add('over'); };
+  s.ondragleave = () => s.classList.remove('over');
+  s.ondrop = (e) => {
+    e.preventDefault(); s.classList.remove('over');
+    let m; try { m = JSON.parse(e.dataTransfer.getData('text/plain')); } catch (_) { return; }
+    if (!m || !m.role || !m.value) return;
+    if (!grp.members.some(x => x.role === m.role && x.value === m.value)) {
+      grp.members.push({ role: m.role, value: m.value });
+      saveGroups(inc);
+      buildGroupsUI(container, inc);
+    }
+  };
+  return s;
+}
+
+// Push everything local (per-document coding + incident groups + pooled lists)
+// up to Mongo. Non-destructive to local data.
+async function pushToMongo() {
+  const btn = document.getElementById('pushBtn');
+  const status = document.getElementById('status');
+  if (!confirm('Push all local coding and claim groups up to MongoDB?')) return;
+  btn.disabled = true;
+  status.textContent = 'Pushing to Mongo…';
+  try {
+    const res = await fetch('/api/push', { method: 'POST' });
+    const j = await res.json();
+    if (!res.ok || !j.ok) throw new Error(j.error || 'push failed');
+    status.textContent = `Pushed ${j.documents} document(s), ${j.incidents} incident(s), ${j.groups} group(s) ✓`;
+  } catch (e) {
+    status.textContent = 'Push failed: ' + e.message;
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// Manual bring-back: overwrite local annotations with Mongo's copy (Mongo wins),
+// then reload so the fetched coding shows. Guard against a double-click.
+async function pullFromMongo() {
+  const btn = document.getElementById('pullBtn');
+  const status = document.getElementById('status');
+  if (!confirm('Pull annotations from MongoDB? Mongo\'s copy overwrites your local edits for any document that exists in both.')) return;
+  btn.disabled = true;
+  status.textContent = 'Pulling from Mongo…';
+  try {
+    const res = await fetch('/api/pull', { method: 'POST' });
+    const j = await res.json();
+    if (!res.ok || !j.ok) throw new Error(j.error || 'pull failed');
+    status.textContent = `Pulled ${j.pulled} document(s) from Mongo ✓`;
+    location.reload();
+  } catch (e) {
+    status.textContent = 'Pull failed: ' + e.message;
+    btn.disabled = false;
+  }
 }
 
 // Existing incident IDs (for the "connect to another article" picker) + the next
@@ -334,11 +743,11 @@ function fillTitleForIncident(id, overwrite) {
 async function loadDoc(i) {
   const d = await (await fetch('/api/doc/' + i)).json();
   curDoc = { ...d, ann: d.annotation };
-  if (!Array.isArray(curDoc.ann.claims)) curDoc.ann.claims = [];
-  // start every article with one claim ready (not saved until it gets content)
-  if (!curDoc.ann.claims.length) {
-    curDoc.ann.claims.push({ id: '1', actor: [], harm: [], factor: [], harmed_party: [] });
-  }
+  // Characteristics are selected flat now (no claim linking in the doc view);
+  // grouping into claims happens in the incident card view.
+  if (!curDoc.ann.roles || typeof curDoc.ann.roles !== 'object') curDoc.ann.roles = {};
+  ROLES.forEach(r => { if (!Array.isArray(curDoc.ann.roles[r.role])) curDoc.ann.roles[r.role] = []; });
+  delete curDoc.ann.claims;
   // Auto-populate a fresh incident ID for a not-yet-coded article (the coder can
   // still pick an existing one to connect it to another article).
   await refreshIncidentIds();
@@ -391,7 +800,7 @@ function quoteColor(q) {
 function quoteLabel(q) {
   const base = q.role ? ((ROLE[q.role] || {}).label || q.role)
                       : ((field(q.category) || {}).label || q.category);
-  return base + (q.value ? ' · ' + q.value : '') + (q.role ? ' · claim ' + q.claim : '');
+  return base + (q.value ? ' · ' + q.value : '');
 }
 
 // Draw each quote's underline at its own fixed lane, so every category is one
@@ -438,17 +847,12 @@ function paintUnderlines() {
     quotes.forEach((q, idx) => { if (q.start <= a && q.end >= b) items.push({ q, idx }); });
     if (items.length) intervals.push({ a, b, items });
   }
-  // Place each claim's badge on the last interval its role-quote reaches.
-  const claimLast = {};
-  intervals.forEach((iv, ii) => iv.items.forEach(it => { if (it.q.role) claimLast[it.q.claim] = ii; }));
-  intervals.forEach((iv, ii) => wrapInterval(iv, ii, claimLast, laneOf, totalLanes));
+  intervals.forEach((iv, ii) => wrapInterval(iv, ii, laneOf, totalLanes));
 }
 
-function wrapInterval(iv, ii, claimLast, laneOf, totalLanes) {
+function wrapInterval(iv, ii, laneOf, totalLanes) {
   const lines = iv.items.map(it => ({ color: quoteColor(it.q), lane: laneOf[it.idx] }));
   const idxs = iv.items.map(it => it.idx);
-  const roleItems = iv.items.filter(it => it.q.role);
-  const claims = [...new Set(roleItems.map(it => it.q.claim))];
   const title = iv.items.map(it => quoteLabel(it.q)).join('  |  ');
 
   const segs = []; let acc = 0;
@@ -464,62 +868,12 @@ function wrapInterval(iv, ii, claimLast, laneOf, totalLanes) {
     applyUnderlines(m, lines, totalLanes);
     m.dataset.idxs = idxs.join(' ');   // which quotes this stretch belongs to
     m.title = title;
-    if (roleItems.length) {
-      m.classList.add('role-mark');
-      m.dataset.claims = claims.join(' ');
-      const badges = claims.filter(cl => claimLast[cl] === ii);
-      if (si === segs.length - 1 && badges.length) m.dataset.badge = badges.join(',');
-      m.onmouseenter = () => claims.forEach(cl => linkClaim(cl, true));
-      m.onmouseleave = () => claims.forEach(cl => linkClaim(cl, false));
-    }
-    m.onclick = () => showSpanMenu(iv.a, iv.b, m.getBoundingClientRect());
+    m.onclick = () => {
+      if (skipSpanClick) return;   // a fresh selection just happened — let it tag
+      showSpanMenu(iv.a, iv.b, m.getBoundingClientRect());
+    };
     try { r.surroundContents(m); } catch (err) {}
   });
-}
-
-// Emphasize a claim's highlights and draw arrows connecting them (hover-to-connect).
-function linkClaim(claim, on) {
-  document.querySelectorAll(`mark[data-claims~="${claim}"]`)
-    .forEach(m => m.classList.toggle('linked', on));
-  if (on) drawArrows(claim); else clearArrows();
-}
-
-const SVGNS = 'http://www.w3.org/2000/svg';
-// Draw arrows between a claim's highlighted characteristics, in reading order.
-function drawArrows(claim) {
-  const g = document.getElementById('arrowLines');
-  g.innerHTML = '';
-  const pts = [];
-  ROLES.forEach(r => {
-    // find a quote for this claim+role, then any mark painting that quote
-    const qi = curDoc.ann.quotes.findIndex(q => q.claim === claim && q.role === r.role);
-    const m = qi >= 0 ? document.querySelector(`mark[data-idxs~="${qi}"]`) : null;
-    if (m) {
-      const rc = m.getBoundingClientRect();
-      pts.push({ x: rc.left + rc.width / 2, top: rc.top, bottom: rc.bottom });
-    }
-  });
-  pts.sort((a, b) => (a.top - b.top) || (a.x - b.x));   // reading order: top-to-bottom
-  for (let i = 0; i < pts.length - 1; i++) {
-    const a = pts[i], b = pts[i + 1];
-    const x1 = a.x, y1 = a.bottom + 2;   // leave bottom of a
-    const x2 = b.x, y2 = b.top - 4;      // enter top of b
-    // Cubic that bends as needed: exits straight down from a, then curves toward b
-    // and enters its top angled by the horizontal offset — so it's ~straight when
-    // aligned, bendier when offset, and the arrowhead follows the entry tangent.
-    const k = Math.min(Math.max(Math.abs(y2 - y1) * 0.5, 14), 44);
-    const c1x = x1, c1y = y1 + k;
-    const c2x = x2 + (x1 - x2) * 0.35, c2y = y2 - k;
-    const path = document.createElementNS(SVGNS, 'path');
-    path.setAttribute('d', `M ${x1} ${y1} C ${c1x} ${c1y} ${c2x} ${c2y} ${x2} ${y2}`);
-    path.setAttribute('class', 'arrow-path');
-    path.setAttribute('marker-end', 'url(#ah)');
-    g.appendChild(path);
-  }
-}
-function clearArrows() {
-  const g = document.getElementById('arrowLines');
-  if (g) g.innerHTML = '';
 }
 
 function textOffset(node, offset) {
@@ -543,6 +897,9 @@ function snapSpan(start, end, text) {
 document.getElementById('text').addEventListener('mouseup', () => {
   const sel = window.getSelection();
   if (!curDoc || sel.isCollapsed || !sel.toString().trim()) return;
+  // Block the mark's click (which fires right after) from opening the span menu.
+  skipSpanClick = true;
+  setTimeout(() => { skipSpanClick = false; }, 0);
   const r = sel.getRangeAt(0);
   const rect = r.getBoundingClientRect();
   let start = textOffset(r.startContainer, r.startOffset);
@@ -556,10 +913,10 @@ document.getElementById('text').addEventListener('mouseup', () => {
     // arm-then-highlight: attach this highlight to the armed field/value
     const q = { text, start, end };
     if (armed.type === 'field') { q.category = armed.key; if (armed.value !== undefined) q.value = armed.value; }
-    else { q.claim = armed.claim; q.role = armed.role; q.value = armed.value; }
+    else { q.role = armed.role; q.value = armed.value; }
     curDoc.ann.quotes.push(q);
     persist(); renderArticle(true);
-    if (armed.type === 'field') renderCard(armed.key); else renderClaims();
+    if (armed.type === 'field') renderCard(armed.key); else renderRoles();
   } else {
     // highlight-first: choose which category this highlight belongs to
     showCategoryMenu({ start, end, text }, rect);
@@ -582,16 +939,20 @@ function assignHighlight(pending, target, value) {
   value = (value !== undefined ? value : pending.text).trim();
   if (!value) return;
   if (target.type === 'role') {
-    const c = curDoc.ann.claims.find(x => x.id === target.claim);
-    if (!Array.isArray(c[target.role])) c[target.role] = [];
-    if (!c[target.role].includes(value)) c[target.role].push(value);
-    curDoc.ann.quotes.push({ claim: target.claim, role: target.role, value,
+    if (!Array.isArray(curDoc.ann.roles[target.role])) curDoc.ann.roles[target.role] = [];
+    if (!curDoc.ann.roles[target.role].includes(value)) curDoc.ann.roles[target.role].push(value);
+    curDoc.ann.quotes.push({ role: target.role, value,
       text: pending.text, start: pending.start, end: pending.end });
-  } else {
+  } else if ((field(target.key) || {}).type === 'multi') {
     const fa = fieldAnn(target.key);
     if (!Array.isArray(fa.answer)) fa.answer = fa.answer ? [fa.answer] : [];
     if (!fa.answer.includes(value)) fa.answer.push(value);
     curDoc.ann.quotes.push({ category: target.key, value,
+      text: pending.text, start: pending.start, end: pending.end });
+  } else {
+    // Free-text field (e.g. aftermath): the highlight is justification only —
+    // no multi-select value, so the field stays free text.
+    curDoc.ann.quotes.push({ category: target.key,
       text: pending.text, start: pending.start, end: pending.end });
   }
   persist();
@@ -601,7 +962,7 @@ function assignHighlight(pending, target, value) {
 
 // Does a quote sit on this span under this exact category/role?
 function quoteMatchesTarget(q, target) {
-  if (target.type === 'role') return q.role === target.role && q.claim === target.claim;
+  if (target.type === 'role') return q.role === target.role;
   return !q.role && q.category === target.key;
 }
 function spanTargetIdx(pending, target) {
@@ -645,33 +1006,41 @@ function showCategoryMenu(pending, rect) {
       (dot ? `<span class="cat-dot" style="background:${dot}"></span>` : '') + label;
     // Toggle this category, then reopen the menu so more can be added to the same text.
     b.onclick = () => { toggleTarget(pending, target); showCategoryMenu(pending, rect); };
-    const caret = document.createElement('button');
-    caret.className = 'cat-caret'; caret.textContent = '▾'; caret.title = 'Pick an existing value';
-    caret.onclick = () => showValuePicker(pending, target, rect);
-    wrap.appendChild(b); wrap.appendChild(caret);
+    wrap.appendChild(b);
+    // Value picker only for multi-value tags (roles + multi fields). Free-text
+    // fields like aftermath are justification-only — no value dropdown.
+    const isTextField = target.type === 'field' && (field(target.key) || {}).type !== 'multi';
+    if (!isTextField) {
+      const caret = document.createElement('button');
+      caret.className = 'cat-caret'; caret.textContent = '▾'; caret.title = 'Pick an existing value';
+      caret.onclick = () => showValuePicker(pending, target, rect);
+      wrap.appendChild(caret);
+    }
     return wrap;
   };
 
-  curDoc.ann.claims.forEach(c =>
-    menu.appendChild(groupOf(`Claim ${c.id}`,
-      ROLES.map(r => catChip({ type: 'role', claim: c.id, role: r.role }, r.label, r.color)))));
-
-  const nc = document.createElement('button');
-  nc.className = 'cat-newclaim'; nc.textContent = '+ New claim';
-  nc.onclick = () => {
-    const id = nextClaimId();
-    curDoc.ann.claims.push({ id, actor: [], harm: [], factor: [], harmed_party: [] });
-    persist();
-    showCategoryMenu(pending, rect);   // reopen with the new claim's roles
-  };
-  menu.appendChild(nc);
-
-  const multiFields = SCHEMA.filter(f => f.type === 'multi');
-  if (multiFields.length) {
-    const div = document.createElement('div'); div.className = 'cat-div'; menu.appendChild(div);
-    menu.appendChild(groupOf('Fields', multiFields.map(f =>
-      catChip({ type: 'field', key: f.key }, f.label, color[f.key]))));
-  }
+  // Tags offered on highlight, in a fixed order mixing fields and roles — no
+  // group titles, just one flat list.
+  const TAG_ORDER = [
+    { type: 'field', key: 'incident_system' },
+    { type: 'field', key: 'incident_developer' },
+    { type: 'role', role: 'actor' },
+    { type: 'role', role: 'factor' },
+    { type: 'role', role: 'harm' },
+    { type: 'role', role: 'harmed_party' },
+    { type: 'field', key: 'incident_aftermath' },
+  ];
+  const btns = document.createElement('div'); btns.className = 'cat-btns';
+  TAG_ORDER.forEach(t => {
+    if (t.type === 'role') {
+      const r = ROLE[t.role];
+      if (r) btns.appendChild(catChip({ type: 'role', role: t.role }, r.label, r.color));
+    } else {
+      const f = field(t.key);
+      if (f) btns.appendChild(catChip({ type: 'field', key: t.key }, f.label, color[t.key]));
+    }
+  });
+  menu.appendChild(btns);
 
   const done = document.createElement('button');
   done.className = 'cat-done'; done.textContent = 'Done';
@@ -704,8 +1073,7 @@ function valueOptions(target) {
   let opts = [], selected = [];
   if (target.type === 'role') {
     opts = roleOptions(target.role).slice();
-    const c = curDoc.ann.claims.find(x => x.id === target.claim);
-    if (c && Array.isArray(c[target.role])) selected = c[target.role];
+    if (Array.isArray(curDoc.ann.roles[target.role])) selected = curDoc.ann.roles[target.role];
   } else {
     const f = field(target.key);
     opts = ((f && f.options) || []).slice();
@@ -725,7 +1093,7 @@ function showValuePicker(pending, target, rect) {
   catMenuEl = menu;
 
   const label = target.type === 'role'
-    ? `${(ROLE[target.role] || {}).label} · claim ${target.claim}`
+    ? `${(ROLE[target.role] || {}).label}`
     : `${(field(target.key) || {}).label}`;
   const title = document.createElement('div');
   title.className = 'cat-title'; title.textContent = `${label} — which value?`;
@@ -815,10 +1183,10 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCateg
 // Drop a selected value from its field answer / claim role.
 function removeValue(q) {
   if (q.role) {
-    const c = curDoc.ann.claims.find(x => x.id === q.claim);
-    if (c && Array.isArray(c[q.role])) {
-      const i = c[q.role].indexOf(q.value);
-      if (i >= 0) c[q.role].splice(i, 1);
+    const arr = curDoc.ann.roles[q.role];
+    if (Array.isArray(arr)) {
+      const i = arr.indexOf(q.value);
+      if (i >= 0) arr.splice(i, 1);
     }
   } else {
     const fa = curDoc.ann.fields[q.category];
@@ -835,12 +1203,12 @@ function removeQuote(globalIdx) {
   // If this was the last highlight justifying its selected value, drop the value too.
   if (q && q.value !== undefined) {
     const stillJustified = q.role
-      ? curDoc.ann.quotes.some(x => x.claim === q.claim && x.role === q.role && x.value === q.value)
+      ? curDoc.ann.quotes.some(x => x.role === q.role && x.value === q.value)
       : curDoc.ann.quotes.some(x => x.category === q.category && x.value === q.value);
     if (!stillJustified) {
       removeValue(q);
       if (armed && sameArm(q.role
-        ? { type: 'role', claim: q.claim, role: q.role, value: q.value }
+        ? { type: 'role', role: q.role, value: q.value }
         : { type: 'field', key: q.category, value: q.value })) {
         armed = null;
         updateArmHint();
@@ -849,19 +1217,20 @@ function removeQuote(globalIdx) {
   }
   persist();
   renderArticle(true);
-  if (q.role) renderClaims(); else renderCard(q.category);
+  if (q.role) renderRoles(); else renderCard(q.category);
 }
 
 // ---------- coding form ----------
 function renderForm() {
   const root = document.getElementById('form');
   root.innerHTML = '';
-  // Claims panel sits just above the Incident aftermath card.
+  // Characteristics panel (flat actor/harm/factor/harmed-party) sits just above
+  // the Incident aftermath card.
   SCHEMA.forEach(f => {
-    if (f.key === 'incident_aftermath') root.appendChild(buildClaims());
+    if (f.key === 'incident_aftermath') root.appendChild(buildRolesPanel());
     root.appendChild(buildCard(f));
   });
-  if (!SCHEMA.some(f => f.key === 'incident_aftermath')) root.appendChild(buildClaims());
+  if (!SCHEMA.some(f => f.key === 'incident_aftermath')) root.appendChild(buildRolesPanel());
 }
 
 // rebuild a single card in place (keeps the rest of the form untouched)
@@ -1219,7 +1588,6 @@ function buildQuotes(key) {
 }
 
 function armField(key, value) { setArm({ type: 'field', key, value }); }
-function armRole(claim, role, value) { setArm({ type: 'role', claim, role, value }); }
 function afterArm() { updateArmHint(); refreshArmedStyles(); }
 
 // Toggle armed styling on text-field cards and per-selection evidence rows.
@@ -1245,20 +1613,16 @@ function updateArmHint() {
   const val = armed.value ? ' · ' + armed.value : '';
   h.textContent = armed.type === 'field'
     ? `Highlighting → ${(field(armed.key) || {}).label}${val}`
-    : `Highlighting → claim ${armed.claim} · ${(ROLE[armed.role] || {}).label}${val}`;
+    : `Highlighting → ${(ROLE[armed.role] || {}).label}${val}`;
 }
 function flashHint() {
   const h = document.getElementById('armHint');
-  h.style.color = '#dc2626'; h.textContent = 'Arm a field or a claim role first ↗';
+  h.style.color = '#dc2626'; h.textContent = 'Arm a field or a characteristic first ↗';
   setTimeout(() => { h.style.color = ''; updateArmHint(); }, 1500);
 }
 
 function scrollToCard(key) {
   const c = document.querySelector(`.card[data-key="${key}"]`);
-  if (c) c.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-function scrollToClaim(id) {
-  const c = document.querySelector(`.claim-row[data-claim="${id}"]`);
   if (c) c.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 function scrollToMark(gi) {
@@ -1269,107 +1633,58 @@ function scrollToMark(gi) {
   }
 }
 
-// ---------- claims: actor ↔ harm ↔ factor ↔ harmed party ----------
-function nextClaimId() {
-  const nums = curDoc.ann.claims.map(c => parseInt(c.id, 10)).filter(n => !isNaN(n));
-  return String((nums.length ? Math.max(...nums) : 0) + 1);
-}
-function renderClaims() {
-  const old = document.querySelector('.claims-section');
-  if (old) old.replaceWith(buildClaims());
+// ---------- characteristics: flat actor / harm / factor / harmed party ----------
+// No linking here — each role is just a multiselect of values, each value
+// justified by highlights. Grouping into claims happens in the card view.
+function renderRoles() {
+  const old = document.querySelector('.roles-section');
+  if (old) old.replaceWith(buildRolesPanel());
 }
 
-function buildClaims() {
+function buildRolesPanel() {
   const section = document.createElement('div');
-  section.className = 'claims-section';
-
+  section.className = 'roles-section';
   const head = document.createElement('div');
   head.className = 'claims-head';
-  head.innerHTML = `<span class="label">Claims</span>`;
+  head.innerHTML = `<span class="label">Characteristics</span>`;
   section.appendChild(head);
-
-  const list = document.createElement('div');
-  list.className = 'claim-list';
-  if (!curDoc.ann.claims.length) {
-    const empty = document.createElement('div');
-    empty.className = 'claims-empty'; empty.textContent = 'No claims yet.';
-    list.appendChild(empty);
-  }
-  curDoc.ann.claims.forEach(c => list.appendChild(buildClaimRow(c)));
-  section.appendChild(list);
-
-  const add = document.createElement('button');
-  add.className = 'claim-add'; add.textContent = '+ Add claim';
-  add.onclick = () => {
-    curDoc.ann.claims.push({ id: nextClaimId(), actor: [], harm: [], factor: [], harmed_party: [] });
-    persist(); renderClaims();
-  };
-  section.appendChild(add);
+  ROLES.forEach(r => section.appendChild(buildRoleCard(r)));
   return section;
 }
 
-function buildClaimRow(c) {
-  const row = document.createElement('div');
-  row.className = 'claim-row';
-  row.dataset.claim = c.id;
+function buildRoleCard(r) {
+  if (!Array.isArray(curDoc.ann.roles[r.role])) curDoc.ann.roles[r.role] = [];
+  const arr = curDoc.ann.roles[r.role];
 
-  const top = document.createElement('div');
-  top.className = 'claim-top';
-  const num = document.createElement('span');
-  num.className = 'claim-num'; num.textContent = c.id;
-  const del = document.createElement('button');
-  del.className = 'claim-del'; del.title = 'Remove claim'; del.textContent = '×';
-  del.onclick = () => removeClaim(c.id);
-  top.appendChild(num); top.appendChild(del);
-  row.appendChild(top);
-
-  const chain = document.createElement('div');
-  chain.className = 'claim-chain';
-  ROLES.forEach((r, i) => {
-    chain.appendChild(buildRoleSlot(c, r));
-    if (i < ROLES.length - 1) {
-      const arr = document.createElement('div');
-      arr.className = 'claim-arrow'; arr.textContent = '↓';
-      chain.appendChild(arr);
-    }
-  });
-  row.appendChild(chain);
-  return row;
-}
-
-function buildRoleSlot(c, r) {
-  const slot = document.createElement('div');
-  slot.className = 'role-slot';
-  slot.dataset.claim = c.id; slot.dataset.role = r.role;
-  slot.onmouseenter = () => linkClaim(c.id, true);
-  slot.onmouseleave = () => linkClaim(c.id, false);
+  const card = document.createElement('div');
+  card.className = 'card'; card.dataset.role = r.role;
 
   const head = document.createElement('div');
-  head.className = 'role-head';
+  head.className = 'head'; head.style.cursor = 'default';
   head.innerHTML =
-    `<span class="role-dot" style="background:${r.color}"></span>` +
-    `<span class="role-name">${r.label}</span>`;
-  slot.appendChild(head);
+    `<span class="sq" style="background:${r.color}"></span>` +
+    `<span class="label">${r.label}</span>`;
+  card.appendChild(head);
 
-  // multiselect bound to c[r.role] (an array); options come from schema.claim_roles
-  if (!Array.isArray(c[r.role])) c[r.role] = c[r.role] ? [String(c[r.role])] : [];
+  const body = document.createElement('div');
+  body.className = 'body';
+
   const evBox = document.createElement('div');
   const refreshEv = () => {
     evBox.innerHTML = '';
-    evBox.appendChild(buildValueEvidence(c[r.role], {
+    evBox.appendChild(buildValueEvidence(arr, {
       color: r.color,
-      armTarget: (v) => ({ type: 'role', claim: c.id, role: r.role, value: v }),
+      armTarget: (v) => ({ type: 'role', role: r.role, value: v }),
       getQuotes: (v) => curDoc.ann.quotes.map((q, gi) => ({ q, gi }))
-        .filter(x => x.q.claim === c.id && x.q.role === r.role && x.q.value === v),
+        .filter(x => x.q.role === r.role && x.q.value === v),
     }));
   };
   const select = buildSelect({
     options: roleOptions(r.role),
-    selected: c[r.role],
+    selected: arr,
     onChange: () => { persistSoon(); refreshEv(); },
     onRemoveValue: (v) => {
-      curDoc.ann.quotes = curDoc.ann.quotes.filter(
-        q => !(q.claim === c.id && q.role === r.role && q.value === v));
+      curDoc.ann.quotes = curDoc.ann.quotes.filter(q => !(q.role === r.role && q.value === v));
       renderArticle(true);
     },
     onAdd: async (val) => {
@@ -1382,22 +1697,13 @@ function buildRoleSlot(c, r) {
       return updated;
     },
   });
-  select.classList.add('role-select');
-  slot.appendChild(select);
-
-  slot.appendChild(evBox);
+  body.appendChild(select);
+  body.appendChild(subLabel('Justification (highlight each selection)'));
+  body.appendChild(evBox);
   refreshEv();
-  return slot;
-}
 
-function removeClaim(id) {
-  curDoc.ann.claims = curDoc.ann.claims.filter(c => c.id !== id);
-  curDoc.ann.quotes = curDoc.ann.quotes.filter(q => q.claim !== id);
-  if (armed && armed.type === 'role' && armed.claim === id) armed = null;
-  persist();
-  renderArticle(true);
-  renderClaims();
-  updateArmHint();
+  card.appendChild(body);
+  return card;
 }
 
 // ---------- persistence ----------

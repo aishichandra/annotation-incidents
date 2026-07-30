@@ -1,0 +1,37 @@
+{
+  "INC-001": {
+    "groups": [
+      {
+        "id": "1",
+        "members": [
+          {
+            "role": "actor",
+            "value": "News organization/publisher"
+          },
+          {
+            "role": "factor",
+            "value": "Lack of internal standards regarding AI use"
+          },
+          {
+            "role": "harmed_party",
+            "value": "Journalist(s)"
+          },
+          {
+            "role": "harm",
+            "value": "Economic harm to publisher(s)/journalist(s)"
+          }
+        ]
+      }
+    ],
+    "updated_at": "2026-07-30T00:57:14.441426+00:00"
+  },
+  "GVYZ9GGM": {
+    "groups": [
+      {
+        "id": "1",
+        "members": []
+      }
+    ],
+    "updated_at": "2026-07-30T00:32:17.917989+00:00"
+  }
+}

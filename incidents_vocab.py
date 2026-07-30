@@ -57,7 +57,7 @@ def build_validator(vocab: dict | None = None) -> dict:
         "properties": {
             "fields": {"bsonType": ["object", "null"]},
             "quotes": {"bsonType": "array"},
-            "claims": {"bsonType": "array"},
+            "roles": {"bsonType": ["object", "null"]},
             "updated_at": {"bsonType": ["date", "null"]},
         },
     }
@@ -74,6 +74,15 @@ def build_validator(vocab: dict | None = None) -> dict:
                     "doc_id": {"bsonType": "string"},
                     "url": {"bsonType": ["string", "null"]},
                     "title": {"bsonType": ["string", "null"]}}},
+            },
+            # Claim groups written by the "Push to Mongo" button. Pooled
+            # characteristic / field lists are NOT stored here — they're fully
+            # derivable from by_document, so keeping the incident doc lean.
+            "groups": {
+                "bsonType": "array",
+                "items": {"bsonType": "object", "properties": {
+                    "id": {"bsonType": ["string", "null"]},
+                    "members": {"bsonType": "array"}}},
             },
             "created_at": {"bsonType": ["date", "null"]},
             "updated_at": {"bsonType": ["date", "null"]},
