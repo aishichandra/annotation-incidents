@@ -6,3 +6,4 @@ server.log
 *.bak
 *.bak.csv
 .ipynb_checkpoints/
+.DS_Store
