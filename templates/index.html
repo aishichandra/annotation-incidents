@@ -54,6 +54,9 @@
     padding: 3px 9px; border-radius: 3px; flex: none; }
   .tow-title { font-family: Georgia, 'Times New Roman', serif; font-size: 20px; font-weight: 700;
     color: #222; line-height: 1.25; flex: 1 1 260px; min-width: 0; }
+  .tow-title-ph { color: #bbb; font-style: italic; font-weight: 400; }
+  .tow-headdocs { flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+  .tow-headdocs .tow-doc { margin-bottom: 0; }
   .tow-meta { font-size: 12px; color: #999; flex: none; }
   .tow-meta b { color: #444; font-weight: 600; }
 
@@ -466,7 +469,8 @@ async function loadIncidents() {
       loadDoc(i);
     };
   });
-  // Wire the interactive drag-to-group area on each card to its live incident.
+  // Wire the palette (left) and the drag-to-group claims (right) to their incident.
+  wrap.querySelectorAll('.tow-palette').forEach(el => buildPalette(el, INCIDENTS[el.dataset.inc]));
   wrap.querySelectorAll('.tow-groups').forEach(el => buildGroupsUI(el, INCIDENTS[el.dataset.inc]));
 }
 
@@ -479,16 +483,20 @@ let INCIDENTS = {};   // incident_id -> incident object, for post-render handler
 function incidentCard(inc, fields) {
   const chips = arr => arr.map(v => `<span class="tow-chip">${escapeHtml(v)}</span>`).join('');
 
-  // Every schema field (System, Developer, Deployer, …) — value chips or "No data",
+  // One field block (System, Developer, Aftermath, …) — value chips or "No data",
   // plus any coder comments left on the field.
-  const fieldBlocks = fields.map(f => {
+  const fieldBlock = (f) => {
     const vals = inc.field_values[f.key] || [];
     const cmts = (inc.field_comments && inc.field_comments[f.key]) || [];
     const valHtml = vals.length ? chips(vals) : NODATA;
     const cmtHtml = cmts.map(c => `<div class="tow-comment">“${escapeHtml(c)}”</div>`).join('');
     return `<div class="tow-field"><div class="tow-label">${escapeHtml(f.label)}</div>`
       + `<div class="tow-value">${valHtml}${cmtHtml}</div></div>`;
-  }).join('');
+  };
+  // Aftermath renders last of all, under the claim groups; the rest sit up left.
+  const leftFieldBlocks = fields.filter(f => f.key !== 'incident_aftermath').map(fieldBlock).join('');
+  const aftermath = fields.find(f => f.key === 'incident_aftermath');
+  const aftermathBlock = aftermath ? fieldBlock(aftermath) : '';
 
   const docsHtml = inc.documents.map(d => {
     const url = d.url
@@ -497,18 +505,20 @@ function incidentCard(inc, fields) {
       + `<span class="dtitle">${escapeHtml(d.title || '(untitled document)')}</span>${url}</div>`;
   }).join('');
 
+  const encId = escapeHtml(inc.incident_id);
   return `<div class="tow-card">
     <div class="tow-head">
-      <span class="tow-id">${escapeHtml(inc.incident_id)}</span>
-      <span class="tow-title">${inc.title ? escapeHtml(inc.title) : 'No data'}</span>
+      <span class="tow-id">${encId}</span>
+      <div class="tow-headdocs">${docsHtml}</div>
     </div>
     <div class="tow-body">
       <div class="tow-col c1">
-        <div class="tow-field"><div class="tow-label">Source documents</div><div class="tow-value">${docsHtml}</div></div>
-        ${fieldBlocks}
+        ${leftFieldBlocks}
+        <div class="tow-palette" data-inc="${encId}"></div>
       </div>
       <div class="tow-col c2">
-        <div class="tow-groups" data-inc="${escapeHtml(inc.incident_id)}"></div>
+        <div class="tow-groups" data-inc="${encId}"></div>
+        ${aftermathBlock}
       </div>
     </div>
   </div>`;
@@ -527,17 +537,11 @@ async function saveGroups(inc) {
   } catch (e) { /* non-fatal: local drag state stays until reload */ }
 }
 
-// The drag-to-group surface: a palette of pooled role values (draggable) above a
-// set of group drop-zones. Dropping a value into a group links it into that claim.
-// Rebuilds itself on every change and persists per incident.
-function buildGroupsUI(container, inc) {
+// The pooled characteristics palette (left column) — draggable chips grouped by
+// role. Built once; dragging copies into groups, so it never needs to rebuild.
+function buildPalette(container, inc) {
   if (!inc) return;
-  // Always start with one claim ready (auto-selected). Empty groups aren't saved
-  // server-side, so this just seeds the first sentence template each load.
-  if (!inc.groups.length) inc.groups.push({ id: '1', members: [] });
   container.innerHTML = '';
-
-  // ---- palette: pooled characteristics, grouped by role, each chip draggable ----
   const palette = document.createElement('div');
   palette.className = 'tow-field';
   palette.innerHTML = `<div class="tow-label">Characteristics</div>`;
@@ -559,10 +563,19 @@ function buildGroupsUI(container, inc) {
     });
   }
   container.appendChild(palette);
+}
 
-  // ---- groups: each is a claim sentence + drop zone ----
+// The claim groups (right column) — each a fill-in-the-blank sentence + drop zone.
+// Rebuilds itself on every change and persists per incident.
+function buildGroupsUI(container, inc) {
+  if (!inc) return;
+  // Always start with one claim ready (auto-selected). Empty groups aren't saved
+  // server-side, so this just seeds the first sentence template each load.
+  if (!inc.groups.length) inc.groups.push({ id: '1', members: [] });
+  container.innerHTML = '';
+
   const groupsWrap = document.createElement('div');
-  groupsWrap.className = 'tow-field grp-section';
+  groupsWrap.className = 'tow-field';
   groupsWrap.innerHTML = `<div class="tow-label">Groups (linked claims)</div>`;
   inc.groups.forEach(grp => groupsWrap.appendChild(buildGroupBox(inc, grp, container)));
 
