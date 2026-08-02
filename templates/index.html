@@ -23,6 +23,10 @@
   .bar .pull:hover { border-color: #111; color: #111; }
   .bar .pull:disabled { opacity: .5; cursor: default; }
   .bar .status { color: var(--muted); font-size: 13px; margin-left: auto; }
+  /* who is coding — always visible so nobody codes as the wrong person */
+  .coderpick { display: flex; align-items: center; gap: 6px; flex: none;
+    font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .coderpick select { font-size: 13px; padding: 5px 8px; }
   .bar .hint { color: var(--muted); font-size: 12px; }
   .viewtabs { display: flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; flex: none; }
   .viewtabs .tab { font: inherit; font-size: 13px; padding: 6px 14px; border: none;
@@ -80,6 +84,9 @@
     color: #333; padding: 3px 9px; border-radius: 3px; font-size: 13px; font-weight: 500;
     margin: 0 5px 5px 0; }
   .tow-comment { font-size: 12px; color: #6e6e6e; font-style: italic; margin-top: 3px; }
+  /* System / Developer values — same field block, but the chips drag into the
+     claim sentence's optional clauses */
+  .tow-dragfield { display: flex; flex-wrap: wrap; gap: 7px; }
 
   /* Drag-to-group: palette of pooled characteristics + group drop zones.
      Grid so every role's chips start at the same left edge and wrapped chips
@@ -96,6 +103,17 @@
   .drag-chip .chip-x { border: none; background: none; color: #888; cursor: pointer; font-size: 14px;
     line-height: 1; padding: 0 0 0 2px; }
   .drag-chip .chip-x:hover { color: #dc2626; }
+  /* Already dragged into at least one claim. Deliberately still draggable and
+     still legible — a characteristic is expected to appear in several claims —
+     so "used" reads as a receipt, not as disabled. */
+  .drag-chip.used { color: #6b7280; border-style: dashed; }
+  .drag-chip.used:hover { color: #111; border-style: solid; }
+  /* one badge per claim this characteristic is already in */
+  .drag-chip .chip-used { flex: none; min-width: 17px; text-align: center;
+    font-size: 9.5px; font-weight: 700; letter-spacing: .02em;
+    color: #254c6f; background: #fff; border-radius: 8px; padding: 1px 5px; }
+  .drag-chip .chip-used + .chip-used { margin-left: -2px; }
+  .drag-chip .chip-more { color: #8a9bb0; }
   .grp-hint { font-size: 12px; color: #b8b8b8; font-style: italic; margin: 4px 0 8px; }
   .grp-box { border: 1px solid #e0e0e0; border-radius: 4px; margin-bottom: 10px; background: #fcfcfc; }
   .grp-top { display: flex; align-items: center; padding: 6px 10px; border-bottom: 1px solid #eee; }
@@ -121,11 +139,19 @@
     font-size: 13px; line-height: 1; padding: 0; }
   .grp-sentence .sent-x:hover { color: #dc2626; }
   .grp-sentence .sent-ph { color: #bbb; font-style: italic; }
+  /* an optional clause (using … / developed by …) with nothing dropped in yet */
+  .grp-sentence .sent-slot.opt .sent-ph { color: #d4d4d4; }
 
   .tow-doc { display: flex; gap: 8px; align-items: baseline; font-size: 13px; margin-bottom: 7px;
     cursor: pointer; }
   .tow-doc .dtitle { color: #254c6f; text-decoration: none; flex: 1 1 auto; }
   .tow-doc:hover .dtitle { text-decoration: underline; }
+  /* coverage badge: which coders have touched this document (not what they coded) */
+  .tow-doc .dcoders { display: flex; gap: 4px; flex: none; }
+  .tow-doc .dcoder { font-size: 9.5px; text-transform: uppercase; letter-spacing: .04em;
+    color: #6b7280; background: #eeeeec; border-radius: 3px; padding: 1px 5px; }
+  .tow-doc .dcoder.me { background: #254c6f; color: #fff; }
+  .tow-doc .dcoder.none { background: none; color: #bbb; padding-left: 0; }
   .tow-doc .durl { color: #999; font-size: 11px; text-decoration: none; flex: none; }
   .tow-doc .durl:hover { color: #254c6f; text-decoration: underline; }
 
@@ -213,6 +239,26 @@
   .menu-opt:hover { background: #f5f5f4; }
   .menu-opt input { margin: 0; accent-color: #111; }
   .menu-opt.sel { color: #111; font-weight: 600; }
+  /* Collapsible group heading inside a dropdown (harm / factor categories).
+     Collapsed by default, and sticky while open so you always know which group
+     you're scrolling through. */
+  .menu-group { display: flex; align-items: center; gap: 6px; width: 100%;
+    position: sticky; top: -5px; z-index: 1; background: #fff; text-align: left;
+    font: inherit; font-size: 10px; text-transform: uppercase; letter-spacing: .06em;
+    font-weight: 700; color: #6b7280; border: none; border-radius: 5px;
+    padding: 8px; margin: 2px 0; cursor: pointer; }
+  .menu-group:hover { background: #f5f5f4; color: #111; }
+  .menu-group.open { color: #111; }
+  .menu-group .mg-caret { font-size: 8px; color: #9ca3af; width: 8px; flex: none; }
+  .menu-group.open .mg-caret { color: #111; }
+  .menu-group .mg-name { flex: 1; white-space: normal; line-height: 1.35; }
+  /* how many of this group's options are already chosen — a collapsed group must
+     not hide that its contents are in use */
+  .menu-group .mg-sel { flex: none; background: #111; color: #fff; border-radius: 9px;
+    padding: 1px 6px; font-size: 9px; letter-spacing: 0; }
+  .menu-group .mg-n { flex: none; color: #c4c4c4; font-weight: 600; letter-spacing: 0; }
+  .menu-opt.in-group { margin-left: 14px; }
+  .cat-vopt.in-group { margin-left: 14px; width: calc(100% - 14px); }
   .menu-add { display: flex; gap: 6px; padding: 7px 6px 4px; border-top: 1px solid #eee;
     margin-top: 4px; }
   .menu-add input { flex: 1; font-size: 12px; padding: 5px 8px; }
@@ -345,6 +391,9 @@
     <button id="tabIncidents" class="tab active">Incidents</button>
     <button id="tabDocs" class="tab">Documents</button>
   </div>
+  <label class="coderpick" title="Whose coding you are viewing and editing. Each coder's work is saved separately.">
+    Coding as <select id="coderSelect"></select>
+  </label>
   <select id="docSelect"></select>
   <button id="pushBtn" class="pull" title="Push all local coding + claim groups up to MongoDB">Push to Mongo</button>
   <button id="pullBtn" class="pull" title="Overwrite local annotations with the copy in MongoDB (Mongo wins)">Pull from Mongo</button>
@@ -376,6 +425,38 @@
 </svg>
 
 <script>
+// ---------- who is coding ----------
+// Several coders code the same documents and incidents independently, so every
+// API call has to say who it is for. Rather than thread a coder argument through
+// the ~12 call sites below, wrap fetch once: same-origin /api/ requests get the
+// active coder appended. Chosen in the toolbar and remembered in localStorage.
+let CODER = localStorage.getItem('coder') || '';
+const _fetch = window.fetch.bind(window);
+window.fetch = (input, init) => {
+  if (CODER && typeof input === 'string' && input.startsWith('/api/')) {
+    input += (input.includes('?') ? '&' : '?') + 'coder=' + encodeURIComponent(CODER);
+  }
+  return _fetch(input, init);
+};
+
+// Fill the toolbar picker from the server's coder list. Switching coder reloads
+// the page so nothing from the previous coder's session lingers on screen.
+async function initCoders() {
+  const sel = document.getElementById('coderSelect');
+  let d;
+  try { d = await _fetch('/api/coders').then(r => r.json()); }
+  catch (e) { sel.style.display = 'none'; return; }
+  const coders = d.coders || [];
+  if (!coders.includes(CODER)) { CODER = d.current || coders[0] || ''; }
+  localStorage.setItem('coder', CODER);
+  sel.innerHTML = coders.map(c =>
+    `<option value="${c}"${c === CODER ? ' selected' : ''}>${c}</option>`).join('');
+  sel.onchange = () => {
+    localStorage.setItem('coder', sel.value);
+    location.reload();
+  };
+}
+
 const COLORS = ['#fde68a','#a5d6b0','#bfdbfe','#f3b7ac','#ddd6fe','#f9c9e0','#a7f3d0',
                 '#fed7aa','#c7d2fe','#fecdd3','#bbf7d0','#e9d5ff'];
 let SCHEMA = [];           // [{key,label,type,options}]
@@ -386,14 +467,27 @@ let saveTimer = null;
 // A claim links four roles; each highlight is colored by ROLE and carries the
 // claim's number so evidence for the same claim reads as connected.
 // Four maximally-distinct hues so role highlights never read as the same color.
+// Order here is the order they appear in the document sidebar and the incident
+// palette: factor before harm, matching the highlight tag menu (TAG_ORDER).
 const ROLES = [
   { role: 'actor',        label: 'Actor',        color: '#fde047' },  // yellow
-  { role: 'harm',         label: 'Harm',         color: '#fca5a5' },  // red
   { role: 'factor',       label: 'Factor',       color: '#86efac' },  // green
+  { role: 'harm',         label: 'Harm',         color: '#fca5a5' },  // red
   { role: 'harmed_party', label: 'Harmed party', color: '#7dd3fc' },  // blue
 ];
 const ROLE = Object.fromEntries(ROLES.map(r => [r.role, r]));
-let SCHEMA_ROLES = [];      // [{role,label,options}] from schema.claim_roles
+
+// Incident-level fields that are also draggable into a claim, filling its
+// optional "using … developed by …" clauses. They are not characteristics — they
+// aren't coded per document as roles — so they live outside ROLES and only exist
+// in the incident card view. `field` is where their values come from.
+const CLAIM_FIELDS = [
+  { role: 'system',    field: 'incident_system',    label: 'System',    color: '#c4b5fd' },  // violet
+  { role: 'developer', field: 'incident_developer', label: 'Developer', color: '#fdba74' },  // orange
+];
+// Lookup for anything droppable into a claim: the four roles plus these two.
+const CLAIM_ROLE = { ...ROLE, ...Object.fromEntries(CLAIM_FIELDS.map(c => [c.role, c])) };
+let SCHEMA_ROLES = [];      // [{role,label,options,groups?}] from schema.claim_roles
 function roleOptions(role) {
   const r = SCHEMA_ROLES.find(x => x.role === role);
   return (r && r.options) || [];
@@ -401,6 +495,54 @@ function roleOptions(role) {
 function setRoleOptions(role, opts) {
   const r = SCHEMA_ROLES.find(x => x.role === role);
   if (r) r.options = opts;
+}
+// Optional presentation grouping from vocab.json ("<list>_groups"), e.g. harm and
+// factor. [{label, options}] or undefined.
+function roleGroups(role) {
+  const r = SCHEMA_ROLES.find(x => x.role === role);
+  return (r && r.groups) || null;
+}
+
+// Arrange a flat option list into labelled sections for a menu. Sections follow
+// the vocab's group order; anything ungrouped (including options a coder added
+// themselves) falls into a trailing "Other" so nothing can be hidden by a group
+// that forgot it. With no groups defined it's one unlabelled section, i.e. the
+// plain flat list this app had before.
+function groupedOptions(options, groups) {
+  if (!groups || !groups.length) return [{ label: '', options }];
+  const placed = new Set(), out = [];
+  groups.forEach(g => {
+    const opts = (g.options || []).filter(o => options.includes(o));
+    opts.forEach(o => placed.add(o));
+    if (opts.length) out.push({ label: g.label, options: opts });
+  });
+  const rest = options.filter(o => !placed.has(o));
+  if (rest.length) out.push({ label: 'Other', options: rest });
+  return out;
+}
+
+// A collapsible group heading, shared by the multiselect and the highlight value
+// picker. `expanded` is the caller's Set of open labels; clicking toggles this
+// group and asks the caller to rebuild. `nSel` (optional) is how many of the
+// group's options are already chosen — shown as a badge, since a collapsed group
+// would otherwise hide that its contents are in use.
+function groupHeader(section, expanded, rebuild, nSel) {
+  const open = expanded.has(section.label);
+  const head = document.createElement('button');
+  head.type = 'button';
+  head.className = 'menu-group' + (open ? ' open' : '');
+  head.dataset.group = section.label;
+  head.innerHTML =
+    `<span class="mg-caret">${open ? '▾' : '▸'}</span>` +
+    `<span class="mg-name">${escapeHtml(section.label)}</span>` +
+    (nSel ? `<span class="mg-sel">${nSel}</span>` : '') +
+    `<span class="mg-n">${section.options.length}</span>`;
+  head.onclick = (e) => {
+    e.preventDefault(); e.stopPropagation();   // don't close the menu we're in
+    if (open) expanded.delete(section.label); else expanded.add(section.label);
+    rebuild();
+  };
+  return head;
 }
 
 // What's currently receiving highlights: a specific selected value in a field or
@@ -418,6 +560,7 @@ function sameArm(t) {
 function setArm(t) { armed = sameArm(t) ? null : t; afterArm(); }
 
 async function init() {
+  await initCoders();   // before any /api/ call, so each one is attributed
   const schema = await (await fetch('/api/schema')).json();
   SCHEMA = schema.fields;
   SCHEMA_ROLES = schema.claim_roles || [];
@@ -469,8 +612,10 @@ async function loadIncidents() {
       loadDoc(i);
     };
   });
-  // Wire the palette (left) and the drag-to-group claims (right) to their incident.
+  // Wire the palette + draggable System/Developer chips (left) and the
+  // drag-to-group claims (right) to their incident.
   wrap.querySelectorAll('.tow-palette').forEach(el => buildPalette(el, INCIDENTS[el.dataset.inc]));
+  wrap.querySelectorAll('.tow-dragfield').forEach(el => buildFieldChips(el, INCIDENTS[el.dataset.inc]));
   wrap.querySelectorAll('.tow-groups').forEach(el => buildGroupsUI(el, INCIDENTS[el.dataset.inc]));
 }
 
@@ -485,10 +630,18 @@ function incidentCard(inc, fields) {
 
   // One field block (System, Developer, Aftermath, …) — value chips or "No data",
   // plus any coder comments left on the field.
+  // System and Developer feed the claim sentence's optional clauses, so their
+  // chips are draggable. They're filled in after render (by buildFieldChips) so
+  // they can carry the same claim badges as the palette, rather than being
+  // duplicated in two places on the card.
   const fieldBlock = (f) => {
     const vals = inc.field_values[f.key] || [];
     const cmts = (inc.field_comments && inc.field_comments[f.key]) || [];
-    const valHtml = vals.length ? chips(vals) : NODATA;
+    const dragField = CLAIM_FIELDS.some(c => c.field === f.key);
+    const valHtml = !vals.length ? NODATA
+      : (dragField
+          ? `<span class="tow-dragfield" data-field="${f.key}" data-inc="${escapeHtml(inc.incident_id)}"></span>`
+          : chips(vals));
     const cmtHtml = cmts.map(c => `<div class="tow-comment">“${escapeHtml(c)}”</div>`).join('');
     return `<div class="tow-field"><div class="tow-label">${escapeHtml(f.label)}</div>`
       + `<div class="tow-value">${valHtml}${cmtHtml}</div></div>`;
@@ -501,8 +654,15 @@ function incidentCard(inc, fields) {
   const docsHtml = inc.documents.map(d => {
     const url = d.url
       ? `<a class="durl" href="${escapeHtml(d.url)}" target="_blank" rel="noopener">source ↗</a>` : '';
+    // Who has coded this document — progress only, never their codes, so coders
+    // stay blind to each other's judgements while coding.
+    const by = (d.coded_by || []);
+    const badge = by.length
+      ? `<span class="dcoders" title="Coded by ${escapeHtml(by.join(', '))}">${
+          by.map(c => `<span class="dcoder${c === CODER ? ' me' : ''}">${escapeHtml(c)}</span>`).join('')}</span>`
+      : '<span class="dcoders"><span class="dcoder none">uncoded</span></span>';
     return `<div class="tow-doc" data-index="${d.index}">`
-      + `<span class="dtitle">${escapeHtml(d.title || '(untitled document)')}</span>${url}</div>`;
+      + `<span class="dtitle">${escapeHtml(d.title || '(untitled document)')}</span>${badge}${url}</div>`;
   }).join('');
 
   const encId = escapeHtml(inc.incident_id);
@@ -524,8 +684,8 @@ function incidentCard(inc, fields) {
   </div>`;
 }
 
-const roleColor = (role) => (ROLE[role] && ROLE[role].color) || '#e5e7eb';
-const roleLabel = (role) => (ROLE[role] && ROLE[role].label) || role;
+const roleColor = (role) => (CLAIM_ROLE[role] && CLAIM_ROLE[role].color) || '#e5e7eb';
+const roleLabel = (role) => (CLAIM_ROLE[role] && CLAIM_ROLE[role].label) || role;
 
 // Persist an incident's groups (debounced-ish: fire immediately, it's small).
 async function saveGroups(inc) {
@@ -537,14 +697,38 @@ async function saveGroups(inc) {
   } catch (e) { /* non-fatal: local drag state stays until reload */ }
 }
 
+// Which claims a characteristic has been dragged into. A value can belong to any
+// number of claims — dragging copies rather than moves — so this returns every
+// claim id that holds it, and the palette shows them on the chip.
+function usedInClaims(inc, role, value) {
+  return (inc.groups || [])
+    .filter(g => (g.members || []).some(m => m.role === role && m.value === value))
+    .map(g => g.id);
+}
+
+// Re-render everything draggable on an incident's card — the characteristics
+// palette and the System/Developer field chips — so their claim marks match the
+// current claims. Called after every claim change; these live in a sibling
+// column, so they're found by incident id rather than passed around.
+function refreshDraggables(inc) {
+  document.querySelectorAll('.tow-palette').forEach(el => {
+    if (el.dataset.inc === inc.incident_id) buildPalette(el, inc);
+  });
+  document.querySelectorAll('.tow-dragfield').forEach(el => {
+    if (el.dataset.inc === inc.incident_id) buildFieldChips(el, inc);
+  });
+}
+
 // The pooled characteristics palette (left column) — draggable chips grouped by
-// role. Built once; dragging copies into groups, so it never needs to rebuild.
+// role, each marked with the claims it's already used in.
 function buildPalette(container, inc) {
   if (!inc) return;
   container.innerHTML = '';
   const palette = document.createElement('div');
   palette.className = 'tow-field';
   palette.innerHTML = `<div class="tow-label">Characteristics</div>`;
+  // Characteristics only. System and Developer are draggable too, but from their
+  // own field blocks higher up the card — see buildFieldChips.
   const anyValues = ROLES.some(r => (inc.role_values[r.role] || []).length);
   if (!anyValues) {
     const nd = document.createElement('div'); nd.innerHTML = NODATA;
@@ -557,12 +741,24 @@ function buildPalette(container, inc) {
       const lbl = document.createElement('span');
       lbl.className = 'pal-role'; lbl.style.color = roleColor(r.role); lbl.textContent = r.label;
       const chips = document.createElement('div'); chips.className = 'pal-chips';
-      vals.forEach(v => chips.appendChild(makeChip(r.role, v)));
+      vals.forEach(v => chips.appendChild(makeChip(r.role, v, usedInClaims(inc, r.role, v))));
       row.appendChild(lbl); row.appendChild(chips);
       palette.appendChild(row);
     });
   }
   container.appendChild(palette);
+}
+
+// Fill a System / Developer field block with draggable chips. Same chip as the
+// palette's, so it drags into a claim and shows which claims already use it.
+function buildFieldChips(container, inc) {
+  if (!inc) return;
+  const cfg = CLAIM_FIELDS.find(c => c.field === container.dataset.field);
+  if (!cfg) return;
+  container.innerHTML = '';
+  ((inc.field_values || {})[cfg.field] || []).forEach(v => {
+    container.appendChild(makeChip(cfg.role, v, usedInClaims(inc, cfg.role, v)));
+  });
 }
 
 // The claim groups (right column) — each a fill-in-the-blank sentence + drop zone.
@@ -589,17 +785,39 @@ function buildGroupsUI(container, inc) {
   };
   groupsWrap.appendChild(add);
   container.appendChild(groupsWrap);
+  refreshDraggables(inc);   // keep the chips' claim marks in step with the claims
 }
 
-// A draggable palette chip (characteristics palette only).
-function makeChip(role, value) {
+// A draggable palette chip (characteristics palette only). `claims` is the list
+// of claim ids this value is already in — a used chip stays fully draggable,
+// since the same characteristic is expected to appear in several claims; it just
+// carries the claim numbers so you can see what's still unplaced.
+function makeChip(role, value, claims) {
+  claims = claims || [];
   const chip = document.createElement('span');
-  chip.className = 'drag-chip';
-  chip.style.background = roleColor(role) + '44';
+  chip.className = 'drag-chip' + (claims.length ? ' used' : '');
+  chip.style.background = roleColor(role) + (claims.length ? '22' : '44');
   chip.style.borderColor = roleColor(role);
   chip.draggable = true;
-  chip.title = roleLabel(role) + ' — drag into a claim';
-  chip.textContent = value;
+  chip.title = claims.length
+    ? `${roleLabel(role)} — used in claim ${claims.join(', ')}. Drag again to add it to another claim.`
+    : `${roleLabel(role)} — not yet used. Drag into a claim.`;
+  chip.appendChild(document.createTextNode(value));
+  // One badge per claim, so each claim reads as its own mark rather than as a
+  // run-together number. Capped at three so a much-reused value can't stretch
+  // the chip; the overflow badge says how many more.
+  claims.slice(0, 3).forEach(id => {
+    const badge = document.createElement('span');
+    badge.className = 'chip-used';
+    badge.textContent = id;
+    chip.appendChild(badge);
+  });
+  if (claims.length > 3) {
+    const more = document.createElement('span');
+    more.className = 'chip-used chip-more';
+    more.textContent = '+' + (claims.length - 3);
+    chip.appendChild(more);
+  }
   chip.ondragstart = (e) => {
     e.dataTransfer.setData('text/plain', JSON.stringify({ role, value }));
     e.dataTransfer.effectAllowed = 'copy';
@@ -630,10 +848,15 @@ function buildGroupBox(inc, grp, container) {
   return box;
 }
 
-// [actors] allegedly caused [harms] to [parties] because of [factors].
+// [actors] using [systems] developed by [developers] allegedly caused [harms]
+// to [parties] because of [factors].
 // The whole sentence is one drop zone; the dragged chip's role decides which
 // gap it fills. Empty gaps show a muted placeholder; filled values are chips
 // with a × to remove them.
+//
+// "using …" and "developed by …" are optional: they appear once the incident has
+// a system/developer coded (so there's something to drop), and vanish entirely
+// when it doesn't — a claim reads as complete without them.
 function groupSentence(inc, grp, container) {
   const s = document.createElement('div');
   s.className = 'grp-sentence';
@@ -667,7 +890,21 @@ function groupSentence(inc, grp, container) {
   };
 
   const txt = (t) => s.appendChild(document.createTextNode(t));
+  // An optional clause: shown when it's filled, or when the incident has values
+  // of that kind waiting in the palette. Otherwise the sentence skips it.
+  const optional = (cfg, lead, placeholder) => {
+    const filled = grp.members.some(m => m.role === cfg.role);
+    const available = ((inc.field_values || {})[cfg.field] || []).length;
+    if (!filled && !available) return;
+    txt(lead);
+    const sp = slot(cfg.role, placeholder);
+    if (!filled) sp.classList.add('opt');   // muted: nothing dropped here yet
+    s.appendChild(sp);
+  };
+
   s.appendChild(slot('actor', 'actor(s)'));
+  optional(CLAIM_FIELDS[0], ' using ', 'system(s)');
+  optional(CLAIM_FIELDS[1], ' developed by ', 'developer(s)');
   txt(' allegedly caused ');
   s.appendChild(slot('harm', 'harm(s)'));
   txt(' to ');
@@ -695,14 +932,14 @@ function groupSentence(inc, grp, container) {
 async function pushToMongo() {
   const btn = document.getElementById('pushBtn');
   const status = document.getElementById('status');
-  if (!confirm('Push all local coding and claim groups up to MongoDB?')) return;
+  if (!confirm(`Push ${CODER}'s coding and claim groups up to MongoDB? Other coders' work is left as it is.`)) return;
   btn.disabled = true;
   status.textContent = 'Pushing to Mongo…';
   try {
     const res = await fetch('/api/push', { method: 'POST' });
     const j = await res.json();
     if (!res.ok || !j.ok) throw new Error(j.error || 'push failed');
-    status.textContent = `Pushed ${j.documents} document(s), ${j.incidents} incident(s), ${j.groups} group(s) ✓`;
+    status.textContent = `Pushed ${j.documents} document(s), ${j.incidents} incident(s), ${j.groups} group(s) as ${j.coder} ✓`;
   } catch (e) {
     status.textContent = 'Push failed: ' + e.message;
   } finally {
@@ -715,14 +952,14 @@ async function pushToMongo() {
 async function pullFromMongo() {
   const btn = document.getElementById('pullBtn');
   const status = document.getElementById('status');
-  if (!confirm('Pull annotations from MongoDB? Mongo\'s copy overwrites your local edits for any document that exists in both.')) return;
+  if (!confirm(`Pull ${CODER}'s annotations from MongoDB? Mongo's copy overwrites ${CODER}'s local edits for any document that exists in both; other coders' files are untouched.`)) return;
   btn.disabled = true;
   status.textContent = 'Pulling from Mongo…';
   try {
     const res = await fetch('/api/pull', { method: 'POST' });
     const j = await res.json();
     if (!res.ok || !j.ok) throw new Error(j.error || 'pull failed');
-    status.textContent = `Pulled ${j.pulled} document(s) from Mongo ✓`;
+    status.textContent = `Pulled ${j.pulled} document(s) from Mongo as ${j.coder} ✓`;
     location.reload();
   } catch (e) {
     status.textContent = 'Pull failed: ' + e.message;
@@ -938,6 +1175,10 @@ document.getElementById('text').addEventListener('mouseup', () => {
 
 // ---------- highlight-first: file a highlight under a category ----------
 let catMenuEl = null;
+// Groups the coder has opened in the value picker. Module-level, so it survives
+// the menu being torn down and rebuilt after each assignment — otherwise every
+// value would need its group re-opened. Starts empty: collapsed by default.
+const valueGroupsOpen = new Set();
 function closeCategoryMenu() {
   if (catMenuEl) {
     if (catMenuEl._onDown) document.removeEventListener('mousedown', catMenuEl._onDown);
@@ -1118,14 +1359,29 @@ function showValuePicker(pending, target, rect) {
   useText.className = 'cat-vopt cat-vopt-text';
   useText.textContent = `＋ Use “${snip}”`;
   useText.onclick = () => { assignHighlight(pending, target, pending.text); showCategoryMenu(pending, rect); };
-  list.appendChild(useText);
 
-  valueOptions(target).forEach(o => {
-    const b = document.createElement('button'); b.className = 'cat-vopt';
-    b.textContent = o;
-    b.onclick = () => { assignHighlight(pending, target, o); showCategoryMenu(pending, rect); };
-    list.appendChild(b);
-  });
+  // Same grouping (and same collapsed-by-default behaviour) as the multiselect,
+  // so a value sits in the same place whichever route you reach it by.
+  const groups = target.type === 'role'
+    ? roleGroups(target.role) : ((field(target.key) || {}).groups || null);
+  const fillList = () => {
+    list.innerHTML = '';
+    list.appendChild(useText);
+    groupedOptions(valueOptions(target), groups).forEach(section => {
+      if (section.label) {
+        list.appendChild(groupHeader(section, valueGroupsOpen, fillList, 0));
+        if (!valueGroupsOpen.has(section.label)) return;
+      }
+      section.options.forEach(o => {
+        const b = document.createElement('button');
+        b.className = 'cat-vopt' + (section.label ? ' in-group' : '');
+        b.textContent = o;
+        b.onclick = () => { assignHighlight(pending, target, o); showCategoryMenu(pending, rect); };
+        list.appendChild(b);
+      });
+    });
+  };
+  fillList();
   menu.appendChild(list);
 
   const back = document.createElement('button');
@@ -1304,6 +1560,7 @@ function buildCard(f) {
     };
     const select = buildSelect({
       options: f.options || [],
+      groups: f.groups || null,
       selected: fa.answer,
       onChange: () => { persistSoon(); refreshEv(); },
       onRemoveValue: (v) => {
@@ -1518,7 +1775,7 @@ function buildSelect(cfg) {
           e.stopPropagation();
           const i = selected.indexOf(o); if (i >= 0) selected.splice(i, 1);
           if (cfg.onRemoveValue) cfg.onRemoveValue(o);
-          renderControl(); syncMenu(); cfg.onChange();
+          renderControl(); buildMenu(); cfg.onChange();
         };
         control.appendChild(tag);
       });
@@ -1528,32 +1785,58 @@ function buildSelect(cfg) {
     control.appendChild(caret);
   }
 
-  function syncMenu() {
-    menu.querySelectorAll('.menu-opt').forEach(row => {
-      const on = selected.includes(row.dataset.opt);
-      row.classList.toggle('sel', on);
-      row.querySelector('input').checked = on;
+  // Which groups are expanded. Starts empty — every group is collapsed, so a long
+  // vocabulary (21 harms) opens as a short list of headings. Kept outside
+  // buildMenu so a rebuild (adding an option, removing a tag) doesn't re-collapse
+  // what the coder just opened.
+  const expanded = new Set();
+
+  // Keep the headings' "n selected" badges current after a tick, without
+  // rebuilding the menu — a rebuild would jump the scroll position mid-click.
+  function refreshCounts() {
+    const sections = groupedOptions(options, cfg.groups);
+    menu.querySelectorAll('.menu-group').forEach(head => {
+      const sec = sections.find(s => s.label === head.dataset.group);
+      if (!sec) return;
+      const n = sec.options.filter(o => selected.includes(o)).length;
+      let badge = head.querySelector('.mg-sel');
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'mg-sel';
+        head.insertBefore(badge, head.querySelector('.mg-n'));
+      }
+      badge.textContent = n;
+      badge.style.display = n ? '' : 'none';
     });
   }
 
   function buildMenu() {
     menu.innerHTML = '';
-    options.forEach(o => {
-      const on = selected.includes(o);
-      const row = document.createElement('label');
-      row.className = 'menu-opt' + (on ? ' sel' : '');
-      row.dataset.opt = o;
-      row.innerHTML = `<input type="checkbox" ${on ? 'checked' : ''}><span>${escapeHtml(o)}</span>`;
-      row.querySelector('input').onchange = (e) => {
-        if (e.target.checked) { if (!selected.includes(o)) selected.push(o); }
-        else {
-          const i = selected.indexOf(o); if (i >= 0) selected.splice(i, 1);
-          if (cfg.onRemoveValue) cfg.onRemoveValue(o);
-        }
-        row.classList.toggle('sel', e.target.checked);
-        renderControl(); cfg.onChange();
-      };
-      menu.appendChild(row);
+    // Grouped vocabularies (harm, factor) show a collapsible heading before their
+    // options; ungrouped ones render as a plain flat list, always visible.
+    groupedOptions(options, cfg.groups).forEach(section => {
+      if (section.label) {
+        menu.appendChild(groupHeader(section, expanded, () => buildMenu(),
+                                     section.options.filter(o => selected.includes(o)).length));
+        if (!expanded.has(section.label)) return;    // collapsed: skip its options
+      }
+      section.options.forEach(o => {
+        const on = selected.includes(o);
+        const row = document.createElement('label');
+        row.className = 'menu-opt' + (on ? ' sel' : '') + (section.label ? ' in-group' : '');
+        row.dataset.opt = o;
+        row.innerHTML = `<input type="checkbox" ${on ? 'checked' : ''}><span>${escapeHtml(o)}</span>`;
+        row.querySelector('input').onchange = (e) => {
+          if (e.target.checked) { if (!selected.includes(o)) selected.push(o); }
+          else {
+            const i = selected.indexOf(o); if (i >= 0) selected.splice(i, 1);
+            if (cfg.onRemoveValue) cfg.onRemoveValue(o);
+          }
+          row.classList.toggle('sel', e.target.checked);
+          renderControl(); refreshCounts(); cfg.onChange();
+        };
+        menu.appendChild(row);
+      });
     });
     if (cfg.onAdd) {
       const add = document.createElement('div');
@@ -1694,6 +1977,7 @@ function buildRoleCard(r) {
   };
   const select = buildSelect({
     options: roleOptions(r.role),
+    groups: roleGroups(r.role),
     selected: arr,
     onChange: () => { persistSoon(); refreshEv(); },
     onRemoveValue: (v) => {
