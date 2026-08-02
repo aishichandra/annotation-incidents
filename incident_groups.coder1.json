@@ -1,0 +1,130 @@
+{
+  "INC-001": {
+    "groups": [
+      {
+        "id": "1",
+        "members": [
+          {
+            "role": "actor",
+            "value": "Individual journalist"
+          },
+          {
+            "role": "harm",
+            "value": "Undermining of journalistic standards"
+          },
+          {
+            "role": "harm",
+            "value": "Displacement of human judgement"
+          },
+          {
+            "role": "factor",
+            "value": "Lack of transparency/disclosure"
+          },
+          {
+            "role": "factor",
+            "value": "Lack of internal transparency about AI-related management decisions"
+          },
+          {
+            "role": "factor",
+            "value": "Lack of internal standards regarding AI use"
+          },
+          {
+            "role": "harmed_party",
+            "value": "Journalist(s)"
+          }
+        ]
+      },
+      {
+        "id": "2",
+        "members": [
+          {
+            "role": "actor",
+            "value": "News organization/publisher"
+          }
+        ]
+      }
+    ],
+    "updated_at": "2026-08-02T18:04:51.745911+00:00"
+  },
+  "GVYZ9GGM": {
+    "groups": [
+      {
+        "id": "1",
+        "members": []
+      }
+    ],
+    "updated_at": "2026-07-30T00:32:17.917989+00:00"
+  },
+  "INC-003": {
+    "groups": [
+      {
+        "id": "1",
+        "members": [
+          {
+            "role": "actor",
+            "value": "Disinformation actor"
+          },
+          {
+            "role": "harmed_party",
+            "value": "News organization/publisher"
+          },
+          {
+            "role": "factor",
+            "value": "Deployment of AI with intention to harm or mislead"
+          },
+          {
+            "role": "harm",
+            "value": "Journalists being duped"
+          }
+        ]
+      },
+      {
+        "id": "2",
+        "members": [
+          {
+            "role": "actor",
+            "value": "News organization/publisher"
+          },
+          {
+            "role": "harm",
+            "value": "Perpetuation of stereotypes"
+          },
+          {
+            "role": "harmed_party",
+            "value": "Sources/subjects of coverage"
+          },
+          {
+            "role": "factor",
+            "value": "Publisher's lack of due diligence"
+          }
+        ]
+      },
+      {
+        "id": "3",
+        "members": [
+          {
+            "role": "actor",
+            "value": "News organization/publisher"
+          },
+          {
+            "role": "harm",
+            "value": "Amplification of misinformation"
+          },
+          {
+            "role": "harmed_party",
+            "value": "Audience/readers"
+          },
+          {
+            "role": "factor",
+            "value": "Publisher's lack of due diligence"
+          },
+          {
+            "role": "factor",
+            "value": "Lack of transparency/disclosure"
+          }
+        ]
+      }
+    ],
+    "updated_at": "2026-08-02T18:05:36.383320+00:00"
+  }
+}

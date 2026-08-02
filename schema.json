@@ -71,6 +71,26 @@
       ]
     },
     {
+      "role": "factor",
+      "label": "Factor",
+      "options": [
+        "AI cited to justify job cuts",
+        "AI substitution for human journalists",
+        "ai-based impersonation of journalists/outlets",
+        "ai-based mimicry of journalists' likeness/style",
+        "automated errors / lack of oversight",
+        "contextually inappropriate application of AI",
+        "deployment of ai with intention to harm or mislead",
+        "inadequate human oversight",
+        "lack of transparency / disclosure about AI use",
+        "lack of transparency about management decisions related to AI",
+        "malicious deployment of AI",
+        "publishers' lack of control over how content is presented by ai tools",
+        "SEO hacking",
+        "inadequate laws"
+      ]
+    },
+    {
       "role": "harm",
       "label": "Harm",
       "options": [
@@ -96,26 +116,6 @@
         "legal/regulatory exposure",
         "disintermediation",
         "loss of diversity"
-      ]
-    },
-    {
-      "role": "factor",
-      "label": "Factor",
-      "options": [
-        "AI cited to justify job cuts",
-        "AI substitution for human journalists",
-        "ai-based impersonation of journalists/outlets",
-        "ai-based mimicry of journalists' likeness/style",
-        "automated errors / lack of oversight",
-        "contextually inappropriate application of AI",
-        "deployment of ai with intention to harm or mislead",
-        "inadequate human oversight",
-        "lack of transparency / disclosure about AI use",
-        "lack of transparency about management decisions related to AI",
-        "malicious deployment of AI",
-        "publishers' lack of control over how content is presented by ai tools",
-        "SEO hacking",
-        "inadequate laws"
       ]
     },
     {
