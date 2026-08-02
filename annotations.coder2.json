@@ -1,0 +1,31 @@
+{
+  "CNYBJSJX": {
+    "fields": {
+      "incident_id": {
+        "answer": "INC-001"
+      },
+      "incident_title": {
+        "answer": "Suncoast Searchlight editor AI use controversy"
+      },
+      "incident_system": {
+        "answer": [],
+        "comments": ""
+      },
+      "incident_developer": {
+        "answer": [],
+        "comments": ""
+      },
+      "incident_aftermath": {
+        "answer": null,
+        "comments": ""
+      }
+    },
+    "quotes": [],
+    "roles": {
+      "actor": [],
+      "factor": [],
+      "harm": [],
+      "harmed_party": []
+    }
+  }
+}

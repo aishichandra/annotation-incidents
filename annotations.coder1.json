@@ -1,0 +1,608 @@
+{
+  "CNYBJSJX": {
+    "fields": {
+      "incident_aftermath": {
+        "answer": "",
+        "comments": ""
+      },
+      "incident_developer": {
+        "answer": [
+          "Unknown/unspecified",
+          "AI vendor"
+        ],
+        "comments": ""
+      },
+      "incident_id": {
+        "answer": "INC-001",
+        "comments": ""
+      },
+      "incident_system": {
+        "answer": [
+          "Editing"
+        ],
+        "comments": ""
+      },
+      "incident_title": {
+        "answer": "Suncoast Searchlight editor AI use controversy",
+        "comments": ""
+      }
+    },
+    "quotes": [
+      {
+        "category": "incident_system",
+        "end": 157,
+        "start": 140,
+        "text": "AI editing tools ",
+        "value": "Editing"
+      },
+      {
+        "end": 1156,
+        "role": "harm",
+        "start": 964,
+        "text": " The letter stated that Le Coz’s use of these tools introduced hallucinated quotes, a reference to a nonexistent state law, and other factual inaccuracies into multiple reporters’ story drafts",
+        "value": "Undermining of journalistic standards"
+      },
+      {
+        "end": 1318,
+        "role": "factor",
+        "start": 1156,
+        "text": ". After reporters questioned her about the edits, they say she did not immediately disclose her use of AI tools but instead claimed she’d made the errors herself.",
+        "value": "Lack of transparency/disclosure"
+      },
+      {
+        "end": 1484,
+        "role": "factor",
+        "start": 1319,
+        "text": "“We fear that there may be extensive undisclosed AI-generated content on our website and have questions about what retroactive disclosure is needed for our readers,”",
+        "value": "Lack of transparency/disclosure"
+      },
+      {
+        "end": 1595,
+        "role": "factor",
+        "start": 1506,
+        "text": "“We also expressed to Le Coz the breach of trust that her actions have created among us.”",
+        "value": "Lack of internal transparency about AI-related management decisions"
+      },
+      {
+        "category": "incident_developer",
+        "end": 896,
+        "start": 888,
+        "text": "AI tools",
+        "value": "Unknown/unspecified"
+      },
+      {
+        "category": "incident_developer",
+        "end": 915,
+        "start": 908,
+        "text": "ChatGPT",
+        "value": "AI vendor"
+      },
+      {
+        "end": 2034,
+        "role": "factor",
+        "start": 1746,
+        "text": ". They outlined several requests, including implementing an AI policy and a thorough fact-checking process, conducting an internal audit to identify AI-generated writing that might have been published on the site, and asking Le Coz to promise not to use AI tools for editing in the future",
+        "value": "Lack of internal standards regarding AI use"
+      },
+      {
+        "end": 1156,
+        "role": "harm",
+        "start": 964,
+        "text": " The letter stated that Le Coz’s use of these tools introduced hallucinated quotes, a reference to a nonexistent state law, and other factual inaccuracies into multiple reporters’ story drafts",
+        "value": "Displacement of human judgement"
+      },
+      {
+        "end": 2170,
+        "role": "harmed_party",
+        "start": 2150,
+        "text": "one of the reporters",
+        "value": "Journalist(s)"
+      },
+      {
+        "end": 2149,
+        "role": "actor",
+        "start": 2115,
+        "text": "Le Coz and her deputy editor fired",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 197,
+        "role": "harm",
+        "start": 161,
+        "text": "inserting hallucinations into drafts",
+        "value": "Publication of low quality outputs / ai slop"
+      },
+      {
+        "end": 197,
+        "role": "harm",
+        "start": 161,
+        "text": "inserting hallucinations into drafts",
+        "value": "Undermining of journalistic standards"
+      },
+      {
+        "end": 701,
+        "role": "factor",
+        "start": 561,
+        "text": "In recent days, though, the small newsroom has become a flashpoint for the ethics of using generative AI to edit stories without disclosure.",
+        "value": "Lack of transparency/disclosure"
+      },
+      {
+        "end": 963,
+        "role": "factor",
+        "start": 727,
+        "text": "all four reporters at Suncoast Searchlight sent a letter to the nonprofit’s board of directors accusing their editor-in-chief, Emily Le Coz, of using generative AI tools, including ChatGPT, to edit stories and hiding that use from staff",
+        "value": "Lack of transparency/disclosure"
+      },
+      {
+        "end": 2170,
+        "role": "harm",
+        "start": 2114,
+        "text": " Le Coz and her deputy editor fired one of the reporters",
+        "value": "Economic harm to publisher(s)/journalist(s)"
+      },
+      {
+        "end": 3415,
+        "role": "factor",
+        "start": 3309,
+        "text": "how challenging it was for the reporting team to hold Le Coz accountable for her undisclosed ChatGPT usage",
+        "value": "Lack of internal standards regarding AI use"
+      },
+      {
+        "end": 130,
+        "role": "actor",
+        "start": 114,
+        "text": "editor-in-chief ",
+        "value": "Individual journalist"
+      },
+      {
+        "end": 5366,
+        "role": "harm",
+        "start": 5299,
+        "text": "reporter noticed a fabricated quote attributed to one of her source",
+        "value": "Undermining of journalistic standards"
+      },
+      {
+        "end": 7491,
+        "role": "harm",
+        "start": 7376,
+        "text": "The reporter removed the partially hallucinated quote and other inaccuracies before it was published on November 7.",
+        "value": "Increased workload / burden on journalists"
+      },
+      {
+        "end": 7752,
+        "role": "factor",
+        "start": 7588,
+        "text": "Language disclosing the use of AI text generation or research tools was not included in the Suncoast Searchlight version of the story or in its republished versions",
+        "value": "Lack of transparency/disclosure"
+      },
+      {
+        "end": 8130,
+        "role": "factor",
+        "start": 7968,
+        "text": "Le Coz “initially [completely] denied using AI to rewrite my story, but later stated that she had messed up and said she didn’t want me to feel like she cheated.”",
+        "value": "Lack of internal transparency about AI-related management decisions"
+      },
+      {
+        "end": 8549,
+        "role": "harm",
+        "start": 8222,
+        "text": "“Several staffers had warned me to fact-check my stories extra carefully and watch for new content that was put in stories,” Oxenden, the former staff reporter, told me, referring to her first weeks on the job this fall. “They said there were instances where hallucinated quotes were placed in their story with no explanation.”",
+        "value": "Increased workload / burden on journalists"
+      },
+      {
+        "end": 9519,
+        "role": "factor",
+        "start": 9399,
+        "text": "No disclosure that generative AI writing or editing tools were used to produce that story were included in the document.",
+        "value": "Lack of transparency/disclosure"
+      },
+      {
+        "end": 10750,
+        "role": "factor",
+        "start": 10673,
+        "text": "Suncoast Searchlight currently has no public or internal AI editorial policy.",
+        "value": "Lack of internal standards regarding AI use"
+      },
+      {
+        "end": 6474,
+        "role": "harm",
+        "start": 6123,
+        "text": "In that document version was “language resembling an AI chatbot prompt, which was quickly replaced with paragraphs of unexplained text that reflected the prompt-like instructions,” wrote the reporter in the document sent to the board. This included “confusing statements and numerous outright fabrications which were not present in my original draft.”",
+        "value": "Displacement of human judgement"
+      },
+      {
+        "end": 3029,
+        "role": "harmed_party",
+        "start": 3013,
+        "text": "several staffers",
+        "value": "Journalist(s)"
+      },
+      {
+        "category": "incident_aftermath",
+        "end": 11079,
+        "start": 10831,
+        "text": "“We will continue our review, adopt AI guidelines, and work with the newsroom to ensure Suncoast Searchlight’s continued success in covering news of import in Sarasota, Manatee and DeSoto counties,” said Woods in a statement on behalf of the board."
+      },
+      {
+        "category": "incident_aftermath",
+        "end": 11244,
+        "start": 11080,
+        "text": "Woods did not answer questions about whether the board will be auditing other stories edited by Le Coz or looking into Oxenden’s firing as part of its investigation"
+      }
+    ],
+    "roles": {
+      "actor": [
+        "News organization/publisher",
+        "Individual journalist"
+      ],
+      "factor": [
+        "Lack of transparency/disclosure",
+        "Lack of internal transparency about AI-related management decisions",
+        "Lack of internal standards regarding AI use"
+      ],
+      "harm": [
+        "Publication of low quality outputs / ai slop",
+        "Undermining of journalistic standards",
+        "Displacement of human judgement",
+        "Economic harm to publisher(s)/journalist(s)",
+        "Increased workload / burden on journalists"
+      ],
+      "harmed_party": [
+        "Journalist(s)"
+      ]
+    }
+  },
+  "JWXU9JYL": {
+    "fields": {
+      "incident_aftermath": {
+        "answer": null,
+        "comments": ""
+      },
+      "incident_developer": {
+        "answer": [],
+        "comments": ""
+      },
+      "incident_id": {
+        "answer": "INC-001",
+        "comments": ""
+      },
+      "incident_system": {
+        "answer": [],
+        "comments": ""
+      },
+      "incident_title": {
+        "answer": "Suncoast Searchlight editor AI use controversy",
+        "comments": ""
+      }
+    },
+    "quotes": [
+      {
+        "category": "incident_aftermath",
+        "text": "In our review, we have found that nothing published by the Searchlight team was created by generative AI. One staff-written story in the spring was trimmed as an experimental use of AI and then further edited by journalists. It is now labeled to reflect that process. We will have a public-facing policy governing the use of AI in research and writing before the end of the year.",
+        "start": 217,
+        "end": 596
+      }
+    ],
+    "roles": {
+      "actor": [],
+      "harm": [],
+      "factor": [],
+      "harmed_party": []
+    }
+  },
+  "DQYGI23J": {
+    "fields": {
+      "incident_aftermath": {
+        "answer": null,
+        "comments": ""
+      },
+      "incident_developer": {
+        "answer": [
+          "Unknown/unspecified"
+        ],
+        "comments": ""
+      },
+      "incident_id": {
+        "answer": "INC-003",
+        "comments": ""
+      },
+      "incident_system": {
+        "answer": [
+          "Synthetic video/image generation"
+        ],
+        "comments": ""
+      },
+      "incident_title": {
+        "answer": "Fox News reframes story after falling for AI misinfo",
+        "comments": ""
+      }
+    },
+    "quotes": [
+      {
+        "category": "incident_system",
+        "end": 258,
+        "start": 240,
+        "text": "AI-generated video",
+        "value": "Synthetic video/image generation"
+      },
+      {
+        "end": 812,
+        "role": "harm",
+        "start": 489,
+        "text": "The piece, originally headlined “SNAP Beneficiaries Threaten to Ransack Stores Over Government Shutdown,” quoted Black women claiming to be SNAP recipients complaining about the cutoff of benefits due to the shutdown. \n“I have seven different baby daddies and none of ‘em no good for me,” one purported SNAP recipient said.",
+        "value": "Perpetuation of stereotypes"
+      },
+      {
+        "end": 1309,
+        "role": "harm",
+        "start": 1056,
+        "text": "“Fox News got fooled by a series of racist AI videos purporting to be Black women complaining about losing their SNAP benefits, and they reported those ‘complaints’ made computers pretending to be humans as if they were real news,” Miller said. “Yikes.”",
+        "value": "Journalists being duped"
+      },
+      {
+        "end": 1309,
+        "role": "harm",
+        "start": 1056,
+        "text": "“Fox News got fooled by a series of racist AI videos purporting to be Black women complaining about losing their SNAP benefits, and they reported those ‘complaints’ made computers pretending to be humans as if they were real news,” Miller said. “Yikes.”",
+        "value": "Amplification of misinformation"
+      },
+      {
+        "end": 258,
+        "role": "factor",
+        "start": 240,
+        "text": "AI-generated video",
+        "value": "Deployment of AI with intention to harm or mislead"
+      },
+      {
+        "end": 258,
+        "role": "actor",
+        "start": 240,
+        "text": "AI-generated video",
+        "value": "Disinformation actor"
+      },
+      {
+        "end": 1309,
+        "role": "factor",
+        "start": 1056,
+        "text": "“Fox News got fooled by a series of racist AI videos purporting to be Black women complaining about losing their SNAP benefits, and they reported those ‘complaints’ made computers pretending to be humans as if they were real news,” Miller said. “Yikes.”",
+        "value": "Publisher's lack of due diligence"
+      },
+      {
+        "end": 1309,
+        "role": "factor",
+        "start": 1056,
+        "text": "“Fox News got fooled by a series of racist AI videos purporting to be Black women complaining about losing their SNAP benefits, and they reported those ‘complaints’ made computers pretending to be humans as if they were real news,” Miller said. “Yikes.”",
+        "value": "Lack of transparency/disclosure"
+      },
+      {
+        "end": 370,
+        "role": "actor",
+        "start": 332,
+        "text": "piece published Friday to Foxnews.com,",
+        "value": "News organization/publisher"
+      },
+      {
+        "role": "harmed_party",
+        "value": "News organization/publisher",
+        "text": "“Fox News got fooled",
+        "start": 1056,
+        "end": 1076
+      },
+      {
+        "category": "incident_aftermath",
+        "text": "After getting called out, the headline of the post was amended to read, “AI videos of SNAP beneficiaries complaining about cuts go viral.” The change was accompanied by a brief editor’s note at the bottom.\n“This article previously reported on some videos that appear to have been generated by AI without noting that,” the note read. “This has been corrected.”",
+        "start": 1310,
+        "end": 1669
+      },
+      {
+        "role": "harmed_party",
+        "value": "Sources/subjects of coverage",
+        "text": "Black women",
+        "start": 1126,
+        "end": 1137
+      }
+    ],
+    "roles": {
+      "actor": [
+        "Disinformation actor",
+        "News organization/publisher"
+      ],
+      "harm": [
+        "Perpetuation of stereotypes",
+        "Journalists being duped",
+        "Amplification of misinformation"
+      ],
+      "factor": [
+        "Deployment of AI with intention to harm or mislead",
+        "Publisher's lack of due diligence",
+        "Lack of transparency/disclosure"
+      ],
+      "harmed_party": [
+        "News organization/publisher",
+        "Audience/readers",
+        "Sources/subjects of coverage"
+      ]
+    }
+  },
+  "R95RRQFZ": {
+    "fields": {
+      "incident_id": {
+        "answer": "INC-004",
+        "comments": ""
+      }
+    },
+    "quotes": [],
+    "roles": {
+      "actor": [],
+      "harm": [],
+      "factor": [],
+      "harmed_party": []
+    }
+  },
+  "69MWSX4Q": {
+    "fields": {
+      "incident_id": {
+        "answer": "INC-005",
+        "comments": ""
+      }
+    },
+    "quotes": [],
+    "roles": {
+      "actor": [],
+      "harm": [],
+      "factor": [],
+      "harmed_party": []
+    }
+  },
+  "B8KG7HK6": {
+    "fields": {
+      "incident_aftermath": {
+        "answer": null,
+        "comments": ""
+      },
+      "incident_developer": {
+        "answer": [
+          "Unknown/unspecified"
+        ],
+        "comments": ""
+      },
+      "incident_id": {
+        "answer": "INC-006",
+        "comments": ""
+      },
+      "incident_system": {
+        "answer": [
+          "Writing assistance"
+        ],
+        "comments": ""
+      },
+      "incident_title": {
+        "answer": null,
+        "comments": ""
+      }
+    },
+    "quotes": [
+      {
+        "category": "incident_system",
+        "value": "Writing assistance",
+        "text": "appear to be AI-generated",
+        "start": 148,
+        "end": 173
+      },
+      {
+        "category": "incident_developer",
+        "value": "Unknown/unspecified",
+        "text": "appear to be AI-generated",
+        "start": 148,
+        "end": 173
+      },
+      {
+        "role": "harm",
+        "value": "Publication of low quality outputs / ai slop",
+        "text": "a tab on its drop-down menu labeled “OnlyFans.” Clicking on it pulls up a catalog of listicles ranking different types of pornographic performers by demographic, from “Turkish” to “incest” to “granny.” These blog posts link out to hundreds of different OnlyFans accounts and are presented as editorial work, largely without labels indicating they are advertisements or sponsored.",
+        "start": 514,
+        "end": 893
+      },
+      {
+        "role": "harmed_party",
+        "value": "News organization/publisher",
+        "text": "Village Voice",
+        "start": 246,
+        "end": 259
+      },
+      {
+        "role": "harmed_party",
+        "value": "News organization/publisher",
+        "text": "LA Weekly",
+        "start": 1070,
+        "end": 1079
+      },
+      {
+        "role": "actor",
+        "value": "SEO/platform-manipulation actor",
+        "text": "Street Media",
+        "start": 1099,
+        "end": 1111
+      },
+      {
+        "role": "harm",
+        "value": "Publication of low quality outputs / ai slop",
+        "text": "According to AI detection startup Reality Defender, which scanned a sampling of these posts from the Village Voice, the content in the articles registers as having a “high probability” of containing AI-generated text.“",
+        "start": 1355,
+        "end": 1573
+      },
+      {
+        "role": "harm",
+        "value": "Publication of low quality outputs / ai slop",
+        "text": "way less informational and newsworthy content and more SEO-focused ‘slop’ that really just wastes people’s time and attention",
+        "start": 1744,
+        "end": 1869
+      },
+      {
+        "role": "actor",
+        "value": "News organization/publisher",
+        "text": "LA Weekly",
+        "start": 1070,
+        "end": 1079
+      },
+      {
+        "role": "actor",
+        "value": "News organization/publisher",
+        "text": "Village Voice",
+        "start": 246,
+        "end": 259
+      },
+      {
+        "role": "actor",
+        "value": "News organization/publisher",
+        "text": "Riverfront Times",
+        "start": 2068,
+        "end": 2084
+      },
+      {
+        "role": "actor",
+        "value": "SEO/platform-manipulation actor",
+        "text": "unnamed buyer",
+        "start": 2182,
+        "end": 2195
+      },
+      {
+        "role": "factor",
+        "value": "Lack of transparency/disclosure",
+        "text": "appear to be AI-generated",
+        "start": 148,
+        "end": 173
+      }
+    ],
+    "roles": {
+      "actor": [
+        "SEO/platform-manipulation actor",
+        "News organization/publisher"
+      ],
+      "harm": [
+        "Publication of low quality outputs / ai slop"
+      ],
+      "factor": [
+        "Lack of transparency/disclosure"
+      ],
+      "harmed_party": [
+        "News organization/publisher"
+      ]
+    }
+  },
+  "GVYZ9GGM": {
+    "fields": {
+      "incident_id": {
+        "answer": "INC-007",
+        "comments": ""
+      }
+    },
+    "quotes": [],
+    "roles": {
+      "actor": [],
+      "harm": [],
+      "factor": [],
+      "harmed_party": []
+    }
+  }
+}
