@@ -14,6 +14,14 @@ FIELD_VOCAB = {"incident_system": "systems", "incident_developer": "developers"}
 ROLE_VOCAB = {"actor": "actor", "factor": "factor",
               "harm": "harm", "harmed_party": "harmed_party"}
 
+# A vocab list may optionally be organised into named groups under
+# "<list>_groups", e.g. "harm_groups": {"Labor/economic harms": [...], ...}.
+# Grouping is presentation only — the flat list stays the authoritative set of
+# allowed values, so an ungrouped option is still perfectly valid (the UI shows
+# it under "Other"). Add a "<list>_groups" object to vocab.json and any list can
+# be grouped; nothing here needs changing.
+GROUP_SUFFIX = "_groups"
+
 
 def load_vocab() -> dict:
     """Read vocab.json (empty dict if it's missing)."""
@@ -26,33 +34,68 @@ def save_vocab(vocab: dict) -> None:
     VOCAB_JSON.write_text(json.dumps(vocab, indent=2, ensure_ascii=False))
 
 
+def _overlay(entry: dict, vkey: str, vocab: dict) -> None:
+    """Put one vocab list (and its groups, if any) onto a schema entry.
+
+    `options` is the flat list of allowed values — the authority. `groups`, when
+    present, is how the UI arranges them: [{label, options}] in vocab order. A
+    grouped value missing from the flat list is added to it (so a group can't
+    offer something unselectable), and a value in no group simply doesn't appear
+    in `groups` — the UI puts those under "Other"."""
+    if vkey not in vocab:
+        return
+    options = list(vocab[vkey])
+    entry["options"] = options
+    raw = vocab.get(vkey + GROUP_SUFFIX)
+    if not isinstance(raw, dict):
+        entry.pop("groups", None)
+        return
+    groups = []
+    for label, values in raw.items():
+        vals = [v for v in (values or []) if v]
+        for v in vals:
+            if v not in options:
+                options.append(v)
+        if vals:
+            groups.append({"label": label, "options": vals})
+    if groups:
+        entry["groups"] = groups
+
+
 def apply_vocab_to_schema(schema: dict, vocab: dict | None = None) -> dict:
     """Overlay the controlled vocab onto a frontend schema so the UI options
     always match the DB. Mutates and returns `schema`."""
     vocab = load_vocab() if vocab is None else vocab
     for f in schema.get("fields", []):
         key = FIELD_VOCAB.get(f.get("key"))
-        if key and key in vocab:
-            f["options"] = list(vocab[key])
+        if key:
+            _overlay(f, key, vocab)
     for r in schema.get("claim_roles", []):
         key = ROLE_VOCAB.get(r.get("role"))
-        if key and key in vocab:
-            r["options"] = list(vocab[key])
+        if key:
+            _overlay(r, key, vocab)
     return schema
 
 
 def build_validator(vocab: dict | None = None) -> dict:
     """MongoDB `$jsonSchema` validator matching what app.py actually writes.
 
-    One document per incident, keyed by `incident_id`. Each source document's
-    coding lives under `by_document.<doc_key>`; the `documents` array tracks the
-    source URLs grouped into the incident. Controlled vocab is enforced in the UI
-    (from vocab.json / apply_vocab_to_schema), so this validator only checks
-    structure, not the deep enum values nested under dynamic by_document keys.
+    One document per incident, keyed by `incident_id`. The `documents` array tracks
+    the source URLs grouped into the incident — shared by every coder, since which
+    document belongs to which incident is a shared decision. Each coder's own
+    reading of a source document lives under
+    `by_document.<doc_key>.by_coder.<coder>`, so coders never overwrite each other.
+    Controlled vocab is enforced in the UI (from vocab.json /
+    apply_vocab_to_schema), so this validator only checks structure, not the deep
+    enum values nested under dynamic by_document / coder keys.
+
+    Pre-multi-coder documents stored one coding flat on `by_document.<doc_key>`;
+    those keys stay permitted here (and are read back as the first coder's work),
+    so existing data keeps validating without a migration script.
 
     `vocab` is accepted for call-site compatibility but no longer needed here.
     """
-    coding = {   # by_document.<doc_key> — one source doc's coding
+    coding = {   # one coder's reading of one source doc
         "bsonType": "object",
         "properties": {
             "fields": {"bsonType": ["object", "null"]},
@@ -61,13 +104,27 @@ def build_validator(vocab: dict | None = None) -> dict:
             "updated_at": {"bsonType": ["date", "null"]},
         },
     }
+    doc_entry = {   # by_document.<doc_key> — every coder's reading of one source doc
+        "bsonType": "object",
+        "properties": {
+            "by_coder": {"bsonType": "object", "additionalProperties": coding},
+            # legacy flat coding, written before multi-coder support
+            **coding["properties"],
+        },
+    }
+    groups_array = {
+        "bsonType": "array",
+        "items": {"bsonType": "object", "properties": {
+            "id": {"bsonType": ["string", "null"]},
+            "members": {"bsonType": "array"}}},
+    }
     schema = {
         "bsonType": "object",
         "required": ["incident_id"],
         "properties": {
             "incident_id": {"bsonType": "string"},
             "incident_title": {"bsonType": ["string", "null"]},
-            "by_document": {"bsonType": "object", "additionalProperties": coding},
+            "by_document": {"bsonType": "object", "additionalProperties": doc_entry},
             "documents": {
                 "bsonType": "array",
                 "items": {"bsonType": "object", "required": ["doc_id", "url"], "properties": {
@@ -75,15 +132,12 @@ def build_validator(vocab: dict | None = None) -> dict:
                     "url": {"bsonType": ["string", "null"]},
                     "title": {"bsonType": ["string", "null"]}}},
             },
-            # Claim groups written by the "Push to Mongo" button. Pooled
-            # characteristic / field lists are NOT stored here — they're fully
-            # derivable from by_document, so keeping the incident doc lean.
-            "groups": {
-                "bsonType": "array",
-                "items": {"bsonType": "object", "properties": {
-                    "id": {"bsonType": ["string", "null"]},
-                    "members": {"bsonType": "array"}}},
-            },
+            # Claim groups written by the "Push to Mongo" button, one set per
+            # coder (linking claims is a coding judgement, so it isn't shared).
+            # Pooled characteristic / field lists are NOT stored here — they're
+            # fully derivable from by_document, so keeping the incident doc lean.
+            "groups_by_coder": {"bsonType": "object", "additionalProperties": groups_array},
+            "groups": groups_array,   # legacy single-coder groups
             "created_at": {"bsonType": ["date", "null"]},
             "updated_at": {"bsonType": ["date", "null"]},
         },

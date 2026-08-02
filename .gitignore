@@ -1,9 +1,24 @@
+# Secrets — never commit
+.env
+
+# Python / editor / OS noise
 __pycache__/
 *.pyc
 .venv/
-server.log
-.env
-*.bak
-*.bak.csv
 .ipynb_checkpoints/
 .DS_Store
+
+# Generated at runtime by app.py
+server.log
+*.tmp          # half-written files from _atomic_write, if a save is interrupted
+*.bak
+*.bak.csv
+
+# Coding data IS committed on purpose — it's the research output:
+#   annotations.<coder>.json      source of truth, one file per coder
+#   incident_groups.<coder>.json  claim links, one file per coder
+#   incident_assignments.json     shared doc -> incident map
+#   data_annotated.<coder>.csv    flat mirror, regenerated on every save
+
+# Backups written by docs/mongo_guide.ipynb
+backup-incidents-*.json
