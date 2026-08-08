@@ -1,5 +1,186 @@
 {
-  "CNYBJSJX": {
+  "R95RRQFZ": {
+    "fields": {
+      "incident_id": {
+        "answer": "INC-004",
+        "comments": ""
+      }
+    },
+    "quotes": [],
+    "roles": {
+      "actor": [],
+      "harm": [],
+      "factor": [],
+      "harmed_party": []
+    }
+  },
+  "69MWSX4Q": {
+    "fields": {
+      "incident_id": {
+        "answer": "INC-005",
+        "comments": ""
+      }
+    },
+    "quotes": [],
+    "roles": {
+      "actor": [],
+      "harm": [],
+      "factor": [],
+      "harmed_party": []
+    }
+  },
+  "B8KG7HK6": {
+    "fields": {
+      "incident_aftermath": {
+        "answer": null,
+        "comments": ""
+      },
+      "incident_developer": {
+        "answer": [
+          "Unknown/unspecified"
+        ],
+        "comments": ""
+      },
+      "incident_id": {
+        "answer": "INC-006",
+        "comments": ""
+      },
+      "incident_system": {
+        "answer": [
+          "Writing assistance"
+        ],
+        "comments": ""
+      },
+      "incident_title": {
+        "answer": null,
+        "comments": ""
+      }
+    },
+    "quotes": [
+      {
+        "category": "incident_system",
+        "value": "Writing assistance",
+        "text": "appear to be AI-generated",
+        "start": 148,
+        "end": 173
+      },
+      {
+        "category": "incident_developer",
+        "value": "Unknown/unspecified",
+        "text": "appear to be AI-generated",
+        "start": 148,
+        "end": 173
+      },
+      {
+        "role": "harm",
+        "value": "Publication of low quality outputs / ai slop",
+        "text": "a tab on its drop-down menu labeled “OnlyFans.” Clicking on it pulls up a catalog of listicles ranking different types of pornographic performers by demographic, from “Turkish” to “incest” to “granny.” These blog posts link out to hundreds of different OnlyFans accounts and are presented as editorial work, largely without labels indicating they are advertisements or sponsored.",
+        "start": 514,
+        "end": 893
+      },
+      {
+        "role": "harmed_party",
+        "value": "News organization/publisher",
+        "text": "Village Voice",
+        "start": 246,
+        "end": 259
+      },
+      {
+        "role": "harmed_party",
+        "value": "News organization/publisher",
+        "text": "LA Weekly",
+        "start": 1070,
+        "end": 1079
+      },
+      {
+        "role": "actor",
+        "value": "SEO/platform-manipulation actor",
+        "text": "Street Media",
+        "start": 1099,
+        "end": 1111
+      },
+      {
+        "role": "harm",
+        "value": "Publication of low quality outputs / ai slop",
+        "text": "According to AI detection startup Reality Defender, which scanned a sampling of these posts from the Village Voice, the content in the articles registers as having a “high probability” of containing AI-generated text.“",
+        "start": 1355,
+        "end": 1573
+      },
+      {
+        "role": "harm",
+        "value": "Publication of low quality outputs / ai slop",
+        "text": "way less informational and newsworthy content and more SEO-focused ‘slop’ that really just wastes people’s time and attention",
+        "start": 1744,
+        "end": 1869
+      },
+      {
+        "role": "actor",
+        "value": "News organization/publisher",
+        "text": "LA Weekly",
+        "start": 1070,
+        "end": 1079
+      },
+      {
+        "role": "actor",
+        "value": "News organization/publisher",
+        "text": "Village Voice",
+        "start": 246,
+        "end": 259
+      },
+      {
+        "role": "actor",
+        "value": "News organization/publisher",
+        "text": "Riverfront Times",
+        "start": 2068,
+        "end": 2084
+      },
+      {
+        "role": "actor",
+        "value": "SEO/platform-manipulation actor",
+        "text": "unnamed buyer",
+        "start": 2182,
+        "end": 2195
+      },
+      {
+        "role": "factor",
+        "value": "Lack of transparency/disclosure",
+        "text": "appear to be AI-generated",
+        "start": 148,
+        "end": 173
+      }
+    ],
+    "roles": {
+      "actor": [
+        "SEO/platform-manipulation actor",
+        "News organization/publisher"
+      ],
+      "harm": [
+        "Publication of low quality outputs / ai slop"
+      ],
+      "factor": [
+        "Lack of transparency/disclosure"
+      ],
+      "harmed_party": [
+        "News organization/publisher"
+      ]
+    }
+  },
+  "GVYZ9GGM": {
+    "fields": {
+      "incident_id": {
+        "answer": "INC-007",
+        "comments": ""
+      }
+    },
+    "quotes": [],
+    "roles": {
+      "actor": [],
+      "harm": [],
+      "factor": [],
+      "harmed_party": []
+    }
+  },
+  "A5A5XZGY": {
     "fields": {
       "incident_aftermath": {
         "answer": "",
@@ -252,7 +433,7 @@
       ]
     }
   },
-  "JWXU9JYL": {
+  "GQ7D8VE4": {
     "fields": {
       "incident_aftermath": {
         "answer": null,
@@ -290,7 +471,7 @@
       "harmed_party": []
     }
   },
-  "DQYGI23J": {
+  "M5N3GHYU": {
     "fields": {
       "incident_aftermath": {
         "answer": null,
@@ -422,187 +603,6 @@
         "Audience/readers",
         "Sources/subjects of coverage"
       ]
-    }
-  },
-  "R95RRQFZ": {
-    "fields": {
-      "incident_id": {
-        "answer": "INC-004",
-        "comments": ""
-      }
-    },
-    "quotes": [],
-    "roles": {
-      "actor": [],
-      "harm": [],
-      "factor": [],
-      "harmed_party": []
-    }
-  },
-  "69MWSX4Q": {
-    "fields": {
-      "incident_id": {
-        "answer": "INC-005",
-        "comments": ""
-      }
-    },
-    "quotes": [],
-    "roles": {
-      "actor": [],
-      "harm": [],
-      "factor": [],
-      "harmed_party": []
-    }
-  },
-  "B8KG7HK6": {
-    "fields": {
-      "incident_aftermath": {
-        "answer": null,
-        "comments": ""
-      },
-      "incident_developer": {
-        "answer": [
-          "Unknown/unspecified"
-        ],
-        "comments": ""
-      },
-      "incident_id": {
-        "answer": "INC-006",
-        "comments": ""
-      },
-      "incident_system": {
-        "answer": [
-          "Writing assistance"
-        ],
-        "comments": ""
-      },
-      "incident_title": {
-        "answer": null,
-        "comments": ""
-      }
-    },
-    "quotes": [
-      {
-        "category": "incident_system",
-        "value": "Writing assistance",
-        "text": "appear to be AI-generated",
-        "start": 148,
-        "end": 173
-      },
-      {
-        "category": "incident_developer",
-        "value": "Unknown/unspecified",
-        "text": "appear to be AI-generated",
-        "start": 148,
-        "end": 173
-      },
-      {
-        "role": "harm",
-        "value": "Publication of low quality outputs / ai slop",
-        "text": "a tab on its drop-down menu labeled “OnlyFans.” Clicking on it pulls up a catalog of listicles ranking different types of pornographic performers by demographic, from “Turkish” to “incest” to “granny.” These blog posts link out to hundreds of different OnlyFans accounts and are presented as editorial work, largely without labels indicating they are advertisements or sponsored.",
-        "start": 514,
-        "end": 893
-      },
-      {
-        "role": "harmed_party",
-        "value": "News organization/publisher",
-        "text": "Village Voice",
-        "start": 246,
-        "end": 259
-      },
-      {
-        "role": "harmed_party",
-        "value": "News organization/publisher",
-        "text": "LA Weekly",
-        "start": 1070,
-        "end": 1079
-      },
-      {
-        "role": "actor",
-        "value": "SEO/platform-manipulation actor",
-        "text": "Street Media",
-        "start": 1099,
-        "end": 1111
-      },
-      {
-        "role": "harm",
-        "value": "Publication of low quality outputs / ai slop",
-        "text": "According to AI detection startup Reality Defender, which scanned a sampling of these posts from the Village Voice, the content in the articles registers as having a “high probability” of containing AI-generated text.“",
-        "start": 1355,
-        "end": 1573
-      },
-      {
-        "role": "harm",
-        "value": "Publication of low quality outputs / ai slop",
-        "text": "way less informational and newsworthy content and more SEO-focused ‘slop’ that really just wastes people’s time and attention",
-        "start": 1744,
-        "end": 1869
-      },
-      {
-        "role": "actor",
-        "value": "News organization/publisher",
-        "text": "LA Weekly",
-        "start": 1070,
-        "end": 1079
-      },
-      {
-        "role": "actor",
-        "value": "News organization/publisher",
-        "text": "Village Voice",
-        "start": 246,
-        "end": 259
-      },
-      {
-        "role": "actor",
-        "value": "News organization/publisher",
-        "text": "Riverfront Times",
-        "start": 2068,
-        "end": 2084
-      },
-      {
-        "role": "actor",
-        "value": "SEO/platform-manipulation actor",
-        "text": "unnamed buyer",
-        "start": 2182,
-        "end": 2195
-      },
-      {
-        "role": "factor",
-        "value": "Lack of transparency/disclosure",
-        "text": "appear to be AI-generated",
-        "start": 148,
-        "end": 173
-      }
-    ],
-    "roles": {
-      "actor": [
-        "SEO/platform-manipulation actor",
-        "News organization/publisher"
-      ],
-      "harm": [
-        "Publication of low quality outputs / ai slop"
-      ],
-      "factor": [
-        "Lack of transparency/disclosure"
-      ],
-      "harmed_party": [
-        "News organization/publisher"
-      ]
-    }
-  },
-  "GVYZ9GGM": {
-    "fields": {
-      "incident_id": {
-        "answer": "INC-007",
-        "comments": ""
-      }
-    },
-    "quotes": [],
-    "roles": {
-      "actor": [],
-      "harm": [],
-      "factor": [],
-      "harmed_party": []
     }
   }
 }

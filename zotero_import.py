@@ -1,4 +1,5 @@
 
+import re
 import sqlite3
 from pathlib import Path
 
@@ -24,13 +25,40 @@ def field_value(cur, item_id, field):
     return row[0] if row else None
 
 
+def to_markdown(html, url):
+    """Article markdown for a snapshot.
+
+    Some pages (e.g. Substack-style sites) inline megabytes of CSS, which makes
+    trafilatura give up and return nothing. Only in that case do we retry on a
+    copy with <style> blocks and data: URIs stripped — the first pass is left
+    untouched so already-coded documents keep byte-identical text, and with it
+    the character offsets their highlights are stored against."""
+    def extract(source):
+        return trafilatura.extract(
+            source, output_format="markdown", include_links=True,
+            include_formatting=True, favor_recall=True, url=url or None,
+        ) or ""
+
+    markdown = extract(html)
+    if markdown:
+        return markdown, False
+    stripped = re.sub(r"<style\b[^>]*>.*?</style>", "", html, flags=re.S | re.I)
+    stripped = re.sub(r'\s(?:src|srcset|href)="data:[^"]*"', "", stripped, flags=re.I)
+    return (extract(stripped), True) if len(stripped) < len(html) else ("", False)
+
+
 def main():
     # read-only, even if Zotero is open
     con = sqlite3.connect(f"file:{DB}?immutable=1", uri=True)
     cur = con.cursor()
 
-    # snapshot attachments (linkMode 1 = imported_url) inside the collection,
+    # Snapshot attachments (linkMode 1 = imported_url) inside the collection,
     # matched via the attachment's parent item being in the collection.
+    # Items in Zotero's trash stay in collectionItems until the trash is emptied,
+    # so they are excluded explicitly — otherwise deleting an article here, or
+    # re-adding one (which leaves the old copy trashed under a different item
+    # key), would import it twice. Oldest first, so the de-duplication below
+    # keeps the key any existing coding is already filed under.
     rows = cur.execute(
         """
         SELECT ai.key AS att_key, ia.path AS att_path,
@@ -42,6 +70,9 @@ def main():
         JOIN items ai            ON ai.itemID = ia.itemID
         WHERE c.collectionName = ?
           AND ia.contentType = 'text/html' AND ia.linkMode = 1
+          AND pi.itemID NOT IN (SELECT itemID FROM deletedItems)
+          AND ai.itemID NOT IN (SELECT itemID FROM deletedItems)
+        ORDER BY pi.dateAdded
         """,
         (COLLECTION,),
     ).fetchall()
@@ -51,6 +82,7 @@ def main():
         return
 
     records = []
+    seen_urls = {}
     for att_key, att_path, parent_id, parent_key in rows:
         if not att_path or not att_path.startswith("storage:"):
             continue
@@ -62,11 +94,16 @@ def main():
         title = field_value(cur, parent_id, "title") or fpath.stem
         url = field_value(cur, parent_id, "url") or ""
 
+        # The same article saved twice is one document to code, not two. The
+        # first (oldest) copy wins so its key — and any coding on it — survives.
+        if url and url in seen_urls:
+            print(f"  dup {parent_key} same URL as {seen_urls[url]}  {title[:50]}")
+            continue
+
         html = fpath.read_text(encoding="utf-8", errors="ignore")
-        markdown = trafilatura.extract(
-            html, output_format="markdown", include_links=True,
-            include_formatting=True, favor_recall=True, url=url or None,
-        ) or ""
+        markdown, retried = to_markdown(html, url)
+        if not markdown:
+            print(f"  EMPTY extraction — check snapshot: {title[:60]}")
 
         records.append({
             "zotero_key": parent_key,
@@ -75,7 +112,10 @@ def main():
             "markdown": markdown,
             "snapshot": str(fpath),
         })
-        print(f"  ok  {len(markdown):6d} chars  {title[:60]}")
+        if url:
+            seen_urls[url] = parent_key
+        flag = " (retried)" if retried else ""
+        print(f"  ok  {len(markdown):6d} chars  {title[:60]}{flag}")
 
     con.close()
     pd.DataFrame(records).to_csv(OUT, index=False)
