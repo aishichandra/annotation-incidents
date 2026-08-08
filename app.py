@@ -4,7 +4,8 @@ Structured incident-coding app with write-back to the dataframe.
 Run:  ~/.pyenv/versions/3.10.3/bin/python app.py
 Then open http://127.0.0.1:5001
 
-- Reads zotero_docs.csv (from zotero_import.py) if present, else data.csv.
+- Reads zotero_docs.csv (from zotero_import.py), re-reading it whenever the file
+  changes, so a fresh import shows up without restarting the app.
 - The coding scheme (fields + options) lives in schema.json, which is created
   from DEFAULT_SCHEMA on first run and can be edited by hand or grown from the UI.
 - Per article we store: each field's answer + comments, and a list of quotes
@@ -30,6 +31,7 @@ cookie, and must be one of CODERS (set the CODERS env var, comma-separated).
 import json
 import os
 import re
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -138,8 +140,34 @@ app = Flask(__name__)
 # The document list to code comes entirely from zotero_docs.csv. If it's missing
 # (import not run yet), start empty rather than crash — the UI just shows no docs.
 COLUMNS = ["zotero_key", "title", "url", "markdown", "snapshot"]
-df = pd.read_csv(DATA_CSV) if DATA_CSV.exists() else pd.DataFrame(columns=COLUMNS)
-df["doc_key"] = df["zotero_key"].astype(str)
+df = pd.DataFrame(columns=COLUMNS + ["doc_key"])
+_docs_mtime = False            # False = never loaded; None is a valid "no file yet"
+
+
+def refresh_docs() -> None:
+    """Re-read zotero_docs.csv if it changed on disk.
+
+    Runs before every request, so re-importing from Zotero shows up in a running
+    app — the list used to be read once at import, which left a newly added
+    article invisible until the process restarted. Comparing mtime keeps the
+    steady state to one stat() per request."""
+    global df, _docs_mtime
+    mtime = DATA_CSV.stat().st_mtime if DATA_CSV.exists() else None
+    if mtime == _docs_mtime:
+        return
+    _docs_mtime = mtime
+    fresh = pd.read_csv(DATA_CSV) if mtime else pd.DataFrame(columns=COLUMNS)
+    fresh["doc_key"] = fresh["zotero_key"].astype(str) if len(fresh) else []
+    df = fresh
+    print(f"[docs] loaded {len(df)} document(s) from {DATA_CSV.name}")
+
+
+@app.before_request
+def _refresh_before_request() -> None:
+    refresh_docs()
+
+
+refresh_docs()
 
 
 def connect_mongo():
@@ -216,9 +244,47 @@ def _read_json(path: Path) -> dict:
     return {}
 
 
+_MONGO_READ_TTL = 5.0          # seconds a Mongo read is reused for
+_mongo_cache: dict = {}
+
+
+def _mongo_snapshot(kind: str, build):
+    """A Mongo read, reused for a few seconds.
+
+    Reflecting remote state on every read would otherwise mean a query per
+    request; this caps it at one per TTL per kind. Writes call
+    `invalidate_mongo_cache()` so a save is visible immediately."""
+    now = time.monotonic()
+    hit = _mongo_cache.get(kind)
+    if hit and now - hit[0] < _MONGO_READ_TTL:
+        return hit[1]
+    data = build()
+    _mongo_cache[kind] = (now, data)
+    return data
+
+
+def invalidate_mongo_cache() -> None:
+    _mongo_cache.clear()
+
+
 def load_annotations(coder: str) -> dict:
-    """One coder's private per-document coding, keyed by doc_key."""
-    return _read_json(annotations_path(coder))
+    """One coder's per-document coding, keyed by doc_key.
+
+    The local file, plus anything Mongo holds for this coder that the local file
+    has no coding for. That fill-in is what makes the app reflect Mongo without
+    anyone pressing Pull: work saved from another machine — or from a deploy
+    whose filesystem has since been rebuilt, as on Railway — shows up on its own.
+
+    A document the local file already has coding for is left alone, so a save
+    whose Mongo sync failed can never be silently overwritten by Mongo's older
+    copy. Use /api/pull for the deliberate "Mongo wins outright" direction."""
+    store = _read_json(annotations_path(coder))
+    if mongo_db is None:
+        return store
+    for key, coding in _mongo_snapshot(f"ann:{coder}", lambda: store_from_mongo(coder)).items():
+        if not has_coding(store.get(key)):
+            store[key] = coding
+    return store
 
 
 def load_groups(coder: str) -> dict:
@@ -233,8 +299,18 @@ def save_groups(store: dict, coder: str) -> None:
 
 def load_assignments() -> dict:
     """The shared doc -> incident mapping every coder codes against.
-    Shape: {doc_key: {"incident_id": str, "incident_title": str}}."""
-    return _read_json(ASSIGNMENTS_JSON)
+    Shape: {doc_key: {"incident_id": str, "incident_title": str}}.
+
+    Documents Mongo has grouped but the local file hasn't heard about are filled
+    in, so a grouping made elsewhere reaches this app on its own. A local entry
+    always wins — regrouping here isn't undone by a stale remote copy."""
+    store = _read_json(ASSIGNMENTS_JSON)
+    if mongo_db is None:
+        return store
+    for key, entry in _mongo_snapshot("assignments", assignments_from_mongo).items():
+        if entry.get("incident_id"):
+            store.setdefault(key, entry)
+    return store
 
 
 def save_assignments(store: dict) -> None:
@@ -436,6 +512,8 @@ def sync_to_mongo(i, key, record, coder):
              "$push": {"documents": doc_entry}},
             upsert=True,
         )
+        # This write is now the freshest state; don't serve a pre-write snapshot.
+        invalidate_mongo_cache()
         # Clean up any incident now emptied by the move (no docs, coding, or groups).
         mongo_db.incidents.delete_many({
             "documents": {"$size": 0},
@@ -474,15 +552,22 @@ def store_from_mongo(coder: str) -> dict:
 
 def assignments_from_mongo() -> dict:
     """The shared doc -> incident map as Mongo currently has it (incident_id +
-    title per document listed in `documents[]`)."""
+    title per document listed in `documents[]`).
+
+    A document that nobody has grouped yet is stored under an incident_id equal to
+    its own document key — that's `sync_to_mongo`'s `or key` fallback, and it is
+    how a registered-but-uncoded document sits in the collection. Those are not
+    real groupings, so they're skipped: reading one back as an assignment would
+    pre-fill the incident ID box with the Zotero key on every new article."""
     out = {}
     if mongo_db is None:
         return out
     for inc in mongo_db.incidents.find({}, {"incident_id": 1, "incident_title": 1, "documents": 1}):
+        inc_id = inc.get("incident_id", "")
         for d in (inc.get("documents") or []):
             doc_id = str(d.get("doc_id") or "")
-            if doc_id:
-                out[doc_id] = {"incident_id": inc.get("incident_id", ""),
+            if doc_id and inc_id != doc_id:
+                out[doc_id] = {"incident_id": inc_id,
                                "incident_title": inc.get("incident_title") or ""}
     return out
 
@@ -499,6 +584,7 @@ def api_pull():
     if mongo_db is None:
         return jsonify({"ok": False, "error": "MongoDB not connected"}), 503
     coder = current_coder(strict=True)
+    invalidate_mongo_cache()      # an explicit pull must not read a stale snapshot
     remote = store_from_mongo(coder)
     store = load_annotations(coder)
     store.update(remote)          # Mongo wins for shared keys; local-only kept
@@ -785,6 +871,7 @@ def api_push():
             groups_pushed += len(g["groups"])
         except Exception as e:
             print(f"[mongo] incident push failed for {inc_id} ({e.__class__.__name__}: {e})")
+    invalidate_mongo_cache()
     return jsonify({"ok": True, "coder": coder, "documents": docs_pushed,
                     "incidents": incidents_pushed, "groups": groups_pushed})
 
