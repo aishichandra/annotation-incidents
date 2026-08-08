@@ -1,16 +1,4 @@
 {
-  "CNYBJSJX": {
-    "incident_id": "INC-001",
-    "incident_title": "Suncoast Searchlight editor AI use controversy"
-  },
-  "JWXU9JYL": {
-    "incident_id": "INC-001",
-    "incident_title": "Suncoast Searchlight editor AI use controversy"
-  },
-  "DQYGI23J": {
-    "incident_id": "INC-003",
-    "incident_title": "Fox News reframes story after falling for AI misinfo"
-  },
   "R95RRQFZ": {
     "incident_id": "INC-004",
     "incident_title": "ChatGPT is hallucinating fake links to its news partners’ biggest investigations"
@@ -26,5 +14,17 @@
   "GVYZ9GGM": {
     "incident_id": "INC-007",
     "incident_title": "CNET found errors in more than half of its AI-written stories"
+  },
+  "A5A5XZGY": {
+    "incident_id": "INC-001",
+    "incident_title": "Suncoast Searchlight editor AI use controversy"
+  },
+  "GQ7D8VE4": {
+    "incident_id": "INC-001",
+    "incident_title": "Suncoast Searchlight editor AI use controversy"
+  },
+  "M5N3GHYU": {
+    "incident_id": "INC-003",
+    "incident_title": "Fox News reframes story after falling for AI misinfo"
   }
 }
