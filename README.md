@@ -4,17 +4,21 @@ Code journalism-AI incidents from Zotero snapshots, and sync the structured
 result to MongoDB Atlas. Three steps:
 
 ```
-Zotero  ──▶  zotero_import.py  ──▶  zotero_docs.csv
-                                         │
-                                         ▼
+Zotero  ──▶  zotero_import.py  ──▶  zotero_docs.csv ──▶ mongo_register_docs.py
+                                         │                        │ (new docs only)
+                                         ▼                        │
                               app.py  (Flask coding UI)  ──▶  annotations.<coder>.json
-                                         │                     data_annotated.<coder>.csv
-                                         ▼
+                                         │  ▲                  data_annotated.<coder>.csv
+                                         ▼  │ fills in coding the local files lack
                               MongoDB Atlas  (incidents collection)
                                          │
                                          ▼
                               mongo_connect.ipynb  (read it back)
 ```
+
+The article **text** only ever flows from `zotero_docs.csv`; Mongo stores coding,
+not articles. The app re-reads that CSV whenever it changes and fills missing coding
+in from Mongo on read, so both sides stay current without a restart.
 
 All commands use the project's interpreter (has flask / pymongo / trafilatura /
 pandas installed):
@@ -36,6 +40,27 @@ $PY zotero_import.py
 To change the source collection, edit `COLLECTION` at the top of
 [`zotero_import.py`](zotero_import.py).
 
+Items in Zotero's **trash** are skipped, and articles saved twice are de-duplicated
+by URL keeping the oldest copy — so re-adding an article (which leaves the old copy
+trashed under a *different* item key) doesn't import it twice. Because coding is
+keyed by Zotero item key, re-adding an already-coded article gives it a new key; the
+existing coding then has to be re-pointed at that key in `annotations.<coder>.json`,
+`incident_assignments.json`, and Mongo.
+
+### Adding new articles to an existing project
+
+```
+$PY zotero_import.py                    # Zotero → zotero_docs.csv
+$PY mongo_register_docs.py              # dry run: what's new
+$PY mongo_register_docs.py --apply      # register the new docs in Mongo
+git add -A && git commit -m "…" && git push    # → the deployed app picks them up
+```
+
+[`mongo_register_docs.py`](mongo_register_docs.py) only ever *adds* documents Mongo
+has never seen. It never writes or deletes coding, so unlike the app's **Push**
+button it cannot erase a coder's Atlas work. The `git push` is what matters for a
+deployed app: the article text lives in the CSV, not in Mongo.
+
 ## 2. Code the documents → the app
 
 ```
@@ -47,8 +72,8 @@ $PY app.py
 `app.py` loads `.env` automatically on startup. On a host you set the same
 variables directly (see Deploy) instead of using a file.
 
-- The document list comes entirely from `zotero_docs.csv` (re-run step 1 and
-  restart the app to refresh it).
+- The document list comes entirely from `zotero_docs.csv`. Re-run step 1 and the
+  running app picks the new articles up on the next request — no restart needed.
 - Every edit **autosaves** — there is no save button. Each save writes three
   places: `annotations.<coder>.json` (source of truth), `data_annotated.<coder>.csv`
   (flat mirror), and, **if `MONGO_URI` is set**, the Atlas `incidents` collection.
@@ -210,10 +235,18 @@ Steps (Railway):
 3. Deploy. Railway builds from `requirements.txt` and runs the `Procfile`.
 
 **Caveat — ephemeral filesystem:** hosts wipe the local disk on each
-deploy/restart, so `annotations.<coder>.json` and `data_annotated.<coder>.csv` don't persist
-there. MongoDB is the durable store. To run the coding app durably online you'd
-switch its source-of-truth reads from the JSON file to Mongo — a follow-up, not
-done here.
+deploy/restart, so `annotations.<coder>.json` and `data_annotated.<coder>.csv` don't
+persist there. MongoDB is the durable store, and reads now fall back to it: on any
+document the local file has no coding for, `load_annotations` fills in whatever
+Mongo holds for that coder, so a redeploy no longer looks like lost work. A document
+the local file *does* have coding for is left alone, so a save whose Mongo sync
+failed can't be overwritten by Mongo's older copy — use **Pull** for the deliberate
+"Mongo wins outright" direction.
+
+The document list is the exception: it comes from `zotero_docs.csv`, which is
+committed to the repo, because Mongo stores no article text. New articles reach a
+deployed app by being committed and pushed (step 3 below), not by being written to
+Mongo.
 
 ## Security note
 
