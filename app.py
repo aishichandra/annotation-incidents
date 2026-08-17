@@ -973,13 +973,16 @@ def _jsonable(v):
 def api_incident_json(inc_id):
     """The incident as it is stored, for the card's raw-JSON view.
 
-    Narrowed to what the card is actually about: the active coder's own subtree,
-    without their per-document evidence. Other coders are omitted because the card
-    shows one coder's reading, and coders stay blind to each other's judgements
-    while coding. The evidence is omitted because it is the bulk of the record —
-    one incident runs to ~24k characters of quotes — and it belongs to the
-    document view, where the offsets mean something. What's left is the incident
-    itself: its identity, its documents, and this coder's answers and claims.
+    Narrowed to the active coder's own subtree — the card shows one coder's
+    reading, and coders stay blind to each other's judgements while coding.
+
+    Only the quote *text* is dropped, replaced by a count. It is the bulk of the
+    record (one incident runs to ~24k characters of it) and its offsets only mean
+    something against the document view, where it stays readable. Everything that
+    describes the coding itself is kept: the incident's field answers, the claim
+    groups, and each document's selected characteristics — which live in the same
+    subtree as the quotes, so dropping that subtree wholesale would take the
+    characteristics with it.
 
     Mongo's document is the answer when it's there, since that's the record the
     analysis reads. Without it — Mongo not configured, or an incident nobody has
@@ -987,9 +990,17 @@ def api_incident_json(inc_id):
     and say which one is being shown so the two are never confused."""
     coder = current_coder()
 
+    def strip_quotes(documents):
+        out = {}
+        for key, ev in (documents or {}).items():
+            ev = dict(ev or {})
+            ev["n_quotes"] = len(ev.pop("quotes", None) or [])
+            out[key] = ev
+        return out
+
     def narrow(doc):
         slot = dict((doc.get("by_coder") or {}).get(coder) or {})
-        slot.pop("documents", None)
+        slot["documents"] = strip_quotes(slot.get("documents"))
         return {**{k: v for k, v in doc.items() if k != "by_coder"},
                 "by_coder": {coder: slot}}
 
@@ -997,7 +1008,7 @@ def api_incident_json(inc_id):
         try:
             doc = mongo_db.incidents.find_one({"_id": inc_id})
             if doc:
-                return jsonify({"source": f"mongodb — {coder} only, evidence omitted",
+                return jsonify({"source": f"mongodb — {coder} only, quote text replaced by n_quotes",
                                 "incident": _jsonable(narrow(doc))})
         except Exception as e:
             print(f"[mongo] json read failed for {inc_id} ({e.__class__.__name__}: {e})")
@@ -1006,12 +1017,18 @@ def api_incident_json(inc_id):
     if g is None:
         abort(404, f"no incident {inc_id!r}")
     inc = load_incident_coding(coder).get(inc_id) or {}
+    ann = load_annotations(coder)
     local = {"_id": inc_id, "title": g.get("title", ""),
              "documents": [{"doc_id": d["doc_key"], "url": d["url"], "title": d["title"]}
                            for d in g.get("documents", [])],
-             "by_coder": {coder: {"fields": inc.get("fields") or {},
-                                  "groups": inc.get("groups") or []}}}
-    return jsonify({"source": f"local files (not in MongoDB yet) — {coder} only, evidence omitted",
+             "by_coder": {coder: {
+                 "fields": inc.get("fields") or {},
+                 "groups": inc.get("groups") or [],
+                 "documents": strip_quotes(
+                     {d["doc_key"]: doc_ann(ann, d["doc_key"])
+                      for d in g.get("documents", []) if has_coding(ann.get(d["doc_key"]))})}}}
+    return jsonify({"source": f"local files (not in MongoDB yet) — {coder} only, "
+                              "quote text replaced by n_quotes",
                     "incident": _jsonable(local)})
 
 

@@ -934,7 +934,10 @@ function nextId(list) {
 }
 
 function newClaim(grp) {
-  return { id: nextId(grp.claims || []), harm: null, harmed_party: null, factors: [] };
+  // harmed_parties is plural — a single harm can land on several parties. The
+  // singular harmed_party is the pre-plural field and must not be seeded here,
+  // or every new claim carries a dead null nobody reads.
+  return { id: nextId(grp.claims || []), harm: null, harmed_parties: [], factors: [] };
 }
 
 function newGroup(inc) {
