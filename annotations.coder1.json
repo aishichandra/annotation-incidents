@@ -20,14 +20,14 @@
         "role": "factor",
         "start": 1156,
         "text": ". After reporters questioned her about the edits, they say she did not immediately disclose her use of AI tools but instead claimed she’d made the errors herself.",
-        "value": "Lack of transparency/disclosure"
+        "value": "Lack of audience disclosure"
       },
       {
         "end": 1484,
         "role": "factor",
         "start": 1319,
         "text": "“We fear that there may be extensive undisclosed AI-generated content on our website and have questions about what retroactive disclosure is needed for our readers,”",
-        "value": "Lack of transparency/disclosure"
+        "value": "Lack of audience disclosure"
       },
       {
         "end": 1595,
@@ -97,14 +97,14 @@
         "role": "factor",
         "start": 561,
         "text": "In recent days, though, the small newsroom has become a flashpoint for the ethics of using generative AI to edit stories without disclosure.",
-        "value": "Lack of transparency/disclosure"
+        "value": "Lack of audience disclosure"
       },
       {
         "end": 963,
         "role": "factor",
         "start": 727,
         "text": "all four reporters at Suncoast Searchlight sent a letter to the nonprofit’s board of directors accusing their editor-in-chief, Emily Le Coz, of using generative AI tools, including ChatGPT, to edit stories and hiding that use from staff",
-        "value": "Lack of transparency/disclosure"
+        "value": "Lack of audience disclosure"
       },
       {
         "end": 2170,
@@ -146,7 +146,7 @@
         "role": "factor",
         "start": 7588,
         "text": "Language disclosing the use of AI text generation or research tools was not included in the Suncoast Searchlight version of the story or in its republished versions",
-        "value": "Lack of transparency/disclosure"
+        "value": "Lack of audience disclosure"
       },
       {
         "end": 8130,
@@ -167,7 +167,7 @@
         "role": "factor",
         "start": 9399,
         "text": "No disclosure that generative AI writing or editing tools were used to produce that story were included in the document.",
-        "value": "Lack of transparency/disclosure"
+        "value": "Lack of audience disclosure"
       },
       {
         "end": 10750,
@@ -209,7 +209,7 @@
         "Individual journalist"
       ],
       "factor": [
-        "Lack of transparency/disclosure",
+        "Lack of audience disclosure",
         "Lack of internal transparency about AI-related management decisions",
         "Lack of internal standards regarding AI use"
       ],
@@ -276,14 +276,14 @@
         "role": "factor",
         "start": 240,
         "text": "AI-generated video",
-        "value": "Deployment of AI with intention to harm or mislead"
+        "value": "Deployment of AI with intention to harm, mislead, or troll"
       },
       {
         "end": 258,
         "role": "actor",
         "start": 240,
         "text": "AI-generated video",
-        "value": "Disinformation actor"
+        "value": "Mis/disinformation actor"
       },
       {
         "end": 1309,
@@ -297,7 +297,7 @@
         "role": "factor",
         "start": 1056,
         "text": "“Fox News got fooled by a series of racist AI videos purporting to be Black women complaining about losing their SNAP benefits, and they reported those ‘complaints’ made computers pretending to be humans as if they were real news,” Miller said. “Yikes.”",
-        "value": "Lack of transparency/disclosure"
+        "value": "Lack of audience disclosure"
       },
       {
         "end": 370,
@@ -329,13 +329,13 @@
     ],
     "roles": {
       "actor": [
-        "Disinformation actor",
+        "Mis/disinformation actor",
         "News organization/publisher"
       ],
       "factor": [
-        "Deployment of AI with intention to harm or mislead",
+        "Deployment of AI with intention to harm, mislead, or troll",
         "Publisher's lack of due diligence",
-        "Lack of transparency/disclosure"
+        "Lack of audience disclosure"
       ],
       "harm": [
         "Perpetuation of stereotypes",
@@ -353,7 +353,7 @@
     "quotes": [
       {
         "category": "incident_system",
-        "value": "Writing assistance",
+        "value": "Text generation",
         "text": "appear to be AI-generated",
         "start": 148,
         "end": 173
@@ -388,7 +388,7 @@
       },
       {
         "role": "actor",
-        "value": "SEO/platform-manipulation actor",
+        "value": "Content farm/SEO-manipulation actor",
         "text": "Street Media",
         "start": 1099,
         "end": 1111
@@ -430,14 +430,14 @@
       },
       {
         "role": "actor",
-        "value": "SEO/platform-manipulation actor",
+        "value": "Content farm/SEO-manipulation actor",
         "text": "unnamed buyer",
         "start": 2182,
         "end": 2195
       },
       {
         "role": "factor",
-        "value": "Lack of transparency/disclosure",
+        "value": "Lack of audience disclosure",
         "text": "appear to be AI-generated",
         "start": 148,
         "end": 173
@@ -445,11 +445,11 @@
     ],
     "roles": {
       "actor": [
-        "SEO/platform-manipulation actor",
+        "Content farm/SEO-manipulation actor",
         "News organization/publisher"
       ],
       "factor": [
-        "Lack of transparency/disclosure"
+        "Lack of audience disclosure"
       ],
       "harm": [
         "Publication of low quality outputs / ai slop"
@@ -463,7 +463,7 @@
     "quotes": [
       {
         "category": "incident_system",
-        "value": "Writing assistance",
+        "value": "Text generation",
         "text": "internally designed AI engine",
         "start": 941,
         "end": 970
@@ -510,7 +510,7 @@
       },
       {
         "role": "factor",
-        "value": "Lack of transparency/disclosure",
+        "value": "Lack of audience disclosure",
         "text": "We changed the byline for articles compiled with the AI engine to “CNET Money” and moved the disclosure so you don’t need to hover over the byline to see it.",
         "start": 2201,
         "end": 2358
@@ -548,7 +548,7 @@
         "News organization/publisher"
       ],
       "factor": [
-        "Lack of transparency/disclosure",
+        "Lack of audience disclosure",
         "Inadequate human oversight"
       ],
       "harm": [
@@ -602,7 +602,7 @@
         "end": 912,
         "start": 895,
         "text": "AI text generator",
-        "value": "Writing assistance"
+        "value": "Text generation"
       },
       {
         "category": "incident_developer",
@@ -623,14 +623,14 @@
         "role": "factor",
         "start": 3169,
         "text": "The North London News articles do not feature any bylines except “News Desk”",
-        "value": "AI-based impersonation of journalists/outlets"
+        "value": "AI-based hoaxing/counterfeiting of journalists/outlets"
       },
       {
         "end": 5458,
         "role": "factor",
         "start": 5405,
         "text": "the bylined authors did not appear to exist elsewhere",
-        "value": "AI-based impersonation of journalists/outlets"
+        "value": "AI-based hoaxing/counterfeiting of journalists/outlets"
       },
       {
         "end": 1236,
@@ -644,7 +644,7 @@
         "role": "actor",
         "start": 121,
         "text": "The North London News",
-        "value": "SEO/platform-manipulation actor"
+        "value": "Content farm/SEO-manipulation actor"
       },
       {
         "end": 1798,
@@ -656,10 +656,10 @@
     ],
     "roles": {
       "actor": [
-        "SEO/platform-manipulation actor"
+        "Content farm/SEO-manipulation actor"
       ],
       "factor": [
-        "AI-based impersonation of journalists/outlets",
+        "AI-based hoaxing/counterfeiting of journalists/outlets",
         "SEO/algorithm gaming"
       ],
       "harm": [
@@ -678,14 +678,14 @@
     "quotes": [
       {
         "role": "harm",
-        "value": "Inaccurate summarization",
+        "value": "Distorted source representation",
         "text": "summarizing stories inaccurately",
         "start": 2331,
         "end": 2363
       },
       {
         "role": "harm",
-        "value": "Citation issues",
+        "value": "Citation fabrication",
         "text": "minimal attribution",
         "start": 2373,
         "end": 2392
@@ -695,8 +695,8 @@
       "actor": [],
       "factor": [],
       "harm": [
-        "Inaccurate summarization",
-        "Citation issues"
+        "Distorted source representation",
+        "Citation fabrication"
       ],
       "harmed_party": []
     }
@@ -736,14 +736,14 @@
         "role": "actor",
         "start": 322,
         "text": "Durham News Today",
-        "value": "Third-party aggregator/content farm"
+        "value": "Content farm/SEO-manipulation actor"
       },
       {
         "end": 1496,
         "role": "actor",
         "start": 1470,
         "text": "The Daily News Now! (DNN),",
-        "value": "Third-party aggregator/content farm"
+        "value": "Content farm/SEO-manipulation actor"
       },
       {
         "end": 2498,
@@ -783,7 +783,7 @@
     ],
     "roles": {
       "actor": [
-        "Third-party aggregator/content farm"
+        "Content farm/SEO-manipulation actor"
       ],
       "factor": [
         "Publishers' lack of control over AI content presentation"
@@ -801,7 +801,7 @@
     "quotes": [
       {
         "category": "incident_system",
-        "value": "Chatbot",
+        "value": "Chatbot (general use)",
         "text": "DuckDuckGo’s AI search featur",
         "start": 13,
         "end": 42
@@ -822,14 +822,14 @@
       },
       {
         "role": "harm",
-        "value": "Citation issues",
+        "value": "Citation fabrication",
         "text": "inexplicably cites an  ABC News story about an Ohio man who died from rabies that makes no mention of Trump.",
         "start": 882,
         "end": 990
       },
       {
         "role": "harm",
-        "value": "Inaccurate summarization",
+        "value": "Distorted source representation",
         "text": "inexplicably cites an  ABC News story about an Ohio man who died from rabies that makes no mention of Trump.",
         "start": 882,
         "end": 990
@@ -843,7 +843,7 @@
       },
       {
         "role": "actor",
-        "value": "Disinformation actor",
+        "value": "Mis/disinformation actor",
         "text": "internet pranksters",
         "start": 1257,
         "end": 1276
@@ -906,13 +906,13 @@
     "roles": {
       "actor": [
         "AI developer",
-        "Disinformation actor"
+        "Mis/disinformation actor"
       ],
       "factor": [],
       "harm": [
         "Amplification of misinformation",
-        "Citation issues",
-        "Inaccurate summarization"
+        "Citation fabrication",
+        "Distorted source representation"
       ],
       "harmed_party": [
         "Sources/subjects of coverage"
@@ -926,14 +926,14 @@
         "end": 154,
         "start": 130,
         "text": "artificial intelligence.",
-        "value": "Writing assistance"
+        "value": "Text generation"
       },
       {
         "end": 120,
         "role": "actor",
         "start": 114,
         "text": "hoaxer",
-        "value": "Disinformation actor"
+        "value": "Mis/disinformation actor"
       },
       {
         "end": 272,
@@ -988,14 +988,14 @@
         "role": "factor",
         "start": 1510,
         "text": "“It was a hoax; the person we were corresponding with was not who they claimed to be.”",
-        "value": "Deployment of AI with intention to harm or mislead"
+        "value": "Deployment of AI with intention to harm, mislead, or troll"
       },
       {
         "category": "incident_system",
         "end": 2705,
         "start": 2637,
         "text": "They said they used GPT-4 to create approximately 80% of the article",
-        "value": "Writing assistance"
+        "value": "Text generation"
       },
       {
         "category": "incident_developer",
@@ -1048,7 +1048,7 @@
       },
       {
         "role": "factor",
-        "value": "Lack of transparency/disclosure",
+        "value": "Lack of audience disclosure",
         "text": "hoaxer who used artificial intelligence.\nThe editor, Ruadhán Mac Cormaic, said on Sunday that it had fallen victim to “a deliberate and coordinated deception” that showed a need for stronger controls.\n“It was a breach of the trust between the Irish Times and its readers, and we are genuinely sorry. The incident has highlighted a gap in our pre-publication procedures,” he said in a statement.\n“We need to make them more robust, and we will. It has also underlined one of the challenges raised by generative AI for news organisations. We, like others, will learn and adapt.”\nThe paper ran the opinion piece from a contributor bylined as Adriana Acosta-Cortez on 11 May. It accused Irish women who used fake tan of mocking those with naturally dark skin. Acosta-Cortez was described as a 29-year-old Ecuadorian health worker who lived in north Dublin. A profile picture showed a blue-haired woman.\nA Twitter account in Acosta-Cortez’s name posted a message the next day criticising the Irish Times for running the article:\nIt included a link to an Irish Times article from January about robot infiltration of media.\nThe newspaper deleted the opinion piece within hours and launched a review.\nThe statement on Sunday confirmed Ireland’s paper of record had been duped. “As in any 24/7 news operation, some days we do better than others. But last Thursday we got it badly wrong,” said Mac Cormaic. “It was a hoax; the person we were corresponding with was not who they claimed to be.”\nThe article ran under the headline: Irish women’s obsession with fake tan is problematic.\nIt began: “Dear Irish women, we need to talk about fake tan.” The article said women who artificially darkened their skin were donning an exotic costume.\n“Fake tan represents more than just an innocuous cosmetic choice; it raises questions of cultural appropriation and fetishisation of the high melanin content found in more pigmented people.”\nThe piece was the paper’s second-most read article and prompted debate on radio and social media.\nThe person who controls Acosta-Cortez’s Twitter account told the Guardian on Sunday, via direct message, that the Irish Times’s apology sidestepped its decision to publish “an incendiary article with an extreme leftwing viewpoint” in pursuit of clicks.\nThe person said they were Irish, a college student and identified as non-binary. They said they created the Acosta-Cortez persona by repurposing the Twitter account, which dates from February 2021, by using some Spanish and following Ecuadorian outlets.\nThey said they used GPT-4 to create approximately 80% of the article and the image generator Dalle-E 2 to create a profile picture of a quintessential “woke” journalist using the prompts “female, overweight, blue hair, business casual clothing, smug expression”.\nThe hoax’s goal was “to give my friends a laugh” and “to stir the shit” in the debate about identity politics.\n“Some people have called me an alt-right troll but I don’t think that I am. I think that identity politics is an extremely unhelpful lens through which to interpret the world.”\n",
         "start": 114,
         "end": 3188
@@ -1056,14 +1056,14 @@
     ],
     "roles": {
       "actor": [
-        "Disinformation actor",
+        "Mis/disinformation actor",
         "News organization/publisher"
       ],
       "factor": [
         "Lack of internal standards regarding AI use",
         "Publisher's lack of due diligence",
-        "Deployment of AI with intention to harm or mislead",
-        "Lack of transparency/disclosure"
+        "Deployment of AI with intention to harm, mislead, or troll",
+        "Lack of audience disclosure"
       ],
       "harm": [
         "Journalists being duped",
@@ -1093,14 +1093,14 @@
       },
       {
         "category": "incident_system",
-        "value": "Writing assistance",
+        "value": "Text generation",
         "text": "the artificial presenters also run their own social networks",
         "start": 1311,
         "end": 1371
       },
       {
         "role": "actor",
-        "value": "Disinformation actor",
+        "value": "Mis/disinformation actor",
         "text": "RT",
         "start": 29,
         "end": 31
@@ -1129,7 +1129,7 @@
     ],
     "roles": {
       "actor": [
-        "Disinformation actor"
+        "Mis/disinformation actor"
       ],
       "factor": [],
       "harm": [],
@@ -1150,7 +1150,7 @@
         "end": 147,
         "start": 126,
         "text": "AI-generated articles",
-        "value": "Writing assistance"
+        "value": "Text generation"
       },
       {
         "end": 266,
@@ -1161,7 +1161,7 @@
       },
       {
         "role": "harm",
-        "value": "Citation issues",
+        "value": "Citation fabrication",
         "text": "The articles, to their credit, do cite where the AI is gathering its information from. But even this is surface level",
         "start": 1069,
         "end": 1186
@@ -1181,7 +1181,7 @@
       "factor": [],
       "harm": [
         "Publication of low quality outputs / ai slop",
-        "Citation issues"
+        "Citation fabrication"
       ],
       "harmed_party": [
         "Audience/readers"
@@ -1230,7 +1230,7 @@
         "role": "harm",
         "start": 2027,
         "text": "But its account deletion instructions are vague:",
-        "value": "Inaccurate summarization"
+        "value": "Distorted source representation"
       },
       {
         "end": 3465,
@@ -1249,7 +1249,7 @@
       ],
       "harm": [
         "Publication of low quality outputs / ai slop",
-        "Inaccurate summarization"
+        "Distorted source representation"
       ],
       "harmed_party": [
         "News organization/publisher",
@@ -1264,14 +1264,14 @@
         "role": "factor",
         "start": 1213,
         "text": "produce seemingly real news segments from top anchors at major news outlets—from CBS Evening News’ \nNorah O’Donnellto journalists at CNN, the BBC and beyond",
-        "value": "AI-based impersonation of journalists/outlets"
+        "value": "AI-based hoaxing/counterfeiting of journalists/outlets"
       },
       {
         "end": 1369,
         "role": "factor",
         "start": 1213,
         "text": "produce seemingly real news segments from top anchors at major news outlets—from CBS Evening News’ \nNorah O’Donnellto journalists at CNN, the BBC and beyond",
-        "value": "AI-based mimicry of journalists' likeness/style"
+        "value": "AI-based mimicry of established journalists/outlets"
       },
       {
         "end": 583,
@@ -1292,7 +1292,7 @@
         "role": "actor",
         "start": 534,
         "text": "Krishna Sahay",
-        "value": "Disinformation actor"
+        "value": "Mis/disinformation actor"
       },
       {
         "end": 2357,
@@ -1375,7 +1375,7 @@
         "role": "factor",
         "start": 3616,
         "text": "Most of Sahay’s videos did not include any such disclaimer.",
-        "value": "Lack of transparency/disclosure"
+        "value": "Lack of audience disclosure"
       },
       {
         "end": 4445,
@@ -1408,15 +1408,15 @@
     ],
     "roles": {
       "actor": [
-        "Disinformation actor",
+        "Mis/disinformation actor",
         "Tech platform",
         "Unknown/unspecified"
       ],
       "factor": [
-        "AI-based impersonation of journalists/outlets",
-        "AI-based mimicry of journalists' likeness/style",
+        "AI-based hoaxing/counterfeiting of journalists/outlets",
+        "AI-based mimicry of established journalists/outlets",
         "Inadequate content moderation by platforms",
-        "Lack of transparency/disclosure"
+        "Lack of audience disclosure"
       ],
       "harm": [
         "Publication of low quality outputs / ai slop",
@@ -1446,7 +1446,7 @@
         "end": 4353,
         "start": 4296,
         "text": "had all the hallmarks of an AI-generated piece of writing",
-        "value": "Writing assistance"
+        "value": "Text generation"
       },
       {
         "category": "incident_developer",
@@ -1578,28 +1578,28 @@
         "role": "factor",
         "start": 11854,
         "text": "“Oh yeah, I did,” she said quickly. “I did have my personal assistant talk to her.”",
-        "value": "Lack of transparency/disclosure"
+        "value": "Lack of audience disclosure"
       },
       {
         "end": 15371,
         "role": "actor",
         "start": 15273,
         "text": "this generation’s internet scammers are scavenging in the wreckage of a degraded media environment",
-        "value": "Disinformation actor"
+        "value": "Mis/disinformation actor"
       },
       {
         "end": 15308,
         "role": "factor",
         "start": 15300,
         "text": "scammers",
-        "value": "Deployment of AI with intention to harm or mislead"
+        "value": "Deployment of AI with intention to harm, mislead, or troll"
       },
       {
         "end": 17198,
         "role": "factor",
         "start": 17146,
         "text": "Is that story written by AI? It’s impossible to know",
-        "value": "Lack of transparency/disclosure"
+        "value": "Lack of audience disclosure"
       },
       {
         "end": 15443,
@@ -1645,13 +1645,13 @@
     ],
     "roles": {
       "actor": [
-        "Disinformation actor",
+        "Mis/disinformation actor",
         "News organization/publisher"
       ],
       "factor": [
         "Publisher's lack of due diligence",
-        "Lack of transparency/disclosure",
-        "Deployment of AI with intention to harm or mislead",
+        "Lack of audience disclosure",
+        "Deployment of AI with intention to harm, mislead, or troll",
         "Lack of internal standards regarding AI use"
       ],
       "harm": [

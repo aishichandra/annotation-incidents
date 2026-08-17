@@ -1,8 +1,8 @@
 {
   "systems": [
-    "Chatbot",
+    "Chatbot (general use)",
     "News summarization",
-    "Writing assistance",
+    "Text generation",
     "Quote generation",
     "Deepfake generation",
     "Synthetic video/image generation",
@@ -13,30 +13,30 @@
   "developers": [
     "In-house AI system",
     "AI vendor",
-    "Unknown/unspecified"
+    "Unknown/unspecified",
+    "Hybrid/in-house tool on vendor model"
   ],
   "actor": [
     "News organization/publisher",
     "Individual journalist",
     "AI developer",
     "Tech platform",
-    "Third-party aggregator/content farm",
-    "Disinformation actor",
-    "SEO/platform-manipulation actor",
+    "Content farm/SEO-manipulation actor",
+    "Mis/disinformation actor",
     "PR/marketing agency",
     "Unknown/unspecified",
-    "other"
+    "Government/state actor"
   ],
   "factor": [
     "Inadequate human oversight",
     "Contextually inappropriate application of AI",
-    "Lack of transparency/disclosure",
+    "Lack of audience disclosure",
     "Publishers' lack of control over AI content presentation",
     "Publisher's lack of due diligence",
     "Inadequate content moderation by platforms",
-    "Deployment of AI with intention to harm or mislead",
-    "AI-based impersonation of journalists/outlets",
-    "AI-based mimicry of journalists' likeness/style",
+    "Deployment of AI with intention to harm, mislead, or troll",
+    "AI-based hoaxing/counterfeiting of journalists/outlets",
+    "AI-based mimicry of established journalists/outlets",
     "SEO/algorithm gaming",
     "Expired domain abuse",
     "AI substitution for human journalists",
@@ -47,8 +47,8 @@
   "harm": [
     "Publication of low quality outputs / ai slop",
     "Plagiarism",
-    "Citation issues",
-    "Inaccurate summarization",
+    "Citation fabrication",
+    "Distorted source representation",
     "Amplification of misinformation",
     "Propaganda/disinformation",
     "Reputational harm",
@@ -65,7 +65,8 @@
     "Misrepresentation of individuals depicted",
     "Loss of diversity",
     "Privacy harm",
-    "Scams"
+    "Scams",
+    "Legal burden"
   ],
   "harmed_party": [
     "Journalist(s)",
@@ -78,15 +79,15 @@
     "Process/Governance Failures": [
       "Inadequate human oversight",
       "Contextually inappropriate application of AI",
-      "Lack of transparency/disclosure",
+      "Lack of audience disclosure",
       "Publishers' lack of control over AI content presentation",
       "Publisher's lack of due diligence",
       "Inadequate content moderation by platforms"
     ],
     "Intentional Misuse": [
-      "Deployment of AI with intention to harm or mislead",
-      "AI-based impersonation of journalists/outlets",
-      "AI-based mimicry of journalists' likeness/style",
+      "Deployment of AI with intention to harm, mislead, or troll",
+      "AI-based hoaxing/counterfeiting of journalists/outlets",
+      "AI-based mimicry of established journalists/outlets",
       "SEO/algorithm gaming",
       "Expired domain abuse"
     ],
@@ -101,8 +102,8 @@
     "Information/content-quality (epistemic) harms": [
       "Publication of low quality outputs / ai slop",
       "Plagiarism",
-      "Citation issues",
-      "Inaccurate summarization",
+      "Citation fabrication",
+      "Distorted source representation",
       "Amplification of misinformation",
       "Propaganda/disinformation"
     ],
@@ -117,7 +118,8 @@
       "Displacement of human labor",
       "Increased workload / burden on journalists",
       "Economic harm to publisher(s)/journalist(s)",
-      "Disintermediation"
+      "Disintermediation",
+      "Legal burden"
     ],
     "Representational harms": [
       "Perpetuation of stereotypes",

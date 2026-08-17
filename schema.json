@@ -17,42 +17,23 @@
     {
       "key": "incident_system",
       "label": "System",
-      "type": "multi",
-      "options": [
-        "Content Creation",
-        "News Summaries",
-        "Chatbots",
-        "Quote Generation",
-        "Search Overview",
-        "Writing Assistance",
-        "Platform Crawlers",
-        "LLM Training",
-        "Deepfake",
-        "fkajflkajsd",
-        "unknown"
-      ]
+      "type": "multi"
     },
     {
       "key": "incident_developer",
       "label": "Developer",
+      "type": "multi"
+    },
+    {
+      "key": "incident_deployer",
+      "label": "Inciting actor(s)",
       "type": "multi",
-      "options": [
-        "Custom GPT",
-        "Unknown",
-        "OpenAI",
-        "Google",
-        "Microsoft",
-        "Perplexity",
-        "Numerous Systems",
-        "DeepSeek",
-        "xAI",
-        "In-House AI",
-        "AI Industry",
-        "Anthropic",
-        "Apple",
-        "Meta",
-        "Google AI Overviews"
-      ]
+      "options": []
+    },
+    {
+      "key": "incident_deployer_name",
+      "label": "Inciting actor(s) name",
+      "type": "text"
     },
     {
       "key": "incident_aftermath",
