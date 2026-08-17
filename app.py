@@ -971,37 +971,48 @@ def _jsonable(v):
 
 @app.route("/api/incident/<path:inc_id>/json")
 def api_incident_json(inc_id):
-    """The incident exactly as it is stored, for the card's raw-JSON view.
+    """The incident as it is stored, for the card's raw-JSON view.
+
+    Narrowed to what the card is actually about: the active coder's own subtree,
+    without their per-document evidence. Other coders are omitted because the card
+    shows one coder's reading, and coders stay blind to each other's judgements
+    while coding. The evidence is omitted because it is the bulk of the record —
+    one incident runs to ~24k characters of quotes — and it belongs to the
+    document view, where the offsets mean something. What's left is the incident
+    itself: its identity, its documents, and this coder's answers and claims.
 
     Mongo's document is the answer when it's there, since that's the record the
     analysis reads. Without it — Mongo not configured, or an incident nobody has
     synced yet — fall back to the same structure assembled from the local files,
     and say which one is being shown so the two are never confused."""
     coder = current_coder()
+
+    def narrow(doc):
+        slot = dict((doc.get("by_coder") or {}).get(coder) or {})
+        slot.pop("documents", None)
+        return {**{k: v for k, v in doc.items() if k != "by_coder"},
+                "by_coder": {coder: slot}}
+
     if mongo_db is not None:
         try:
             doc = mongo_db.incidents.find_one({"_id": inc_id})
             if doc:
-                return jsonify({"source": "mongodb", "incident": _jsonable(doc)})
+                return jsonify({"source": f"mongodb — {coder} only, evidence omitted",
+                                "incident": _jsonable(narrow(doc))})
         except Exception as e:
             print(f"[mongo] json read failed for {inc_id} ({e.__class__.__name__}: {e})")
     incidents, _, _ = aggregate_incidents(coder)
     g = incidents.get(inc_id)
     if g is None:
         abort(404, f"no incident {inc_id!r}")
-    by_coder = {}
-    for c in CODERS:
-        ann, inc = load_annotations(c), (load_incident_coding(c).get(inc_id) or {})
-        docs = {d["doc_key"]: doc_ann(ann, d["doc_key"])
-                for d in g.get("documents", []) if has_coding(ann.get(d["doc_key"]))}
-        if docs or inc.get("fields") or inc.get("groups"):
-            by_coder[c] = {"fields": inc.get("fields") or {},
-                           "groups": inc.get("groups") or [], "documents": docs}
+    inc = load_incident_coding(coder).get(inc_id) or {}
     local = {"_id": inc_id, "title": g.get("title", ""),
              "documents": [{"doc_id": d["doc_key"], "url": d["url"], "title": d["title"]}
                            for d in g.get("documents", [])],
-             "by_coder": by_coder}
-    return jsonify({"source": "local files (not in MongoDB yet)", "incident": _jsonable(local)})
+             "by_coder": {coder: {"fields": inc.get("fields") or {},
+                                  "groups": inc.get("groups") or []}}}
+    return jsonify({"source": f"local files (not in MongoDB yet) — {coder} only, evidence omitted",
+                    "incident": _jsonable(local)})
 
 
 @app.route("/api/push", methods=["POST"])
