@@ -621,17 +621,98 @@ async function init() {
   document.getElementById('tabDocs').onclick = () => setView('docs');
   document.getElementById('tabIncidents').onclick = () => setView('incidents');
   loadDoc(docs.length ? docs[0].index : 0);
-  setView('incidents');   // land on the Incidents view first
+  // Land where you left off; Incidents on a first visit.
+  let start = 'incidents';
+  try { start = localStorage.getItem('towView') || 'incidents'; } catch (_) {}
+  setView(start === 'docs' ? 'docs' : 'incidents');
 }
 
 // ---------- by-incident view ----------
 // Toggle between the per-document coder ('docs') and the incident overview
 // ('incidents'). CSS keyed off body.view-incidents shows/hides each surface.
+// Switching views is navigation, nothing more. It used to also refetch and
+// rebuild every incident card, which is why coming back from a document landed
+// you at the top with every panel shut — the list you were scrolled into no
+// longer existed. Data now refreshes when data changes (see markIncidentDirty),
+// so a tab click leaves the DOM alone and your place in it survives.
+//
+// The two views share the window scrollbar, so hiding a tall one shrinks the
+// page and the browser clamps scrollY. Each view's offset is therefore parked on
+// the way out and put back on the way in, the same way loadDoc(keepScroll) does.
+let CURRENT_VIEW = null;
+const VIEW_SCROLL = { docs: 0, incidents: 0 };
+
 function setView(v) {
+  if (CURRENT_VIEW) VIEW_SCROLL[CURRENT_VIEW] = window.scrollY;
+  CURRENT_VIEW = v;
+  try { localStorage.setItem('towView', v); } catch (_) {}
   document.body.classList.toggle('view-incidents', v === 'incidents');
   document.getElementById('tabDocs').classList.toggle('active', v === 'docs');
   document.getElementById('tabIncidents').classList.toggle('active', v === 'incidents');
-  if (v === 'incidents') loadIncidents();
+  const done = () => requestAnimationFrame(() => window.scrollTo(0, VIEW_SCROLL[v] || 0));
+  if (v === 'incidents') refreshIncidents().then(done);
+  else done();
+}
+
+// Incidents whose data changed since they were rendered. A document save marks
+// the incident it belongs to; nothing else needs a redraw, so switching tabs
+// with none of these is free.
+const DIRTY_INCIDENTS = new Set();
+let INCIDENTS_RENDERED = false;
+
+function markIncidentDirty(incId) {
+  if (incId) DIRTY_INCIDENTS.add(incId);
+}
+
+// Bring the incidents view up to date with the least disturbance: nothing on the
+// first visit but a full render, and after that only the cards whose data moved.
+async function refreshIncidents() {
+  if (!INCIDENTS_RENDERED) return loadIncidents();
+  if (!DIRTY_INCIDENTS.size) return;
+  let data;
+  try { data = await (await fetch('/api/incidents')).json(); }
+  catch (e) { return; }
+  const fresh = {};
+  data.incidents.forEach(inc => { fresh[inc.incident_id] = inc; });
+  // An incident that appeared or disappeared changes the list itself, not just a
+  // card, so fall back to a full render for that.
+  const sameSet = Object.keys(fresh).length === Object.keys(INCIDENTS).length
+    && Object.keys(fresh).every(k => k in INCIDENTS);
+  if (!sameSet) {
+    DIRTY_INCIDENTS.clear();
+    return loadIncidents();
+  }
+  DIRTY_INCIDENTS.forEach(incId => {
+    const inc = fresh[incId];
+    const card = document.querySelector(`.tow-card[data-card="${CSS.escape(incId)}"]`);
+    if (!inc || !card) return;
+    INCIDENTS[incId] = inc;
+    const holder = document.createElement('div');
+    holder.innerHTML = incidentCard(inc, data.fields);
+    const replacement = holder.firstElementChild;
+    card.replaceWith(replacement);
+    wireIncidentCard(replacement);
+  });
+  DIRTY_INCIDENTS.clear();
+}
+
+// Post-render wiring for one card: opening its documents, its draggable chips,
+// its claims and its JSON panel. Shared so a single re-rendered card comes back
+// as live as one from a full render.
+function wireIncidentCard(root) {
+  root.querySelectorAll('.tow-doc').forEach(el => {
+    el.onclick = (e) => {
+      if (e.target.closest('.durl')) return;   // let the external link work
+      const i = +el.dataset.index;
+      setView('docs');
+      document.getElementById('docSelect').value = i;
+      loadDoc(i);
+    };
+  });
+  root.querySelectorAll('.tow-palette').forEach(el => buildPalette(el, INCIDENTS[el.dataset.inc]));
+  root.querySelectorAll('.tow-dragfield').forEach(el => buildFieldChips(el, INCIDENTS[el.dataset.inc]));
+  root.querySelectorAll('.tow-groups').forEach(el => buildGroupsUI(el, INCIDENTS[el.dataset.inc]));
+  root.querySelectorAll('.json-btn').forEach(btn => btn.onclick = () => toggleJson(btn.dataset.inc));
 }
 
 async function loadIncidents() {
@@ -648,22 +729,9 @@ async function loadIncidents() {
     ? data.incidents.map(inc => incidentCard(inc, data.fields)).join('')
     : '<div class="iempty">No incidents coded yet.</div>';
   wrap.innerHTML = `<div class="inc-wrap">${body}</div>`;
-  // Clicking a source document opens it in the coder (Documents view).
-  wrap.querySelectorAll('.tow-doc').forEach(el => {
-    el.onclick = (e) => {
-      if (e.target.closest('.durl')) return;   // let the external link work
-      const i = +el.dataset.index;
-      setView('docs');
-      document.getElementById('docSelect').value = i;
-      loadDoc(i);
-    };
-  });
-  // Wire the palette + draggable System/Developer chips (left) and the
-  // drag-to-group claims (right) to their incident.
-  wrap.querySelectorAll('.tow-palette').forEach(el => buildPalette(el, INCIDENTS[el.dataset.inc]));
-  wrap.querySelectorAll('.tow-dragfield').forEach(el => buildFieldChips(el, INCIDENTS[el.dataset.inc]));
-  wrap.querySelectorAll('.tow-groups').forEach(el => buildGroupsUI(el, INCIDENTS[el.dataset.inc]));
-  wrap.querySelectorAll('.json-btn').forEach(btn => btn.onclick = () => toggleJson(btn.dataset.inc));
+  wireIncidentCard(wrap);
+  INCIDENTS_RENDERED = true;
+  DIRTY_INCIDENTS.clear();
 }
 
 const NODATA = '<span class="tow-nodata">No data</span>';
@@ -713,7 +781,7 @@ function incidentCard(inc, fields) {
   }).join('');
 
   const encId = escapeHtml(inc.incident_id);
-  return `<div class="tow-card">
+  return `<div class="tow-card" data-card="${encId}">
     <div class="tow-head">
       <span class="tow-id">${encId}</span>
       <div class="tow-headdocs">${docsHtml}</div>
@@ -978,16 +1046,25 @@ function evidenceFor(inc, kind, value) {
 
 function quotesKey(kind, value) { return kind + ' ' + value; }
 
-function isQuotesOpen(inc, kind, value) {
-  return !!(inc._openQuotes && inc._openQuotes.has(quotesKey(kind, value)));
+// Which evidence panels are open, keyed by incident id. Held here rather than on
+// the incident object because a refreshed card is handed a *new* object from the
+// server — state hanging off the old one would shut every panel on the card you
+// had just been reading. Survives both the palette rebuild after a claim change
+// and a card re-render after a save.
+const OPEN_QUOTES = {};
+
+function openSet(inc) {
+  return OPEN_QUOTES[inc.incident_id] || (OPEN_QUOTES[inc.incident_id] = new Set());
 }
 
-// Open panels live on the incident rather than the DOM, so they survive the
-// palette rebuild that follows every claim change.
+function isQuotesOpen(inc, kind, value) {
+  return openSet(inc).has(quotesKey(kind, value));
+}
+
 function toggleQuotes(inc, kind, value) {
-  inc._openQuotes = inc._openQuotes || new Set();
+  const open = openSet(inc);
   const k = quotesKey(kind, value);
-  if (!inc._openQuotes.delete(k)) inc._openQuotes.add(k);
+  if (!open.delete(k)) open.add(k);
 }
 
 // The panel itself: every passage this coder highlighted for the value, with the
@@ -2302,6 +2379,9 @@ async function persist() {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(curDoc.ann),
   });
+  // This is the only thing that can make an incident card stale, so it's the
+  // only thing that asks for one to be redrawn. Switching tabs no longer does.
+  markIncidentDirty((curDoc.ann.fields.incident_id || {}).answer);
   const j = await res.json();
   document.getElementById('status').textContent =
     `Saved ✓ ${j.n} quote${j.n === 1 ? '' : 's'} → data_annotated.csv`;
