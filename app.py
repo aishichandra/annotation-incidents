@@ -289,7 +289,8 @@ def load_annotations(coder: str) -> dict:
 
 def load_groups(coder: str) -> dict:
     """One coder's incident-level claim groupings, built by dragging in the card
-    view. Shape: {incident_id: {"groups": [{"id", "members": [{"role", "value"}]}]}}.
+    view. Shape: {incident_id: {"groups": [{"id", "actor", "system", "developer",
+    "claims": [{"id", "harm", "harmed_party", "factors": []}]}]}}.
 
     Filled in from Mongo on incidents the local file has no claims for, the same
     way `load_annotations` works — claims linked on another machine show up here
@@ -563,7 +564,8 @@ def store_from_mongo(coder: str) -> dict:
 
 def groups_from_mongo(coder: str) -> dict:
     """One coder's claim groups per incident, as Mongo currently has them.
-    Shape: {incident_id: [{"id", "members": [{"role", "value"}]}]}. Coding written
+    Shape: {incident_id: [{"id", "actor", "system", "developer",
+    "claims": [{"id", "harm", "harmed_party", "factors": []}]}]}. Coding written
     before multi-coder support left a single flat `groups` array on the incident;
     that's read back as the first coder's links, matching `/api/pull`."""
     out = {}
@@ -833,24 +835,50 @@ def aggregate_incidents(coder: str):
                 if v and v not in bucket:
                     bucket.append(v)
 
-    # Attach saved groupings, dropping any member whose value is no longer coded.
-    # A member is either one of the four characteristic roles (checked against the
-    # pooled role_values) or an optional system/developer (checked against that
+    # Attach saved groupings, dropping any value that is no longer coded. A value
+    # is either one of the four characteristic roles (checked against the pooled
+    # role_values) or an optional system/developer (checked against that
     # incident-level field's values).
-    def still_coded(g, m):
-        role, value = m.get("role"), m.get("value")
+    def still_coded(g, role, value):
+        if not value:
+            return False
         if role in g["role_values"]:
             return value in g["role_values"][role]
         fk = CLAIM_FIELD_ROLES.get(role)
         return bool(fk) and value in g["field_values"].get(fk, [])
 
+    def keep(g, role, value):
+        """The value if it's still coded, else None — scalar slots empty out
+        rather than dangle."""
+        return value if still_coded(g, role, value) else None
+
     for inc_id, g in incidents.items():
         saved = groups_store.get(inc_id, {}).get("groups", [])
         pruned = []
         for grp in saved:
-            members = [m for m in grp.get("members", []) if still_coded(g, m)]
-            if members:
-                pruned.append({"id": grp.get("id"), "members": members})
+            # Groups written before the actor-grouped structure carried a flat
+            # `members` list. They aren't convertible without a coder deciding how
+            # to split them, so they're skipped rather than half-rendered.
+            if "claims" not in grp:
+                continue
+            claims = []
+            for cl in grp.get("claims") or []:
+                harm = keep(g, "harm", cl.get("harm"))
+                party = keep(g, "harmed_party", cl.get("harmed_party"))
+                factors = [f for f in (cl.get("factors") or [])
+                           if still_coded(g, "factor", f)]
+                if harm or party or factors:
+                    claims.append({"id": cl.get("id"), "harm": harm,
+                                   "harmed_party": party, "factors": factors})
+            actor = keep(g, "actor", grp.get("actor"))
+            system = keep(g, "system", grp.get("system"))
+            developer = keep(g, "developer", grp.get("developer"))
+            # An actor context with nothing left in it at all is dropped; one that
+            # still names an actor is kept even with no claims, since it's the
+            # header a coder is about to hang claims off.
+            if actor or system or developer or claims:
+                pruned.append({"id": grp.get("id"), "actor": actor, "system": system,
+                               "developer": developer, "claims": claims})
         g["groups"] = pruned
 
     return incidents, field_defs, role_defs
@@ -930,7 +958,10 @@ def api_push():
 @app.route("/api/incident/<path:inc_id>/groups", methods=["POST"])
 def api_save_groups(inc_id):
     """Persist the active coder's card-view claim groupings for one incident.
-    Body: {groups:[…]}, each group {id, members:[{role, value}]}. This is the single
+    Body: {groups:[…]}. A group is one actor context — {id, actor, system,
+    developer, claims:[{id, harm, harmed_party, factors:[]}]} — where actor,
+    system, developer, harm and harmed_party are single values and only
+    factors is a list. This is the single
     home for links now that the document view codes characteristics flat; each coder
     links their own claims, so the groupings are per coder.
 

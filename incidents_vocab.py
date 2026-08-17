@@ -112,10 +112,30 @@ def build_validator(vocab: dict | None = None) -> dict:
             **coding["properties"],
         },
     }
+    # One element per actor context: who did it, optionally with what system and
+    # whose model, and the claims made about that context. actor / system /
+    # developer / harm / harmed_party are single values — plural there would mean
+    # a cross product nobody can read back ("which harm hit which party?"). Only
+    # `factors` is a list, where "because of A and B" is honestly conjunctive.
+    claim_obj = {
+        "bsonType": "object",
+        "properties": {
+            "id": {"bsonType": ["string", "null"]},
+            "harm": {"bsonType": ["string", "null"]},
+            "harmed_party": {"bsonType": ["string", "null"]},
+            "factors": {"bsonType": "array"},
+        },
+    }
     groups_array = {
         "bsonType": "array",
         "items": {"bsonType": "object", "properties": {
             "id": {"bsonType": ["string", "null"]},
+            "actor": {"bsonType": ["string", "null"]},
+            "system": {"bsonType": ["string", "null"]},
+            "developer": {"bsonType": ["string", "null"]},
+            "claims": {"bsonType": "array", "items": claim_obj},
+            # flat links written before the actor-grouped structure; still
+            # permitted so any pre-restructure document keeps validating
             "members": {"bsonType": "array"}}},
     }
     schema = {
