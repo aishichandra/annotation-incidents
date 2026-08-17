@@ -95,21 +95,12 @@ def build_validator(vocab: dict | None = None) -> dict:
 
     `vocab` is accepted for call-site compatibility but no longer needed here.
     """
-    coding = {   # one coder's reading of one source doc
+    evidence = {   # one coder's evidence for one source document
         "bsonType": "object",
         "properties": {
-            "fields": {"bsonType": ["object", "null"]},
             "quotes": {"bsonType": "array"},
             "roles": {"bsonType": ["object", "null"]},
             "updated_at": {"bsonType": ["date", "null"]},
-        },
-    }
-    doc_entry = {   # by_document.<doc_key> — every coder's reading of one source doc
-        "bsonType": "object",
-        "properties": {
-            "by_coder": {"bsonType": "object", "additionalProperties": coding},
-            # legacy flat coding, written before multi-coder support
-            **coding["properties"],
         },
     }
     # One element per actor context: who did it, optionally with what system and
@@ -143,13 +134,26 @@ def build_validator(vocab: dict | None = None) -> dict:
             # permitted so any pre-restructure document keeps validating
             "members": {"bsonType": "array"}}},
     }
+    # Everything one coder judges about this incident, in one subtree: the
+    # incident's own field answers, their claim groups, and their evidence per
+    # source document. Keeping it under a single path is what lets a save be one
+    # $set that cannot reach another coder's work.
+    coder_entry = {
+        "bsonType": "object",
+        "properties": {
+            "fields": {"bsonType": ["object", "null"]},
+            "groups": groups_array,
+            "documents": {"bsonType": "object", "additionalProperties": evidence},
+            "updated_at": {"bsonType": ["date", "null"]},
+        },
+    }
     schema = {
         "bsonType": "object",
-        "required": ["incident_id"],
         "properties": {
-            "incident_id": {"bsonType": "string"},
-            "incident_title": {"bsonType": ["string", "null"]},
-            "by_document": {"bsonType": "object", "additionalProperties": doc_entry},
+            # _id is the incident id — there is no second identity field.
+            "_id": {"bsonType": "string"},
+            "title": {"bsonType": ["string", "null"]},
+            "by_coder": {"bsonType": "object", "additionalProperties": coder_entry},
             "documents": {
                 "bsonType": "array",
                 "items": {"bsonType": "object", "required": ["doc_id", "url"], "properties": {
@@ -157,12 +161,9 @@ def build_validator(vocab: dict | None = None) -> dict:
                     "url": {"bsonType": ["string", "null"]},
                     "title": {"bsonType": ["string", "null"]}}},
             },
-            # Claim groups written by the "Push to Mongo" button, one set per
-            # coder (linking claims is a coding judgement, so it isn't shared).
-            # Pooled characteristic / field lists are NOT stored here — they're
-            # fully derivable from by_document, so keeping the incident doc lean.
-            "groups_by_coder": {"bsonType": "object", "additionalProperties": groups_array},
-            "groups": groups_array,   # legacy single-coder groups
+            # Pooled characteristic / field lists are NOT stored — they're
+            # derived from by_coder when a card is rendered, so the document
+            # holds only what was actually judged.
             "created_at": {"bsonType": ["date", "null"]},
             "updated_at": {"bsonType": ["date", "null"]},
         },
@@ -180,7 +181,6 @@ def ensure_collection(db, name: str = "incidents", vocab: dict | None = None):
     else:
         db.create_collection(name, validator=validator, validationLevel="moderate")
     coll = db[name]
-    coll.create_index("incident_id", unique=True)   # one document per incident
     coll.create_index("documents.url")               # "which incident cites this URL?"
     coll.create_index("documents.doc_id")
     return coll
