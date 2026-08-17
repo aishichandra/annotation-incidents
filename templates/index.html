@@ -115,10 +115,37 @@
   .json-btn:hover { border-color: #254c6f; color: #254c6f; }
   .json-btn.on { background: #254c6f; border-color: #254c6f; color: #fff; }
   .json-panel { border-top: 1px solid #eee; padding: 10px 16px 14px; background: #fbfcfd; }
-  .json-src { font-size: 11px; color: #8a8a8a; margin-bottom: 6px; }
-  .json-pre { margin: 0; max-height: 460px; overflow: auto; font-size: 11.5px;
-              line-height: 1.45; background: #fff; border: 1px solid #ececec;
-              border-radius: 4px; padding: 10px; white-space: pre; }
+  .json-bar { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+  .json-src { font-size: 11px; color: #8a8a8a; flex: 1 1 auto; }
+  .json-act { font-size: 11px; border: 1px solid #dcdcdc; background: #fff; color: #666;
+              cursor: pointer; border-radius: 4px; padding: 2px 7px; flex: none; }
+  .json-act:hover { border-color: #254c6f; color: #254c6f; }
+  /* The tree. Indentation carries the nesting, so each level gets a hairline to
+     follow rather than counting spaces in a wall of text. */
+  .json-tree { max-height: 460px; overflow: auto; background: #fff;
+               border: 1px solid #ececec; border-radius: 4px; padding: 10px 12px;
+               font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+               font-size: 12px; line-height: 1.65; }
+  .jn-body { padding-left: 15px; margin-left: 4px; border-left: 1px solid #f0f0f0; }
+  .jn-head { cursor: pointer; border-radius: 3px; }
+  .jn-head:hover { background: #f4f7fa; }
+  .jn-caret { display: inline-block; width: 11px; color: #b8b8b8; font-size: 9px;
+              transition: transform .12s; }
+  .jn.collapsed > .jn-head > .jn-caret { transform: rotate(-90deg); }
+  .jn.collapsed > .jn-body, .jn.collapsed > .jn-tail { display: none; }
+  .jn-sum { display: none; color: #b0b0b0; }
+  .jn.collapsed > .jn-head > .jn-sum { display: inline; }
+  .jn-tail { padding-left: 11px; }
+  .jn-count { color: #c0c0c0; font-size: 10px; margin-left: 6px; }
+  .jn.collapsed > .jn-head > .jn-count { display: none; }
+  /* value colouring: the point is telling keys from values at a glance */
+  .jn-key  { color: #254c6f; font-weight: 600; }
+  .jn-str  { color: #2f7a4f; }
+  .jn-num  { color: #8a4fbf; }
+  .jn-bool { color: #b45309; }
+  .jn-null { color: #b0b0b0; font-style: italic; }
+  .jn-p    { color: #c4c4c4; }
+  .jn-empty { color: #c0c0c0; }
   /* a chip whose evidence is open */
   .drag-chip.open { box-shadow: 0 0 0 2px #cfd6dd; }
   .drag-chip .chip-qn { flex: none; font-size: 9.5px; color: #9aa0a6; }
@@ -1026,17 +1053,99 @@ async function toggleJson(incId) {
     const j = await res.json();
     if (!res.ok) throw new Error(j.error || res.status);
     panel.innerHTML = '';
+    const bar = document.createElement('div');
+    bar.className = 'json-bar';
     const src = document.createElement('div');
     src.className = 'json-src';
     src.textContent = 'source: ' + j.source;
-    const pre = document.createElement('pre');
-    pre.className = 'json-pre';
-    pre.textContent = JSON.stringify(j.incident, null, 2);
-    panel.appendChild(src);
-    panel.appendChild(pre);
+    const tree = jsonTree(j.incident);
+    const act = (label, fn) => {
+      const b = document.createElement('button');
+      b.className = 'json-act'; b.textContent = label; b.onclick = fn;
+      return b;
+    };
+    bar.appendChild(src);
+    bar.appendChild(act('Collapse all', () =>
+      tree.querySelectorAll('.jn').forEach(n => n.querySelector('.jn-body') && n.classList.add('collapsed'))));
+    bar.appendChild(act('Expand all', () =>
+      tree.querySelectorAll('.jn').forEach(n => n.classList.remove('collapsed'))));
+    const copy = act('Copy', async () => {
+      try {
+        await navigator.clipboard.writeText(JSON.stringify(j.incident, null, 2));
+        copy.textContent = 'Copied ✓';
+        setTimeout(() => { copy.textContent = 'Copy'; }, 1200);
+      } catch (_) { copy.textContent = 'Copy failed'; }
+    });
+    bar.appendChild(copy);
+    panel.appendChild(bar);
+    panel.appendChild(tree);
   } catch (e) {
     panel.textContent = 'Could not load JSON: ' + e.message;
   }
+}
+
+// A collapsible, colour-coded rendering of a JSON value. Plain JSON.stringify
+// output is a wall of monospace where the only cue to structure is how far a
+// line is indented — fine for ten lines, not for an incident. Here keys are
+// distinguished from values by colour, every object and array folds away behind
+// its own header, and an indent guide runs down each level so a nested value can
+// be traced back to what contains it.
+function jsonTree(value) {
+  const root = document.createElement('div');
+  root.className = 'json-tree';
+  root.appendChild(jsonNode(null, value, true));
+  return root;
+}
+
+function jsonLeaf(value) {
+  if (value === null) return '<span class="jn-null">null</span>';
+  const t = typeof value;
+  if (t === 'string') return `<span class="jn-str">${escapeHtml(JSON.stringify(value))}</span>`;
+  if (t === 'number') return `<span class="jn-num">${value}</span>`;
+  if (t === 'boolean') return `<span class="jn-bool">${value}</span>`;
+  return escapeHtml(String(value));
+}
+
+function jsonNode(key, value, last) {
+  const wrap = document.createElement('div');
+  wrap.className = 'jn';
+  // Array items have no key of their own; their position is the indent.
+  const keyHtml = key === null ? ''
+    : `<span class="jn-key">${escapeHtml(JSON.stringify(key))}</span><span class="jn-p">: </span>`;
+  const comma = last ? '' : '<span class="jn-p">,</span>';
+
+  if (value === null || typeof value !== 'object') {
+    wrap.innerHTML = `<span class="jn-caret"></span>${keyHtml}${jsonLeaf(value)}${comma}`;
+    return wrap;
+  }
+  const isArr = Array.isArray(value);
+  const entries = isArr ? value.map((v, i) => [null, v]) : Object.entries(value);
+  const [open, close] = isArr ? ['[', ']'] : ['{', '}'];
+  if (!entries.length) {   // nothing to fold away
+    wrap.innerHTML = `<span class="jn-caret"></span>${keyHtml}`
+      + `<span class="jn-empty">${open}${close}</span>${comma}`;
+    return wrap;
+  }
+
+  const head = document.createElement('div');
+  head.className = 'jn-head';
+  head.innerHTML = `<span class="jn-caret">▾</span>${keyHtml}<span class="jn-p">${open}</span>`
+    + `<span class="jn-sum"> … <span class="jn-p">${close}</span>${comma}</span>`
+    + `<span class="jn-count">${entries.length} ${isArr
+        ? (entries.length === 1 ? 'item' : 'items')
+        : (entries.length === 1 ? 'key' : 'keys')}</span>`;
+  head.onclick = (e) => { e.stopPropagation(); wrap.classList.toggle('collapsed'); };
+
+  const body = document.createElement('div');
+  body.className = 'jn-body';
+  entries.forEach(([k, v], i) => body.appendChild(jsonNode(k, v, i === entries.length - 1)));
+
+  const tail = document.createElement('div');
+  tail.className = 'jn-tail';
+  tail.innerHTML = `<span class="jn-p">${close}</span>${comma}`;
+
+  wrap.appendChild(head); wrap.appendChild(body); wrap.appendChild(tail);
+  return wrap;
 }
 
 // ---------- evidence behind a characteristic ----------
