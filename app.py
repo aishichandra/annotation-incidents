@@ -289,8 +289,19 @@ def load_annotations(coder: str) -> dict:
 
 def load_groups(coder: str) -> dict:
     """One coder's incident-level claim groupings, built by dragging in the card
-    view. Shape: {incident_id: {"groups": [{"id", "members": [{"role", "value"}]}]}}."""
-    return _read_json(groups_path(coder))
+    view. Shape: {incident_id: {"groups": [{"id", "members": [{"role", "value"}]}]}}.
+
+    Filled in from Mongo on incidents the local file has no claims for, the same
+    way `load_annotations` works — claims linked on another machine show up here
+    without a Pull. An incident the local file already has claims for is left
+    alone, so a local edit can't be undone by a stale remote copy."""
+    store = _read_json(groups_path(coder))
+    if mongo_db is None:
+        return store
+    for inc_id, groups in _mongo_snapshot(f"groups:{coder}", lambda: groups_from_mongo(coder)).items():
+        if groups and not (store.get(inc_id) or {}).get("groups"):
+            store[inc_id] = {"groups": groups}
+    return store
 
 
 def save_groups(store: dict, coder: str) -> None:
@@ -548,6 +559,46 @@ def store_from_mongo(coder: str) -> dict:
                 "roles": coding.get("roles", {}),
             }
     return store
+
+
+def groups_from_mongo(coder: str) -> dict:
+    """One coder's claim groups per incident, as Mongo currently has them.
+    Shape: {incident_id: [{"id", "members": [{"role", "value"}]}]}. Coding written
+    before multi-coder support left a single flat `groups` array on the incident;
+    that's read back as the first coder's links, matching `/api/pull`."""
+    out = {}
+    if mongo_db is None:
+        return out
+    for inc in mongo_db.incidents.find({}, {"incident_id": 1, "groups_by_coder": 1, "groups": 1}):
+        by_coder = inc.get("groups_by_coder") or (
+            {LEGACY_CODER: inc.get("groups")} if inc.get("groups") else {})
+        if coder in by_coder:
+            out[inc["incident_id"]] = by_coder[coder]
+    return out
+
+
+def sync_groups_to_mongo(inc_id: str, groups: list, coder: str) -> None:
+    """Mirror one coder's claim groups for one incident into Mongo.
+
+    The card view's counterpart to `sync_to_mongo`: linking claims now reaches
+    Atlas as it happens, rather than waiting for someone to press Push. Only this
+    coder's slot is written, so it can't disturb another coder's links. What goes
+    up is exactly what the local file holds — unpruned — so Mongo and
+    incident_groups.<coder>.json stay the same thing; `aggregate_incidents` drops
+    members whose values are no longer coded when the card is rendered. Non-fatal:
+    a failure here leaves the local save intact."""
+    if mongo_db is None:
+        return
+    now = datetime.now(timezone.utc)
+    try:
+        mongo_db.incidents.update_one(
+            {"incident_id": inc_id},
+            {"$setOnInsert": {"incident_id": inc_id, "created_at": now},
+             "$set": {f"groups_by_coder.{coder}": groups, "updated_at": now}},
+            upsert=True)
+        invalidate_mongo_cache()
+    except Exception as e:
+        print(f"[mongo] group sync failed for {inc_id} ({e.__class__.__name__}: {e})")
 
 
 def assignments_from_mongo() -> dict:
@@ -881,7 +932,11 @@ def api_save_groups(inc_id):
     """Persist the active coder's card-view claim groupings for one incident.
     Body: {groups:[…]}, each group {id, members:[{role, value}]}. This is the single
     home for links now that the document view codes characteristics flat; each coder
-    links their own claims, so the groupings are per coder."""
+    links their own claims, so the groupings are per coder.
+
+    Like a document save, this writes both places: the coder's own JSON file and —
+    when Mongo is connected — `groups_by_coder.<coder>` on the incident. Push stays
+    available for a bulk re-send, but is no longer what claims depend on."""
     coder = current_coder(strict=True)
     body = request.get_json(force=True)
     groups = body.get("groups", [])
@@ -889,7 +944,9 @@ def api_save_groups(inc_id):
     store[inc_id] = {"groups": groups,
                      "updated_at": datetime.now(timezone.utc).isoformat()}
     save_groups(store, coder)
-    return jsonify({"ok": True, "coder": coder, "groups": len(groups)})
+    sync_groups_to_mongo(inc_id, groups, coder)
+    return jsonify({"ok": True, "coder": coder, "groups": len(groups),
+                    "synced": mongo_db is not None})
 
 
 @app.route("/api/docs")
