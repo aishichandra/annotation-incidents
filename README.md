@@ -120,6 +120,14 @@ each other's judgements while coding.
 Push / Pull act on the current coder alone: pushing as alice never touches bob's
 work in Atlas, and pulling as bob never rewrites alice's local file.
 
+Claim links autosave to Mongo like everything else — dragging a characteristic into
+a claim writes `incident_groups.<coder>.json` *and* `groups_by_coder.<coder>` on the
+incident, so Push is only ever a bulk re-send. Note that a claim stores role/value
+pairs, not references: `aggregate_incidents` drops any member whose value is no
+longer coded on a member document, and a claim left with no members disappears. If
+every document moves out of an incident, its claims stay in Mongo but stop being
+reachable, since the card view only lists incidents that currently have documents.
+
 **Migrating an existing project:** on first start the old `annotations.json` and
 `incident_groups.json` become the *first* coder's files, and
 `incident_assignments.json` is seeded from the incidents already coded. Existing
