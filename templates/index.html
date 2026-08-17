@@ -141,6 +141,17 @@
   .grp-sentence .sent-ph { color: #bbb; font-style: italic; }
   /* an optional clause (using … / developed by …) with nothing dropped in yet */
   .grp-sentence .sent-slot.opt .sent-ph { color: #d4d4d4; }
+  /* the actor context, shared by every claim below it */
+  .grp-head { border-bottom: 1px solid #eee; background: #f7f8fa; font-weight: 500; }
+  /* one claim: indented under its actor context, numbered <group>.<claim> */
+  .grp-claims { display: flex; flex-direction: column; }
+  .grp-claim { position: relative; padding-left: 44px; padding-right: 28px;
+               border-bottom: 1px dashed #ededed; }
+  .grp-claim:last-child { border-bottom: none; }
+  .claim-num { position: absolute; left: 12px; top: 12px; font-size: 11px;
+               font-weight: 700; color: #b0b0b0; letter-spacing: .03em; }
+  .claim-del { position: absolute; right: 6px; top: 8px; }
+  .grp-add-claim { margin: 8px 12px 12px; }
 
   .tow-doc { display: flex; gap: 8px; align-items: baseline; font-size: 13px; margin-bottom: 7px;
     cursor: pointer; }
@@ -487,6 +498,11 @@ const CLAIM_FIELDS = [
 ];
 // Lookup for anything droppable into a claim: the four roles plus these two.
 const CLAIM_ROLE = { ...ROLE, ...Object.fromEntries(CLAIM_FIELDS.map(c => [c.role, c])) };
+// Which slot a dragged value belongs to. The actor context is shared by every
+// claim in a group, so it lives on the group header; the rest describe a single
+// claim and are dropped onto the claim row itself.
+const GROUP_ROLES = ['actor', 'system', 'developer'];
+const CLAIM_ROLES_DROP = ['harm', 'harmed_party', 'factor'];
 let SCHEMA_ROLES = [];      // [{role,label,options,groups?}] from schema.claim_roles
 function roleOptions(role) {
   const r = SCHEMA_ROLES.find(x => x.role === role);
@@ -697,13 +713,28 @@ async function saveGroups(inc) {
   } catch (e) { /* non-fatal: local drag state stays until reload */ }
 }
 
-// Which claims a characteristic has been dragged into. A value can belong to any
-// number of claims — dragging copies rather than moves — so this returns every
-// claim id that holds it, and the palette shows them on the chip.
+// Where a characteristic has been used. A value can appear in any number of
+// places — dragging copies rather than moves — so this returns every mark that
+// holds it, and the palette shows them on the chip.
+//
+// Actor / system / developer belong to the group, so their mark is the group id
+// ("2"). Harm / harmed party / factor belong to one claim inside a group, so
+// theirs is "group.claim" ("2.1").
 function usedInClaims(inc, role, value) {
-  return (inc.groups || [])
-    .filter(g => (g.members || []).some(m => m.role === role && m.value === value))
-    .map(g => g.id);
+  const marks = [];
+  (inc.groups || []).forEach(g => {
+    if (GROUP_ROLES.includes(role)) {
+      if (g[role] === value) marks.push(String(g.id));
+      return;
+    }
+    (g.claims || []).forEach(cl => {
+      const hit = role === 'factor'
+        ? (cl.factors || []).includes(value)
+        : cl[role] === value;
+      if (hit) marks.push(g.id + '.' + cl.id);
+    });
+  });
+  return marks;
 }
 
 // Re-render everything draggable on an incident's card — the characteristics
@@ -765,9 +796,9 @@ function buildFieldChips(container, inc) {
 // Rebuilds itself on every change and persists per incident.
 function buildGroupsUI(container, inc) {
   if (!inc) return;
-  // Always start with one claim ready (auto-selected). Empty groups aren't saved
-  // server-side, so this just seeds the first sentence template each load.
-  if (!inc.groups.length) inc.groups.push({ id: '1', members: [] });
+  // Always start with one actor context holding one empty claim. Empty groups
+  // aren't saved server-side, so this just seeds the template each load.
+  if (!inc.groups.length) inc.groups.push(newGroup(inc));
   container.innerHTML = '';
 
   const groupsWrap = document.createElement('div');
@@ -776,16 +807,31 @@ function buildGroupsUI(container, inc) {
   inc.groups.forEach(grp => groupsWrap.appendChild(buildGroupBox(inc, grp, container)));
 
   const add = document.createElement('button');
-  add.className = 'grp-add'; add.textContent = '+ New group';
+  add.className = 'grp-add'; add.textContent = '+ New actor group';
   add.onclick = () => {
-    const n = inc.groups.reduce((mx, g) => Math.max(mx, parseInt(g.id, 10) || 0), 0) + 1;
-    inc.groups.push({ id: String(n), members: [] });
+    inc.groups.push(newGroup(inc));
     saveGroups(inc);
     buildGroupsUI(container, inc);
   };
   groupsWrap.appendChild(add);
   container.appendChild(groupsWrap);
   refreshDraggables(inc);   // keep the chips' claim marks in step with the claims
+}
+
+// Ids are per-incident counters, unique only within their own scope: group ids
+// across the incident, claim ids within their group.
+function nextId(list) {
+  return String(list.reduce((mx, x) => Math.max(mx, parseInt(x.id, 10) || 0), 0) + 1);
+}
+
+function newClaim(grp) {
+  return { id: nextId(grp.claims || []), harm: null, harmed_party: null, factors: [] };
+}
+
+function newGroup(inc) {
+  const g = { id: nextId(inc.groups || []), actor: null, system: null, developer: null, claims: [] };
+  g.claims.push(newClaim(g));
+  return g;
 }
 
 // A draggable palette chip (characteristics palette only). `claims` is the list
@@ -825,17 +871,21 @@ function makeChip(role, value, claims) {
   return chip;
 }
 
-// A group is just the claim sentence; the sentence itself is the drop target and
-// dropping a characteristic fills its slot. Filled values are removable chips.
+// A group is one actor context — "<actor> using <system> developed by <developer>"
+// — with its claims listed underneath. The header and each claim row are separate
+// drop zones, so a dragged chip's destination is never ambiguous: actor / system /
+// developer land in the header, harm / harmed party / factor land in the claim you
+// drop them on.
 function buildGroupBox(inc, grp, container) {
   const box = document.createElement('div');
   box.className = 'grp-box';
 
   const top = document.createElement('div');
   top.className = 'grp-top';
-  top.innerHTML = `<span class="grp-name">Claim ${escapeHtml(grp.id)}</span>`;
+  top.innerHTML = `<span class="grp-name">Group ${escapeHtml(grp.id)}</span>`;
   const del = document.createElement('button');
-  del.className = 'grp-del'; del.textContent = '×'; del.title = 'Delete claim';
+  del.className = 'grp-del'; del.textContent = '×';
+  del.title = 'Delete this actor group and all its claims';
   del.onclick = () => {
     inc.groups = inc.groups.filter(g => g !== grp);
     saveGroups(inc);
@@ -844,88 +894,167 @@ function buildGroupBox(inc, grp, container) {
   top.appendChild(del);
   box.appendChild(top);
 
-  box.appendChild(groupSentence(inc, grp, container));
+  box.appendChild(actorHeader(inc, grp, container));
+
+  const claims = document.createElement('div');
+  claims.className = 'grp-claims';
+  (grp.claims || []).forEach(cl => claims.appendChild(claimRow(inc, grp, cl, container)));
+  box.appendChild(claims);
+
+  const add = document.createElement('button');
+  add.className = 'grp-add grp-add-claim'; add.textContent = '+ Claim';
+  add.onclick = () => {
+    grp.claims = grp.claims || [];
+    grp.claims.push(newClaim(grp));
+    saveGroups(inc);
+    buildGroupsUI(container, inc);
+  };
+  box.appendChild(add);
   return box;
 }
 
-// [actors] using [systems] developed by [developers] allegedly caused [harms]
-// to [parties] because of [factors].
-// The whole sentence is one drop zone; the dragged chip's role decides which
-// gap it fills. Empty gaps show a muted placeholder; filled values are chips
-// with a × to remove them.
-//
-// "using …" and "developed by …" are optional: they appear once the incident has
-// a system/developer coded (so there's something to drop), and vanish entirely
-// when it doesn't — a claim reads as complete without them.
-function groupSentence(inc, grp, container) {
-  const s = document.createElement('div');
-  s.className = 'grp-sentence';
+// The three single-valued slots shared by every claim in the group. Dropping a
+// value replaces whatever is there — these are scalars, so there is never more
+// than one actor, one system or one developer.
+function actorHeader(inc, grp, container) {
+  const h = document.createElement('div');
+  h.className = 'grp-sentence grp-head';
 
   const slot = (role, placeholder) => {
     const span = document.createElement('span');
     span.className = 'sent-slot';
-    const vals = grp.members.filter(m => m.role === role).map(m => m.value);
-    if (!vals.length) {
+    const v = grp[role];
+    if (!v) {
       span.innerHTML = `<span class="sent-ph">[${escapeHtml(placeholder)}]</span>`;
       return span;
     }
-    vals.forEach((v, i) => {
-      if (i) span.appendChild(document.createTextNode(' & '));
-      const chip = document.createElement('span');
-      chip.className = 'sent-v';
-      chip.style.background = roleColor(role) + '33';
-      chip.style.borderColor = roleColor(role);
-      chip.appendChild(document.createTextNode(v));
-      const x = document.createElement('button');
-      x.className = 'sent-x'; x.textContent = '×'; x.title = 'Remove';
-      x.onclick = () => {
-        grp.members = grp.members.filter(m => !(m.role === role && m.value === v));
-        saveGroups(inc);
-        buildGroupsUI(container, inc);
-      };
-      chip.appendChild(x);
-      span.appendChild(chip);
-    });
+    span.appendChild(valueChip(role, v, () => {
+      grp[role] = null;
+      saveGroups(inc);
+      buildGroupsUI(container, inc);
+    }));
     return span;
   };
 
-  const txt = (t) => s.appendChild(document.createTextNode(t));
-  // An optional clause: shown when it's filled, or when the incident has values
-  // of that kind waiting in the palette. Otherwise the sentence skips it.
-  const optional = (cfg, lead, placeholder) => {
-    const filled = grp.members.some(m => m.role === cfg.role);
+  h.appendChild(slot('actor', 'actor'));
+  // "using …" / "developed by …" appear once the incident has something to drop
+  // there, or once they're filled; otherwise the header reads as complete.
+  CLAIM_FIELDS.forEach((cfg, i) => {
     const available = ((inc.field_values || {})[cfg.field] || []).length;
-    if (!filled && !available) return;
-    txt(lead);
-    const sp = slot(cfg.role, placeholder);
-    if (!filled) sp.classList.add('opt');   // muted: nothing dropped here yet
-    s.appendChild(sp);
-  };
+    if (!grp[cfg.role] && !available) return;
+    h.appendChild(document.createTextNode(i === 0 ? ' using ' : ' developed by '));
+    const sp = slot(cfg.role, i === 0 ? 'system' : 'developer');
+    if (!grp[cfg.role]) sp.classList.add('opt');
+    h.appendChild(sp);
+  });
 
-  s.appendChild(slot('actor', 'actor(s)'));
-  optional(CLAIM_FIELDS[0], ' using ', 'system(s)');
-  optional(CLAIM_FIELDS[1], ' developed by ', 'developer(s)');
-  txt(' allegedly caused ');
-  s.appendChild(slot('harm', 'harm(s)'));
-  txt(' to ');
-  s.appendChild(slot('harmed_party', 'party/ies'));
-  txt(' because of ');
-  s.appendChild(slot('factor', 'factor(s)'));
+  dropZone(h, GROUP_ROLES, (m) => {
+    grp[m.role] = m.value;          // scalar: a drop replaces
+    saveGroups(inc);
+    buildGroupsUI(container, inc);
+  });
+  return h;
+}
 
-  s.ondragover = (e) => { e.preventDefault(); s.classList.add('over'); };
-  s.ondragleave = () => s.classList.remove('over');
-  s.ondrop = (e) => {
-    e.preventDefault(); s.classList.remove('over');
-    let m; try { m = JSON.parse(e.dataTransfer.getData('text/plain')); } catch (_) { return; }
-    if (!m || !m.role || !m.value) return;
-    if (!grp.members.some(x => x.role === m.role && x.value === m.value)) {
-      grp.members.push({ role: m.role, value: m.value });
+// One claim: "allegedly caused <harm> to <party> because of <factors>". harm and
+// party are single-valued; factors is a list, since several contributing causes
+// for one harm read unambiguously.
+function claimRow(inc, grp, cl, container) {
+  const row = document.createElement('div');
+  row.className = 'grp-sentence grp-claim';
+
+  const num = document.createElement('span');
+  num.className = 'claim-num'; num.textContent = grp.id + '.' + cl.id;
+  row.appendChild(num);
+
+  const scalarSlot = (role, placeholder) => {
+    const span = document.createElement('span');
+    span.className = 'sent-slot';
+    if (!cl[role]) {
+      span.innerHTML = `<span class="sent-ph">[${escapeHtml(placeholder)}]</span>`;
+      return span;
+    }
+    span.appendChild(valueChip(role, cl[role], () => {
+      cl[role] = null;
       saveGroups(inc);
       buildGroupsUI(container, inc);
-    }
+    }));
+    return span;
   };
-  return s;
+
+  row.appendChild(document.createTextNode('allegedly caused '));
+  row.appendChild(scalarSlot('harm', 'harm'));
+  row.appendChild(document.createTextNode(' to '));
+  row.appendChild(scalarSlot('harmed_party', 'harmed party'));
+  row.appendChild(document.createTextNode(' because of '));
+
+  const fs = document.createElement('span');
+  fs.className = 'sent-slot';
+  const factors = cl.factors || [];
+  if (!factors.length) {
+    fs.innerHTML = `<span class="sent-ph">[factor(s)]</span>`;
+  } else {
+    factors.forEach((v, i) => {
+      if (i) fs.appendChild(document.createTextNode(' & '));
+      fs.appendChild(valueChip('factor', v, () => {
+        cl.factors = cl.factors.filter(x => x !== v);
+        saveGroups(inc);
+        buildGroupsUI(container, inc);
+      }));
+    });
+  }
+  row.appendChild(fs);
+
+  const del = document.createElement('button');
+  del.className = 'grp-del claim-del'; del.textContent = '×'; del.title = 'Delete claim';
+  del.onclick = () => {
+    grp.claims = grp.claims.filter(c => c !== cl);
+    saveGroups(inc);
+    buildGroupsUI(container, inc);
+  };
+  row.appendChild(del);
+
+  dropZone(row, CLAIM_ROLES_DROP, (m) => {
+    if (m.role === 'factor') {
+      cl.factors = cl.factors || [];
+      if (cl.factors.includes(m.value)) return;
+      cl.factors.push(m.value);
+    } else {
+      cl[m.role] = m.value;         // scalar: a drop replaces
+    }
+    saveGroups(inc);
+    buildGroupsUI(container, inc);
+  });
+  return row;
 }
+
+// A filled slot: the value plus a × that clears it.
+function valueChip(role, value, onRemove) {
+  const chip = document.createElement('span');
+  chip.className = 'sent-v';
+  chip.style.background = roleColor(role) + '33';
+  chip.style.borderColor = roleColor(role);
+  chip.appendChild(document.createTextNode(value));
+  const x = document.createElement('button');
+  x.className = 'sent-x'; x.textContent = '×'; x.title = 'Remove';
+  x.onclick = onRemove;
+  chip.appendChild(x);
+  return chip;
+}
+
+// Wire an element as a drop target for a given set of roles. A chip of the wrong
+// kind is refused rather than silently dropped somewhere it doesn't belong.
+function dropZone(el, roles, apply) {
+  el.ondragover = (e) => { e.preventDefault(); el.classList.add('over'); };
+  el.ondragleave = () => el.classList.remove('over');
+  el.ondrop = (e) => {
+    e.preventDefault(); el.classList.remove('over');
+    let m; try { m = JSON.parse(e.dataTransfer.getData('text/plain')); } catch (_) { return; }
+    if (!m || !m.role || !m.value || !roles.includes(m.role)) return;
+    apply(m);
+  };
+}
+
 
 // Push everything local (per-document coding + incident groups + pooled lists)
 // up to Mongo. Non-destructive to local data.
