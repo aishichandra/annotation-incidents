@@ -15,11 +15,6 @@
       "comments": false
     },
     {
-      "key": "incident_actor_name",
-      "label": "Inciting actor(s) name",
-      "type": "text"
-    },
-    {
       "key": "incident_aftermath",
       "label": "Aftermath",
       "type": "text"
@@ -43,7 +38,8 @@
         "ChatGPT",
         "News Orgs",
         "AI tools"
-      ]
+      ],
+      "note_label": "Inciting actor(s) name"
     },
     {
       "role": "factor",

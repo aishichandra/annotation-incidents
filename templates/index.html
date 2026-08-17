@@ -106,6 +106,12 @@
   .qt-src { display: block; font-size: 10.5px; color: #a0a0a0; font-style: normal;
             margin-top: 1px; }
   .qt-none { font-size: 12px; color: #b0b0b0; font-style: italic; }
+  /* free text belonging to a characteristic, shown with it */
+  .pal-note { flex: 0 0 100%; font-size: 12px; color: #555; margin-bottom: 2px; }
+  .role-note { width: 100%; box-sizing: border-box; font: inherit; font-size: 13px;
+               padding: 5px 7px; border: 1px solid #dcdcdc; border-radius: 4px;
+               margin-bottom: 8px; }
+  .role-note:focus { outline: none; border-color: #254c6f; }
   /* raw JSON for one incident, under its card */
   .json-btn { margin-left: auto; align-self: flex-start; flex: none; font-size: 11px;
               font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -881,18 +887,26 @@ function buildPalette(container, inc) {
   palette.innerHTML = `<div class="tow-label">Characteristics</div>`;
   // Every characteristic, System and Developer included — one list, one way to
   // code, one way to drag into a claim.
-  const anyValues = ROLES.some(r => (inc.role_values[r.role] || []).length);
+  const anyValues = ROLES.some(r => (inc.role_values[r.role] || []).length)
+    || Object.keys(inc.role_notes || {}).length;
   if (!anyValues) {
     const nd = document.createElement('div'); nd.innerHTML = NODATA;
     palette.appendChild(nd);
   } else {
     ROLES.forEach(r => {
       const vals = inc.role_values[r.role] || [];
-      if (!vals.length) return;
+      if (!vals.length && !(inc.role_notes || {})[r.role]) return;
       const row = document.createElement('div'); row.className = 'pal-row';
       const lbl = document.createElement('span');
       lbl.className = 'pal-role'; lbl.style.color = roleColor(r.role); lbl.textContent = r.label;
       const chips = document.createElement('div'); chips.className = 'pal-chips';
+      const note = (inc.role_notes || {})[r.role];
+      if (note) {
+        const n = document.createElement('div');
+        n.className = 'pal-note';
+        n.textContent = note;
+        chips.appendChild(n);
+      }
       vals.forEach(v => {
         chips.appendChild(makeChip(r.role, v, usedInClaims(inc, r.role, v), inc, r.role));
         // The open panel follows its own chip, breaking the flex row so it reads
@@ -2454,6 +2468,23 @@ function buildRoleCard(r) {
     },
   });
   body.appendChild(select);
+
+  // A role may carry one piece of free text — the inciting actor's name. It sits
+  // with its characteristic rather than in a field of its own, because it says
+  // *which* actor, and is meaningless apart from the actor codes above it.
+  const noteLabel = (SCHEMA_ROLES.find(x => x.role === r.role) || {}).note_label;
+  if (noteLabel) {
+    curDoc.ann.notes = curDoc.ann.notes || {};
+    body.appendChild(subLabel(noteLabel));
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'role-note';
+    input.placeholder = 'Organisation name(s) — not individuals';
+    input.value = curDoc.ann.notes[r.role] || '';
+    input.oninput = () => { curDoc.ann.notes[r.role] = input.value; persistSoon(); };
+    body.appendChild(input);
+  }
+
   body.appendChild(subLabel('Justification (highlight each selection)'));
   body.appendChild(evBox);
   refreshEv();

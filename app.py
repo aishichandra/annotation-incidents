@@ -126,9 +126,10 @@ DEFAULT_SCHEMA = {
          "justify": False, "comments": False},
         {"key": "incident_title", "label": "Incident title", "type": "text",
          "justify": False, "comments": False},
-        # Only free text lives here. Anything picked from a controlled vocabulary
-        # is a characteristic and belongs in claim_roles below.
-        {"key": "incident_actor_name", "label": "Inciting actor(s) name", "type": "text"},
+        # Only free text about the incident as a whole lives here. Anything
+        # picked from a controlled vocabulary is a characteristic (claim_roles
+        # below), and free text belonging to one of those — the inciting actor's
+        # name — is a note on that role, not a field.
         {"key": "incident_aftermath", "label": "Incident aftermath", "type": "text"},
     ],
     # Characteristics coded per document as flat multiselects (no linking here).
@@ -137,7 +138,8 @@ DEFAULT_SCHEMA = {
     "claim_roles": [
         {"role": "system", "label": "System", "options": []},
         {"role": "developer", "label": "Developer", "options": []},
-        {"role": "actor", "label": "Actor", "options": []},
+        {"role": "actor", "label": "Actor", "options": [],
+         "note_label": "Inciting actor(s) name"},
         {"role": "factor", "label": "Factor", "options": []},
         {"role": "harm", "label": "Harm", "options": []},
         {"role": "harmed_party", "label": "Harmed party", "options": []},
@@ -343,7 +345,7 @@ def save_annotations_only(store: dict, coder: str) -> None:
 
 
 def blank_incident_coding() -> dict:
-    return {"fields": {}, "groups": []}
+    return {"fields": {}, "notes": {}, "groups": []}
 
 
 def load_incident_coding(coder: str) -> dict:
@@ -374,7 +376,8 @@ def load_incident_coding(coder: str) -> dict:
 def save_incident_coding(store: dict, coder: str) -> None:
     # Incidents a coder has neither answered nor linked anything on aren't worth
     # a line in the file.
-    lean = {k: v for k, v in store.items() if v.get("fields") or v.get("groups")}
+    lean = {k: v for k, v in store.items()
+            if v.get("fields") or v.get("groups") or v.get("notes")}
     _atomic_write(incident_coding_path(coder), json.dumps(lean, indent=2, ensure_ascii=False))
 
 
@@ -607,6 +610,7 @@ def sync_incident_coding_to_mongo(inc_id: str, coder: str, entry: dict) -> None:
             {"_id": inc_id},
             {"$setOnInsert": {"created_at": now},
              "$set": {f"by_coder.{coder}.fields": entry.get("fields") or {},
+                      f"by_coder.{coder}.notes": entry.get("notes") or {},
                       f"by_coder.{coder}.groups": entry.get("groups") or [],
                       f"by_coder.{coder}.updated_at": now,
                       "title": incident_title_for(inc_id), "updated_at": now}},
@@ -642,8 +646,9 @@ def incident_coding_from_mongo(coder: str) -> dict:
         return out
     for inc in mongo_db.incidents.find({}, {"by_coder": 1}):
         sub = (inc.get("by_coder") or {}).get(coder) or {}
-        if sub.get("fields") or sub.get("groups"):
+        if sub.get("fields") or sub.get("groups") or sub.get("notes"):
             out[str(inc["_id"])] = {"fields": sub.get("fields") or {},
+                                    "notes": sub.get("notes") or {},
                                     "groups": sub.get("groups") or []}
     return out
 
@@ -1124,7 +1129,11 @@ def api_doc(i):
         "markdown": markdown_no_title(i),
         "coder": coder,
         "annotation": {**rec,
-                       "fields": incident_fields(coder, incident_of(key, assignments), assignments)},
+                       "fields": incident_fields(coder, incident_of(key, assignments), assignments),
+                       # free text belonging to a characteristic (the inciting
+                       # actor's name); incident-level, edited beside its role
+                       "notes": (load_incident_coding(coder).get(incident_of(key, assignments))
+                                 or {}).get("notes") or {}},
     })
 
 
@@ -1155,6 +1164,8 @@ def api_save(i):
     inc_store = load_incident_coding(coder)
     entry = inc_store.setdefault(inc_id, blank_incident_coding())
     entry["fields"] = clean_fields(posted_fields)
+    entry["notes"] = {r: str(t).strip() for r, t in (body.get("notes") or {}).items()
+                      if r in ROLE_KEYS and str(t or "").strip()}
     save_incident_coding(inc_store, coder)
 
     sync_to_mongo(i, key, rec, coder, inc_id)

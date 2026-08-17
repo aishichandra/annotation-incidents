@@ -3,10 +3,10 @@
     "quotes": [
       {
         "end": 157,
+        "role": "system",
         "start": 140,
         "text": "AI editing tools ",
-        "value": "Editing",
-        "role": "system"
+        "value": "Editing"
       },
       {
         "end": 1156,
@@ -38,17 +38,17 @@
       },
       {
         "end": 896,
+        "role": "developer",
         "start": 888,
         "text": "AI tools",
-        "value": "Unknown/unspecified",
-        "role": "developer"
+        "value": "Unknown/unspecified"
       },
       {
         "end": 915,
+        "role": "developer",
         "start": 908,
         "text": "ChatGPT",
-        "value": "AI vendor",
-        "role": "developer"
+        "value": "AI vendor"
       },
       {
         "end": 2034,
@@ -204,6 +204,13 @@
       }
     ],
     "roles": {
+      "system": [
+        "Editing"
+      ],
+      "developer": [
+        "Unknown/unspecified",
+        "AI vendor"
+      ],
       "actor": [
         "News organization/publisher",
         "Individual journalist"
@@ -222,15 +229,7 @@
       ],
       "harmed_party": [
         "Journalist(s)"
-      ],
-      "system": [
-        "Editing"
-      ],
-      "developer": [
-        "Unknown/unspecified",
-        "AI vendor"
-      ],
-      "deployer": []
+      ]
     }
   },
   "GQ7D8VE4": {
@@ -631,17 +630,17 @@
       },
       {
         "end": 912,
+        "role": "system",
         "start": 895,
         "text": "AI text generator",
-        "value": "Text generation",
-        "role": "system"
+        "value": "Text generation"
       },
       {
         "end": 912,
+        "role": "developer",
         "start": 895,
         "text": "AI text generator",
-        "value": "Unknown/unspecified",
-        "role": "developer"
+        "value": "Unknown/unspecified"
       },
       {
         "end": 1798,
@@ -687,6 +686,12 @@
       }
     ],
     "roles": {
+      "system": [
+        "Text generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
       "actor": [
         "Content farm/SEO-manipulation actor"
       ],
@@ -703,14 +708,7 @@
       "harmed_party": [
         "News organization/publisher",
         "Sources/subjects of coverage"
-      ],
-      "system": [
-        "Text generation"
-      ],
-      "developer": [
-        "Unknown/unspecified"
-      ],
-      "deployer": []
+      ]
     }
   },
   "3NAA36J3": {
