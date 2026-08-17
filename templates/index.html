@@ -533,16 +533,16 @@ const color = {};          // field key -> highlight color
 let curDoc = null;         // {index,title,url,markdown,ann:{fields,quotes,claims},_plain}
 let saveTimer = null;
 
-// A claim links four roles; each highlight is colored by ROLE and carries the
-// claim's number so evidence for the same claim reads as connected.
-// Four maximally-distinct hues so role highlights never read as the same color.
-// Order here is the order they appear in the document sidebar and the incident
-// palette: factor before harm, matching the highlight tag menu (TAG_ORDER).
 // Every controlled-vocabulary characteristic, in the coding scheme's order.
-// System and developer are ordinary roles: coded the same way, tagged
-// the same way on a quote, dragged into a claim the same way. Their colours are
-// the ones they carried when they were separate "fields", so a chip that was
-// violet yesterday is violet today.
+// System and developer are ordinary roles: coded the same way, tagged the same
+// way on a quote, dragged into a claim the same way. Their colours are the ones
+// they carried when they were separate "fields", so a chip that was violet
+// yesterday is violet today.
+// A claim links these roles; each highlight is colored by ROLE and carries the
+// claim's number so evidence for the same claim reads as connected. Maximally
+// distinct hues, so two role highlights never read as the same color. The order
+// here is the order they appear in the document sidebar, the highlight tag menu
+// (TAG_ORDER) and the incident palette — factor before harm in all three.
 const ROLES = [
   { role: 'system',       label: 'System',       color: '#c4b5fd' },  // violet
   { role: 'developer',    label: 'Developer',    color: '#fdba74' },  // orange
@@ -553,8 +553,6 @@ const ROLES = [
 ];
 const ROLE = Object.fromEntries(ROLES.map(r => [r.role, r]));
 
-// Incident-level fields that are also draggable into a claim, filling its
-// optional "using … developed by …" clauses. They are not characteristics — they
 // Every characteristic is droppable into a claim, so this is just ROLE.
 const CLAIM_ROLE = ROLE;
 // The two clauses a claim reads as complete without.
@@ -1142,9 +1140,8 @@ function jsonNode(key, value, last) {
 }
 
 // ---------- evidence behind a characteristic ----------
-// Which quotes justify one pooled value. `kind` is the tag the quote carries: a
-// characteristic role ('harm') or, for System/Developer, the field key
-// ('incident_system').
+// Which quotes justify one pooled value. `kind` is the tag the quote carries —
+// the characteristic's role ('harm').
 function evidenceFor(inc, kind, value) {
   return ((inc.value_quotes || {})[kind] || {})[value] || [];
 }
@@ -1749,8 +1746,8 @@ function showCategoryMenu(pending, rect) {
   // Tags offered on highlight, in a fixed order mixing fields and roles — no
   // group titles, just one flat list.
   const TAG_ORDER = [
-    { type: 'field', key: 'incident_system' },
-    { type: 'field', key: 'incident_developer' },
+    { type: 'role', role: 'system' },
+    { type: 'role', role: 'developer' },
     { type: 'role', role: 'actor' },
     { type: 'role', role: 'factor' },
     { type: 'role', role: 'harm' },
