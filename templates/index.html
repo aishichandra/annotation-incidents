@@ -884,7 +884,7 @@ function buildPalette(container, inc) {
   container.innerHTML = '';
   const palette = document.createElement('div');
   palette.className = 'tow-field';
-  palette.innerHTML = `<div class="tow-label">Characteristics</div>`;
+  // palette.innerHTML = `<div class="tow-label">Characteristics</div>`;
   // Every characteristic, System and Developer included — one list, one way to
   // code, one way to drag into a claim.
   const anyValues = ROLES.some(r => (inc.role_values[r.role] || []).length)
@@ -2415,7 +2415,7 @@ function buildRolesPanel() {
   section.className = 'roles-section';
   const head = document.createElement('div');
   head.className = 'claims-head';
-  head.innerHTML = `<span class="label">Characteristics</span>`;
+  // head.innerHTML = `<span class="label">Characteristics</span>`;
   section.appendChild(head);
   ROLES.forEach(r => section.appendChild(buildRoleCard(r)));
   return section;
