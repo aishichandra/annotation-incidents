@@ -96,6 +96,32 @@
   .pal-role { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700;
     line-height: 1.3; padding-top: 5px; }
   .pal-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  /* the evidence behind one chip, opened by clicking it. A flex item at full
+     width, so it drops onto its own line under the chips it belongs to. */
+  .qt-panel { flex: 0 0 100%; margin: 2px 0 6px; border-left: 2px solid #e2e6ea;
+              padding: 2px 0 2px 10px; }
+  .qt-head { font-size: 11px; color: #8a8a8a; margin-bottom: 4px; }
+  .qt-item { font-size: 12px; line-height: 1.5; color: #444; margin-bottom: 6px; }
+  .qt-item:last-child { margin-bottom: 0; }
+  .qt-text { font-style: italic; }
+  .qt-src { display: block; font-size: 10.5px; color: #a0a0a0; font-style: normal;
+            margin-top: 1px; }
+  .qt-none { font-size: 12px; color: #b0b0b0; font-style: italic; }
+  /* raw JSON for one incident, under its card */
+  .json-btn { margin-left: auto; align-self: flex-start; flex: none; font-size: 11px;
+              font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+              border: 1px solid #dcdcdc; background: #fff; color: #666; cursor: pointer;
+              border-radius: 4px; padding: 3px 8px; }
+  .json-btn:hover { border-color: #254c6f; color: #254c6f; }
+  .json-btn.on { background: #254c6f; border-color: #254c6f; color: #fff; }
+  .json-panel { border-top: 1px solid #eee; padding: 10px 16px 14px; background: #fbfcfd; }
+  .json-src { font-size: 11px; color: #8a8a8a; margin-bottom: 6px; }
+  .json-pre { margin: 0; max-height: 460px; overflow: auto; font-size: 11.5px;
+              line-height: 1.45; background: #fff; border: 1px solid #ececec;
+              border-radius: 4px; padding: 10px; white-space: pre; }
+  /* a chip whose evidence is open */
+  .drag-chip.open { box-shadow: 0 0 0 2px #cfd6dd; }
+  .drag-chip .chip-qn { flex: none; font-size: 9.5px; color: #9aa0a6; }
   .drag-chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px;
     border-radius: 3px; font-size: 12.5px; border: 1px solid; cursor: grab; user-select: none; }
   .drag-chip[draggable="true"]:active { cursor: grabbing; }
@@ -637,6 +663,7 @@ async function loadIncidents() {
   wrap.querySelectorAll('.tow-palette').forEach(el => buildPalette(el, INCIDENTS[el.dataset.inc]));
   wrap.querySelectorAll('.tow-dragfield').forEach(el => buildFieldChips(el, INCIDENTS[el.dataset.inc]));
   wrap.querySelectorAll('.tow-groups').forEach(el => buildGroupsUI(el, INCIDENTS[el.dataset.inc]));
+  wrap.querySelectorAll('.json-btn').forEach(btn => btn.onclick = () => toggleJson(btn.dataset.inc));
 }
 
 const NODATA = '<span class="tow-nodata">No data</span>';
@@ -690,6 +717,7 @@ function incidentCard(inc, fields) {
     <div class="tow-head">
       <span class="tow-id">${encId}</span>
       <div class="tow-headdocs">${docsHtml}</div>
+      <button class="json-btn" data-inc="${encId}" title="Show this incident as it is stored">{ } JSON</button>
     </div>
     <div class="tow-body">
       <div class="tow-col c1">
@@ -701,6 +729,7 @@ function incidentCard(inc, fields) {
         ${aftermathBlock}
       </div>
     </div>
+    <div class="json-panel" data-inc="${encId}" hidden></div>
   </div>`;
 }
 
@@ -760,7 +789,8 @@ function buildPalette(container, inc) {
   container.innerHTML = '';
   const palette = document.createElement('div');
   palette.className = 'tow-field';
-  palette.innerHTML = `<div class="tow-label">Characteristics</div>`;
+  palette.innerHTML = `<div class="tow-label">Characteristics</div>`
+    + `<div class="grp-hint">Drag a chip into a claim; click it to read the quotes behind it.</div>`;
   // Characteristics only. System and Developer are draggable too, but from their
   // own field blocks higher up the card — see buildFieldChips.
   const anyValues = ROLES.some(r => (inc.role_values[r.role] || []).length);
@@ -775,7 +805,12 @@ function buildPalette(container, inc) {
       const lbl = document.createElement('span');
       lbl.className = 'pal-role'; lbl.style.color = roleColor(r.role); lbl.textContent = r.label;
       const chips = document.createElement('div'); chips.className = 'pal-chips';
-      vals.forEach(v => chips.appendChild(makeChip(r.role, v, usedInClaims(inc, r.role, v))));
+      vals.forEach(v => {
+        chips.appendChild(makeChip(r.role, v, usedInClaims(inc, r.role, v), inc, r.role));
+        // The open panel follows its own chip, breaking the flex row so it reads
+        // as belonging to that value rather than to the role as a whole.
+        if (isQuotesOpen(inc, r.role, v)) chips.appendChild(quotePanel(inc, r.role, v));
+      });
       row.appendChild(lbl); row.appendChild(chips);
       palette.appendChild(row);
     });
@@ -790,8 +825,11 @@ function buildFieldChips(container, inc) {
   const cfg = CLAIM_FIELDS.find(c => c.field === container.dataset.field);
   if (!cfg) return;
   container.innerHTML = '';
+  // These chips are tagged by field key, not by claim role — a System quote
+  // carries category "incident_system" — so that's the kind to look them up by.
   ((inc.field_values || {})[cfg.field] || []).forEach(v => {
-    container.appendChild(makeChip(cfg.role, v, usedInClaims(inc, cfg.role, v)));
+    container.appendChild(makeChip(cfg.role, v, usedInClaims(inc, cfg.role, v), inc, cfg.field));
+    if (isQuotesOpen(inc, cfg.field, v)) container.appendChild(quotePanel(inc, cfg.field, v));
   });
 }
 
@@ -841,17 +879,28 @@ function newGroup(inc) {
 // of claim ids this value is already in — a used chip stays fully draggable,
 // since the same characteristic is expected to appear in several claims; it just
 // carries the claim numbers so you can see what's still unplaced.
-function makeChip(role, value, claims) {
+function makeChip(role, value, claims, inc, kind) {
   claims = claims || [];
   const chip = document.createElement('span');
-  chip.className = 'drag-chip' + (claims.length ? ' used' : '');
+  const open = inc && isQuotesOpen(inc, kind, value);
+  chip.className = 'drag-chip' + (claims.length ? ' used' : '') + (open ? ' open' : '');
   chip.style.background = roleColor(role) + (claims.length ? '22' : '44');
   chip.style.borderColor = roleColor(role);
   chip.draggable = true;
-  chip.title = claims.length
+  const n = inc ? evidenceFor(inc, kind, value).length : 0;
+  chip.title = (claims.length
     ? `${roleLabel(role)} — used in claim ${claims.join(', ')}. Drag again to add it to another claim.`
-    : `${roleLabel(role)} — not yet used. Drag into a claim.`;
+    : `${roleLabel(role)} — not yet used. Drag into a claim.`)
+    + `\nClick to ${open ? 'hide' : 'show'} the ${n} quote(s) behind it.`;
   chip.appendChild(document.createTextNode(value));
+  // How much evidence sits behind this value, so an unsupported one is visible
+  // without opening it. Distinct from the claim badges, which are counts of use.
+  if (inc) {
+    const qn = document.createElement('span');
+    qn.className = 'chip-qn';
+    qn.textContent = n ? '❝' + n : '❝0';
+    chip.appendChild(qn);
+  }
   // One badge per claim, so each claim reads as its own mark rather than as a
   // run-together number. Capped at three so a much-reused value can't stretch
   // the chip; the overflow badge says how many more.
@@ -868,10 +917,117 @@ function makeChip(role, value, claims) {
     chip.appendChild(more);
   }
   chip.ondragstart = (e) => {
+    chip._dragged = true;
     e.dataTransfer.setData('text/plain', JSON.stringify({ role, value }));
     e.dataTransfer.effectAllowed = 'copy';
   };
+  // Click reveals the evidence. Guarded so the click that ends a drag doesn't
+  // also toggle the panel.
+  if (inc) {
+    chip.onclick = () => {
+      if (chip._dragged) { chip._dragged = false; return; }
+      toggleQuotes(inc, kind, value);
+      refreshDraggables(inc);
+    };
+  }
   return chip;
+}
+
+// ---------- raw JSON for one incident ----------
+// Fetched rather than printed from INCIDENTS, because the card's own object is
+// the *aggregated view* (pooled values, pruned claims) while what's usually
+// wanted here is the record as stored. The response says which one it is.
+async function toggleJson(incId) {
+  const panel = document.querySelector(`.json-panel[data-inc="${CSS.escape(incId)}"]`);
+  const btn = document.querySelector(`.json-btn[data-inc="${CSS.escape(incId)}"]`);
+  if (!panel) return;
+  if (!panel.hidden) {                       // open -> close
+    panel.hidden = true;
+    if (btn) btn.classList.remove('on');
+    return;
+  }
+  panel.hidden = false;
+  if (btn) btn.classList.add('on');
+  panel.textContent = 'Loading…';
+  try {
+    const res = await fetch('/api/incident/' + encodeURIComponent(incId) + '/json'
+                            + (CODER ? '?coder=' + encodeURIComponent(CODER) : ''));
+    const j = await res.json();
+    if (!res.ok) throw new Error(j.error || res.status);
+    panel.innerHTML = '';
+    const src = document.createElement('div');
+    src.className = 'json-src';
+    src.textContent = 'source: ' + j.source;
+    const pre = document.createElement('pre');
+    pre.className = 'json-pre';
+    pre.textContent = JSON.stringify(j.incident, null, 2);
+    panel.appendChild(src);
+    panel.appendChild(pre);
+  } catch (e) {
+    panel.textContent = 'Could not load JSON: ' + e.message;
+  }
+}
+
+// ---------- evidence behind a characteristic ----------
+// Which quotes justify one pooled value. `kind` is the tag the quote carries: a
+// characteristic role ('harm') or, for System/Developer, the field key
+// ('incident_system').
+function evidenceFor(inc, kind, value) {
+  return ((inc.value_quotes || {})[kind] || {})[value] || [];
+}
+
+function quotesKey(kind, value) { return kind + ' ' + value; }
+
+function isQuotesOpen(inc, kind, value) {
+  return !!(inc._openQuotes && inc._openQuotes.has(quotesKey(kind, value)));
+}
+
+// Open panels live on the incident rather than the DOM, so they survive the
+// palette rebuild that follows every claim change.
+function toggleQuotes(inc, kind, value) {
+  inc._openQuotes = inc._openQuotes || new Set();
+  const k = quotesKey(kind, value);
+  if (!inc._openQuotes.delete(k)) inc._openQuotes.add(k);
+}
+
+// The panel itself: every passage this coder highlighted for the value, with the
+// document it came from (incidents can pool several).
+function quotePanel(inc, kind, value) {
+  const panel = document.createElement('div');
+  panel.className = 'qt-panel';
+  const quotes = evidenceFor(inc, kind, value);
+  const head = document.createElement('div');
+  head.className = 'qt-head';
+  head.textContent = quotes.length
+    ? `${quotes.length} quote(s) for “${value}”`
+    : `“${value}”`;
+  panel.appendChild(head);
+  if (!quotes.length) {
+    const none = document.createElement('div');
+    none.className = 'qt-none';
+    none.textContent = 'Selected without a highlighted passage.';
+    panel.appendChild(none);
+    return panel;
+  }
+  const multiDoc = new Set(quotes.map(q => q.doc_key)).size > 1;
+  quotes.forEach(q => {
+    const item = document.createElement('div');
+    item.className = 'qt-item';
+    const t = document.createElement('span');
+    t.className = 'qt-text';
+    t.textContent = '“' + q.text + '”';
+    item.appendChild(t);
+    // Name the source only when the incident pools more than one document —
+    // otherwise it's the same title repeated under every quote.
+    if (multiDoc) {
+      const src = document.createElement('span');
+      src.className = 'qt-src';
+      src.textContent = '— ' + q.title;
+      item.appendChild(src);
+    }
+    panel.appendChild(item);
+  });
+  return panel;
 }
 
 // A group is one actor context — "<actor> using <system> developed by <developer>"

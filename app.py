@@ -802,6 +802,7 @@ def aggregate_incidents(coder: str):
             "incident_id": inc_id, "title": "", "documents": [],
             "field_values": {}, "field_comments": {},
             "role_values": {r["role"]: [] for r in role_defs}, "groups": [],
+            "value_quotes": {},
         })
         g["documents"].append({
             "index": i, "doc_key": key, "title": cell(i, "title"),
@@ -834,6 +835,24 @@ def aggregate_incidents(coder: str):
                 v = str(v).strip()
                 if v and v not in bucket:
                     bucket.append(v)
+        # The passages justifying each pooled value, so the card can show the
+        # evidence behind a characteristic without leaving for the document view.
+        # Keyed by the tag the quote carries: a characteristic role ("harm") or,
+        # for the System/Developer chips, the field key ("incident_system"). A
+        # quote with no value tags nothing in particular and is skipped.
+        for q in rec["quotes"]:
+            if not isinstance(q, dict):
+                continue
+            value = str(q.get("value") or "").strip()
+            text = str(q.get("text") or "").strip()
+            kind = q.get("role") or q.get("category")
+            if not (value and text and kind):
+                continue
+            bucket = g["value_quotes"].setdefault(str(kind), {}).setdefault(value, [])
+            # The same passage can be highlighted once per document; identical
+            # text from the same document is one piece of evidence, not several.
+            if not any(b["text"] == text and b["doc_key"] == key for b in bucket):
+                bucket.append({"text": text, "doc_key": key, "title": cell(i, "title")})
 
     # Attach saved groupings, dropping any value that is no longer coded. A value
     # is either one of the four characteristic roles (checked against the pooled
@@ -909,6 +928,51 @@ def api_incidents():
     ordered = sorted(incidents.values(), key=lambda g: g["incident_id"])
     return jsonify({"incidents": ordered, "fields": display_fields,
                     "roles": roles_meta, "coder": coder, "coders": CODERS})
+
+
+def _jsonable(v):
+    """BSON/datetime -> something json.dumps can render, for the raw JSON view."""
+    if isinstance(v, dict):
+        return {str(k): _jsonable(x) for k, x in v.items()}
+    if isinstance(v, list):
+        return [_jsonable(x) for x in v]
+    if isinstance(v, datetime):
+        return v.isoformat()
+    if isinstance(v, (str, int, float, bool)) or v is None:
+        return v
+    return str(v)          # ObjectId and anything else exotic
+
+
+@app.route("/api/incident/<path:inc_id>/json")
+def api_incident_json(inc_id):
+    """The incident exactly as it is stored, for the card's raw-JSON view.
+
+    Mongo's document is the answer when it's there, since that's the record the
+    analysis reads. Without it — Mongo not configured, or an incident nobody has
+    synced yet — fall back to the same structure assembled from the local files,
+    and say which one is being shown so the two are never confused."""
+    coder = current_coder()
+    if mongo_db is not None:
+        try:
+            doc = mongo_db.incidents.find_one({"incident_id": inc_id})
+            if doc:
+                return jsonify({"source": "mongodb", "incident": _jsonable(doc)})
+        except Exception as e:
+            print(f"[mongo] json read failed for {inc_id} ({e.__class__.__name__}: {e})")
+    incidents, _, _ = aggregate_incidents(coder)
+    g = incidents.get(inc_id)
+    if g is None:
+        abort(404, f"no incident {inc_id!r}")
+    local = {"incident_id": inc_id, "incident_title": g.get("title", ""),
+             "documents": [{"doc_id": d["doc_key"], "url": d["url"], "title": d["title"]}
+                           for d in g.get("documents", [])],
+             "by_document": {d["doc_key"]: {"by_coder": {
+                 c: doc_ann(load_annotations(c), d["doc_key"])
+                 for c in CODERS if has_coding(load_annotations(c).get(d["doc_key"]))}}
+                 for d in g.get("documents", [])},
+             "groups_by_coder": {c: (load_groups(c).get(inc_id) or {}).get("groups", [])
+                                 for c in CODERS}}
+    return jsonify({"source": "local files (not in MongoDB yet)", "incident": _jsonable(local)})
 
 
 @app.route("/api/push", methods=["POST"])
