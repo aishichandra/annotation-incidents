@@ -27,9 +27,13 @@ Several coders code the *same* documents and the *same* incidents independently:
   can never reach another coder's work.
 
 Where a judgement lives follows what it is about. A quote's offsets only mean
-something against one document, so evidence is per document. An incident's
-system, developer and aftermath describe the incident, so they're answered once
-against it rather than repeated on each of its documents.
+something against one document, so evidence — the quotes and the characteristics
+they justify — is per document. Free text about the incident as a whole (its
+aftermath, the inciting actor's name) is answered once against the incident.
+
+Every controlled-vocabulary selection is a characteristic, including system,
+developer and deployer. They are all roles, coded the same way, tagged the same
+way on a quote, and dragged into a claim the same way.
 
 The active coder comes from `?coder=`, the `X-Coder` header, or the `coder`
 cookie, and must be one of CODERS (set the CODERS env var, comma-separated).
@@ -121,16 +125,18 @@ DEFAULT_SCHEMA = {
          "justify": False, "comments": False},
         {"key": "incident_title", "label": "Incident title", "type": "text",
          "justify": False, "comments": False},
-        {"key": "incident_system", "label": "Incident system", "type": "multi", "options": []},
-        {"key": "incident_developer", "label": "Incident developer", "type": "multi", "options": []},
-        {"key": "incident_deployer", "label": "Incident deployer", "type": "multi", "options": []},
-        {"key": "incident_deployer_name", "label": "Incident deployer name", "type": "text"},
+        # Only free text lives here. Anything picked from a controlled vocabulary
+        # is a characteristic and belongs in claim_roles below.
+        {"key": "incident_deployer_name", "label": "Inciting actor(s) name", "type": "text"},
         {"key": "incident_aftermath", "label": "Incident aftermath", "type": "text"},
     ],
     # Characteristics coded per document as flat multiselects (no linking here).
     # Linking values into claims happens in the incident card view instead.
-    # Display order, matching the UI: factor before harm.
+    # Display order, matching the UI and the coding scheme's own order.
     "claim_roles": [
+        {"role": "system", "label": "System", "options": []},
+        {"role": "developer", "label": "Developer", "options": []},
+        {"role": "deployer", "label": "Deployer", "options": []},
         {"role": "actor", "label": "Actor", "options": []},
         {"role": "factor", "label": "Factor", "options": []},
         {"role": "harm", "label": "Harm", "options": []},
@@ -172,12 +178,10 @@ def clean_fields(fields: dict) -> dict:
             out[fk] = entry
     return out
 
-# Incident-level fields that can also be dragged into a claim, as the optional
-# "using <system> developed by <developer>" clauses. The key is the role name
-# stored inside a group member; the value is the field its options come from.
-# Unlike the four characteristic roles these are optional — a claim is complete
+# The characteristics a claim's optional "using … developed by …" clauses draw
+# from. They are ordinary roles like any other; a claim simply reads as complete
 # without them.
-CLAIM_FIELD_ROLES = {"system": "incident_system", "developer": "incident_developer"}
+OPTIONAL_CLAIM_ROLES = ("system", "developer")
 
 app = Flask(__name__)
 # The document list to code comes entirely from zotero_docs.csv. If it's missing
@@ -831,7 +835,7 @@ def aggregate_incidents(coder: str):
             "incident_id": inc_id, "title": "", "documents": [],
             "field_values": {}, "field_comments": {},
             "role_values": {r["role"]: [] for r in role_defs}, "groups": [],
-            "value_quotes": {},
+            "role_notes": {}, "value_quotes": {},
         })
         g["documents"].append({
             "index": i, "doc_key": key, "title": cell(i, "title"),
@@ -855,6 +859,9 @@ def aggregate_incidents(coder: str):
                 cmt = str(fa.get("comments") or "").strip()
                 if cmt:
                     g["field_comments"][fk] = [cmt]
+            for role, note in ((inc_store.get(inc_id) or {}).get("notes") or {}).items():
+                if str(note or "").strip():
+                    g["role_notes"][role] = str(note).strip()
         for r in role_defs:
             bucket = g["role_values"][r["role"]]
             for v in rec["roles"].get(r["role"], []):
@@ -863,9 +870,8 @@ def aggregate_incidents(coder: str):
                     bucket.append(v)
         # The passages justifying each pooled value, so the card can show the
         # evidence behind a characteristic without leaving for the document view.
-        # Keyed by the tag the quote carries: a characteristic role ("harm") or,
-        # for the System/Developer chips, the field key ("incident_system"). A
-        # quote with no value tags nothing in particular and is skipped.
+        # Keyed by the role the quote carries. A quote with no value tags nothing
+        # in particular and is skipped; free-text fields keep tagging by category.
         for q in rec["quotes"]:
             if not isinstance(q, dict):
                 continue
@@ -885,12 +891,7 @@ def aggregate_incidents(coder: str):
     # role_values) or an optional system/developer (checked against that
     # incident-level field's values).
     def still_coded(g, role, value):
-        if not value:
-            return False
-        if role in g["role_values"]:
-            return value in g["role_values"][role]
-        fk = CLAIM_FIELD_ROLES.get(role)
-        return bool(fk) and value in g["field_values"].get(fk, [])
+        return bool(value) and value in (g["role_values"].get(role) or [])
 
     def keep(g, role, value):
         """The value if it's still coded, else None — scalar slots empty out

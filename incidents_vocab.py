@@ -10,8 +10,16 @@ from pathlib import Path
 VOCAB_JSON = Path(__file__).parent / "vocab.json"
 
 # Which frontend field / claim-role maps to which vocab list.
-FIELD_VOCAB = {"incident_system": "systems", "incident_developer": "developers"}
-ROLE_VOCAB = {"actor": "actor", "factor": "factor",
+#
+# Every controlled-vocabulary selection is a characteristic, so all of them are
+# roles. System, developer and deployer used to sit apart as "fields" with an
+# {answer, comments} wrapper, which made them a second kind of thing to code, to
+# store, to tag a quote with and to drag into a claim — for no difference anyone
+# could point at. `fields` now holds only what is genuinely not a characteristic:
+# free text.
+FIELD_VOCAB = {}
+ROLE_VOCAB = {"system": "systems", "developer": "developers", "deployer": "deployers",
+              "actor": "actor", "factor": "factor",
               "harm": "harm", "harmed_party": "harmed_party"}
 
 # A vocab list may optionally be organised into named groups under

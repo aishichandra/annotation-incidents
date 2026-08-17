@@ -9,11 +9,11 @@
         "value": "Individual journalist"
       },
       {
-        "category": "incident_system",
         "end": 199,
         "start": 55,
         "text": "Suncoast Searchlight’s four reporters told the board their editor-in-chief was using AI editing tools and inserting hallucinations into drafts. ",
-        "value": "Editing"
+        "value": "Editing",
+        "role": "system"
       },
       {
         "end": 701,
@@ -30,18 +30,18 @@
         "value": "Lack of audience disclosure"
       },
       {
-        "category": "incident_developer",
         "end": 915,
         "start": 908,
         "text": "ChatGPT",
-        "value": "AI vendor"
+        "value": "AI vendor",
+        "role": "developer"
       },
       {
-        "category": "incident_developer",
         "end": 896,
         "start": 877,
         "text": "generative AI tools",
-        "value": "Unknown/unspecified"
+        "value": "Unknown/unspecified",
+        "role": "developer"
       },
       {
         "end": 1157,
@@ -172,7 +172,15 @@
       ],
       "harmed_party": [
         "Journalist(s)"
-      ]
+      ],
+      "system": [
+        "Editing"
+      ],
+      "developer": [
+        "AI vendor",
+        "Unknown/unspecified"
+      ],
+      "deployer": []
     }
   },
   "GQ7D8VE4": {
@@ -188,7 +196,10 @@
       "actor": [],
       "factor": [],
       "harm": [],
-      "harmed_party": []
+      "harmed_party": [],
+      "system": [],
+      "developer": [],
+      "deployer": []
     }
   },
   "M5N3GHYU": {
@@ -201,11 +212,11 @@
         "value": "Mis/disinformation actor"
       },
       {
-        "category": "incident_system",
         "end": 258,
         "start": 240,
         "text": "AI-generated video",
-        "value": "Synthetic video/image generation"
+        "value": "Synthetic video/image generation",
+        "role": "system"
       },
       {
         "end": 812,
@@ -286,24 +297,31 @@
       "harmed_party": [
         "News organization/publisher",
         "Sources/subjects of coverage"
-      ]
+      ],
+      "system": [
+        "Synthetic video/image generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "deployer": []
     }
   },
   "R95RRQFZ": {
     "quotes": [
       {
-        "category": "incident_developer",
         "value": "AI vendor",
         "text": "ChatGPT",
         "start": 79,
-        "end": 86
+        "end": 86,
+        "role": "developer"
       },
       {
-        "category": "incident_system",
         "value": "Chatbot (general use)",
         "text": "Nieman Lab’s tests show ChatGPT is directing users to broken URLs for at least 10 publications with OpenAI licensing deals.",
         "start": 55,
-        "end": 178
+        "end": 178,
+        "role": "system"
       },
       {
         "role": "actor",
@@ -382,7 +400,14 @@
       ],
       "harmed_party": [
         "News organization/publisher"
-      ]
+      ],
+      "system": [
+        "Chatbot (general use)"
+      ],
+      "developer": [
+        "AI vendor"
+      ],
+      "deployer": []
     }
   },
   "GVYZ9GGM": {
@@ -394,11 +419,11 @@
         "text": "Last week, executives said the use of the AI tool would be paused ‘for now.’"
       },
       {
-        "category": "incident_system",
         "end": 508,
         "start": 394,
         "text": "The tech news site came under scrutiny this month after it was reported the outlet was using AI to write articles.",
-        "value": "Text generation"
+        "value": "Text generation",
+        "role": "system"
       },
       {
         "end": 1163,
@@ -489,24 +514,29 @@
       "harmed_party": [
         "Audience/readers",
         "Journalist(s)"
-      ]
+      ],
+      "system": [
+        "Text generation"
+      ],
+      "developer": [],
+      "deployer": []
     }
   },
   "X8NDPG7E": {
     "quotes": [
       {
-        "category": "incident_developer",
         "end": 970,
         "start": 876,
         "text": "one of our editorial teams, CNET Money, launched a test using an internally designed AI engine",
-        "value": "In-house AI system"
+        "value": "In-house AI system",
+        "role": "developer"
       },
       {
-        "category": "incident_system",
         "end": 1457,
         "start": 863,
         "text": "In November, one of our editorial teams, CNET Money, launched a test using an internally designed AI engine – not ChatGPT – to help editors create a set of basic explainers around financial services topics. We started small and published 77 short stories using the tool, about 1% of the total content published on our site during the same period. Editors generated the outlines for the stories first, then expanded, added to and edited the AI drafts before publishing. After one of the AI-assisted stories was cited, rightly, for factual errors, the CNET Money editorial team did a full audit. ",
-        "value": "Text generation"
+        "value": "Text generation",
+        "role": "system"
       },
       {
         "end": 914,
@@ -522,17 +552,24 @@
       ],
       "factor": [],
       "harm": [],
-      "harmed_party": []
+      "harmed_party": [],
+      "system": [
+        "Text generation"
+      ],
+      "developer": [
+        "In-house AI system"
+      ],
+      "deployer": []
     }
   },
   "X7JIBCS4": {
     "quotes": [
       {
-        "category": "incident_system",
         "value": "Remixing/repurposing",
         "text": "The North London News website is publishing articles about areas including Barnet, Enfield, Hackney, Haringey, Havering, Islington and Brent.\nBut several contain inaccuracies and all appear to be regurgitations of stories from real news websites like the Barnet Post, MyLondon and The Standard.",
         "start": 121,
-        "end": 415
+        "end": 415,
+        "role": "system"
       },
       {
         "role": "actor",
@@ -619,7 +656,14 @@
       ],
       "harmed_party": [
         "Audience/readers"
-      ]
+      ],
+      "system": [
+        "Remixing/repurposing"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "deployer": []
     }
   },
   "3NAA36J3": {
@@ -639,18 +683,18 @@
         "end": 22
       },
       {
-        "category": "incident_developer",
         "value": "AI vendor",
         "text": "Perplexity",
         "start": 12,
-        "end": 22
+        "end": 22,
+        "role": "developer"
       },
       {
-        "category": "incident_system",
         "value": "Chatbot (general use)",
         "text": "a chatbot that gives natural-language answers to prompts and can, the company says, access the internet in real time—as an “answer engine.”",
         "start": 321,
-        "end": 460
+        "end": 460,
+        "role": "system"
       },
       {
         "role": "harm",
@@ -684,17 +728,24 @@
         "Distorted source representation",
         "Citation fabrication"
       ],
-      "harmed_party": []
+      "harmed_party": [],
+      "system": [
+        "Chatbot (general use)"
+      ],
+      "developer": [
+        "AI vendor"
+      ],
+      "deployer": []
     }
   },
   "ENV2YLNT": {
     "quotes": [
       {
-        "category": "incident_system",
         "end": 713,
         "start": 0,
         "text": "Gemma Tutton is a Duke University student. She is also a pole vaulter who has represented Great Britain at international competitions. Following a first-place finish at a university meet, The Duke Chronicle named Tutton “Blue Devil of the Week” in an article published on Jan. 31 at 2:57 p.m.\nSeventeen minutes later, the Durham News Today podcast dropped a new episode on Spotify called “Gemma Tutton’s Triumphant Return to Pole Vaulting.” The show has no affiliation with the student newspaper. But its episode does appear to be built entirely from the Chronicle's story. The AI-generated podcast host repeats almost all of the facts in the campus daily often in the same order, and even copied several phrases:",
-        "value": "Remixing/repurposing"
+        "value": "Remixing/repurposing",
+        "role": "system"
       },
       {
         "end": 340,
@@ -766,7 +817,14 @@
       ],
       "harmed_party": [
         "Audience/readers"
-      ]
+      ],
+      "system": [
+        "Remixing/repurposing"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "deployer": []
     }
   },
   "UEYV9JCI": {
@@ -786,11 +844,11 @@
         "end": 991
       },
       {
-        "category": "incident_system",
         "value": "News summarization",
         "text": "Instead, what really appears to be happening is yet another cautionary tale about AI digesting incorrect information and parroting it back to users uncritically. Specifically, DuckDuckGo’s AI feature seems to have gotten fooled by a game of telephone kicked off by internet pranksters and laundered into blatant misinformation on a leading search engine.",
         "start": 992,
-        "end": 1346
+        "end": 1346,
+        "role": "system"
       },
       {
         "role": "actor",
@@ -800,11 +858,11 @@
         "end": 1192
       },
       {
-        "category": "incident_developer",
         "value": "In-house AI system",
         "text": "DuckDuckGo’s AI feature ",
         "start": 1168,
-        "end": 1192
+        "end": 1192,
+        "role": "developer"
       },
       {
         "category": "incident_aftermath",
@@ -847,7 +905,14 @@
       ],
       "harmed_party": [
         "General public"
-      ]
+      ],
+      "system": [
+        "News summarization"
+      ],
+      "developer": [
+        "In-house AI system"
+      ],
+      "deployer": []
     }
   },
   "DPLN7LYG": {
@@ -881,25 +946,25 @@
   "9RW38VQ4": {
     "quotes": [
       {
-        "category": "incident_system",
         "value": "Synthetic video/image generation",
         "text": "They said they used GPT-4 to create approximately 80% of the article and the image generator Dalle-E 2 to create a profile picture of a quintessential “woke” journalist using the prompts “female, overweight, blue hair, business casual clothing, smug expression”.",
         "start": 2637,
-        "end": 2899
+        "end": 2899,
+        "role": "system"
       },
       {
-        "category": "incident_system",
         "value": "Text generation",
         "text": "They said they used GPT-4 to create approximately 80% of the article and the image generator Dalle-E 2 to create a profile picture of a quintessential “woke” journalist using the prompts “female, overweight, blue hair, business casual clothing, smug expression”.",
         "start": 2637,
-        "end": 2899
+        "end": 2899,
+        "role": "system"
       },
       {
-        "category": "incident_developer",
         "value": "AI vendor",
         "text": "GPT-4",
         "start": 2657,
-        "end": 2662
+        "end": 2662,
+        "role": "developer"
       },
       {
         "role": "actor",
@@ -1000,7 +1065,15 @@
       ],
       "harmed_party": [
         "Audience/readers"
-      ]
+      ],
+      "system": [
+        "Synthetic video/image generation",
+        "Text generation"
+      ],
+      "developer": [
+        "AI vendor"
+      ],
+      "deployer": []
     }
   },
   "6L9GTWI2": {
@@ -1013,18 +1086,18 @@
         "end": 54
       },
       {
-        "category": "incident_system",
         "value": "Synthetic video/image generation",
         "text": "A ‘significant proportion’ of RT’s TV presenters do not exist, they have been created by artificial intelligence, Margarita Simonyan, editor-in-chief of the state channel, told TVC [TV Centre, a channel owned by the city administration of Moscow]. According to the propagandist, the artificial presenters also run their own social networks.",
         "start": 1032,
-        "end": 1372
+        "end": 1372,
+        "role": "system"
       },
       {
-        "category": "incident_developer",
         "value": "Unknown/unspecified",
         "text": "they have been created by artificial intelligence",
         "start": 1095,
-        "end": 1144
+        "end": 1144,
+        "role": "developer"
       },
       {
         "role": "harm",
@@ -1034,25 +1107,25 @@
         "end": 2558
       },
       {
-        "category": "incident_system",
         "value": "Editing",
         "text": "RT has given up on broadcast editors; now images are selected or created by AI, Simonyan noted.",
         "start": 2463,
-        "end": 2558
+        "end": 2558,
+        "role": "system"
       },
       {
-        "category": "incident_system",
         "value": "Synthetic video/image generation",
         "text": "RT has given up on broadcast editors; now images are selected or created by AI, Simonyan noted.",
         "start": 2463,
-        "end": 2558
+        "end": 2558,
+        "role": "system"
       },
       {
-        "category": "incident_system",
         "value": "Translation",
         "text": "AI is involved in the dubbing of a new film about the Great Patriotic War [Russia’s name for theEastern Front in World War II], using it to re-translate Vladimir Putin’s words into other languages, Simonyan said.",
         "start": 2611,
-        "end": 2823
+        "end": 2823,
+        "role": "system"
       },
       {
         "role": "factor",
@@ -1072,17 +1145,26 @@
       "harm": [
         "Displacement of human labor"
       ],
-      "harmed_party": []
+      "harmed_party": [],
+      "system": [
+        "Synthetic video/image generation",
+        "Editing",
+        "Translation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "deployer": []
     }
   },
   "LTZ8HQCU": {
     "quotes": [
       {
-        "category": "incident_system",
         "end": 1552,
         "start": 350,
         "text": "As of publishing, the “Quartz Intelligence Newsroom” has written 22 articles today, running the gamut from earnings reports to Reddit communities banning Twitter posts to the Sackler settlement to, delightfully, a couple articles about how much AI sucks. Quartz has been running AI-generated articles for months, but prior to yesterday, they appear to have been limited to summaries of earnings reports rather than news articles. Boilerplate at the bottom of these articles notes that “This is the first phase of an experimental new version of reporting. While we strive for accuracy and timeliness, due to the experimental nature of this technology we cannot guarantee that we’ll always be successful in that regard.”\nThe articles, to their credit, do cite where the AI is gathering its information from. But even this is surface level: the Reddit article, for instance, cites Yahoo and the New York Post, but the Yahoo post is actually a repub from the Daytona Beach News-Journal, and the Post article cites NBC News as its own source. I cannot imagine how this game of telephone could go wrong, especially when letting a robot write news about contentious public figures and rapidly changing events.",
-        "value": "Remixing/repurposing"
+        "value": "Remixing/repurposing",
+        "role": "system"
       },
       {
         "end": 3571,
@@ -1139,17 +1221,22 @@
       ],
       "harmed_party": [
         "Audience/readers"
-      ]
+      ],
+      "system": [
+        "Remixing/repurposing"
+      ],
+      "developer": [],
+      "deployer": []
     }
   },
   "URNKEZW4": {
     "quotes": [
       {
-        "category": "incident_system",
         "value": "Remixing/repurposing",
         "text": "Quartz, the international business news outlet, has been quietly aggregating reporting from other outlets, including TechCrunch, in order to publish AI-generated articles under the byline “Quartz Intelligence Newsroom.”",
         "start": 0,
-        "end": 219
+        "end": 219,
+        "role": "system"
       },
       {
         "role": "actor",
@@ -1173,11 +1260,11 @@
         "end": 893
       },
       {
-        "category": "incident_developer",
         "value": "Unknown/unspecified",
         "text": "A spokesperson for Quartz corporate parent G/O Media confirmed to TechCrunch the existence of a “purely experimental” AI newsroom, without commenting on which AI models or tools the publication uses to write AI-generated news articles.",
         "start": 894,
-        "end": 1129
+        "end": 1129,
+        "role": "developer"
       },
       {
         "role": "harm",
@@ -1199,17 +1286,24 @@
       ],
       "harmed_party": [
         "Audience/readers"
-      ]
+      ],
+      "system": [
+        "Remixing/repurposing"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "deployer": []
     }
   },
   "X7FEYBLM": {
     "quotes": [
       {
-        "category": "incident_system",
         "end": 1312,
         "start": 451,
         "text": "“We are now interviewing the only survivor in the recent school shooting: TikToker Krishna Sahay,” CBS News anchor \nAnne-Marie Greenappears to say at the top of the news segment.“That must have been absolutely traumatizing,” an interviewer in another video says to Sahay. “What was going through everyone’s head?”\nSahay pauses, before responding: “Bullets, duh!”\nIn another apparent news segment on the school shooting, this time from CNN, an interviewer asks Sahay: “How’d you live through that? You were reading a magazine or something during the shooting?”\n“Reading?” Sahay replies about the magazine. “I was emptying one!”\nThe TikTok and YouTube star is among a growing crop of social media users that have been enlisting generative AI and other software to produce seemingly real news segments from top anchors at major news outlets—from CBS Evening News’ ",
-        "value": "Deepfake generation"
+        "value": "Deepfake generation",
+        "role": "system"
       },
       {
         "end": 1312,
@@ -1372,7 +1466,14 @@
       ],
       "harmed_party": [
         "General public"
-      ]
+      ],
+      "system": [
+        "Deepfake generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "deployer": []
     }
   },
   "4LLVWIQB": {
@@ -1516,18 +1617,18 @@
         "end": 22304
       },
       {
-        "category": "incident_system",
         "value": "Text generation",
         "text": "Victoria’s stilted email, and a closer read of the original pitch, revealed what should have been clear from the start: with its rote phrasing (“This story matters because of… It is timely because of… It fits your readership because of…”), it had all the hallmarks of an AI-generated piece of writing.",
         "start": 4053,
-        "end": 4354
+        "end": 4354,
+        "role": "system"
       },
       {
-        "category": "incident_developer",
         "value": "Unknown/unspecified",
         "text": " it had all the hallmarks of an AI-generated piece of writing.",
         "start": 4292,
-        "end": 4354
+        "end": 4354,
+        "role": "developer"
       },
       {
         "role": "actor",
@@ -1608,7 +1709,14 @@
         "Sources/subjects of coverage",
         "News organization/publisher",
         "Audience/readers"
-      ]
+      ],
+      "system": [
+        "Text generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "deployer": []
     }
   }
 }

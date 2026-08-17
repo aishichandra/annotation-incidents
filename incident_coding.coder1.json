@@ -1,185 +1,25 @@
 {
   "INC-001": {
-    "fields": {
-      "incident_developer": {
-        "answer": [
-          "Unknown/unspecified",
-          "AI vendor"
-        ]
-      },
-      "incident_system": {
-        "answer": [
-          "Editing"
-        ]
-      }
-    },
-    "groups": []
-  },
-  "INC-003": {
-    "fields": {
-      "incident_developer": {
-        "answer": [
-          "Unknown/unspecified"
-        ]
-      },
-      "incident_system": {
-        "answer": [
-          "Synthetic video/image generation"
-        ]
-      }
-    },
-    "groups": []
-  },
-  "INC-006": {
-    "fields": {
-      "incident_developer": {
-        "answer": [
-          "Unknown/unspecified"
-        ]
-      },
-      "incident_system": {
-        "answer": [
-          "Text generation"
-        ]
-      }
-    },
-    "groups": []
-  },
-  "INC-007": {
-    "fields": {
-      "incident_system": {
-        "answer": [
-          "Text generation"
-        ]
-      },
-      "incident_developer": {
-        "answer": [
-          "In-house AI system"
-        ]
-      }
-    },
-    "groups": []
-  },
-  "INC-008": {
-    "fields": {
-      "incident_developer": {
-        "answer": [
-          "Unknown/unspecified"
-        ]
-      },
-      "incident_system": {
-        "answer": [
-          "Text generation"
-        ]
-      }
-    },
-    "groups": []
-  },
-  "INC-010": {
-    "fields": {
-      "incident_developer": {
-        "answer": [
-          "Unknown/unspecified"
-        ]
-      },
-      "incident_system": {
-        "answer": [
-          "Remixing/repurposing"
-        ]
-      }
-    },
-    "groups": []
-  },
-  "INC-011": {
-    "fields": {
-      "incident_system": {
-        "answer": [
-          "Chatbot (general use)",
-          "News summarization"
-        ]
-      },
-      "incident_developer": {
-        "answer": [
-          "AI vendor"
-        ]
-      }
-    },
-    "groups": []
-  },
-  "INC-013": {
-    "fields": {
-      "incident_developer": {
-        "answer": [
-          "AI vendor"
-        ]
-      },
-      "incident_system": {
-        "answer": [
-          "Text generation",
-          "Synthetic video/image generation"
-        ]
-      }
-    },
-    "groups": []
-  },
-  "INC-014": {
-    "fields": {
-      "incident_system": {
-        "answer": [
-          "Synthetic video/image generation",
-          "Text generation",
-          "Translation",
-          "Editing"
+    "fields": {},
+    "groups": [
+      {
+        "actor": "News organization/publisher",
+        "claims": [
+          {
+            "factors": [
+              "Lack of audience disclosure"
+            ],
+            "harm": "Publication of low quality outputs / ai slop",
+            "harmed_parties": [
+              "Journalist(s)"
+            ],
+            "id": "1"
+          }
         ],
-        "comments": "not sure if 'writing assistance' applies in this situation?"
-      },
-      "incident_developer": {
-        "answer": [
-          "Unknown/unspecified"
-        ]
+        "developer": null,
+        "id": "1",
+        "system": null
       }
-    },
-    "groups": []
-  },
-  "INC-015": {
-    "fields": {
-      "incident_system": {
-        "answer": [
-          "Text generation",
-          "Remixing/repurposing"
-        ]
-      },
-      "incident_developer": {
-        "answer": [
-          "Unknown/unspecified"
-        ]
-      }
-    },
-    "groups": []
-  },
-  "INC-017": {
-    "fields": {
-      "incident_system": {
-        "answer": [
-          "Deepfake generation"
-        ]
-      }
-    },
-    "groups": []
-  },
-  "INC-019": {
-    "fields": {
-      "incident_developer": {
-        "answer": [
-          "Unknown/unspecified"
-        ]
-      },
-      "incident_system": {
-        "answer": [
-          "Text generation"
-        ]
-      }
-    },
-    "groups": []
+    ]
   }
 }
