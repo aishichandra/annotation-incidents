@@ -31,10 +31,8 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 APPLY = "--apply" in sys.argv
-FIELD_TO_ROLE = {"incident_system": "system", "incident_developer": "developer",
-                 "incident_deployer": "deployer"}
-ROLE_KEYS = ("system", "developer", "deployer",
-             "actor", "factor", "harm", "harmed_party")
+FIELD_TO_ROLE = {"incident_system": "system", "incident_developer": "developer"}
+ROLE_KEYS = ("system", "developer", "actor", "factor", "harm", "harmed_party")
 
 
 def load_dotenv(path: Path = HERE / ".env") -> None:

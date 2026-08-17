@@ -34,8 +34,7 @@ try:
     _schema = json.loads((HERE / "schema.json").read_text())
     ROLE_KEYS = tuple(r["role"] for r in _schema.get("claim_roles", []))
 except (OSError, ValueError):
-    ROLE_KEYS = ("system", "developer", "deployer",
-                 "actor", "factor", "harm", "harmed_party")
+    ROLE_KEYS = ("system", "developer", "actor", "factor", "harm", "harmed_party")
 
 
 def load_dotenv(path: Path = HERE / ".env") -> None:
