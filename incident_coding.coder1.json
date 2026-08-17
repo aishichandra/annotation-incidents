@@ -4,16 +4,12 @@
     "notes": {},
     "groups": [
       {
-        "actor": "News organization/publisher",
+        "actor": null,
         "claims": [
           {
-            "factors": [
-              "Lack of audience disclosure"
-            ],
-            "harm": "Publication of low quality outputs / ai slop",
-            "harmed_parties": [
-              "Journalist(s)"
-            ],
+            "factors": [],
+            "harm": null,
+            "harmed_parties": [],
             "id": "1"
           }
         ],

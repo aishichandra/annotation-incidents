@@ -369,98 +369,104 @@
   "B8KG7HK6": {
     "quotes": [
       {
-        "value": "Text generation",
-        "text": "appear to be AI-generated",
-        "start": 148,
         "end": 173,
-        "role": "system"
+        "role": "system",
+        "start": 148,
+        "text": "appear to be AI-generated",
+        "value": "Text generation"
       },
       {
-        "value": "Unknown/unspecified",
-        "text": "appear to be AI-generated",
-        "start": 148,
         "end": 173,
-        "role": "developer"
+        "role": "developer",
+        "start": 148,
+        "text": "appear to be AI-generated",
+        "value": "Unknown/unspecified"
       },
       {
+        "end": 893,
         "role": "harm",
-        "value": "Publication of low quality outputs / ai slop",
-        "text": "a tab on its drop-down menu labeled “OnlyFans.” Clicking on it pulls up a catalog of listicles ranking different types of pornographic performers by demographic, from “Turkish” to “incest” to “granny.” These blog posts link out to hundreds of different OnlyFans accounts and are presented as editorial work, largely without labels indicating they are advertisements or sponsored.",
         "start": 514,
-        "end": 893
+        "text": "a tab on its drop-down menu labeled “OnlyFans.” Clicking on it pulls up a catalog of listicles ranking different types of pornographic performers by demographic, from “Turkish” to “incest” to “granny.” These blog posts link out to hundreds of different OnlyFans accounts and are presented as editorial work, largely without labels indicating they are advertisements or sponsored.",
+        "value": "Publication of low quality outputs / ai slop"
       },
       {
+        "end": 259,
         "role": "harmed_party",
-        "value": "News organization/publisher",
-        "text": "Village Voice",
         "start": 246,
-        "end": 259
+        "text": "Village Voice",
+        "value": "News organization/publisher"
       },
       {
+        "end": 1079,
         "role": "harmed_party",
-        "value": "News organization/publisher",
-        "text": "LA Weekly",
         "start": 1070,
-        "end": 1079
+        "text": "LA Weekly",
+        "value": "News organization/publisher"
       },
       {
+        "end": 1111,
         "role": "actor",
-        "value": "Content farm/SEO-manipulation actor",
-        "text": "Street Media",
         "start": 1099,
-        "end": 1111
+        "text": "Street Media",
+        "value": "Content farm/SEO-manipulation actor"
       },
       {
+        "end": 1573,
         "role": "harm",
-        "value": "Publication of low quality outputs / ai slop",
-        "text": "According to AI detection startup Reality Defender, which scanned a sampling of these posts from the Village Voice, the content in the articles registers as having a “high probability” of containing AI-generated text.“",
         "start": 1355,
-        "end": 1573
+        "text": "According to AI detection startup Reality Defender, which scanned a sampling of these posts from the Village Voice, the content in the articles registers as having a “high probability” of containing AI-generated text.“",
+        "value": "Publication of low quality outputs / ai slop"
       },
       {
+        "end": 1869,
         "role": "harm",
-        "value": "Publication of low quality outputs / ai slop",
-        "text": "way less informational and newsworthy content and more SEO-focused ‘slop’ that really just wastes people’s time and attention",
         "start": 1744,
-        "end": 1869
+        "text": "way less informational and newsworthy content and more SEO-focused ‘slop’ that really just wastes people’s time and attention",
+        "value": "Publication of low quality outputs / ai slop"
       },
       {
+        "end": 1079,
         "role": "actor",
-        "value": "News organization/publisher",
-        "text": "LA Weekly",
         "start": 1070,
-        "end": 1079
+        "text": "LA Weekly",
+        "value": "News organization/publisher"
       },
       {
+        "end": 259,
         "role": "actor",
-        "value": "News organization/publisher",
-        "text": "Village Voice",
         "start": 246,
-        "end": 259
+        "text": "Village Voice",
+        "value": "News organization/publisher"
       },
       {
+        "end": 2084,
         "role": "actor",
-        "value": "News organization/publisher",
-        "text": "Riverfront Times",
         "start": 2068,
-        "end": 2084
+        "text": "Riverfront Times",
+        "value": "News organization/publisher"
       },
       {
+        "end": 2195,
         "role": "actor",
-        "value": "Content farm/SEO-manipulation actor",
-        "text": "unnamed buyer",
         "start": 2182,
-        "end": 2195
+        "text": "unnamed buyer",
+        "value": "Content farm/SEO-manipulation actor"
       },
       {
+        "end": 173,
         "role": "factor",
-        "value": "Lack of audience disclosure",
-        "text": "appear to be AI-generated",
         "start": 148,
-        "end": 173
+        "text": "appear to be AI-generated",
+        "value": "Lack of audience disclosure"
       }
     ],
     "roles": {
+      "system": [
+        "Text generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
       "actor": [
         "Content farm/SEO-manipulation actor",
         "News organization/publisher"
@@ -473,14 +479,7 @@
       ],
       "harmed_party": [
         "News organization/publisher"
-      ],
-      "system": [
-        "Text generation"
-      ],
-      "developer": [
-        "Unknown/unspecified"
-      ],
-      "deployer": []
+      ]
     }
   },
   "X8NDPG7E": {
@@ -1765,6 +1764,28 @@
   "GVYZ9GGM": {
     "quotes": [],
     "roles": {
+      "actor": [],
+      "factor": [],
+      "harm": [],
+      "harmed_party": []
+    }
+  },
+  "ECKDCDY2": {
+    "quotes": [],
+    "roles": {
+      "system": [],
+      "developer": [],
+      "actor": [],
+      "factor": [],
+      "harm": [],
+      "harmed_party": []
+    }
+  },
+  "EHX5QSRM": {
+    "quotes": [],
+    "roles": {
+      "system": [],
+      "developer": [],
       "actor": [],
       "factor": [],
       "harm": [],
