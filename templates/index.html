@@ -503,6 +503,10 @@ const CLAIM_ROLE = { ...ROLE, ...Object.fromEntries(CLAIM_FIELDS.map(c => [c.rol
 // claim and are dropped onto the claim row itself.
 const GROUP_ROLES = ['actor', 'system', 'developer'];
 const CLAIM_ROLES_DROP = ['harm', 'harmed_party', 'factor'];
+// Roles a claim holds as a list, and the key each is stored under. Anything not
+// listed here is a single value that a drop replaces. `harm` is deliberately
+// absent: one harm per claim is what keeps a claim one countable proposition.
+const CLAIM_LIST_KEYS = { harmed_party: 'harmed_parties', factor: 'factors' };
 let SCHEMA_ROLES = [];      // [{role,label,options,groups?}] from schema.claim_roles
 function roleOptions(role) {
   const r = SCHEMA_ROLES.find(x => x.role === role);
@@ -728,9 +732,8 @@ function usedInClaims(inc, role, value) {
       return;
     }
     (g.claims || []).forEach(cl => {
-      const hit = role === 'factor'
-        ? (cl.factors || []).includes(value)
-        : cl[role] === value;
+      const key = CLAIM_LIST_KEYS[role];
+      const hit = key ? (cl[key] || []).includes(value) : cl[role] === value;
       if (hit) marks.push(g.id + '.' + cl.id);
     });
   });
@@ -967,6 +970,9 @@ function claimRow(inc, grp, cl, container) {
   num.className = 'claim-num'; num.textContent = grp.id + '.' + cl.id;
   row.appendChild(num);
 
+  const rebuild = () => { saveGroups(inc); buildGroupsUI(container, inc); };
+
+  // The one single-valued slot: a drop replaces whatever is there.
   const scalarSlot = (role, placeholder) => {
     const span = document.createElement('span');
     span.className = 'sent-slot';
@@ -974,36 +980,36 @@ function claimRow(inc, grp, cl, container) {
       span.innerHTML = `<span class="sent-ph">[${escapeHtml(placeholder)}]</span>`;
       return span;
     }
-    span.appendChild(valueChip(role, cl[role], () => {
-      cl[role] = null;
-      saveGroups(inc);
-      buildGroupsUI(container, inc);
-    }));
+    span.appendChild(valueChip(role, cl[role], () => { cl[role] = null; rebuild(); }));
+    return span;
+  };
+
+  // A multi-valued slot: every value dropped in, joined by "&". Harmed parties
+  // and factors both read as conjunctions, so they share this.
+  const listSlot = (role, key, placeholder) => {
+    const span = document.createElement('span');
+    span.className = 'sent-slot';
+    const vals = cl[key] || [];
+    if (!vals.length) {
+      span.innerHTML = `<span class="sent-ph">[${escapeHtml(placeholder)}]</span>`;
+      return span;
+    }
+    vals.forEach((v, i) => {
+      if (i) span.appendChild(document.createTextNode(' & '));
+      span.appendChild(valueChip(role, v, () => {
+        cl[key] = cl[key].filter(x => x !== v);
+        rebuild();
+      }));
+    });
     return span;
   };
 
   row.appendChild(document.createTextNode('allegedly caused '));
   row.appendChild(scalarSlot('harm', 'harm'));
   row.appendChild(document.createTextNode(' to '));
-  row.appendChild(scalarSlot('harmed_party', 'harmed party'));
+  row.appendChild(listSlot('harmed_party', 'harmed_parties', 'harmed party/ies'));
   row.appendChild(document.createTextNode(' because of '));
-
-  const fs = document.createElement('span');
-  fs.className = 'sent-slot';
-  const factors = cl.factors || [];
-  if (!factors.length) {
-    fs.innerHTML = `<span class="sent-ph">[factor(s)]</span>`;
-  } else {
-    factors.forEach((v, i) => {
-      if (i) fs.appendChild(document.createTextNode(' & '));
-      fs.appendChild(valueChip('factor', v, () => {
-        cl.factors = cl.factors.filter(x => x !== v);
-        saveGroups(inc);
-        buildGroupsUI(container, inc);
-      }));
-    });
-  }
-  row.appendChild(fs);
+  row.appendChild(listSlot('factor', 'factors', 'factor(s)'));
 
   const del = document.createElement('button');
   del.className = 'grp-del claim-del'; del.textContent = '×'; del.title = 'Delete claim';
@@ -1015,15 +1021,15 @@ function claimRow(inc, grp, cl, container) {
   row.appendChild(del);
 
   dropZone(row, CLAIM_ROLES_DROP, (m) => {
-    if (m.role === 'factor') {
-      cl.factors = cl.factors || [];
-      if (cl.factors.includes(m.value)) return;
-      cl.factors.push(m.value);
+    const key = CLAIM_LIST_KEYS[m.role];
+    if (key) {                      // list: a drop adds, duplicates are ignored
+      cl[key] = cl[key] || [];
+      if (cl[key].includes(m.value)) return;
+      cl[key].push(m.value);
     } else {
       cl[m.role] = m.value;         // scalar: a drop replaces
     }
-    saveGroups(inc);
-    buildGroupsUI(container, inc);
+    rebuild();
   });
   return row;
 }

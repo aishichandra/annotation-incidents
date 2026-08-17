@@ -113,15 +113,20 @@ def build_validator(vocab: dict | None = None) -> dict:
         },
     }
     # One element per actor context: who did it, optionally with what system and
-    # whose model, and the claims made about that context. actor / system /
-    # developer / harm / harmed_party are single values — plural there would mean
-    # a cross product nobody can read back ("which harm hit which party?"). Only
-    # `factors` is a list, where "because of A and B" is honestly conjunctive.
+    # whose model, and the claims made about that context. actor, system,
+    # developer and harm are single values; `harmed_parties` and `factors` are
+    # lists. The asymmetry is deliberate — one harm reaching several parties, or
+    # arising from several factors, is a conjunction anyone can read back, whereas
+    # plural harms alongside plural parties would leave "which harm hit which
+    # party?" unanswerable. Holding harm to one value is what keeps a claim a
+    # single countable proposition.
     claim_obj = {
         "bsonType": "object",
         "properties": {
             "id": {"bsonType": ["string", "null"]},
             "harm": {"bsonType": ["string", "null"]},
+            "harmed_parties": {"bsonType": "array"},
+            # pre-plural single value, still permitted so older claims validate
             "harmed_party": {"bsonType": ["string", "null"]},
             "factors": {"bsonType": "array"},
         },
