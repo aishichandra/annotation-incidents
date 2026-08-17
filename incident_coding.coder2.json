@@ -1,0 +1,206 @@
+{
+  "INC-001": {
+    "fields": {
+      "incident_developer": {
+        "answer": [
+          "AI vendor",
+          "Unknown/unspecified"
+        ]
+      },
+      "incident_system": {
+        "answer": [
+          "Editing"
+        ]
+      }
+    },
+    "groups": []
+  },
+  "INC-003": {
+    "fields": {
+      "incident_developer": {
+        "answer": [
+          "Unknown/unspecified"
+        ],
+        "comments": "Article does not specify what developer was used to create the video."
+      },
+      "incident_system": {
+        "answer": [
+          "Synthetic video/image generation"
+        ]
+      }
+    },
+    "groups": []
+  },
+  "INC-004": {
+    "fields": {
+      "incident_system": {
+        "answer": [
+          "Chatbot"
+        ]
+      },
+      "incident_developer": {
+        "answer": [
+          "AI vendor"
+        ]
+      }
+    },
+    "groups": []
+  },
+  "INC-007": {
+    "fields": {
+      "incident_system": {
+        "answer": [
+          "Writing assistance"
+        ]
+      },
+      "incident_developer": {
+        "answer": [
+          "In-house AI system"
+        ]
+      }
+    },
+    "groups": []
+  },
+  "INC-008": {
+    "fields": {
+      "incident_system": {
+        "answer": [
+          "Remixing/repurposing"
+        ]
+      },
+      "incident_developer": {
+        "answer": [
+          "Unknown/unspecified"
+        ],
+        "comments": "The article does not specify."
+      }
+    },
+    "groups": []
+  },
+  "INC-009": {
+    "fields": {
+      "incident_system": {
+        "answer": [
+          "Chatbot"
+        ]
+      },
+      "incident_developer": {
+        "answer": [
+          "AI vendor"
+        ]
+      }
+    },
+    "groups": []
+  },
+  "INC-010": {
+    "fields": {
+      "incident_developer": {
+        "answer": [
+          "Unknown/unspecified"
+        ],
+        "comments": "Article does not specify."
+      },
+      "incident_system": {
+        "answer": [
+          "Remixing/repurposing"
+        ]
+      }
+    },
+    "groups": []
+  },
+  "INC-011": {
+    "fields": {
+      "incident_system": {
+        "answer": [
+          "News summarization"
+        ]
+      },
+      "incident_developer": {
+        "answer": [
+          "In-house AI system"
+        ]
+      }
+    },
+    "groups": []
+  },
+  "INC-013": {
+    "fields": {
+      "incident_system": {
+        "answer": [
+          "Synthetic video/image generation",
+          "Writing assistance"
+        ]
+      },
+      "incident_developer": {
+        "answer": [
+          "AI vendor"
+        ]
+      }
+    },
+    "groups": []
+  },
+  "INC-014": {
+    "fields": {
+      "incident_system": {
+        "answer": [
+          "Synthetic video/image generation",
+          "Editing",
+          "Translation"
+        ]
+      },
+      "incident_developer": {
+        "answer": [
+          "Unknown/unspecified"
+        ]
+      }
+    },
+    "groups": []
+  },
+  "INC-015": {
+    "fields": {
+      "incident_developer": {
+        "answer": [
+          "Unknown/unspecified"
+        ],
+        "comments": "The article does not specify."
+      },
+      "incident_system": {
+        "answer": [
+          "Remixing/repurposing"
+        ]
+      }
+    },
+    "groups": []
+  },
+  "INC-017": {
+    "fields": {
+      "incident_developer": {
+        "answer": [
+          "Unknown/unspecified"
+        ],
+        "comments": "The article does not specify."
+      },
+      "incident_system": {
+        "answer": [
+          "Deepfake generation"
+        ]
+      }
+    },
+    "groups": []
+  },
+  "INC-019": {
+    "fields": {
+      "incident_system": {
+        "answer": [
+          "Writing assistance"
+        ]
+      },
+      "incident_developer": {
+        "answer": [
+          "Unknown/unspecified"
+        ]
+      }
+    },
+    "groups": []
+  }
+}

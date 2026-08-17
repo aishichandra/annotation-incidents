@@ -1,213 +1,5 @@
 {
-  "R95RRQFZ": {
-    "fields": {
-      "incident_id": {
-        "answer": "INC-004",
-        "comments": ""
-      }
-    },
-    "quotes": [],
-    "roles": {
-      "actor": [],
-      "harm": [],
-      "factor": [],
-      "harmed_party": []
-    }
-  },
-  "69MWSX4Q": {
-    "fields": {
-      "incident_id": {
-        "answer": "INC-005",
-        "comments": ""
-      }
-    },
-    "quotes": [],
-    "roles": {
-      "actor": [],
-      "harm": [],
-      "factor": [],
-      "harmed_party": []
-    }
-  },
-  "B8KG7HK6": {
-    "fields": {
-      "incident_aftermath": {
-        "answer": null,
-        "comments": ""
-      },
-      "incident_developer": {
-        "answer": [
-          "Unknown/unspecified"
-        ],
-        "comments": ""
-      },
-      "incident_id": {
-        "answer": "INC-006",
-        "comments": ""
-      },
-      "incident_system": {
-        "answer": [
-          "Writing assistance"
-        ],
-        "comments": ""
-      },
-      "incident_title": {
-        "answer": null,
-        "comments": ""
-      }
-    },
-    "quotes": [
-      {
-        "category": "incident_system",
-        "value": "Writing assistance",
-        "text": "appear to be AI-generated",
-        "start": 148,
-        "end": 173
-      },
-      {
-        "category": "incident_developer",
-        "value": "Unknown/unspecified",
-        "text": "appear to be AI-generated",
-        "start": 148,
-        "end": 173
-      },
-      {
-        "role": "harm",
-        "value": "Publication of low quality outputs / ai slop",
-        "text": "a tab on its drop-down menu labeled “OnlyFans.” Clicking on it pulls up a catalog of listicles ranking different types of pornographic performers by demographic, from “Turkish” to “incest” to “granny.” These blog posts link out to hundreds of different OnlyFans accounts and are presented as editorial work, largely without labels indicating they are advertisements or sponsored.",
-        "start": 514,
-        "end": 893
-      },
-      {
-        "role": "harmed_party",
-        "value": "News organization/publisher",
-        "text": "Village Voice",
-        "start": 246,
-        "end": 259
-      },
-      {
-        "role": "harmed_party",
-        "value": "News organization/publisher",
-        "text": "LA Weekly",
-        "start": 1070,
-        "end": 1079
-      },
-      {
-        "role": "actor",
-        "value": "SEO/platform-manipulation actor",
-        "text": "Street Media",
-        "start": 1099,
-        "end": 1111
-      },
-      {
-        "role": "harm",
-        "value": "Publication of low quality outputs / ai slop",
-        "text": "According to AI detection startup Reality Defender, which scanned a sampling of these posts from the Village Voice, the content in the articles registers as having a “high probability” of containing AI-generated text.“",
-        "start": 1355,
-        "end": 1573
-      },
-      {
-        "role": "harm",
-        "value": "Publication of low quality outputs / ai slop",
-        "text": "way less informational and newsworthy content and more SEO-focused ‘slop’ that really just wastes people’s time and attention",
-        "start": 1744,
-        "end": 1869
-      },
-      {
-        "role": "actor",
-        "value": "News organization/publisher",
-        "text": "LA Weekly",
-        "start": 1070,
-        "end": 1079
-      },
-      {
-        "role": "actor",
-        "value": "News organization/publisher",
-        "text": "Village Voice",
-        "start": 246,
-        "end": 259
-      },
-      {
-        "role": "actor",
-        "value": "News organization/publisher",
-        "text": "Riverfront Times",
-        "start": 2068,
-        "end": 2084
-      },
-      {
-        "role": "actor",
-        "value": "SEO/platform-manipulation actor",
-        "text": "unnamed buyer",
-        "start": 2182,
-        "end": 2195
-      },
-      {
-        "role": "factor",
-        "value": "Lack of transparency/disclosure",
-        "text": "appear to be AI-generated",
-        "start": 148,
-        "end": 173
-      }
-    ],
-    "roles": {
-      "actor": [
-        "SEO/platform-manipulation actor",
-        "News organization/publisher"
-      ],
-      "harm": [
-        "Publication of low quality outputs / ai slop"
-      ],
-      "factor": [
-        "Lack of transparency/disclosure"
-      ],
-      "harmed_party": [
-        "News organization/publisher"
-      ]
-    }
-  },
-  "GVYZ9GGM": {
-    "fields": {
-      "incident_id": {
-        "answer": "INC-007",
-        "comments": ""
-      }
-    },
-    "quotes": [],
-    "roles": {
-      "actor": [],
-      "harm": [],
-      "factor": [],
-      "harmed_party": []
-    }
-  },
   "A5A5XZGY": {
-    "fields": {
-      "incident_aftermath": {
-        "answer": "",
-        "comments": ""
-      },
-      "incident_developer": {
-        "answer": [
-          "Unknown/unspecified",
-          "AI vendor"
-        ],
-        "comments": ""
-      },
-      "incident_id": {
-        "answer": "INC-001",
-        "comments": ""
-      },
-      "incident_system": {
-        "answer": [
-          "Editing"
-        ],
-        "comments": ""
-      },
-      "incident_title": {
-        "answer": "Suncoast Searchlight editor AI use controversy",
-        "comments": ""
-      }
-    },
     "quotes": [
       {
         "category": "incident_system",
@@ -434,28 +226,6 @@
     }
   },
   "GQ7D8VE4": {
-    "fields": {
-      "incident_aftermath": {
-        "answer": null,
-        "comments": ""
-      },
-      "incident_developer": {
-        "answer": [],
-        "comments": ""
-      },
-      "incident_id": {
-        "answer": "INC-001",
-        "comments": ""
-      },
-      "incident_system": {
-        "answer": [],
-        "comments": ""
-      },
-      "incident_title": {
-        "answer": "Suncoast Searchlight editor AI use controversy",
-        "comments": ""
-      }
-    },
     "quotes": [
       {
         "category": "incident_aftermath",
@@ -466,38 +236,12 @@
     ],
     "roles": {
       "actor": [],
-      "harm": [],
       "factor": [],
+      "harm": [],
       "harmed_party": []
     }
   },
   "M5N3GHYU": {
-    "fields": {
-      "incident_aftermath": {
-        "answer": null,
-        "comments": ""
-      },
-      "incident_developer": {
-        "answer": [
-          "Unknown/unspecified"
-        ],
-        "comments": ""
-      },
-      "incident_id": {
-        "answer": "INC-003",
-        "comments": ""
-      },
-      "incident_system": {
-        "answer": [
-          "Synthetic video/image generation"
-        ],
-        "comments": ""
-      },
-      "incident_title": {
-        "answer": "Fox News reframes story after falling for AI misinfo",
-        "comments": ""
-      }
-    },
     "quotes": [
       {
         "category": "incident_system",
@@ -588,20 +332,1340 @@
         "Disinformation actor",
         "News organization/publisher"
       ],
-      "harm": [
-        "Perpetuation of stereotypes",
-        "Journalists being duped",
-        "Amplification of misinformation"
-      ],
       "factor": [
         "Deployment of AI with intention to harm or mislead",
         "Publisher's lack of due diligence",
         "Lack of transparency/disclosure"
       ],
+      "harm": [
+        "Perpetuation of stereotypes",
+        "Journalists being duped",
+        "Amplification of misinformation"
+      ],
       "harmed_party": [
         "News organization/publisher",
         "Audience/readers",
         "Sources/subjects of coverage"
+      ]
+    }
+  },
+  "B8KG7HK6": {
+    "quotes": [
+      {
+        "category": "incident_system",
+        "value": "Writing assistance",
+        "text": "appear to be AI-generated",
+        "start": 148,
+        "end": 173
+      },
+      {
+        "category": "incident_developer",
+        "value": "Unknown/unspecified",
+        "text": "appear to be AI-generated",
+        "start": 148,
+        "end": 173
+      },
+      {
+        "role": "harm",
+        "value": "Publication of low quality outputs / ai slop",
+        "text": "a tab on its drop-down menu labeled “OnlyFans.” Clicking on it pulls up a catalog of listicles ranking different types of pornographic performers by demographic, from “Turkish” to “incest” to “granny.” These blog posts link out to hundreds of different OnlyFans accounts and are presented as editorial work, largely without labels indicating they are advertisements or sponsored.",
+        "start": 514,
+        "end": 893
+      },
+      {
+        "role": "harmed_party",
+        "value": "News organization/publisher",
+        "text": "Village Voice",
+        "start": 246,
+        "end": 259
+      },
+      {
+        "role": "harmed_party",
+        "value": "News organization/publisher",
+        "text": "LA Weekly",
+        "start": 1070,
+        "end": 1079
+      },
+      {
+        "role": "actor",
+        "value": "SEO/platform-manipulation actor",
+        "text": "Street Media",
+        "start": 1099,
+        "end": 1111
+      },
+      {
+        "role": "harm",
+        "value": "Publication of low quality outputs / ai slop",
+        "text": "According to AI detection startup Reality Defender, which scanned a sampling of these posts from the Village Voice, the content in the articles registers as having a “high probability” of containing AI-generated text.“",
+        "start": 1355,
+        "end": 1573
+      },
+      {
+        "role": "harm",
+        "value": "Publication of low quality outputs / ai slop",
+        "text": "way less informational and newsworthy content and more SEO-focused ‘slop’ that really just wastes people’s time and attention",
+        "start": 1744,
+        "end": 1869
+      },
+      {
+        "role": "actor",
+        "value": "News organization/publisher",
+        "text": "LA Weekly",
+        "start": 1070,
+        "end": 1079
+      },
+      {
+        "role": "actor",
+        "value": "News organization/publisher",
+        "text": "Village Voice",
+        "start": 246,
+        "end": 259
+      },
+      {
+        "role": "actor",
+        "value": "News organization/publisher",
+        "text": "Riverfront Times",
+        "start": 2068,
+        "end": 2084
+      },
+      {
+        "role": "actor",
+        "value": "SEO/platform-manipulation actor",
+        "text": "unnamed buyer",
+        "start": 2182,
+        "end": 2195
+      },
+      {
+        "role": "factor",
+        "value": "Lack of transparency/disclosure",
+        "text": "appear to be AI-generated",
+        "start": 148,
+        "end": 173
+      }
+    ],
+    "roles": {
+      "actor": [
+        "SEO/platform-manipulation actor",
+        "News organization/publisher"
+      ],
+      "factor": [
+        "Lack of transparency/disclosure"
+      ],
+      "harm": [
+        "Publication of low quality outputs / ai slop"
+      ],
+      "harmed_party": [
+        "News organization/publisher"
+      ]
+    }
+  },
+  "X8NDPG7E": {
+    "quotes": [
+      {
+        "category": "incident_system",
+        "value": "Writing assistance",
+        "text": "internally designed AI engine",
+        "start": 941,
+        "end": 970
+      },
+      {
+        "category": "incident_developer",
+        "value": "In-house AI system",
+        "text": "internally designed AI engine",
+        "start": 941,
+        "end": 970
+      },
+      {
+        "role": "harm",
+        "value": "Publication of low quality outputs / ai slop",
+        "text": "factual errors",
+        "start": 1393,
+        "end": 1407
+      },
+      {
+        "role": "harm",
+        "value": "Publication of low quality outputs / ai slop",
+        "text": "dentified additional stories that required correction, with a small number requiring substantial correction and several stories with minor issues such as incomplete company names, transposed numbers or language that our senior editors viewed as vague",
+        "start": 1528,
+        "end": 1778
+      },
+      {
+        "role": "harmed_party",
+        "value": "Audience/readers",
+        "text": "Trust with our readers is essential",
+        "start": 1780,
+        "end": 1815
+      },
+      {
+        "category": "incident_aftermath",
+        "text": "when we find errors, we’ve corrected these stories, with an editors’ note explaining what was changed. We’ve paused and will restart using the AI tool when we feel confident the tool and our editorial processes will prevent both human and AI errors.",
+        "start": 1827,
+        "end": 2076
+      },
+      {
+        "category": "incident_aftermath",
+        "text": "We changed the byline for articles compiled with the AI engine to “CNET Money” and moved the disclosure so you don’t need to hover over the byline to see it.",
+        "start": 2201,
+        "end": 2358
+      },
+      {
+        "role": "factor",
+        "value": "Lack of transparency/disclosure",
+        "text": "We changed the byline for articles compiled with the AI engine to “CNET Money” and moved the disclosure so you don’t need to hover over the byline to see it.",
+        "start": 2201,
+        "end": 2358
+      },
+      {
+        "role": "harm",
+        "value": "Plagiarism",
+        "text": "our plagiarism checker tool either wasn’t properly used by the editor or it failed to catch sentences or partial sentences that closely resembled the original language.",
+        "start": 2815,
+        "end": 2983
+      },
+      {
+        "role": "factor",
+        "value": "Inadequate human oversight",
+        "text": "our plagiarism checker tool either wasn’t properly used by the editor or it failed to catch sentences or partial sentences that closely resembled the original language.",
+        "start": 2815,
+        "end": 2983
+      },
+      {
+        "category": "incident_aftermath",
+        "text": "We’re developing additional ways to flag exact or similar matches to other published content identified by the AI tool, including automatic citations and external links for proprietary information such as data points or direct quotes. We’re also adding additional steps to flag potential misinformation.",
+        "start": 2984,
+        "end": 3287
+      },
+      {
+        "role": "actor",
+        "value": "News organization/publisher",
+        "text": "CNET",
+        "start": 24,
+        "end": 28
+      }
+    ],
+    "roles": {
+      "actor": [
+        "News organization/publisher"
+      ],
+      "factor": [
+        "Lack of transparency/disclosure",
+        "Inadequate human oversight"
+      ],
+      "harm": [
+        "Publication of low quality outputs / ai slop",
+        "Plagiarism"
+      ],
+      "harmed_party": [
+        "Audience/readers"
+      ]
+    }
+  },
+  "X7JIBCS4": {
+    "quotes": [
+      {
+        "end": 295,
+        "role": "harm",
+        "start": 283,
+        "text": "inaccuracies",
+        "value": "Publication of low quality outputs / ai slop"
+      },
+      {
+        "end": 295,
+        "role": "harm",
+        "start": 283,
+        "text": "inaccuracies",
+        "value": "Amplification of misinformation"
+      },
+      {
+        "end": 414,
+        "role": "harm",
+        "start": 301,
+        "text": "ll appear to be regurgitations of stories from real news websites like the Barnet Post, MyLondon and The Standard",
+        "value": "Plagiarism"
+      },
+      {
+        "end": 415,
+        "role": "harmed_party",
+        "start": 376,
+        "text": "Barnet Post, MyLondon and The Standard.",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 503,
+        "role": "harm",
+        "start": 416,
+        "text": "Several stories appear to have accidentally left in AI prompts or parts of an AI reply.",
+        "value": "Publication of low quality outputs / ai slop"
+      },
+      {
+        "category": "incident_system",
+        "end": 912,
+        "start": 895,
+        "text": "AI text generator",
+        "value": "Writing assistance"
+      },
+      {
+        "category": "incident_developer",
+        "end": 912,
+        "start": 895,
+        "text": "AI text generator",
+        "value": "Unknown/unspecified"
+      },
+      {
+        "end": 1798,
+        "role": "harmed_party",
+        "start": 1625,
+        "text": "In addition, Kathri stopped being a councillor several years ago and is therefore not the current chair of the planning committee. His name is also correctly spelled Khatri.",
+        "value": "Sources/subjects of coverage"
+      },
+      {
+        "end": 3245,
+        "role": "factor",
+        "start": 3169,
+        "text": "The North London News articles do not feature any bylines except “News Desk”",
+        "value": "AI-based impersonation of journalists/outlets"
+      },
+      {
+        "end": 5458,
+        "role": "factor",
+        "start": 5405,
+        "text": "the bylined authors did not appear to exist elsewhere",
+        "value": "AI-based impersonation of journalists/outlets"
+      },
+      {
+        "end": 1236,
+        "role": "factor",
+        "start": 1217,
+        "text": "optimal SEO ranking",
+        "value": "SEO/algorithm gaming"
+      },
+      {
+        "end": 142,
+        "role": "actor",
+        "start": 121,
+        "text": "The North London News",
+        "value": "SEO/platform-manipulation actor"
+      },
+      {
+        "end": 1798,
+        "role": "harm",
+        "start": 1625,
+        "text": "In addition, Kathri stopped being a councillor several years ago and is therefore not the current chair of the planning committee. His name is also correctly spelled Khatri.",
+        "value": "Misrepresentation of individuals depicted"
+      }
+    ],
+    "roles": {
+      "actor": [
+        "SEO/platform-manipulation actor"
+      ],
+      "factor": [
+        "AI-based impersonation of journalists/outlets",
+        "SEO/algorithm gaming"
+      ],
+      "harm": [
+        "Publication of low quality outputs / ai slop",
+        "Amplification of misinformation",
+        "Plagiarism",
+        "Misrepresentation of individuals depicted"
+      ],
+      "harmed_party": [
+        "News organization/publisher",
+        "Sources/subjects of coverage"
+      ]
+    }
+  },
+  "3NAA36J3": {
+    "quotes": [
+      {
+        "role": "harm",
+        "value": "Inaccurate summarization",
+        "text": "summarizing stories inaccurately",
+        "start": 2331,
+        "end": 2363
+      },
+      {
+        "role": "harm",
+        "value": "Citation issues",
+        "text": "minimal attribution",
+        "start": 2373,
+        "end": 2392
+      }
+    ],
+    "roles": {
+      "actor": [],
+      "factor": [],
+      "harm": [
+        "Inaccurate summarization",
+        "Citation issues"
+      ],
+      "harmed_party": []
+    }
+  },
+  "ENV2YLNT": {
+    "quotes": [
+      {
+        "category": "incident_system",
+        "end": 598,
+        "start": 578,
+        "text": "AI-generated podcast",
+        "value": "Remixing/repurposing"
+      },
+      {
+        "category": "incident_developer",
+        "end": 598,
+        "start": 578,
+        "text": "AI-generated podcast",
+        "value": "Unknown/unspecified"
+      },
+      {
+        "end": 712,
+        "role": "harm",
+        "start": 605,
+        "text": "epeats almost all of the facts in the campus daily often in the same order, and even copied several phrases",
+        "value": "Plagiarism"
+      },
+      {
+        "end": 207,
+        "role": "harmed_party",
+        "start": 188,
+        "text": "The Duke Chronicle ",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 339,
+        "role": "actor",
+        "start": 322,
+        "text": "Durham News Today",
+        "value": "Third-party aggregator/content farm"
+      },
+      {
+        "end": 1496,
+        "role": "actor",
+        "start": 1470,
+        "text": "The Daily News Now! (DNN),",
+        "value": "Third-party aggregator/content farm"
+      },
+      {
+        "end": 2498,
+        "role": "harm",
+        "start": 2321,
+        "text": "often reused the same facts, structure and even phrases as articles from media outlets such as local affiliates of Fox and NBC News, TechCrunch, Toronto Star, The Verge and WRAL",
+        "value": "Plagiarism"
+      },
+      {
+        "end": 2499,
+        "role": "harmed_party",
+        "start": 2436,
+        "text": "Fox and NBC News, TechCrunch, Toronto Star, The Verge and WRAL.",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 2773,
+        "role": "harm",
+        "start": 2763,
+        "text": "plagiarism",
+        "value": "Plagiarism"
+      },
+      {
+        "end": 3324,
+        "role": "factor",
+        "start": 3163,
+        "text": "Indicator’s findings suggest news media outlets are ever more vulnerable to the systematized scraping of their articles for the generation of derivative content.",
+        "value": "Publishers' lack of control over AI content presentation"
+      },
+      {
+        "role": "harm",
+        "value": "Publication of low quality outputs / ai slop",
+        "text": "But I found that DNN has published more than 350,000 episodes since January 23. That's roughly 11,000 episodes a day — or more than a year of content if you played it back-to-back.",
+        "start": 1750,
+        "end": 1930
+      }
+    ],
+    "roles": {
+      "actor": [
+        "Third-party aggregator/content farm"
+      ],
+      "factor": [
+        "Publishers' lack of control over AI content presentation"
+      ],
+      "harm": [
+        "Plagiarism",
+        "Publication of low quality outputs / ai slop"
+      ],
+      "harmed_party": [
+        "News organization/publisher"
+      ]
+    }
+  },
+  "UEYV9JCI": {
+    "quotes": [
+      {
+        "category": "incident_system",
+        "value": "Chatbot",
+        "text": "DuckDuckGo’s AI search featur",
+        "start": 13,
+        "end": 42
+      },
+      {
+        "role": "harm",
+        "value": "Amplification of misinformation",
+        "text": "US President Donald Trump passed away earlier this month from rabies",
+        "start": 45,
+        "end": 113
+      },
+      {
+        "text": " DuckDuckGo’s",
+        "start": 12,
+        "end": 25,
+        "role": "actor",
+        "value": "AI developer"
+      },
+      {
+        "role": "harm",
+        "value": "Citation issues",
+        "text": "inexplicably cites an  ABC News story about an Ohio man who died from rabies that makes no mention of Trump.",
+        "start": 882,
+        "end": 990
+      },
+      {
+        "role": "harm",
+        "value": "Inaccurate summarization",
+        "text": "inexplicably cites an  ABC News story about an Ohio man who died from rabies that makes no mention of Trump.",
+        "start": 882,
+        "end": 990
+      },
+      {
+        "role": "harm",
+        "value": "Amplification of misinformation",
+        "text": "AI digesting incorrect information and parroting it back to users uncritically",
+        "start": 1074,
+        "end": 1152
+      },
+      {
+        "role": "actor",
+        "value": "Disinformation actor",
+        "text": "internet pranksters",
+        "start": 1257,
+        "end": 1276
+      },
+      {
+        "category": "incident_developer",
+        "value": "AI vendor",
+        "text": " DuckDuckGo’s",
+        "start": 12,
+        "end": 25
+      },
+      {
+        "category": "incident_system",
+        "value": "News summarization",
+        "text": " DuckDuckGo’s",
+        "start": 12,
+        "end": 25
+      },
+      {
+        "role": "harmed_party",
+        "value": "Sources/subjects of coverage",
+        "text": "Trump",
+        "start": 143,
+        "end": 148
+      },
+      {
+        "role": "harmed_party",
+        "value": "Sources/subjects of coverage",
+        "text": "Vice President JD Vance",
+        "start": 179,
+        "end": 202
+      },
+      {
+        "category": "incident_aftermath",
+        "text": "A Brave spokesperson defended the company’s AI and said that fact-checking its claims is the responsibility of users.",
+        "start": 3565,
+        "end": 3682
+      },
+      {
+        "category": "incident_system",
+        "value": "News summarization",
+        "text": "Brave’s AI",
+        "start": 3470,
+        "end": 3480
+      },
+      {
+        "category": "incident_developer",
+        "value": "AI vendor",
+        "text": "Brave’s AI",
+        "start": 3470,
+        "end": 3480
+      },
+      {
+        "category": "incident_aftermath",
+        "text": "DuckDuckGo didn’t respond to a request for comment, but it did address the controversy on Reddit after we initially published this story.\n“Ok, we got ducked on this one,” the company wrote using its official account. “We’re on it.”\n“Thanks for bringing this to our attention; it has been resolved,” it added. “We strive for accuracy in Search Assist and, in this case, it was deliberately tricked. We’ll be making updates to improve how Search Assist operates in situations like this.”",
+        "start": 4342,
+        "end": 4827
+      }
+    ],
+    "roles": {
+      "actor": [
+        "AI developer",
+        "Disinformation actor"
+      ],
+      "factor": [],
+      "harm": [
+        "Amplification of misinformation",
+        "Citation issues",
+        "Inaccurate summarization"
+      ],
+      "harmed_party": [
+        "Sources/subjects of coverage"
+      ]
+    }
+  },
+  "9RW38VQ4": {
+    "quotes": [
+      {
+        "category": "incident_system",
+        "end": 154,
+        "start": 130,
+        "text": "artificial intelligence.",
+        "value": "Writing assistance"
+      },
+      {
+        "end": 120,
+        "role": "actor",
+        "start": 114,
+        "text": "hoaxer",
+        "value": "Disinformation actor"
+      },
+      {
+        "end": 272,
+        "role": "harm",
+        "start": 215,
+        "text": "fallen victim to “a deliberate and coordinated deception”",
+        "value": "Journalists being duped"
+      },
+      {
+        "end": 313,
+        "role": "factor",
+        "start": 287,
+        "text": "need for stronger controls",
+        "value": "Lack of internal standards regarding AI use"
+      },
+      {
+        "end": 313,
+        "role": "factor",
+        "start": 287,
+        "text": "need for stronger controls",
+        "value": "Publisher's lack of due diligence"
+      },
+      {
+        "end": 482,
+        "role": "factor",
+        "start": 414,
+        "text": "The incident has highlighted a gap in our pre-publication procedures",
+        "value": "Lack of internal standards regarding AI use"
+      },
+      {
+        "end": 482,
+        "role": "factor",
+        "start": 414,
+        "text": "The incident has highlighted a gap in our pre-publication procedures",
+        "value": "Publisher's lack of due diligence"
+      },
+      {
+        "category": "incident_aftermath",
+        "end": 1305,
+        "start": 1230,
+        "text": "The newspaper deleted the opinion piece within hours and launched a review."
+      },
+      {
+        "end": 1380,
+        "role": "harm",
+        "start": 1340,
+        "text": "Ireland’s paper of record had been duped",
+        "value": "Journalists being duped"
+      },
+      {
+        "end": 1596,
+        "role": "factor",
+        "start": 1510,
+        "text": "“It was a hoax; the person we were corresponding with was not who they claimed to be.”",
+        "value": "Deployment of AI with intention to harm or mislead"
+      },
+      {
+        "category": "incident_system",
+        "end": 2705,
+        "start": 2637,
+        "text": "They said they used GPT-4 to create approximately 80% of the article",
+        "value": "Writing assistance"
+      },
+      {
+        "category": "incident_developer",
+        "end": 2705,
+        "start": 2637,
+        "text": "They said they used GPT-4 to create approximately 80% of the article",
+        "value": "AI vendor"
+      },
+      {
+        "category": "incident_system",
+        "end": 2739,
+        "start": 2714,
+        "text": "image generator Dalle-E 2",
+        "value": "Synthetic video/image generation"
+      },
+      {
+        "category": "incident_developer",
+        "end": 2739,
+        "start": 2714,
+        "text": "image generator Dalle-E 2",
+        "value": "AI vendor"
+      },
+      {
+        "end": 154,
+        "role": "harm",
+        "start": 43,
+        "text": "an article about Irish women’s use of fake tan that was submitted by a hoaxer who used artificial intelligence.",
+        "value": "Publication of low quality outputs / ai slop"
+      },
+      {
+        "end": 15,
+        "role": "harmed_party",
+        "start": 0,
+        "text": "The Irish Times",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 2129,
+        "role": "harmed_party",
+        "start": 2032,
+        "text": "The piece was the paper’s second-most read article and prompted debate on radio and social media.",
+        "value": "Audience/readers"
+      },
+      {
+        "end": 15,
+        "role": "actor",
+        "start": 0,
+        "text": "The Irish Times",
+        "value": "News organization/publisher"
+      },
+      {
+        "role": "factor",
+        "value": "Lack of transparency/disclosure",
+        "text": "hoaxer who used artificial intelligence.\nThe editor, Ruadhán Mac Cormaic, said on Sunday that it had fallen victim to “a deliberate and coordinated deception” that showed a need for stronger controls.\n“It was a breach of the trust between the Irish Times and its readers, and we are genuinely sorry. The incident has highlighted a gap in our pre-publication procedures,” he said in a statement.\n“We need to make them more robust, and we will. It has also underlined one of the challenges raised by generative AI for news organisations. We, like others, will learn and adapt.”\nThe paper ran the opinion piece from a contributor bylined as Adriana Acosta-Cortez on 11 May. It accused Irish women who used fake tan of mocking those with naturally dark skin. Acosta-Cortez was described as a 29-year-old Ecuadorian health worker who lived in north Dublin. A profile picture showed a blue-haired woman.\nA Twitter account in Acosta-Cortez’s name posted a message the next day criticising the Irish Times for running the article:\nIt included a link to an Irish Times article from January about robot infiltration of media.\nThe newspaper deleted the opinion piece within hours and launched a review.\nThe statement on Sunday confirmed Ireland’s paper of record had been duped. “As in any 24/7 news operation, some days we do better than others. But last Thursday we got it badly wrong,” said Mac Cormaic. “It was a hoax; the person we were corresponding with was not who they claimed to be.”\nThe article ran under the headline: Irish women’s obsession with fake tan is problematic.\nIt began: “Dear Irish women, we need to talk about fake tan.” The article said women who artificially darkened their skin were donning an exotic costume.\n“Fake tan represents more than just an innocuous cosmetic choice; it raises questions of cultural appropriation and fetishisation of the high melanin content found in more pigmented people.”\nThe piece was the paper’s second-most read article and prompted debate on radio and social media.\nThe person who controls Acosta-Cortez’s Twitter account told the Guardian on Sunday, via direct message, that the Irish Times’s apology sidestepped its decision to publish “an incendiary article with an extreme leftwing viewpoint” in pursuit of clicks.\nThe person said they were Irish, a college student and identified as non-binary. They said they created the Acosta-Cortez persona by repurposing the Twitter account, which dates from February 2021, by using some Spanish and following Ecuadorian outlets.\nThey said they used GPT-4 to create approximately 80% of the article and the image generator Dalle-E 2 to create a profile picture of a quintessential “woke” journalist using the prompts “female, overweight, blue hair, business casual clothing, smug expression”.\nThe hoax’s goal was “to give my friends a laugh” and “to stir the shit” in the debate about identity politics.\n“Some people have called me an alt-right troll but I don’t think that I am. I think that identity politics is an extremely unhelpful lens through which to interpret the world.”\n",
+        "start": 114,
+        "end": 3188
+      }
+    ],
+    "roles": {
+      "actor": [
+        "Disinformation actor",
+        "News organization/publisher"
+      ],
+      "factor": [
+        "Lack of internal standards regarding AI use",
+        "Publisher's lack of due diligence",
+        "Deployment of AI with intention to harm or mislead",
+        "Lack of transparency/disclosure"
+      ],
+      "harm": [
+        "Journalists being duped",
+        "Publication of low quality outputs / ai slop"
+      ],
+      "harmed_party": [
+        "News organization/publisher",
+        "Audience/readers"
+      ]
+    }
+  },
+  "6L9GTWI2": {
+    "quotes": [
+      {
+        "category": "incident_system",
+        "value": "Synthetic video/image generation",
+        "text": "A ‘significant proportion’ of RT’s TV presenters do not exist, they have been created by artificial intelligence",
+        "start": 1032,
+        "end": 1144
+      },
+      {
+        "category": "incident_developer",
+        "value": "Unknown/unspecified",
+        "text": "A ‘significant proportion’ of RT’s TV presenters do not exist, they have been created by artificial intelligence",
+        "start": 1032,
+        "end": 1144
+      },
+      {
+        "category": "incident_system",
+        "value": "Writing assistance",
+        "text": "the artificial presenters also run their own social networks",
+        "start": 1311,
+        "end": 1371
+      },
+      {
+        "role": "actor",
+        "value": "Disinformation actor",
+        "text": "RT",
+        "start": 29,
+        "end": 31
+      },
+      {
+        "category": "incident_system",
+        "value": "Synthetic video/image generation",
+        "text": "now images are selected or created by AI",
+        "start": 2501,
+        "end": 2541
+      },
+      {
+        "category": "incident_system",
+        "value": "Translation",
+        "text": "re-translate Vladimir Putin’s words into other languages",
+        "start": 2751,
+        "end": 2807
+      },
+      {
+        "category": "incident_system",
+        "value": "Editing",
+        "text": "now images are selected or created by AI",
+        "start": 2501,
+        "end": 2541
+      }
+    ],
+    "roles": {
+      "actor": [
+        "Disinformation actor"
+      ],
+      "factor": [],
+      "harm": [],
+      "harmed_party": []
+    }
+  },
+  "LTZ8HQCU": {
+    "quotes": [
+      {
+        "end": 167,
+        "role": "actor",
+        "start": 161,
+        "text": "Quartz",
+        "value": "News organization/publisher"
+      },
+      {
+        "category": "incident_system",
+        "end": 147,
+        "start": 126,
+        "text": "AI-generated articles",
+        "value": "Writing assistance"
+      },
+      {
+        "end": 266,
+        "role": "harm",
+        "start": 169,
+        "text": "Written in a style that would get a high school “introduction to writing” student a B for effort,",
+        "value": "Publication of low quality outputs / ai slop"
+      },
+      {
+        "role": "harm",
+        "value": "Citation issues",
+        "text": "The articles, to their credit, do cite where the AI is gathering its information from. But even this is surface level",
+        "start": 1069,
+        "end": 1186
+      },
+      {
+        "role": "harmed_party",
+        "value": "Audience/readers",
+        "text": "how little it thinks of its audience’s intelligence",
+        "start": 2251,
+        "end": 2302
+      }
+    ],
+    "roles": {
+      "actor": [
+        "News organization/publisher"
+      ],
+      "factor": [],
+      "harm": [
+        "Publication of low quality outputs / ai slop",
+        "Citation issues"
+      ],
+      "harmed_party": [
+        "Audience/readers"
+      ]
+    }
+  },
+  "URNKEZW4": {
+    "quotes": [
+      {
+        "end": 6,
+        "role": "actor",
+        "start": 0,
+        "text": "Quartz",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 605,
+        "role": "harmed_party",
+        "start": 540,
+        "text": "real journalists at CNN, MSN, and The Associated Press on MSN.com",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 605,
+        "role": "harmed_party",
+        "start": 540,
+        "text": "real journalists at CNN, MSN, and The Associated Press on MSN.com",
+        "value": "Journalist(s)"
+      },
+      {
+        "category": "incident_developer",
+        "end": 1128,
+        "start": 1025,
+        "text": "without commenting on which AI models or tools the publication uses to write AI-generated news articles",
+        "value": "Unknown/unspecified"
+      },
+      {
+        "end": 2928,
+        "role": "harm",
+        "start": 2713,
+        "text": "Word echo aside, the clause is a contradiction. Jobless claims are rising only “slightly,” yet some other “continuing claims” are setting a record? Tsk, tsk. My editor would never let me publish something so sloppy.",
+        "value": "Publication of low quality outputs / ai slop"
+      },
+      {
+        "end": 2075,
+        "role": "harm",
+        "start": 2027,
+        "text": "But its account deletion instructions are vague:",
+        "value": "Inaccurate summarization"
+      },
+      {
+        "end": 3465,
+        "role": "factor",
+        "start": 3276,
+        "text": "Publishing AI-generated content presents a way for publishers like Quartz to access cheap labor — AI doesn’t command benefits and a salary, after all — while potentially maximizing profits.",
+        "value": "AI substitution for human journalists"
+      }
+    ],
+    "roles": {
+      "actor": [
+        "News organization/publisher"
+      ],
+      "factor": [
+        "AI substitution for human journalists"
+      ],
+      "harm": [
+        "Publication of low quality outputs / ai slop",
+        "Inaccurate summarization"
+      ],
+      "harmed_party": [
+        "News organization/publisher",
+        "Journalist(s)"
+      ]
+    }
+  },
+  "X7FEYBLM": {
+    "quotes": [
+      {
+        "end": 1369,
+        "role": "factor",
+        "start": 1213,
+        "text": "produce seemingly real news segments from top anchors at major news outlets—from CBS Evening News’ \nNorah O’Donnellto journalists at CNN, the BBC and beyond",
+        "value": "AI-based impersonation of journalists/outlets"
+      },
+      {
+        "end": 1369,
+        "role": "factor",
+        "start": 1213,
+        "text": "produce seemingly real news segments from top anchors at major news outlets—from CBS Evening News’ \nNorah O’Donnellto journalists at CNN, the BBC and beyond",
+        "value": "AI-based mimicry of journalists' likeness/style"
+      },
+      {
+        "end": 583,
+        "role": "harmed_party",
+        "start": 550,
+        "text": "CBS News anchor \nAnne-Marie Green",
+        "value": "Journalist(s)"
+      },
+      {
+        "end": 1369,
+        "role": "harmed_party",
+        "start": 1289,
+        "text": "from CBS Evening News’ \nNorah O’Donnellto journalists at CNN, the BBC and beyond",
+        "value": "Journalist(s)"
+      },
+      {
+        "end": 547,
+        "role": "actor",
+        "start": 534,
+        "text": "Krishna Sahay",
+        "value": "Disinformation actor"
+      },
+      {
+        "end": 2357,
+        "role": "harmed_party",
+        "start": 2294,
+        "text": "more than a dozen prominent anchors from a range of TV networks",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 2528,
+        "role": "harm",
+        "start": 2362,
+        "text": "deliver problematic commentary and interview the creator as he mocks school shootings, the September 11 terrorist attacks, rape victims and others harmed by criminals",
+        "value": "Publication of low quality outputs / ai slop"
+      },
+      {
+        "end": 2528,
+        "role": "harm",
+        "start": 2362,
+        "text": "deliver problematic commentary and interview the creator as he mocks school shootings, the September 11 terrorist attacks, rape victims and others harmed by criminals",
+        "value": "Amplification of misinformation"
+      },
+      {
+        "end": 2710,
+        "role": "harmed_party",
+        "start": 2545,
+        "text": "hese made-up segments featuring real-life broadcasters are drawing more eyeballs than legitimate clips posted on news organizations’ blue-check social media accounts",
+        "value": "General public"
+      },
+      {
+        "end": 1369,
+        "role": "harm",
+        "start": 1213,
+        "text": "produce seemingly real news segments from top anchors at major news outlets—from CBS Evening News’ \nNorah O’Donnellto journalists at CNN, the BBC and beyond",
+        "value": "Misrepresentation of individuals depicted"
+      },
+      {
+        "end": 1369,
+        "role": "harm",
+        "start": 1213,
+        "text": "produce seemingly real news segments from top anchors at major news outlets—from CBS Evening News’ \nNorah O’Donnellto journalists at CNN, the BBC and beyond",
+        "value": "Privacy harm"
+      },
+      {
+        "end": 2782,
+        "role": "harmed_party",
+        "start": 2747,
+        "text": "Face The Nation’s \nMargaret Brennan",
+        "value": "Journalist(s)"
+      },
+      {
+        "category": "incident_aftermath",
+        "end": 3291,
+        "start": 2959,
+        "text": "Sahay was banned from TikTok asForbeswas reporting this story and did not respond to multiple requests for comment and a detailed list of questions. Even though his TikTok account is now dormant, Sahay’s far-reaching videos are still easy to find on the platform, reposted by other users, and a number of them remainlive on YouTube."
+      },
+      {
+        "end": 3291,
+        "role": "factor",
+        "start": 3108,
+        "text": "Even though his TikTok account is now dormant, Sahay’s far-reaching videos are still easy to find on the platform, reposted by other users, and a number of them remainlive on YouTube.",
+        "value": "Inadequate content moderation by platforms"
+      },
+      {
+        "end": 3130,
+        "role": "actor",
+        "start": 3124,
+        "text": "TikTok",
+        "value": "Tech platform"
+      },
+      {
+        "end": 3291,
+        "role": "actor",
+        "start": 3283,
+        "text": "YouTube.",
+        "value": "Tech platform"
+      },
+      {
+        "end": 3675,
+        "role": "factor",
+        "start": 3616,
+        "text": "Most of Sahay’s videos did not include any such disclaimer.",
+        "value": "Lack of transparency/disclosure"
+      },
+      {
+        "end": 4445,
+        "role": "harm",
+        "start": 4256,
+        "text": "manipulated audio in the clip of CNN’s correspondent near the Israel-Gaza border “is fabricated, inaccurate and irresponsibly distorts the reality of the moment that was covered live on CNN",
+        "value": "Amplification of misinformation"
+      },
+      {
+        "end": 3247,
+        "role": "actor",
+        "start": 3223,
+        "text": "reposted by other users,",
+        "value": "Unknown/unspecified"
+      },
+      {
+        "end": 4817,
+        "role": "harm",
+        "start": 4794,
+        "text": "our lawyers take action",
+        "value": "Economic harm to publisher(s)/journalist(s)"
+      },
+      {
+        "category": "incident_system",
+        "value": "Deepfake generation",
+        "text": "enlisting generative AI and other software to produce seemingly real news segments from top anchors at major news outlets",
+        "start": 1167,
+        "end": 1288
+      }
+    ],
+    "roles": {
+      "actor": [
+        "Disinformation actor",
+        "Tech platform",
+        "Unknown/unspecified"
+      ],
+      "factor": [
+        "AI-based impersonation of journalists/outlets",
+        "AI-based mimicry of journalists' likeness/style",
+        "Inadequate content moderation by platforms",
+        "Lack of transparency/disclosure"
+      ],
+      "harm": [
+        "Publication of low quality outputs / ai slop",
+        "Amplification of misinformation",
+        "Misrepresentation of individuals depicted",
+        "Privacy harm",
+        "Economic harm to publisher(s)/journalist(s)"
+      ],
+      "harmed_party": [
+        "Journalist(s)",
+        "News organization/publisher",
+        "General public"
+      ]
+    }
+  },
+  "4LLVWIQB": {
+    "quotes": [
+      {
+        "end": 2409,
+        "role": "harmed_party",
+        "start": 2166,
+        "text": "prestigious outlets like The Cut and The Guardian, lifestyle features in titles like Architectural Digest and Dwell, and in-depth reporting in non-profit and industry publications like Outrider and the* Journal of the Law Society of Scotland*.",
+        "value": "News organization/publisher"
+      },
+      {
+        "category": "incident_system",
+        "end": 4353,
+        "start": 4296,
+        "text": "had all the hallmarks of an AI-generated piece of writing",
+        "value": "Writing assistance"
+      },
+      {
+        "category": "incident_developer",
+        "end": 4353,
+        "start": 4296,
+        "text": "had all the hallmarks of an AI-generated piece of writing",
+        "value": "Unknown/unspecified"
+      },
+      {
+        "end": 5236,
+        "role": "harmed_party",
+        "start": 5220,
+        "text": "Business Insider",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 5515,
+        "role": "harmed_party",
+        "start": 5498,
+        "text": "Vogue Philippines",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 5562,
+        "role": "harmed_party",
+        "start": 5543,
+        "text": "RollingStone Africa",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 6118,
+        "role": "harmed_party",
+        "start": 5825,
+        "text": " “Juliet Pinto, a Professor of Psychology” at Pennsylvania State University. I emailed Pinto, who is in fact a communications professor at Pennsylvania State University. “I have not spoken with any reporter about that piece of research, and I am not a professor of psychology,” she wrote back.",
+        "value": "Sources/subjects of coverage"
+      },
+      {
+        "end": 6422,
+        "role": "harmed_party",
+        "start": 6141,
+        "text": "“Terry Collins, a climate scientist and professor of environmental science at the University of California.” I could not find anyone of that description, but Terry Collins, the director of the institute of green science at Carnegie Mellon, said he’s never communicated with Goldiee",
+        "value": "Sources/subjects of coverage"
+      },
+      {
+        "end": 6533,
+        "role": "harmed_party",
+        "start": 6488,
+        "text": "Vox Media publication PS (formerly Pop Sugar)",
+        "value": "News organization/publisher"
+      },
+      {
+        "category": "incident_aftermath",
+        "end": 6713,
+        "start": 6424,
+        "text": "Victoria’s online portfolio featured a pair of stories from the Vox Media publication PS (formerly Pop Sugar). When I clicked her links, however, I found each had been replaced with an editor’s note explaining the article had been “removed because it did not meet our editorial standards.”"
+      },
+      {
+        "end": 6819,
+        "role": "harm",
+        "start": 6728,
+        "text": "the articles bylined by Victoria borrowed far too heavily from articles published elsewhere",
+        "value": "Plagiarism"
+      },
+      {
+        "end": 2409,
+        "role": "harm",
+        "start": 2166,
+        "text": "prestigious outlets like The Cut and The Guardian, lifestyle features in titles like Architectural Digest and Dwell, and in-depth reporting in non-profit and industry publications like Outrider and the* Journal of the Law Society of Scotland*.",
+        "value": "Journalists being duped"
+      },
+      {
+        "end": 7721,
+        "role": "harmed_party",
+        "start": 7424,
+        "text": "*published a story about rural law firms that includes quotes from regular Scots whom I could not find, a lawyer who appears to be fictitious, a professor who told me she did not speak with the reporter, and even the Cabinet Secretary for Justice and Home Affairs, who did not respond to my email.",
+        "value": "Sources/subjects of coverage"
+      },
+      {
+        "end": 8192,
+        "role": "harmed_party",
+        "start": 8187,
+        "text": "Dwell",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 8678,
+        "role": "factor",
+        "start": 8396,
+        "text": "A cursory read raised questions that probably should have been asked by editors to begin with. Namely, had a freelancer writing an affiliate-link-laden article about putting credenzas in your living room’s corners actually interviewed 10 of the world’s top designers and architects?",
+        "value": "Publisher's lack of due diligence"
+      },
+      {
+        "end": 8791,
+        "role": "harmed_party",
+        "start": 8679,
+        "text": "“Beata hasn’t heard of the journalist,” wrote a representative of designer Beata Heuman in response to my email.",
+        "value": "Sources/subjects of coverage"
+      },
+      {
+        "end": 8952,
+        "role": "harmed_party",
+        "start": 8792,
+        "text": "“I did not speak with this reporter and did not give this quote,” wrote designer Young Huh, who is quoted as saying “corners are like little secrets in a home.”",
+        "value": "Sources/subjects of coverage"
+      },
+      {
+        "end": 9069,
+        "role": "harmed_party",
+        "start": 8953,
+        "text": "“We definitely did not talk to her,” said a representative from architect Barbara Bestor. “So that’s kind of crazy.”",
+        "value": "Sources/subjects of coverage"
+      },
+      {
+        "end": 8952,
+        "role": "harm",
+        "start": 8792,
+        "text": "“I did not speak with this reporter and did not give this quote,” wrote designer Young Huh, who is quoted as saying “corners are like little secrets in a home.”",
+        "value": "Misrepresentation of individuals depicted"
+      },
+      {
+        "end": 10042,
+        "role": "harm",
+        "start": 9966,
+        "text": "spending far too many hours trailing the path she’d cut through the internet",
+        "value": "Increased workload / burden on journalists"
+      },
+      {
+        "end": 11937,
+        "role": "factor",
+        "start": 11854,
+        "text": "“Oh yeah, I did,” she said quickly. “I did have my personal assistant talk to her.”",
+        "value": "Lack of transparency/disclosure"
+      },
+      {
+        "end": 15371,
+        "role": "actor",
+        "start": 15273,
+        "text": "this generation’s internet scammers are scavenging in the wreckage of a degraded media environment",
+        "value": "Disinformation actor"
+      },
+      {
+        "end": 15308,
+        "role": "factor",
+        "start": 15300,
+        "text": "scammers",
+        "value": "Deployment of AI with intention to harm or mislead"
+      },
+      {
+        "end": 17198,
+        "role": "factor",
+        "start": 17146,
+        "text": "Is that story written by AI? It’s impossible to know",
+        "value": "Lack of transparency/disclosure"
+      },
+      {
+        "end": 15443,
+        "role": "harm",
+        "start": 15381,
+        "text": "taking advantage of an ecosystem uniquely susceptible to fraud",
+        "value": "Undermining of journalistic standards"
+      },
+      {
+        "category": "incident_aftermath",
+        "end": 19980,
+        "start": 18723,
+        "text": "As I emailed the editors of the publications I’d been investigating, one by one Victoria’s articles came down.\nThe climate story at Outrider disappeared, replaced by a 404 error. Outrider did not respond to questions about their editorial process.\nThe Guardian story came down, with a note saying it had been “removed pending review.”\nThe story at Dwell was removed. “An investigation concluded that the article, ‘How to Turn Your Home’s Neglected Corners Into Design Gold,’ did not meet Dwell’s editorial standards, and as such, we’ve retracted it,” said the editor’s note in its place.\nThe Journal of the Law Society of Scotland removed Goldiee’s article and editor-in-chief Joshua King published an apology to the journal’s readers. “On the balance of the evidence available, it is now my belief these quotations were falsely attributed to the interviewees and are likely to be fabricated,” he wrote. “This is professionally embarrassing and this apology is an article I am disappointed I have to publish.”\nIn an email, King explained that the quotes in the piece “raised no red flags because they were, in all honesty, what I would have expected those quoted to have said.” He added: “Sadly I think editors and publications are at risk from bad actors.”"
+      },
+      {
+        "end": 22304,
+        "role": "factor",
+        "start": 22219,
+        "text": "There is nothing in any of the editorial processes I’ve seen that would prevent that.",
+        "value": "Lack of internal standards regarding AI use"
+      },
+      {
+        "end": 2409,
+        "role": "actor",
+        "start": 2166,
+        "text": "prestigious outlets like The Cut and The Guardian, lifestyle features in titles like Architectural Digest and Dwell, and in-depth reporting in non-profit and industry publications like Outrider and the* Journal of the Law Society of Scotland*.",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 4940,
+        "role": "harm",
+        "start": 4782,
+        "text": "if Victoria’s pitch appeared to be an AI-generated fabrication, and if she was making up interviews and bylines, what to make of her long list of publications",
+        "value": "Publication of low quality outputs / ai slop"
+      },
+      {
+        "end": 19458,
+        "role": "harmed_party",
+        "start": 19412,
+        "text": "published an apology to the journal’s readers.",
+        "value": "Audience/readers"
+      }
+    ],
+    "roles": {
+      "actor": [
+        "Disinformation actor",
+        "News organization/publisher"
+      ],
+      "factor": [
+        "Publisher's lack of due diligence",
+        "Lack of transparency/disclosure",
+        "Deployment of AI with intention to harm or mislead",
+        "Lack of internal standards regarding AI use"
+      ],
+      "harm": [
+        "Plagiarism",
+        "Journalists being duped",
+        "Misrepresentation of individuals depicted",
+        "Increased workload / burden on journalists",
+        "Undermining of journalistic standards",
+        "Publication of low quality outputs / ai slop"
+      ],
+      "harmed_party": [
+        "News organization/publisher",
+        "Sources/subjects of coverage",
+        "Audience/readers"
       ]
     }
   }

@@ -21,9 +21,15 @@ Several coders code the *same* documents and the *same* incidents independently:
   incident. That grouping lives in incident_assignments.json (doc_key ->
   incident_id + title) so every coder sees an identical set of incidents.
 - Private per coder: every interpretive judgement. Each coder writes their own
-  annotations.<coder>.json, incident_groups.<coder>.json and
-  data_annotated.<coder>.csv, and in MongoDB their coding is nested under
-  `by_document.<doc_key>.by_coder.<coder>` / `groups_by_coder.<coder>`.
+  annotations.<coder>.json (evidence per document), incident_coding.<coder>.json
+  (the incident's field answers + claim groups) and data_annotated.<coder>.csv.
+  In MongoDB it all sits under `by_coder.<coder>` on the incident, so one $set
+  can never reach another coder's work.
+
+Where a judgement lives follows what it is about. A quote's offsets only mean
+something against one document, so evidence is per document. An incident's
+system, developer and aftermath describe the incident, so they're answered once
+against it rather than repeated on each of its documents.
 
 The active coder comes from `?coder=`, the `X-Coder` header, or the `coder`
 cookie, and must be one of CODERS (set the CODERS env var, comma-separated).
@@ -78,7 +84,14 @@ def annotations_path(coder: str) -> Path:
     return HERE / f"annotations.{coder}.json"
 
 
+def incident_coding_path(coder: str) -> Path:
+    """One coder's incident-level coding: the incident's field answers and its
+    claim groups, keyed by incident id."""
+    return HERE / f"incident_coding.{coder}.json"
+
+
 def groups_path(coder: str) -> Path:
+    """Pre-restructure claims file. Read once by the migration, never written."""
     return HERE / f"incident_groups.{coder}.json"
 
 
@@ -128,6 +141,36 @@ DEFAULT_SCHEMA = {
 # The four characteristic roles, in order. Selected flat per document; grouped
 # into claims only in the incident card view.
 ROLE_KEYS = [r["role"] for r in DEFAULT_SCHEMA["claim_roles"]]
+
+# The incident's identity. Answered once for the incident and owned by it, so
+# these are never stored inside a coder's field answers — they'd be a copy that
+# can drift from the incident they're filed under.
+IDENTITY_FIELDS = ("incident_id", "incident_title")
+
+
+def is_empty(v) -> bool:
+    """Nothing was answered. One rule, so "" / None / [] can't mean the same
+    thing three different ways — an unanswered field simply isn't stored."""
+    return v is None or v == "" or v == [] or v == {}
+
+
+def clean_fields(fields: dict) -> dict:
+    """A coder's field answers, ready to store: identity dropped (the incident
+    owns it) and every empty answer or comment omitted rather than recorded as
+    one of three flavours of blank."""
+    out = {}
+    for fk, fa in (fields or {}).items():
+        if fk in IDENTITY_FIELDS or not isinstance(fa, dict):
+            continue
+        entry = {}
+        if not is_empty(fa.get("answer")):
+            entry["answer"] = fa["answer"]
+        cmt = str(fa.get("comments") or "").strip()
+        if cmt:
+            entry["comments"] = cmt
+        if entry:
+            out[fk] = entry
+    return out
 
 # Incident-level fields that can also be dragged into a claim, as the optional
 # "using <system> developed by <developer>" clauses. The key is the role name
@@ -268,7 +311,11 @@ def invalidate_mongo_cache() -> None:
 
 
 def load_annotations(coder: str) -> dict:
-    """One coder's per-document coding, keyed by doc_key.
+    """One coder's evidence per document: {doc_key: {"quotes": [], "roles": {}}}.
+
+    Field answers are not here — they belong to the incident, not to one of its
+    documents (see `load_incident_coding`). Quotes are, because their offsets
+    only mean anything against a particular document's text.
 
     The local file, plus anything Mongo holds for this coder that the local file
     has no coding for. That fill-in is what makes the app reflect Mongo without
@@ -287,26 +334,44 @@ def load_annotations(coder: str) -> dict:
     return store
 
 
-def load_groups(coder: str) -> dict:
-    """One coder's incident-level claim groupings, built by dragging in the card
-    view. Shape: {incident_id: {"groups": [{"id", "actor", "system", "developer",
-    "claims": [{"id", "harm", "harmed_parties": [], "factors": []}]}]}}.
+def save_annotations_only(store: dict, coder: str) -> None:
+    _atomic_write(annotations_path(coder), json.dumps(store, indent=2, ensure_ascii=False))
 
-    Filled in from Mongo on incidents the local file has no claims for, the same
-    way `load_annotations` works — claims linked on another machine show up here
-    without a Pull. An incident the local file already has claims for is left
-    alone, so a local edit can't be undone by a stale remote copy."""
-    store = _read_json(groups_path(coder))
+
+def blank_incident_coding() -> dict:
+    return {"fields": {}, "groups": []}
+
+
+def load_incident_coding(coder: str) -> dict:
+    """One coder's incident-level coding, keyed by incident id:
+    {inc_id: {"fields": {...}, "groups": [...]}}.
+
+    `fields` are the incident's own answers — system, developer, aftermath —
+    answered once for the incident rather than repeated on each of its documents.
+    `groups` are the claim groups built in the card view.
+
+    Filled in from Mongo per part, the same way `load_annotations` works: a part
+    the local file already has is left alone, so a local edit can't be undone by
+    a stale remote copy, while work done elsewhere still appears without a Pull."""
+    store = {k: {**blank_incident_coding(), **(v or {})}
+             for k, v in _read_json(incident_coding_path(coder)).items()}
     if mongo_db is None:
         return store
-    for inc_id, groups in _mongo_snapshot(f"groups:{coder}", lambda: groups_from_mongo(coder)).items():
-        if groups and not (store.get(inc_id) or {}).get("groups"):
-            store[inc_id] = {"groups": groups}
+    remote = _mongo_snapshot(f"inc:{coder}", lambda: incident_coding_from_mongo(coder))
+    for inc_id, entry in remote.items():
+        local = store.setdefault(inc_id, blank_incident_coding())
+        if not local["fields"] and entry.get("fields"):
+            local["fields"] = entry["fields"]
+        if not local["groups"] and entry.get("groups"):
+            local["groups"] = entry["groups"]
     return store
 
 
-def save_groups(store: dict, coder: str) -> None:
-    _atomic_write(groups_path(coder), json.dumps(store, indent=2, ensure_ascii=False))
+def save_incident_coding(store: dict, coder: str) -> None:
+    # Incidents a coder has neither answered nor linked anything on aren't worth
+    # a line in the file.
+    lean = {k: v for k, v in store.items() if v.get("fields") or v.get("groups")}
+    _atomic_write(incident_coding_path(coder), json.dumps(lean, indent=2, ensure_ascii=False))
 
 
 def load_assignments() -> dict:
@@ -348,82 +413,66 @@ def record_assignment(key, fields) -> None:
 
 
 def _seed_shared_files() -> None:
-    """One-time migration off the single-coder layout.
-
-    The old annotations.json / incident_groups.json become the first coder's
-    files, and the shared incident assignment map is seeded from whatever coding
-    already exists (first coder to have filed a document wins)."""
-    for legacy, path in ((LEGACY_ANNOTATIONS_JSON, annotations_path(LEGACY_CODER)),
-                         (LEGACY_GROUPS_JSON, groups_path(LEGACY_CODER))):
-        if legacy.exists() and not path.exists():
-            path.write_text(legacy.read_text())
-            print(f"[coders] migrated {legacy.name} -> {path.name}")
-    if ASSIGNMENTS_JSON.exists():
-        return
-    store = {}
-    for coder in CODERS:
-        for key, rec in load_annotations(coder).items():
-            if not isinstance(rec, dict) or key in store:
-                continue
-            fields = rec.get("fields", {})
-            inc_id = (answer_text(fields.get("incident_id", {})) or "").strip()
-            if inc_id:
-                store[key] = {"incident_id": inc_id,
-                              "incident_title": (answer_text(fields.get("incident_title", {})) or "").strip()}
-    if store:
-        save_assignments(store)
-        print(f"[coders] seeded {ASSIGNMENTS_JSON.name} with {len(store)} document(s)")
+    """One-time migration off the single-coder layout: the old annotations.json
+    becomes the first coder's file. Which document sits in which incident lives
+    in incident_assignments.json and is the shared record; nothing here derives
+    it, since field answers no longer carry an incident id."""
+    if LEGACY_ANNOTATIONS_JSON.exists() and not annotations_path(LEGACY_CODER).exists():
+        annotations_path(LEGACY_CODER).write_text(LEGACY_ANNOTATIONS_JSON.read_text())
+        print(f"[coders] migrated {LEGACY_ANNOTATIONS_JSON.name} -> "
+              f"{annotations_path(LEGACY_CODER).name}")
 
 
-def doc_ann(store, key, assignments=None):
-    """A document's annotation record, with defaults.
+def doc_ann(store, key):
+    """One document's evidence for one coder: {"quotes": [], "roles": {}}.
 
     `roles` holds the flat per-document selections: {actor:[], harm:[], factor:[],
     harmed_party:[]}. Their highlighted evidence lives in quotes tagged with the
-    role. `assignments` (the shared doc -> incident map) is overlaid on top of the
-    coder's own incident_id / incident_title answers, so every coder sees the same
-    incident membership even if they never typed the id themselves.
+    role, and the two are reconciled here — a value justified by a role-tagged
+    highlight counts as selected even if the stored roles object missed it. Each
+    quote's stale `claim` reference is dropped; linking lives in the card view.
 
-    Documents saved under the old claim-linked model are migrated on read:
-    every claim's role values are unioned into the flat lists. The roles object is
-    always reconciled with the quotes — any value justified by a role-tagged
-    highlight is added as a selected characteristic, even if the stored roles
-    object missed it (legacy, hybrid, or Mongo-synced data). Each quote's stale
-    `claim` reference is dropped; linking now lives in the card view."""
+    Field answers are deliberately absent: they belong to the incident, so the
+    document view fetches them with `incident_fields`."""
     a = store.get(key)
     if not isinstance(a, dict):
         a = {}
     quotes = a.get("quotes", []) or []
     roles = a.get("roles")
-    if not isinstance(roles, dict):
-        roles = {rk: [] for rk in ROLE_KEYS}
-        for c in (a.get("claims") or []):
-            if not isinstance(c, dict):
-                continue
-            for rk in ROLE_KEYS:
-                for v in (c.get(rk) or []):
-                    if v and v not in roles[rk]:
-                        roles[rk].append(v)
-    else:
-        roles = {rk: list(roles.get(rk) or []) for rk in ROLE_KEYS}
-    # Reconcile with the highlights: a role-tagged quote's value is a selected
-    # characteristic. Also drop the legacy per-quote claim reference.
+    roles = ({rk: list(roles.get(rk) or []) for rk in ROLE_KEYS}
+             if isinstance(roles, dict) else {rk: [] for rk in ROLE_KEYS})
     for q in quotes:
         if not isinstance(q, dict):
             continue
         q.pop("claim", None)
-        r = q.get("role")
-        v = q.get("value")
+        r, v = q.get("role"), q.get("value")
         if r in roles and v and v not in roles[r]:
             roles[r].append(v)
-    fields = dict(a.get("fields", {}))
-    assigned = (load_assignments() if assignments is None else assignments).get(key)
-    if assigned:
-        for fk, val in (("incident_id", assigned.get("incident_id")),
-                        ("incident_title", assigned.get("incident_title"))):
-            if val:
-                fields[fk] = {**fields.get(fk, {}), "answer": val}
-    return {"fields": fields, "quotes": quotes, "roles": roles}
+    return {"quotes": quotes, "roles": roles}
+
+
+def incident_of(key, assignments=None) -> str:
+    """Which incident a document belongs to. Falls back to the document's own key
+    for one nobody has filed yet, matching how the card view buckets them."""
+    assigned = (load_assignments() if assignments is None else assignments).get(key) or {}
+    return (assigned.get("incident_id") or "").strip() or str(key)
+
+
+def incident_fields(coder, inc_id, assignments=None, inc_store=None) -> dict:
+    """The field answers the document view shows: this coder's answers for the
+    incident, plus its shared identity overlaid on top so every coder sees the
+    same id and title even if they never typed them."""
+    store = load_incident_coding(coder) if inc_store is None else inc_store
+    fields = dict((store.get(inc_id) or {}).get("fields") or {})
+    fields["incident_id"] = {"answer": inc_id}
+    title = ""
+    for entry in (load_assignments() if assignments is None else assignments).values():
+        if entry.get("incident_id") == inc_id and entry.get("incident_title"):
+            title = entry["incident_title"]
+            break
+    if title:
+        fields["incident_title"] = {"answer": title}
+    return fields
 
 
 def answer_text(field_ann):
@@ -443,164 +492,156 @@ def _atomic_write(path: Path, text: str) -> None:
 
 
 def save_annotations(store: dict, coder: str) -> None:
-    """Write one coder's annotations + their own flattened CSV mirror."""
-    _atomic_write(annotations_path(coder), json.dumps(store, indent=2, ensure_ascii=False))
+    """Write one coder's per-document evidence + their flattened CSV mirror.
+
+    The mirror is one row per document, so the incident-level answers a document
+    inherits are joined back on for it — they're what the columns mean, even
+    though they're no longer stored per document."""
+    save_annotations_only(store, coder)
     schema = load_schema()
     assignments = load_assignments()
+    inc_store = load_incident_coding(coder)
     out = df.copy()
-    anns = {k: doc_ann(store, k, assignments) for k in df["doc_key"]}
+    anns = {k: doc_ann(store, k) for k in df["doc_key"]}
+    fields_for = {k: incident_fields(coder, incident_of(k, assignments), assignments, inc_store)
+                  for k in df["doc_key"]}
     for f in schema["fields"]:
-        out[f["key"]] = [answer_text(anns[k]["fields"].get(f["key"], {})) for k in df["doc_key"]]
+        out[f["key"]] = [answer_text(fields_for[k].get(f["key"], {})) for k in df["doc_key"]]
     out["coder"] = coder
     out["annotations_json"] = [json.dumps(anns[k], ensure_ascii=False) for k in df["doc_key"]]
     out.to_csv(annotated_csv_path(coder), index=False)
 
 
-def _by_coder(entry: dict) -> dict:
-    """The {coder: coding} map inside a stored `by_document.<key>` entry.
-    Coding written before multi-coder support sat flat on the entry; it's read
-    back as belonging to the first coder."""
-    if not isinstance(entry, dict):
-        return {}
-    nested = entry.get("by_coder")
-    if isinstance(nested, dict):
-        return dict(nested)
-    if "fields" in entry or "quotes" in entry or "roles" in entry:
-        return {LEGACY_CODER: {k: entry[k] for k in ("fields", "quotes", "roles", "updated_at")
-                               if k in entry}}
-    return {}
-
-
-def sync_to_mongo(i, key, record, coder):
-    """Upsert one coder's coding of one document into the `incidents` collection.
-
-    The incident is keyed by the shared `incident_id` (falling back to the Zotero
-    item key when blank), so several documents can share one incident. Each source
-    doc is tracked in `documents[]` and each coder's reading of it under
-    `by_document.<key>.by_coder.<coder>` — so saving never overwrites another
-    coder's work, or another document's.
-
-    Changing a document's incident_id *moves* it: the doc is removed from every
-    other incident (both its `by_document` coding and its `documents[]` entry) and
-    every coder's coding of it is carried across to the new incident, so no one
-    loses work when someone else regroups. Any incident left with no documents,
-    coding, or groups is deleted. Non-fatal."""
+def prune_empty_incidents() -> None:
+    """Delete any incident left with no documents and nothing coded on it."""
     if mongo_db is None:
         return
-    fields = record.get("fields", {})
-    inc_id = (answer_text(fields.get("incident_id", {})) or "").strip() or key
+    for inc in mongo_db.incidents.find({}, {"documents": 1, "by_coder": 1}):
+        if inc.get("documents"):
+            continue
+        if any((c or {}).get("fields") or (c or {}).get("groups") or (c or {}).get("documents")
+               for c in (inc.get("by_coder") or {}).values()):
+            continue
+        mongo_db.incidents.delete_one({"_id": inc["_id"]})
+
+
+def sync_to_mongo(i, key, record, coder, inc_id):
+    """Upsert one coder's evidence for one document into the `incidents` collection.
+
+    The incident is `_id`, so several documents can share one. Each source doc is
+    tracked in `documents[]` and each coder's evidence for it under
+    `by_coder.<coder>.documents.<key>` — a single path, so a write can never reach
+    another coder's subtree or another document's.
+
+    Moving a document to a different incident detaches it from every other one,
+    carrying *every* coder's evidence across so nobody loses work when someone
+    else regroups. Any incident left empty by the move is deleted. Non-fatal."""
+    if mongo_db is None:
+        return
     now = datetime.now(timezone.utc)
     doc_entry = {"doc_id": key, "url": cell(i, "url"), "title": cell(i, "title")}
-    coding = {"fields": fields, "quotes": record.get("quotes", []),
-              "roles": record.get("roles", {}), "updated_at": now}
     try:
-        # Everything already stored for this doc, wherever it currently sits, so a
-        # move keeps the other coders' readings of it.
-        merged = {}
-        for inc in mongo_db.incidents.find({f"by_document.{key}": {"$exists": True}},
-                                           {f"by_document.{key}": 1}):
-            merged.update(_by_coder((inc.get("by_document") or {}).get(key)))
+        # Every coder's evidence for this document, wherever it currently sits, so
+        # a move carries all of it rather than just this coder's.
+        carried = {}
+        for inc in mongo_db.incidents.find({}, {"by_coder": 1}):
+            for c, sub in (inc.get("by_coder") or {}).items():
+                got = ((sub or {}).get("documents") or {}).get(key)
+                if got:
+                    carried[c] = got
         # An empty coding is an absence, not a reading: a coder who hasn't touched
-        # this document (or has cleared it) leaves no subtree, so "who coded what"
+        # this document (or has cleared it) leaves no entry, so "who coded what"
         # stays answerable straight from the collection.
         if has_coding(record):
-            merged[coder] = coding
+            carried[coder] = {"quotes": record.get("quotes", []),
+                              "roles": record.get("roles", {}), "updated_at": now}
         else:
-            merged.pop(coder, None)
-        # Detach this doc from any OTHER incident it was previously filed under.
-        mongo_db.incidents.update_many(
-            {"incident_id": {"$ne": inc_id},
-             "$or": [{f"by_document.{key}": {"$exists": True}}, {"documents.doc_id": key}]},
-            {"$unset": {f"by_document.{key}": ""},
-             "$pull": {"documents": {"doc_id": key}}})
-        # Replace just this document's entry + coding under its (new) incident.
+            carried.pop(coder, None)
+        # Detach from any OTHER incident it was previously filed under.
+        for other in mongo_db.incidents.find({"_id": {"$ne": inc_id}}, {"by_coder": 1}):
+            unset = {f"by_coder.{c}.documents.{key}": ""
+                     for c, sub in (other.get("by_coder") or {}).items()
+                     if ((sub or {}).get("documents") or {}).get(key)}
+            mongo_db.incidents.update_one(
+                {"_id": other["_id"]},
+                {"$pull": {"documents": {"doc_id": key}}, **({"$unset": unset} if unset else {})})
+        # Replace just this document's entry + evidence under its (new) incident.
+        mongo_db.incidents.update_one({"_id": inc_id}, {"$pull": {"documents": {"doc_id": key}}})
+        sets = {f"by_coder.{c}.documents.{key}": v for c, v in carried.items()}
         mongo_db.incidents.update_one(
-            {"incident_id": inc_id}, {"$pull": {"documents": {"doc_id": key}}})
-        mongo_db.incidents.update_one(
-            {"incident_id": inc_id},
-            {"$setOnInsert": {"incident_id": inc_id, "created_at": now},
-             "$set": {"incident_title": answer_text(fields.get("incident_title", {})) or cell(i, "title"),
-                      f"by_document.{key}": {"by_coder": merged}, "updated_at": now},
+            {"_id": inc_id},
+            {"$setOnInsert": {"created_at": now},
+             "$set": {"title": incident_title_for(inc_id) or cell(i, "title"),
+                      "updated_at": now, **sets},
+             "$unset": {f"by_coder.{coder}.documents.{key}": ""} if coder not in carried else {},
              "$push": {"documents": doc_entry}},
             upsert=True,
         )
         # This write is now the freshest state; don't serve a pre-write snapshot.
         invalidate_mongo_cache()
-        # Clean up any incident now emptied by the move (no docs, coding, or groups).
-        mongo_db.incidents.delete_many({
-            "documents": {"$size": 0},
-            "groups": {"$not": {"$elemMatch": {"members.0": {"$exists": True}}}},
-            "$and": [
-                {"$or": [{"by_document": {"$exists": False}}, {"by_document": {}}]},
-                {"$or": [{"groups_by_coder": {"$exists": False}}, {"groups_by_coder": {}}]},
-            ]})
+        prune_empty_incidents()
     except Exception as e:
         print(f"[mongo] sync failed for {key} ({e.__class__.__name__}: {e})")
 
 
-def store_from_mongo(coder: str) -> dict:
-    """Rebuild one coder's local {doc_key: {fields, quotes, roles}} store from Mongo.
-
-    Inverse of `sync_to_mongo`: each incident's `by_document.<doc_key>.by_coder.<coder>`
-    coding is keyed back by its document key, the same shape annotations.<coder>.json
-    uses. Other coders' readings of the same document are skipped. The per-doc
-    `updated_at` (present only in Mongo) is dropped so the file keeps its original
-    shape. Empty if Mongo isn't connected."""
-    store = {}
-    if mongo_db is None:
-        return store
-    for inc in mongo_db.incidents.find():
-        for doc_key, entry in (inc.get("by_document") or {}).items():
-            coding = _by_coder(entry).get(coder)
-            if coding is None:
-                continue
-            store[str(doc_key)] = {
-                "fields": coding.get("fields", {}),
-                "quotes": coding.get("quotes", []),
-                "roles": coding.get("roles", {}),
-            }
-    return store
+def incident_title_for(inc_id: str, assignments=None) -> str:
+    """The incident's shared title, from the assignment map."""
+    for entry in (load_assignments() if assignments is None else assignments).values():
+        if entry.get("incident_id") == inc_id and entry.get("incident_title"):
+            return entry["incident_title"]
+    return ""
 
 
-def groups_from_mongo(coder: str) -> dict:
-    """One coder's claim groups per incident, as Mongo currently has them.
-    Shape: {incident_id: [{"id", "actor", "system", "developer",
-    "claims": [{"id", "harm", "harmed_parties": [], "factors": []}]}]}. Coding written
-    before multi-coder support left a single flat `groups` array on the incident;
-    that's read back as the first coder's links, matching `/api/pull`."""
-    out = {}
-    if mongo_db is None:
-        return out
-    for inc in mongo_db.incidents.find({}, {"incident_id": 1, "groups_by_coder": 1, "groups": 1}):
-        by_coder = inc.get("groups_by_coder") or (
-            {LEGACY_CODER: inc.get("groups")} if inc.get("groups") else {})
-        if coder in by_coder:
-            out[inc["incident_id"]] = by_coder[coder]
-    return out
-
-
-def sync_groups_to_mongo(inc_id: str, groups: list, coder: str) -> None:
-    """Mirror one coder's claim groups for one incident into Mongo.
-
-    The card view's counterpart to `sync_to_mongo`: linking claims now reaches
-    Atlas as it happens, rather than waiting for someone to press Push. Only this
-    coder's slot is written, so it can't disturb another coder's links. What goes
-    up is exactly what the local file holds — unpruned — so Mongo and
-    incident_groups.<coder>.json stay the same thing; `aggregate_incidents` drops
-    members whose values are no longer coded when the card is rendered. Non-fatal:
-    a failure here leaves the local save intact."""
+def sync_incident_coding_to_mongo(inc_id: str, coder: str, entry: dict) -> None:
+    """Mirror one coder's incident-level coding — field answers and claim groups —
+    onto the incident. Only this coder's slot is written."""
     if mongo_db is None:
         return
     now = datetime.now(timezone.utc)
     try:
         mongo_db.incidents.update_one(
-            {"incident_id": inc_id},
-            {"$setOnInsert": {"incident_id": inc_id, "created_at": now},
-             "$set": {f"groups_by_coder.{coder}": groups, "updated_at": now}},
+            {"_id": inc_id},
+            {"$setOnInsert": {"created_at": now},
+             "$set": {f"by_coder.{coder}.fields": entry.get("fields") or {},
+                      f"by_coder.{coder}.groups": entry.get("groups") or [],
+                      f"by_coder.{coder}.updated_at": now,
+                      "title": incident_title_for(inc_id), "updated_at": now}},
             upsert=True)
         invalidate_mongo_cache()
     except Exception as e:
-        print(f"[mongo] group sync failed for {inc_id} ({e.__class__.__name__}: {e})")
+        print(f"[mongo] incident coding sync failed for {inc_id} ({e.__class__.__name__}: {e})")
+
+
+def store_from_mongo(coder: str) -> dict:
+    """Rebuild one coder's local {doc_key: {quotes, roles}} store from Mongo.
+
+    Inverse of `sync_to_mongo`: every incident's `by_coder.<coder>.documents` is
+    keyed back by document key, the shape annotations.<coder>.json uses. Other
+    coders' readings are skipped, and the per-document `updated_at` (Mongo only)
+    is dropped so the file keeps its own shape. Empty if Mongo isn't connected."""
+    store = {}
+    if mongo_db is None:
+        return store
+    for inc in mongo_db.incidents.find({}, {"by_coder": 1}):
+        sub = (inc.get("by_coder") or {}).get(coder) or {}
+        for doc_key, coding in (sub.get("documents") or {}).items():
+            store[str(doc_key)] = {"quotes": (coding or {}).get("quotes", []),
+                                   "roles": (coding or {}).get("roles", {})}
+    return store
+
+
+def incident_coding_from_mongo(coder: str) -> dict:
+    """One coder's incident-level coding as Mongo has it:
+    {inc_id: {"fields": {...}, "groups": [...]}}. Empty if Mongo isn't connected."""
+    out = {}
+    if mongo_db is None:
+        return out
+    for inc in mongo_db.incidents.find({}, {"by_coder": 1}):
+        sub = (inc.get("by_coder") or {}).get(coder) or {}
+        if sub.get("fields") or sub.get("groups"):
+            out[str(inc["_id"])] = {"fields": sub.get("fields") or {},
+                                    "groups": sub.get("groups") or []}
+    return out
 
 
 def assignments_from_mongo() -> dict:
@@ -615,25 +656,25 @@ def assignments_from_mongo() -> dict:
     out = {}
     if mongo_db is None:
         return out
-    for inc in mongo_db.incidents.find({}, {"incident_id": 1, "incident_title": 1, "documents": 1}):
-        inc_id = inc.get("incident_id", "")
+    for inc in mongo_db.incidents.find({}, {"title": 1, "documents": 1}):
+        inc_id = str(inc["_id"])
         for d in (inc.get("documents") or []):
             doc_id = str(d.get("doc_id") or "")
             if doc_id and inc_id != doc_id:
                 out[doc_id] = {"incident_id": inc_id,
-                               "incident_title": inc.get("incident_title") or ""}
+                               "incident_title": inc.get("title") or ""}
     return out
 
 
 @app.route("/api/pull", methods=["POST"])
 def api_pull():
-    """Pull the active coder's annotations from Mongo into their local file.
+    """Pull the active coder's coding from Mongo into their local files.
 
-    Manual bring-back for the write-only mirror: on any document present in both
-    Mongo and the local file, Mongo's copy of *this coder's* coding overwrites the
-    local one; other coders' files are untouched. Documents that exist only locally
-    (not yet synced anywhere) are kept, so a pull never loses un-synced work. The
-    shared incident assignments and the per-coder claim groups come back too."""
+    Manual bring-back for the write-only mirror: wherever Mongo and the local file
+    both hold something, Mongo's copy of *this coder's* coding wins; other coders'
+    files are untouched. Anything that exists only locally (not yet synced) is
+    kept, so a pull never loses un-synced work. Per-document evidence, incident
+    field answers, claim groups and the shared assignments all come back."""
     if mongo_db is None:
         return jsonify({"ok": False, "error": "MongoDB not connected"}), 503
     coder = current_coder(strict=True)
@@ -646,15 +687,12 @@ def api_pull():
     save_assignments(assignments)
     save_annotations(store, coder)
 
-    groups = load_groups(coder)
-    for inc in mongo_db.incidents.find({}, {"incident_id": 1, "groups_by_coder": 1, "groups": 1}):
-        by_coder = inc.get("groups_by_coder") or (
-            {LEGACY_CODER: inc.get("groups")} if inc.get("groups") else {})
-        if coder in by_coder:
-            groups[inc["incident_id"]] = {"groups": by_coder[coder],
-                                          "updated_at": datetime.now(timezone.utc).isoformat()}
-    save_groups(groups, coder)
-    return jsonify({"ok": True, "coder": coder, "pulled": len(remote), "total": len(store)})
+    inc_store = load_incident_coding(coder)
+    for inc_id, entry in incident_coding_from_mongo(coder).items():
+        inc_store[inc_id] = {**blank_incident_coding(), **entry}
+    save_incident_coding(inc_store, coder)
+    return jsonify({"ok": True, "coder": coder, "pulled": len(remote), "total": len(store),
+                    "incidents": len(inc_store)})
 
 
 @app.route("/")
@@ -749,19 +787,11 @@ def api_incident_ids():
 
 
 def has_coding(rec) -> bool:
-    """Has this coder actually put something on the document — an answer, a
-    highlight or a characteristic?
-
-    The shared incident_id / incident_title don't count: they're published by
-    whoever grouped the document and overlaid on everyone, so treating them as
-    coding would mark every coder as having coded every grouped document."""
+    """Has this coder actually put something on the document — a highlight or a
+    characteristic? Field answers can't count: they belong to the incident, so
+    they'd mark every coder as having coded every document in it."""
     if not isinstance(rec, dict):
         return False
-    for fk, fa in (rec.get("fields") or {}).items():
-        if fk in ("incident_id", "incident_title") or not isinstance(fa, dict):
-            continue
-        if fa.get("answer") or str(fa.get("comments") or "").strip():
-            return True
     return bool(rec.get("quotes")) or any((rec.get("roles") or {}).values())
 
 
@@ -790,14 +820,13 @@ def aggregate_incidents(coder: str):
     schema = load_schema()
     field_defs = schema["fields"]
     role_defs = schema.get("claim_roles", [])
-    groups_store = load_groups(coder)
+    inc_store = load_incident_coding(coder)
 
     incidents = {}
     for i in range(len(df)):
         key = df["doc_key"].iloc[i]
-        rec = doc_ann(store, key, assignments)
-        fields = rec["fields"]
-        inc_id = (answer_text(fields.get("incident_id", {})) or "").strip() or key
+        rec = doc_ann(store, key)
+        inc_id = incident_of(key, assignments)
         g = incidents.setdefault(inc_id, {
             "incident_id": inc_id, "title": "", "documents": [],
             "field_values": {}, "field_comments": {},
@@ -809,26 +838,23 @@ def aggregate_incidents(coder: str):
             "url": cell(i, "url"), "quotes": len(rec["quotes"]),
             "coded_by": coded_by(key, all_stores),
         })
-        title = answer_text(fields.get("incident_title", {})).strip()
-        if title and not g["title"]:
-            g["title"] = title
-        for f in field_defs:
-            fk = f["key"]
-            if fk in ("incident_id", "incident_title"):
-                continue
-            fa = fields.get(fk, {})
-            ans = fa.get("answer")
-            vals = ans if isinstance(ans, list) else ([ans] if ans else [])
-            bucket = g["field_values"].setdefault(fk, [])
-            for v in vals:
-                v = str(v).strip()
-                if v and v not in bucket:
-                    bucket.append(v)
-            cmt = str(fa.get("comments") or "").strip()
-            if cmt:
-                cbucket = g["field_comments"].setdefault(fk, [])
-                if cmt not in cbucket:
-                    cbucket.append(cmt)
+        if not g["title"]:
+            g["title"] = incident_title_for(inc_id, assignments)
+        # The incident's own answers, read once per incident rather than pooled
+        # across its documents — there is only one answer to pool now.
+        if not g["field_values"]:
+            answers = (inc_store.get(inc_id) or {}).get("fields") or {}
+            for f in field_defs:
+                fk = f["key"]
+                if fk in IDENTITY_FIELDS:
+                    continue
+                fa = answers.get(fk, {})
+                ans = fa.get("answer")
+                vals = ans if isinstance(ans, list) else ([ans] if ans else [])
+                g["field_values"][fk] = [str(v).strip() for v in vals if str(v).strip()]
+                cmt = str(fa.get("comments") or "").strip()
+                if cmt:
+                    g["field_comments"][fk] = [cmt]
         for r in role_defs:
             bucket = g["role_values"][r["role"]]
             for v in rec["roles"].get(r["role"], []):
@@ -872,7 +898,7 @@ def aggregate_incidents(coder: str):
         return value if still_coded(g, role, value) else None
 
     for inc_id, g in incidents.items():
-        saved = groups_store.get(inc_id, {}).get("groups", [])
+        saved = (inc_store.get(inc_id) or {}).get("groups") or []
         pruned = []
         for grp in saved:
             # Groups written before the actor-grouped structure carried a flat
@@ -954,7 +980,7 @@ def api_incident_json(inc_id):
     coder = current_coder()
     if mongo_db is not None:
         try:
-            doc = mongo_db.incidents.find_one({"incident_id": inc_id})
+            doc = mongo_db.incidents.find_one({"_id": inc_id})
             if doc:
                 return jsonify({"source": "mongodb", "incident": _jsonable(doc)})
         except Exception as e:
@@ -963,15 +989,18 @@ def api_incident_json(inc_id):
     g = incidents.get(inc_id)
     if g is None:
         abort(404, f"no incident {inc_id!r}")
-    local = {"incident_id": inc_id, "incident_title": g.get("title", ""),
+    by_coder = {}
+    for c in CODERS:
+        ann, inc = load_annotations(c), (load_incident_coding(c).get(inc_id) or {})
+        docs = {d["doc_key"]: doc_ann(ann, d["doc_key"])
+                for d in g.get("documents", []) if has_coding(ann.get(d["doc_key"]))}
+        if docs or inc.get("fields") or inc.get("groups"):
+            by_coder[c] = {"fields": inc.get("fields") or {},
+                           "groups": inc.get("groups") or [], "documents": docs}
+    local = {"_id": inc_id, "title": g.get("title", ""),
              "documents": [{"doc_id": d["doc_key"], "url": d["url"], "title": d["title"]}
                            for d in g.get("documents", [])],
-             "by_document": {d["doc_key"]: {"by_coder": {
-                 c: doc_ann(load_annotations(c), d["doc_key"])
-                 for c in CODERS if has_coding(load_annotations(c).get(d["doc_key"]))}}
-                 for d in g.get("documents", [])},
-             "groups_by_coder": {c: (load_groups(c).get(inc_id) or {}).get("groups", [])
-                                 for c in CODERS}}
+             "by_coder": by_coder}
     return jsonify({"source": "local files (not in MongoDB yet)", "incident": _jsonable(local)})
 
 
@@ -979,14 +1008,12 @@ def api_incident_json(inc_id):
 def api_push():
     """Push the active coder's local work up to Mongo (the inverse of /api/pull).
 
-    Per document: this coder's coding (fields, quotes, roles) is upserted into
-    `by_document.<key>.by_coder.<coder>` via the same path a save uses, leaving the
-    other coders' readings in place. Per incident: only this coder's claim groups
-    are written, under `groups_by_coder.<coder>` — the pooled characteristic and
-    field lists are intentionally *not* stored, since they are fully derivable from
-    `by_document` (see aggregate_incidents). Rollups and the single-coder `groups`
-    array left by an older push are unset so the incident doc stays lean. Non-fatal
-    per item."""
+    Per document: this coder's evidence is upserted into
+    `by_coder.<coder>.documents.<key>` via the same path a save uses, leaving the
+    other coders' readings in place. Per incident: this coder's field answers and
+    claim groups go to `by_coder.<coder>`. The pooled characteristic and field
+    lists a card shows are intentionally *not* stored — they're derived (see
+    aggregate_incidents). Non-fatal per item."""
     if mongo_db is None:
         return jsonify({"ok": False, "error": "MongoDB not connected"}), 503
     coder = current_coder(strict=True)
@@ -996,25 +1023,18 @@ def api_push():
     for i in range(len(df)):
         key = df["doc_key"].iloc[i]
         try:
-            sync_to_mongo(i, key, doc_ann(store, key, assignments), coder)
+            sync_to_mongo(i, key, doc_ann(store, key), coder, incident_of(key, assignments))
             docs_pushed += 1
         except Exception as e:
             print(f"[mongo] push failed for {key} ({e.__class__.__name__}: {e})")
 
     incidents, _, _ = aggregate_incidents(coder)
-    now = datetime.now(timezone.utc)
+    inc_store = load_incident_coding(coder)
     incidents_pushed, groups_pushed = 0, 0
     for inc_id, g in incidents.items():
         try:
-            mongo_db.incidents.update_one(
-                {"incident_id": inc_id},
-                {"$setOnInsert": {"incident_id": inc_id, "created_at": now},
-                 "$set": {f"groups_by_coder.{coder}": g["groups"], "updated_at": now},
-                 # drop old rollups + the pre-multi-coder single `groups` array
-                 "$unset": {"role_values": "", "field_values": "",
-                            **({"groups": ""} if coder == LEGACY_CODER else {})}},
-                upsert=True,
-            )
+            entry = inc_store.get(inc_id) or blank_incident_coding()
+            sync_incident_coding_to_mongo(inc_id, coder, {**entry, "groups": g["groups"]})
             incidents_pushed += 1
             groups_pushed += len(g["groups"])
         except Exception as e:
@@ -1040,11 +1060,11 @@ def api_save_groups(inc_id):
     coder = current_coder(strict=True)
     body = request.get_json(force=True)
     groups = body.get("groups", [])
-    store = load_groups(coder)
-    store[inc_id] = {"groups": groups,
-                     "updated_at": datetime.now(timezone.utc).isoformat()}
-    save_groups(store, coder)
-    sync_groups_to_mongo(inc_id, groups, coder)
+    store = load_incident_coding(coder)
+    entry = store.setdefault(inc_id, blank_incident_coding())
+    entry["groups"] = groups
+    save_incident_coding(store, coder)
+    sync_incident_coding_to_mongo(inc_id, coder, entry)
     return jsonify({"ok": True, "coder": coder, "groups": len(groups),
                     "synced": mongo_db is not None})
 
@@ -1053,41 +1073,64 @@ def api_save_groups(inc_id):
 def api_docs():
     """The shared document list; the quote count is the active coder's own."""
     store = load_annotations(current_coder())
-    assignments = load_assignments()
     return jsonify([
         {"index": i, "title": cell(i, "title"),
-         "n": len(doc_ann(store, df["doc_key"].iloc[i], assignments)["quotes"])}
+         "n": len(doc_ann(store, df["doc_key"].iloc[i])["quotes"])}
         for i in range(len(df))
     ])
 
 
 @app.route("/api/doc/<int:i>")
 def api_doc(i):
+    """One document to code: its text, this coder's evidence for it, and the
+    field answers it inherits from the incident it belongs to."""
     coder = current_coder()
-    store = load_annotations(coder)
+    key = df["doc_key"].iloc[i]
+    assignments = load_assignments()
+    rec = doc_ann(load_annotations(coder), key)
     return jsonify({
         "index": i,
         "title": cell(i, "title"),
         "url": cell(i, "url"),
         "markdown": markdown_no_title(i),
         "coder": coder,
-        "annotation": doc_ann(store, df["doc_key"].iloc[i], load_assignments()),
+        "annotation": {**rec,
+                       "fields": incident_fields(coder, incident_of(key, assignments), assignments)},
     })
 
 
 @app.route("/api/doc/<int:i>/annotations", methods=["POST"])
 def api_save(i):
-    """Save one document as the active coder. The interpretive coding lands in
-    that coder's own file; the incident this document belongs to is published to
-    the shared assignment map so the other coders code the same incidents."""
+    """Save one document as the active coder.
+
+    The payload is what the document view holds, and each part goes to the home
+    it belongs to: quotes and characteristics are evidence for *this document*,
+    while the field answers describe the *incident* and are stored once against
+    it. The incident id and title go to the shared assignment map, so every coder
+    codes the same incidents."""
     coder = current_coder(strict=True)
-    store = load_annotations(coder)
     key = df["doc_key"].iloc[i]
-    store[key] = request.get_json(force=True)
-    record_assignment(key, store[key].get("fields", {}))
+    body = request.get_json(force=True) or {}
+    posted_fields = body.get("fields") or {}
+
+    record_assignment(key, posted_fields)
+    assignments = load_assignments()
+    inc_id = incident_of(key, assignments)
+
+    store = load_annotations(coder)
+    store[key] = {"quotes": body.get("quotes", []), "roles": body.get("roles", {})}
+    rec = doc_ann(store, key)
+    store[key] = rec
     save_annotations(store, coder)
-    sync_to_mongo(i, key, doc_ann(store, key), coder)
-    return jsonify({"ok": True, "coder": coder, "n": len(store[key].get("quotes", []))})
+
+    inc_store = load_incident_coding(coder)
+    entry = inc_store.setdefault(inc_id, blank_incident_coding())
+    entry["fields"] = clean_fields(posted_fields)
+    save_incident_coding(inc_store, coder)
+
+    sync_to_mongo(i, key, rec, coder, inc_id)
+    sync_incident_coding_to_mongo(inc_id, coder, entry)
+    return jsonify({"ok": True, "coder": coder, "n": len(rec["quotes"])})
 
 
 _seed_shared_files()

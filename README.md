@@ -121,18 +121,15 @@ Push / Pull act on the current coder alone: pushing as alice never touches bob's
 work in Atlas, and pulling as bob never rewrites alice's local file.
 
 Claim links autosave to Mongo like everything else — dragging a characteristic into
-a claim writes `incident_groups.<coder>.json` *and* `groups_by_coder.<coder>` on the
+a claim writes `incident_coding.<coder>.json` *and* `by_coder.<coder>.groups` on the
 incident, so Push is only ever a bulk re-send. Note that a claim stores role/value
-pairs, not references: `aggregate_incidents` drops any member whose value is no
-longer coded on a member document, and a claim left with no members disappears. If
-every document moves out of an incident, its claims stay in Mongo but stop being
-reachable, since the card view only lists incidents that currently have documents.
+pairs, not references: `aggregate_incidents` drops any value no longer coded on a
+member document, and a claim left with nothing disappears. An incident whose
+documents have all moved away is deleted once nothing is coded on it.
 
-**Migrating an existing project:** on first start the old `annotations.json` and
-`incident_groups.json` become the *first* coder's files, and
-`incident_assignments.json` is seeded from the incidents already coded. Existing
-Atlas documents are read back as the first coder's work — no migration script and
-no re-coding needed.
+**Migrating an existing project:** run
+[`migrate_structure.py`](migrate_structure.py) (see below) — it converts both Atlas
+and the local files, and refuses to write if the quote count would change.
 
 ## 3. Read the data in Mongo
 
@@ -153,45 +150,82 @@ how to query it, ending in a tidy per-coder table for agreement analysis.
 
 ## Data model (Atlas `incidents` collection)
 
-One document per incident, keyed by `incident_id`. Several source documents can
-share an incident, and several coders can code each source document — so coding
-is nested two levels: `by_document.<doc_key>.by_coder.<coder>`. The collection's
-validator and indexes are provisioned automatically by
+One document per incident, keyed by `_id` — the incident id *is* the key, so there
+is no second identity field. Everything one coder judges lives in a single subtree,
+`by_coder.<coder>`, which is what lets a save be one `$set` that cannot reach
+another coder's work. The validator and indexes are provisioned by
 `incidents_vocab.ensure_collection`, which `app.py` calls on startup.
 
 ```
 incidents {
-  _id,
-  incident_id,                     # unique; the grouping key (shared by all coders)
-  incident_title,
-  by_document: {                   # one entry per source document
-    <doc_key>: {
-      by_coder: {                  # one reading per coder — never overwrite each other
-        <coder>: {
-          fields:  { <field_key>: { answer, comments }, ... },
-          quotes:  [ { text, start, end, category?, value?, role? }, ... ],
-          roles:   { actor[], factor[], harm[], harmed_party[] },
+  _id,                                    # "INC-001" — the incident id
+  title,
+  documents: [ { doc_id, url, title }, ... ],     # source articles (shared by all coders)
+  by_coder: {
+    <coder>: {
+      fields:    { <field_key>: { answer, comments? }, ... },   # the INCIDENT's answers
+      groups:    [ { id, actor, system, developer,
+                     claims: [ { id, harm, harmed_parties[], factors[] } ] }, ... ],
+      documents: {                        # evidence, per source document
+        <doc_key>: {
+          quotes: [ { text, start, end, role? | category?, value? }, ... ],
+          roles:  { actor[], factor[], harm[], harmed_party[] },
           updated_at
         }, ...
-      }
+      },
+      updated_at
     }, ...
-  },
-  documents: [ { doc_id, url, title }, ... ],   # source URLs in this incident (shared)
-  groups_by_coder: {                            # drag-to-group claims, per coder
-    <coder>: [ { id, members: [ { role, value }, ... ] }, ... ]
   },
   created_at, updated_at
 }
 ```
 
-Pooled characteristic / field lists are deliberately **not** stored — they're fully
-derivable from `by_document`, so the incident document stays lean.
+**Where a judgement lives follows what it is about.** A quote's offsets only mean
+something against one document's text, so evidence is per document. `incident_system`,
+`incident_developer`, `incident_deployer`, `incident_deployer_name` and
+`incident_aftermath` describe the *incident*, so they're answered once against it
+rather than repeated on each of its documents with all but one left blank.
 
-Documents written before multi-coder support kept one coding flat on
-`by_document.<doc_key>` and a single `groups` array; both shapes still validate and
-are read back as the first coder's work.
+Three rules keep it honest:
 
-Indexes: unique on `incident_id`, plus `documents.url` and `documents.doc_id`.
+- **One identity.** `incident_id` / `incident_title` are never copied into a coder's
+  field answers — the incident owns them, so they can't drift.
+- **Empty means absent.** An unanswered field isn't stored, so there is no `""` vs
+  `null` vs `[]` to disambiguate later.
+- **Nothing derived is stored.** The pooled characteristic and field lists a card
+  shows are rebuilt by `aggregate_incidents` on read.
+
+Indexes: `documents.url` and `documents.doc_id` (`_id` is indexed by MongoDB).
+
+## Analysis view (`codings` collection)
+
+`incidents` is shaped for writing, and its nesting uses dynamic keys (coder names,
+document keys) that no index reaches. Intercoder reliability wants the opposite —
+one row per judgement — so that view is **derived**, never authored:
+
+```
+$PY build_codings.py            # dry run
+$PY build_codings.py --apply
+```
+
+```
+codings { incident_id, doc_id, coder, kind, role, value, n_quotes, quotes[] }
+```
+
+`kind` is `characteristic` (one of the four claim roles) or `field`. A value picked
+without any highlight still gets a row with `n_quotes: 0` — the gap an agreement
+measure should see. Drop and rebuild it whenever; nothing reads back from it.
+
+## Migrating an existing database
+
+[`migrate_structure.py`](migrate_structure.py) converts a pre-restructure database
+and the local files in one pass, refusing to write if the quote count would change:
+
+```
+$PY migrate_structure.py            # dry run
+$PY migrate_structure.py --apply
+```
+
 
 ## Files
 
@@ -215,8 +249,8 @@ Everything in the repo is one of five things: **code**, **config**, **data**,
 | `mongo_connect.ipynb` | Scratch notebook for quick looks at Atlas |
 | **Data** | |
 | `zotero_docs.csv` | Import output / app input |
-| `annotations.<coder>.json` | App source of truth — one coder's per-document coding |
-| `incident_groups.<coder>.json` | One coder's drag-to-group claim links |
+| `annotations.<coder>.json` | One coder's evidence per document (quotes + characteristics) |
+| `incident_coding.<coder>.json` | One coder's incident-level answers + claim groups |
 | `incident_assignments.json` | **Shared** doc → incident mapping (all coders) |
 | `data_annotated.<coder>.csv` | Flat CSV mirror of one coder's annotations |
 | **Deploy** | |
