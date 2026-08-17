@@ -879,8 +879,7 @@ function buildPalette(container, inc) {
   container.innerHTML = '';
   const palette = document.createElement('div');
   palette.className = 'tow-field';
-  palette.innerHTML = `<div class="tow-label">Characteristics</div>`
-    + `<div class="grp-hint">Drag a chip into a claim; click it to read the quotes behind it.</div>`;
+  palette.innerHTML = `<div class="tow-label">Characteristics</div>`;
   // Every characteristic, System and Developer included — one list, one way to
   // code, one way to drag into a claim.
   const anyValues = ROLES.some(r => (inc.role_values[r.role] || []).length);
