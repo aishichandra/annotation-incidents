@@ -20,14 +20,14 @@
         "role": "factor",
         "start": 561,
         "text": "In recent days, though, the small newsroom has become a flashpoint for the ethics of using generative AI to edit stories without disclosure.",
-        "value": "Lack of transparency/disclosure"
+        "value": "Lack of audience disclosure"
       },
       {
         "end": 964,
         "role": "factor",
         "start": 702,
         "text": "On Tuesday, November 11, all four reporters at Suncoast Searchlight sent a letter to the nonprofit’s board of directors accusing their editor-in-chief, Emily Le Coz, of using generative AI tools, including ChatGPT, to edit stories and hiding that use from staff.",
-        "value": "Lack of transparency/disclosure"
+        "value": "Lack of audience disclosure"
       },
       {
         "category": "incident_developer",
@@ -48,14 +48,14 @@
         "role": "harm",
         "start": 965,
         "text": "The letter stated that Le Coz’s use of these tools introduced hallucinated quotes, a reference to a nonexistent state law, and other factual inaccuracies into multiple reporters’ story drafts.",
-        "value": "Citation issues"
+        "value": "Citation fabrication"
       },
       {
         "end": 1506,
         "role": "factor",
         "start": 1319,
         "text": "“We fear that there may be extensive undisclosed AI-generated content on our website and have questions about what retroactive disclosure is needed for our readers,” the reporters wrote. ",
-        "value": "Lack of transparency/disclosure"
+        "value": "Lack of audience disclosure"
       },
       {
         "end": 2035,
@@ -69,14 +69,14 @@
         "role": "factor",
         "start": 3226,
         "text": "Oxenden told me that she felt obligated to bring the issue to the board because of how challenging it was for the reporting team to hold Le Coz accountable for her undisclosed ChatGPT usage.",
-        "value": "Lack of transparency/disclosure"
+        "value": "Lack of audience disclosure"
       },
       {
         "end": 5367,
         "role": "harm",
         "start": 5263,
         "text": "While reviewing Le Coz’s edits, the reporter noticed a fabricated quote attributed to one of her sources",
-        "value": "Citation issues"
+        "value": "Citation fabrication"
       },
       {
         "end": 5367,
@@ -104,7 +104,7 @@
         "role": "factor",
         "start": 7588,
         "text": "Language disclosing the use of AI text generation or research tools was not included in the Suncoast Searchlight version of the story or in its republished versions.",
-        "value": "Lack of transparency/disclosure"
+        "value": "Lack of audience disclosure"
       },
       {
         "end": 8130,
@@ -125,7 +125,7 @@
         "role": "factor",
         "start": 9399,
         "text": "No disclosure that generative AI writing or editing tools were used to produce that story were included in the document.",
-        "value": "Lack of transparency/disclosure"
+        "value": "Lack of audience disclosure"
       },
       {
         "end": 10750,
@@ -149,7 +149,7 @@
       },
       {
         "role": "factor",
-        "value": "Lack of transparency/disclosure",
+        "value": "Lack of audience disclosure",
         "text": "In Suncoast Searchlight’s case, no such disclosures have occurred with its readers or with its partner publications — despite the investigative outlet centering transparency in its work.",
         "start": 10014,
         "end": 10200
@@ -160,12 +160,12 @@
         "Individual journalist"
       ],
       "factor": [
-        "Lack of transparency/disclosure",
+        "Lack of audience disclosure",
         "Lack of internal standards regarding AI use",
         "Lack of internal transparency about AI-related management decisions"
       ],
       "harm": [
-        "Citation issues",
+        "Citation fabrication",
         "Undermining of journalistic standards",
         "Displacement of human judgement",
         "Increased workload / burden on journalists"
@@ -198,7 +198,7 @@
         "role": "actor",
         "start": 240,
         "text": "AI-generated video",
-        "value": "Disinformation actor"
+        "value": "Mis/disinformation actor"
       },
       {
         "category": "incident_system",
@@ -264,7 +264,7 @@
       },
       {
         "role": "factor",
-        "value": "Lack of transparency/disclosure",
+        "value": "Lack of audience disclosure",
         "text": "“Fox News got fooled by a series of racist AI videos purporting to be Black women complaining about losing their SNAP benefits, and they reported those ‘complaints’ made computers pretending to be humans as if they were real news,” Miller said. “Yikes.”\nAfter getting called out, the headline of the post was amended to read, “AI videos of SNAP beneficiaries complaining about cuts go viral.” The change was accompanied by a brief editor’s note at the bottom.",
         "start": 1056,
         "end": 1515
@@ -272,12 +272,12 @@
     ],
     "roles": {
       "actor": [
-        "Disinformation actor",
+        "Mis/disinformation actor",
         "News organization/publisher"
       ],
       "factor": [
         "Publisher's lack of due diligence",
-        "Lack of transparency/disclosure"
+        "Lack of audience disclosure"
       ],
       "harm": [
         "Perpetuation of stereotypes",
@@ -300,7 +300,7 @@
       },
       {
         "category": "incident_system",
-        "value": "Chatbot",
+        "value": "Chatbot (general use)",
         "text": "Nieman Lab’s tests show ChatGPT is directing users to broken URLs for at least 10 publications with OpenAI licensing deals.",
         "start": 55,
         "end": 178
@@ -328,7 +328,7 @@
       },
       {
         "role": "harm",
-        "value": "Citation issues",
+        "value": "Citation fabrication",
         "text": "On June 13,Now, my reporting confirms that ChatGPT is hallucinating URLs for at least 10 other publications that are part of OpenAI’s ongoing licensing deals. These publications include The Associated Press, The Wall Street Journal, the Financial Times, The Times (UK), Le Monde, El País, The Atlantic, The Verge, Vox, and Politico.",
         "start": 541,
         "end": 873
@@ -349,14 +349,14 @@
       },
       {
         "role": "harm",
-        "value": "Citation issues",
+        "value": "Citation fabrication",
         "text": "In my tests, I documented hallucinated links to two Pulitzer Prize-winning stories, including The Wall Street Journal’s 2018 reporting on Donald Trump’s involvement in hush money payments made to Stormy Daniels and Karen McDougal during his presidential campaign. That reporting helped trigger a criminal investigation that recently culminated in a jury finding Trump guilty on 34 felony counts. Despite the investigation’s notoriety, the link offered by ChatGPT to the WSJ’s reporting once again landed on a 404 error.",
         "start": 4244,
         "end": 4763
       },
       {
         "role": "harm",
-        "value": "Citation issues",
+        "value": "Citation fabrication",
         "text": "When I followed up and asked ChatGPT to share a link to the original story, it told me to read the story on the FT’s website at this URL: https://www.ft.com/content/44dcb5d2-2a29-11e9-b2e4-601dbf7d9eff",
         "start": 3942,
         "end": 4143
@@ -378,7 +378,7 @@
       ],
       "harm": [
         "Breach of contract",
-        "Citation issues"
+        "Citation fabrication"
       ],
       "harmed_party": [
         "News organization/publisher"
@@ -398,7 +398,7 @@
         "end": 508,
         "start": 394,
         "text": "The tech news site came under scrutiny this month after it was reported the outlet was using AI to write articles.",
-        "value": "Writing assistance"
+        "value": "Text generation"
       },
       {
         "end": 1163,
@@ -412,7 +412,7 @@
         "role": "factor",
         "start": 1164,
         "text": "Earlier this month,  Futurism broke the news that \nCNEThad been quietly publishing articles written by AI for months without drawing much public attention or making a formal announcement.",
-        "value": "Lack of transparency/disclosure"
+        "value": "Lack of audience disclosure"
       },
       {
         "end": 104,
@@ -475,7 +475,7 @@
         "News organization/publisher"
       ],
       "factor": [
-        "Lack of transparency/disclosure",
+        "Lack of audience disclosure",
         "Inadequate human oversight",
         "SEO/algorithm gaming",
         "Publisher's lack of due diligence",
@@ -506,7 +506,7 @@
         "end": 1457,
         "start": 863,
         "text": "In November, one of our editorial teams, CNET Money, launched a test using an internally designed AI engine – not ChatGPT – to help editors create a set of basic explainers around financial services topics. We started small and published 77 short stories using the tool, about 1% of the total content published on our site during the same period. Editors generated the outlines for the stories first, then expanded, added to and edited the AI drafts before publishing. After one of the AI-assisted stories was cited, rightly, for factual errors, the CNET Money editorial team did a full audit. ",
-        "value": "Writing assistance"
+        "value": "Text generation"
       },
       {
         "end": 914,
@@ -543,7 +543,7 @@
       },
       {
         "role": "factor",
-        "value": "Lack of transparency/disclosure",
+        "value": "Lack of audience disclosure",
         "text": "A new apparently AI-generated local news website has appeared in North London, raising fears of the public being misled.",
         "start": 0,
         "end": 120
@@ -564,7 +564,7 @@
       },
       {
         "role": "harm",
-        "value": "Citation issues",
+        "value": "Citation fabrication",
         "text": "The same story references an East Finchley Residents’ Association and its chair Sarah Johnson, neither of which do not appear to exist.\nAn article about Barnet Council rejecting a plan for 1,485 homes similarly refers to someone who does not exist: “As reported by local planning correspondent Jane Doe of Barnet Times, Councillor Sury Kathri, chair of the planning committee, stated…”",
         "start": 1239,
         "end": 1624
@@ -610,11 +610,11 @@
         "News organization/publisher"
       ],
       "factor": [
-        "Lack of transparency/disclosure"
+        "Lack of audience disclosure"
       ],
       "harm": [
         "Publication of low quality outputs / ai slop",
-        "Citation issues",
+        "Citation fabrication",
         "Amplification of misinformation"
       ],
       "harmed_party": [
@@ -647,28 +647,28 @@
       },
       {
         "category": "incident_system",
-        "value": "Chatbot",
+        "value": "Chatbot (general use)",
         "text": "a chatbot that gives natural-language answers to prompts and can, the company says, access the internet in real time—as an “answer engine.”",
         "start": 321,
         "end": 460
       },
       {
         "role": "harm",
-        "value": "Inaccurate summarization",
+        "value": "Distorted source representation",
         "text": "The results showed the chatbot at times closely paraphrasing WIRED stories, and at times summarizing stories inaccurately and with minimal attribution.",
         "start": 2242,
         "end": 2393
       },
       {
         "role": "harm",
-        "value": "Citation issues",
+        "value": "Citation fabrication",
         "text": "Srinivas has acknowledged that at times these summaries have failed to credit the sources from which they’re derived fully or prominently enough, but more broadly he denied unethical or unlawful activity.",
         "start": 7304,
         "end": 7508
       },
       {
         "role": "harm",
-        "value": "Citation issues",
+        "value": "Citation fabrication",
         "text": " minimal attribution",
         "start": 2372,
         "end": 2392
@@ -681,8 +681,8 @@
       "factor": [],
       "harm": [
         "Plagiarism",
-        "Inaccurate summarization",
-        "Citation issues"
+        "Distorted source representation",
+        "Citation fabrication"
       ],
       "harmed_party": []
     }
@@ -854,7 +854,7 @@
     "quotes": [
       {
         "role": "factor",
-        "value": "Lack of transparency/disclosure",
+        "value": "Lack of audience disclosure",
         "text": "what alarmed them more than the falsehoods themselves (dubious social media claims from Trump are nothing new) was the lack of clarity about the form these videos were taking and where they were coming from, according to two Newsom staffers. ",
         "start": 282,
         "end": 524
@@ -870,7 +870,7 @@
     "roles": {
       "actor": [],
       "factor": [
-        "Lack of transparency/disclosure"
+        "Lack of audience disclosure"
       ],
       "harm": [
         "Amplification of misinformation"
@@ -889,7 +889,7 @@
       },
       {
         "category": "incident_system",
-        "value": "Writing assistance",
+        "value": "Text generation",
         "text": "They said they used GPT-4 to create approximately 80% of the article and the image generator Dalle-E 2 to create a profile picture of a quintessential “woke” journalist using the prompts “female, overweight, blue hair, business casual clothing, smug expression”.",
         "start": 2637,
         "end": 2899
@@ -903,21 +903,21 @@
       },
       {
         "role": "actor",
-        "value": "Disinformation actor",
+        "value": "Mis/disinformation actor",
         "text": "The person said they were Irish, a college student and identified as non-binary.",
         "start": 2383,
         "end": 2463
       },
       {
         "role": "actor",
-        "value": "Disinformation actor",
+        "value": "Mis/disinformation actor",
         "text": "The Irish Times has apologised for running an article about Irish women’s use of fake tan that was submitted by a hoaxer who used artificial intelligence.",
         "start": 0,
         "end": 154
       },
       {
         "role": "factor",
-        "value": "Lack of transparency/disclosure",
+        "value": "Lack of audience disclosure",
         "text": "The Irish Times has apologised for running an article about Irish women’s use of fake tan that was submitted by a hoaxer who used artificial intelligence.",
         "start": 0,
         "end": 154
@@ -931,7 +931,7 @@
       },
       {
         "role": "factor",
-        "value": "Deployment of AI with intention to harm or mislead",
+        "value": "Deployment of AI with intention to harm, mislead, or troll",
         "text": "The Irish Times has apologised for running an article about Irish women’s use of fake tan that was submitted by a hoaxer who used artificial intelligence.",
         "start": 0,
         "end": 154
@@ -986,13 +986,13 @@
     ],
     "roles": {
       "actor": [
-        "Disinformation actor",
+        "Mis/disinformation actor",
         "News organization/publisher"
       ],
       "factor": [
-        "Lack of transparency/disclosure",
+        "Lack of audience disclosure",
         "Publisher's lack of due diligence",
-        "Deployment of AI with intention to harm or mislead"
+        "Deployment of AI with intention to harm, mislead, or troll"
       ],
       "harm": [
         "Publication of low quality outputs / ai slop",
@@ -1216,14 +1216,14 @@
         "role": "factor",
         "start": 451,
         "text": "“We are now interviewing the only survivor in the recent school shooting: TikToker Krishna Sahay,” CBS News anchor \nAnne-Marie Greenappears to say at the top of the news segment.“That must have been absolutely traumatizing,” an interviewer in another video says to Sahay. “What was going through everyone’s head?”\nSahay pauses, before responding: “Bullets, duh!”\nIn another apparent news segment on the school shooting, this time from CNN, an interviewer asks Sahay: “How’d you live through that? You were reading a magazine or something during the shooting?”\n“Reading?” Sahay replies about the magazine. “I was emptying one!”\nThe TikTok and YouTube star is among a growing crop of social media users that have been enlisting generative AI and other software to produce seemingly real news segments from top anchors at major news outlets—from CBS Evening News’ ",
-        "value": "Deployment of AI with intention to harm or mislead"
+        "value": "Deployment of AI with intention to harm, mislead, or troll"
       },
       {
         "end": 1312,
         "role": "factor",
         "start": 451,
         "text": "“We are now interviewing the only survivor in the recent school shooting: TikToker Krishna Sahay,” CBS News anchor \nAnne-Marie Greenappears to say at the top of the news segment.“That must have been absolutely traumatizing,” an interviewer in another video says to Sahay. “What was going through everyone’s head?”\nSahay pauses, before responding: “Bullets, duh!”\nIn another apparent news segment on the school shooting, this time from CNN, an interviewer asks Sahay: “How’d you live through that? You were reading a magazine or something during the shooting?”\n“Reading?” Sahay replies about the magazine. “I was emptying one!”\nThe TikTok and YouTube star is among a growing crop of social media users that have been enlisting generative AI and other software to produce seemingly real news segments from top anchors at major news outlets—from CBS Evening News’ ",
-        "value": "AI-based impersonation of journalists/outlets"
+        "value": "AI-based hoaxing/counterfeiting of journalists/outlets"
       },
       {
         "end": 1650,
@@ -1237,14 +1237,14 @@
         "role": "factor",
         "start": 5562,
         "text": "The Facebook Oversight Board alsoannouncedthis week a case related to a manipulated video of President Joe Biden.",
-        "value": "Deployment of AI with intention to harm or mislead"
+        "value": "Deployment of AI with intention to harm, mislead, or troll"
       },
       {
         "end": 5271,
         "role": "factor",
         "start": 4990,
         "text": "Deepfakes, and lower-budget “cheapfakes,” are not new—and this month alone, they’ve been used to target everyone from \nTom Hanks(whose AI doppelganger was promoting a dental plan) to YouTube’s top creatorMrBeast(who appeared to be hosting “the world’s largest iPhone 15 giveaway”).",
-        "value": "Deployment of AI with intention to harm or mislead"
+        "value": "Deployment of AI with intention to harm, mislead, or troll"
       },
       {
         "end": 1832,
@@ -1258,42 +1258,42 @@
         "role": "factor",
         "start": 1833,
         "text": "Earlier this month, an AI-generated clip of CBS This Morning co-hostGayle King, promoting a product she’d never used or even heard of,was circulating online.",
-        "value": "AI-based impersonation of journalists/outlets"
+        "value": "AI-based hoaxing/counterfeiting of journalists/outlets"
       },
       {
         "end": 2194,
         "role": "factor",
         "start": 1991,
         "text": "A deepfake of CNN anchorAnderson Cooper, stating that former president Donald Trump was “ripping us a new asshole,” also recently went viral after Trump and his son shared it on Truth Social and Twitter.",
-        "value": "AI-based impersonation of journalists/outlets"
+        "value": "AI-based hoaxing/counterfeiting of journalists/outlets"
       },
       {
         "end": 2712,
         "role": "factor",
         "start": 2195,
         "text": "And Sahay’s purported news broadcasts—which helped him amass an audience of millions—have included more than a dozen prominent anchors from a range of TV networks who deliver problematic commentary and interview the creator as he mocks school shootings, the September 11 terrorist attacks, rape victims and others harmed by criminals.In many cases, these made-up segments featuring real-life broadcasters are drawing more eyeballs than legitimate clips posted on news organizations’ blue-check social media accounts. ",
-        "value": "AI-based impersonation of journalists/outlets"
+        "value": "AI-based hoaxing/counterfeiting of journalists/outlets"
       },
       {
         "end": 2712,
         "role": "factor",
         "start": 2195,
         "text": "And Sahay’s purported news broadcasts—which helped him amass an audience of millions—have included more than a dozen prominent anchors from a range of TV networks who deliver problematic commentary and interview the creator as he mocks school shootings, the September 11 terrorist attacks, rape victims and others harmed by criminals.In many cases, these made-up segments featuring real-life broadcasters are drawing more eyeballs than legitimate clips posted on news organizations’ blue-check social media accounts. ",
-        "value": "Deployment of AI with intention to harm or mislead"
+        "value": "Deployment of AI with intention to harm, mislead, or troll"
       },
       {
         "end": 1833,
         "role": "factor",
         "start": 1707,
         "text": "Clarissa Wardducking for cover from rockets near the Israel-Gaza border went viral with fake audio undermining her reporting. ",
-        "value": "Deployment of AI with intention to harm or mislead"
+        "value": "Deployment of AI with intention to harm, mislead, or troll"
       },
       {
         "end": 1833,
         "role": "factor",
         "start": 1707,
         "text": "Clarissa Wardducking for cover from rockets near the Israel-Gaza border went viral with fake audio undermining her reporting. ",
-        "value": "AI-based impersonation of journalists/outlets"
+        "value": "AI-based hoaxing/counterfeiting of journalists/outlets"
       },
       {
         "end": 1990,
@@ -1321,7 +1321,7 @@
         "role": "actor",
         "start": 1078,
         "text": "The TikTok and YouTube star is among a growing crop of social media users that have been enlisting generative AI and other software to produce seemingly real news segments from top anchors at major news outlets—from CBS Evening News’ \nNorah O’Donnellto journalists at CNN, the BBC and beyond. ",
-        "value": "Disinformation actor"
+        "value": "Mis/disinformation actor"
       },
       {
         "end": 5271,
@@ -1335,14 +1335,14 @@
         "role": "factor",
         "start": 4990,
         "text": "Deepfakes, and lower-budget “cheapfakes,” are not new—and this month alone, they’ve been used to target everyone from \nTom Hanks(whose AI doppelganger was promoting a dental plan) to YouTube’s top creatorMrBeast(who appeared to be hosting “the world’s largest iPhone 15 giveaway”).",
-        "value": "Deployment of AI with intention to harm or mislead"
+        "value": "Deployment of AI with intention to harm, mislead, or troll"
       },
       {
         "end": 5675,
         "role": "factor",
         "start": 5562,
         "text": "The Facebook Oversight Board alsoannouncedthis week a case related to a manipulated video of President Joe Biden.",
-        "value": "Deployment of AI with intention to harm or mislead"
+        "value": "Deployment of AI with intention to harm, mislead, or troll"
       },
       {
         "end": 5675,
@@ -1361,11 +1361,11 @@
     ],
     "roles": {
       "actor": [
-        "Disinformation actor"
+        "Mis/disinformation actor"
       ],
       "factor": [
-        "Deployment of AI with intention to harm or mislead",
-        "AI-based impersonation of journalists/outlets"
+        "Deployment of AI with intention to harm, mislead, or troll",
+        "AI-based hoaxing/counterfeiting of journalists/outlets"
       ],
       "harm": [
         "Amplification of misinformation"
@@ -1413,7 +1413,7 @@
       },
       {
         "role": "harm",
-        "value": "Citation issues",
+        "value": "Citation fabrication",
         "text": "In September, the *Journal of the Law Society of Scotland *published a story about rural law firms that includes quotes from regular Scots whom I could not find, a lawyer who appears to be fictitious, a professor who told me she did not speak with the reporter, and even the Cabinet Secretary for Justice and Home Affairs, who did not respond to my email.",
         "start": 7366,
         "end": 7721
@@ -1441,7 +1441,7 @@
       },
       {
         "role": "harm",
-        "value": "Citation issues",
+        "value": "Citation fabrication",
         "text": "“I did not speak with this reporter and did not give this quote,” wrote designer Young Huh, who is quoted as saying “corners are like little secrets in a home.”",
         "start": 8792,
         "end": 8952
@@ -1462,28 +1462,28 @@
       },
       {
         "role": "harm",
-        "value": "Citation issues",
+        "value": "Citation fabrication",
         "text": "The stories had the characteristic weirdness of articles written by a large language model—invented anecdotes from regular people who didn’t appear to exist accompanied by expert commentary from public figures who do, with some biographical details mangled, who are made to voice “quotes” that sound, broadly, like something they might say.",
         "start": 9070,
         "end": 9410
       },
       {
         "role": "factor",
-        "value": "Lack of transparency/disclosure",
+        "value": "Lack of audience disclosure",
         "text": "“Oh yeah, I did,” she said quickly. “I did have my personal assistant talk to her.”",
         "start": 11854,
         "end": 11937
       },
       {
         "role": "actor",
-        "value": "Disinformation actor",
+        "value": "Mis/disinformation actor",
         "text": "then this generation’s internet scammers are scavenging in the wreckage of a degraded media environment.",
         "start": 15268,
         "end": 15372
       },
       {
         "role": "factor",
-        "value": "Deployment of AI with intention to harm or mislead",
+        "value": "Deployment of AI with intention to harm, mislead, or troll",
         "text": " internet scammers",
         "start": 15290,
         "end": 15308
@@ -1517,7 +1517,7 @@
       },
       {
         "category": "incident_system",
-        "value": "Writing assistance",
+        "value": "Text generation",
         "text": "Victoria’s stilted email, and a closer read of the original pitch, revealed what should have been clear from the start: with its rote phrasing (“This story matters because of… It is timely because of… It fits your readership because of…”), it had all the hallmarks of an AI-generated piece of writing.",
         "start": 4053,
         "end": 4354
@@ -1552,14 +1552,14 @@
       },
       {
         "role": "harm",
-        "value": "Citation issues",
+        "value": "Citation fabrication",
         "text": "A 2024 story about climate change memes from the non-profit Outrider quotes “Juliet Pinto, a Professor of Psychology” at Pennsylvania State University. I emailed Pinto, who is in fact a communications professor at Pennsylvania State University. “I have not spoken with any reporter about that piece of research, and I am not a professor of psychology,” she wrote back.",
         "start": 5750,
         "end": 6118
       },
       {
         "role": "harm",
-        "value": "Citation issues",
+        "value": "Citation fabrication",
         "text": "The piece also quotes “Terry Collins, a climate scientist and professor of environmental science at the University of California.” I could not find anyone of that description, but Terry Collins, the director of the institute of green science at Carnegie Mellon, said he’s never communicated with Goldiee.",
         "start": 6119,
         "end": 6423
@@ -1573,7 +1573,7 @@
       },
       {
         "role": "harm",
-        "value": "Citation issues",
+        "value": "Citation fabrication",
         "text": "“The quotation did not come from me and, to the best of my recollection, I have never met or spoken to Victoria Goldiee,” Elaine Sutherland, professor emerita at the University of Stirling, wrote me.",
         "start": 7722,
         "end": 7921
@@ -1588,18 +1588,18 @@
     ],
     "roles": {
       "actor": [
-        "Disinformation actor",
+        "Mis/disinformation actor",
         "News organization/publisher"
       ],
       "factor": [
         "Publisher's lack of due diligence",
-        "Lack of transparency/disclosure",
-        "Deployment of AI with intention to harm or mislead",
+        "Lack of audience disclosure",
+        "Deployment of AI with intention to harm, mislead, or troll",
         "Lack of internal standards regarding AI use"
       ],
       "harm": [
         "Plagiarism",
-        "Citation issues",
+        "Citation fabrication",
         "Publication of low quality outputs / ai slop",
         "Undermining of journalistic standards",
         "Journalists being duped"

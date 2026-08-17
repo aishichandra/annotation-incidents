@@ -39,7 +39,7 @@
       },
       "incident_system": {
         "answer": [
-          "Writing assistance"
+          "Text generation"
         ]
       }
     },
@@ -49,7 +49,7 @@
     "fields": {
       "incident_system": {
         "answer": [
-          "Writing assistance"
+          "Text generation"
         ]
       },
       "incident_developer": {
@@ -69,7 +69,7 @@
       },
       "incident_system": {
         "answer": [
-          "Writing assistance"
+          "Text generation"
         ]
       }
     },
@@ -94,7 +94,7 @@
     "fields": {
       "incident_system": {
         "answer": [
-          "Chatbot",
+          "Chatbot (general use)",
           "News summarization"
         ]
       },
@@ -115,7 +115,7 @@
       },
       "incident_system": {
         "answer": [
-          "Writing assistance",
+          "Text generation",
           "Synthetic video/image generation"
         ]
       }
@@ -127,7 +127,7 @@
       "incident_system": {
         "answer": [
           "Synthetic video/image generation",
-          "Writing assistance",
+          "Text generation",
           "Translation",
           "Editing"
         ],
@@ -145,7 +145,7 @@
     "fields": {
       "incident_system": {
         "answer": [
-          "Writing assistance",
+          "Text generation",
           "Remixing/repurposing"
         ]
       },
@@ -176,7 +176,7 @@
       },
       "incident_system": {
         "answer": [
-          "Writing assistance"
+          "Text generation"
         ]
       }
     },

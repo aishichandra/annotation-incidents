@@ -35,7 +35,7 @@
     "fields": {
       "incident_system": {
         "answer": [
-          "Chatbot"
+          "Chatbot (general use)"
         ]
       },
       "incident_developer": {
@@ -50,7 +50,7 @@
     "fields": {
       "incident_system": {
         "answer": [
-          "Writing assistance"
+          "Text generation"
         ]
       },
       "incident_developer": {
@@ -81,7 +81,7 @@
     "fields": {
       "incident_system": {
         "answer": [
-          "Chatbot"
+          "Chatbot (general use)"
         ]
       },
       "incident_developer": {
@@ -128,7 +128,7 @@
       "incident_system": {
         "answer": [
           "Synthetic video/image generation",
-          "Writing assistance"
+          "Text generation"
         ]
       },
       "incident_developer": {
@@ -192,7 +192,7 @@
     "fields": {
       "incident_system": {
         "answer": [
-          "Writing assistance"
+          "Text generation"
         ]
       },
       "incident_developer": {
