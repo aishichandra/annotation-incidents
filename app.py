@@ -290,7 +290,7 @@ def load_annotations(coder: str) -> dict:
 def load_groups(coder: str) -> dict:
     """One coder's incident-level claim groupings, built by dragging in the card
     view. Shape: {incident_id: {"groups": [{"id", "actor", "system", "developer",
-    "claims": [{"id", "harm", "harmed_party", "factors": []}]}]}}.
+    "claims": [{"id", "harm", "harmed_parties": [], "factors": []}]}]}}.
 
     Filled in from Mongo on incidents the local file has no claims for, the same
     way `load_annotations` works — claims linked on another machine show up here
@@ -565,7 +565,7 @@ def store_from_mongo(coder: str) -> dict:
 def groups_from_mongo(coder: str) -> dict:
     """One coder's claim groups per incident, as Mongo currently has them.
     Shape: {incident_id: [{"id", "actor", "system", "developer",
-    "claims": [{"id", "harm", "harmed_party", "factors": []}]}]}. Coding written
+    "claims": [{"id", "harm", "harmed_parties": [], "factors": []}]}]}. Coding written
     before multi-coder support left a single flat `groups` array on the incident;
     that's read back as the first coder's links, matching `/api/pull`."""
     out = {}
@@ -864,12 +864,17 @@ def aggregate_incidents(coder: str):
             claims = []
             for cl in grp.get("claims") or []:
                 harm = keep(g, "harm", cl.get("harm"))
-                party = keep(g, "harmed_party", cl.get("harmed_party"))
+                # Plural, like factors: one harm landing on several parties reads
+                # as a conjunction. It's plural harms *times* plural parties that
+                # would leave "which harm hit which party?" unanswerable, and harm
+                # stays single-valued for exactly that reason.
+                parties = [p for p in (cl.get("harmed_parties") or [])
+                           if still_coded(g, "harmed_party", p)]
                 factors = [f for f in (cl.get("factors") or [])
                            if still_coded(g, "factor", f)]
-                if harm or party or factors:
+                if harm or parties or factors:
                     claims.append({"id": cl.get("id"), "harm": harm,
-                                   "harmed_party": party, "factors": factors})
+                                   "harmed_parties": parties, "factors": factors})
             actor = keep(g, "actor", grp.get("actor"))
             system = keep(g, "system", grp.get("system"))
             developer = keep(g, "developer", grp.get("developer"))
@@ -959,9 +964,9 @@ def api_push():
 def api_save_groups(inc_id):
     """Persist the active coder's card-view claim groupings for one incident.
     Body: {groups:[…]}. A group is one actor context — {id, actor, system,
-    developer, claims:[{id, harm, harmed_party, factors:[]}]} — where actor,
-    system, developer, harm and harmed_party are single values and only
-    factors is a list. This is the single
+    developer, claims:[{id, harm, harmed_parties:[], factors:[]}]} — where
+    actor, system, developer and harm are single values, and harmed_parties
+    and factors are lists. This is the single
     home for links now that the document view codes characteristics flat; each coder
     links their own claims, so the groupings are per coder.
 
