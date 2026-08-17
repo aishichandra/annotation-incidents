@@ -12,13 +12,13 @@ VOCAB_JSON = Path(__file__).parent / "vocab.json"
 # Which frontend field / claim-role maps to which vocab list.
 #
 # Every controlled-vocabulary selection is a characteristic, so all of them are
-# roles. System, developer and deployer used to sit apart as "fields" with an
+# roles. System and developer used to sit apart as "fields" with an
 # {answer, comments} wrapper, which made them a second kind of thing to code, to
 # store, to tag a quote with and to drag into a claim — for no difference anyone
 # could point at. `fields` now holds only what is genuinely not a characteristic:
 # free text.
 FIELD_VOCAB = {}
-ROLE_VOCAB = {"system": "systems", "developer": "developers", "deployer": "deployers",
+ROLE_VOCAB = {"system": "systems", "developer": "developers",
               "actor": "actor", "factor": "factor",
               "harm": "harm", "harmed_party": "harmed_party"}
 

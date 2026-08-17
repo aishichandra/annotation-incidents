@@ -533,14 +533,13 @@ let saveTimer = null;
 // Order here is the order they appear in the document sidebar and the incident
 // palette: factor before harm, matching the highlight tag menu (TAG_ORDER).
 // Every controlled-vocabulary characteristic, in the coding scheme's order.
-// System, developer and deployer are ordinary roles: coded the same way, tagged
+// System and developer are ordinary roles: coded the same way, tagged
 // the same way on a quote, dragged into a claim the same way. Their colours are
 // the ones they carried when they were separate "fields", so a chip that was
 // violet yesterday is violet today.
 const ROLES = [
   { role: 'system',       label: 'System',       color: '#c4b5fd' },  // violet
   { role: 'developer',    label: 'Developer',    color: '#fdba74' },  // orange
-  { role: 'deployer',     label: 'Deployer',     color: '#f9a8d4' },  // pink
   { role: 'actor',        label: 'Actor',        color: '#fde047' },  // yellow
   { role: 'factor',       label: 'Factor',       color: '#86efac' },  // green
   { role: 'harm',         label: 'Harm',         color: '#fca5a5' },  // red

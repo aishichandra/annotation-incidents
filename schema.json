@@ -15,7 +15,7 @@
       "comments": false
     },
     {
-      "key": "incident_deployer_name",
+      "key": "incident_actor_name",
       "label": "Inciting actor(s) name",
       "type": "text"
     },
@@ -34,11 +34,6 @@
     {
       "role": "developer",
       "label": "Developer",
-      "options": []
-    },
-    {
-      "role": "deployer",
-      "label": "Deployer",
       "options": []
     },
     {

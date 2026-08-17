@@ -31,9 +31,10 @@ something against one document, so evidence — the quotes and the characteristi
 they justify — is per document. Free text about the incident as a whole (its
 aftermath, the inciting actor's name) is answered once against the incident.
 
-Every controlled-vocabulary selection is a characteristic, including system,
-developer and deployer. They are all roles, coded the same way, tagged the same
-way on a quote, and dragged into a claim the same way.
+Every controlled-vocabulary selection is a characteristic, including system and
+developer. They are all roles, coded the same way, tagged the same way on a
+quote, and dragged into a claim the same way. The inciting actor is the `actor`
+role — only its *name* is a field, because a name is free text, not a code.
 
 The active coder comes from `?coder=`, the `X-Coder` header, or the `coder`
 cookie, and must be one of CODERS (set the CODERS env var, comma-separated).
@@ -127,7 +128,7 @@ DEFAULT_SCHEMA = {
          "justify": False, "comments": False},
         # Only free text lives here. Anything picked from a controlled vocabulary
         # is a characteristic and belongs in claim_roles below.
-        {"key": "incident_deployer_name", "label": "Inciting actor(s) name", "type": "text"},
+        {"key": "incident_actor_name", "label": "Inciting actor(s) name", "type": "text"},
         {"key": "incident_aftermath", "label": "Incident aftermath", "type": "text"},
     ],
     # Characteristics coded per document as flat multiselects (no linking here).
@@ -136,7 +137,6 @@ DEFAULT_SCHEMA = {
     "claim_roles": [
         {"role": "system", "label": "System", "options": []},
         {"role": "developer", "label": "Developer", "options": []},
-        {"role": "deployer", "label": "Deployer", "options": []},
         {"role": "actor", "label": "Actor", "options": []},
         {"role": "factor", "label": "Factor", "options": []},
         {"role": "harm", "label": "Harm", "options": []},
