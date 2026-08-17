@@ -2,11 +2,11 @@
   "A5A5XZGY": {
     "quotes": [
       {
-        "category": "incident_system",
         "end": 157,
         "start": 140,
         "text": "AI editing tools ",
-        "value": "Editing"
+        "value": "Editing",
+        "role": "system"
       },
       {
         "end": 1156,
@@ -37,18 +37,18 @@
         "value": "Lack of internal transparency about AI-related management decisions"
       },
       {
-        "category": "incident_developer",
         "end": 896,
         "start": 888,
         "text": "AI tools",
-        "value": "Unknown/unspecified"
+        "value": "Unknown/unspecified",
+        "role": "developer"
       },
       {
-        "category": "incident_developer",
         "end": 915,
         "start": 908,
         "text": "ChatGPT",
-        "value": "AI vendor"
+        "value": "AI vendor",
+        "role": "developer"
       },
       {
         "end": 2034,
@@ -222,7 +222,15 @@
       ],
       "harmed_party": [
         "Journalist(s)"
-      ]
+      ],
+      "system": [
+        "Editing"
+      ],
+      "developer": [
+        "Unknown/unspecified",
+        "AI vendor"
+      ],
+      "deployer": []
     }
   },
   "GQ7D8VE4": {
@@ -238,17 +246,20 @@
       "actor": [],
       "factor": [],
       "harm": [],
-      "harmed_party": []
+      "harmed_party": [],
+      "system": [],
+      "developer": [],
+      "deployer": []
     }
   },
   "M5N3GHYU": {
     "quotes": [
       {
-        "category": "incident_system",
         "end": 258,
         "start": 240,
         "text": "AI-generated video",
-        "value": "Synthetic video/image generation"
+        "value": "Synthetic video/image generation",
+        "role": "system"
       },
       {
         "end": 812,
@@ -346,24 +357,31 @@
         "News organization/publisher",
         "Audience/readers",
         "Sources/subjects of coverage"
-      ]
+      ],
+      "system": [
+        "Synthetic video/image generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "deployer": []
     }
   },
   "B8KG7HK6": {
     "quotes": [
       {
-        "category": "incident_system",
         "value": "Text generation",
         "text": "appear to be AI-generated",
         "start": 148,
-        "end": 173
+        "end": 173,
+        "role": "system"
       },
       {
-        "category": "incident_developer",
         "value": "Unknown/unspecified",
         "text": "appear to be AI-generated",
         "start": 148,
-        "end": 173
+        "end": 173,
+        "role": "developer"
       },
       {
         "role": "harm",
@@ -456,24 +474,31 @@
       ],
       "harmed_party": [
         "News organization/publisher"
-      ]
+      ],
+      "system": [
+        "Text generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "deployer": []
     }
   },
   "X8NDPG7E": {
     "quotes": [
       {
-        "category": "incident_system",
         "value": "Text generation",
         "text": "internally designed AI engine",
         "start": 941,
-        "end": 970
+        "end": 970,
+        "role": "system"
       },
       {
-        "category": "incident_developer",
         "value": "In-house AI system",
         "text": "internally designed AI engine",
         "start": 941,
-        "end": 970
+        "end": 970,
+        "role": "developer"
       },
       {
         "role": "harm",
@@ -557,7 +582,14 @@
       ],
       "harmed_party": [
         "Audience/readers"
-      ]
+      ],
+      "system": [
+        "Text generation"
+      ],
+      "developer": [
+        "In-house AI system"
+      ],
+      "deployer": []
     }
   },
   "X7JIBCS4": {
@@ -598,18 +630,18 @@
         "value": "Publication of low quality outputs / ai slop"
       },
       {
-        "category": "incident_system",
         "end": 912,
         "start": 895,
         "text": "AI text generator",
-        "value": "Text generation"
+        "value": "Text generation",
+        "role": "system"
       },
       {
-        "category": "incident_developer",
         "end": 912,
         "start": 895,
         "text": "AI text generator",
-        "value": "Unknown/unspecified"
+        "value": "Unknown/unspecified",
+        "role": "developer"
       },
       {
         "end": 1798,
@@ -671,7 +703,14 @@
       "harmed_party": [
         "News organization/publisher",
         "Sources/subjects of coverage"
-      ]
+      ],
+      "system": [
+        "Text generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "deployer": []
     }
   },
   "3NAA36J3": {
@@ -704,18 +743,18 @@
   "ENV2YLNT": {
     "quotes": [
       {
-        "category": "incident_system",
         "end": 598,
         "start": 578,
         "text": "AI-generated podcast",
-        "value": "Remixing/repurposing"
+        "value": "Remixing/repurposing",
+        "role": "system"
       },
       {
-        "category": "incident_developer",
         "end": 598,
         "start": 578,
         "text": "AI-generated podcast",
-        "value": "Unknown/unspecified"
+        "value": "Unknown/unspecified",
+        "role": "developer"
       },
       {
         "end": 712,
@@ -794,17 +833,24 @@
       ],
       "harmed_party": [
         "News organization/publisher"
-      ]
+      ],
+      "system": [
+        "Remixing/repurposing"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "deployer": []
     }
   },
   "UEYV9JCI": {
     "quotes": [
       {
-        "category": "incident_system",
         "value": "Chatbot (general use)",
         "text": "DuckDuckGo’s AI search featur",
         "start": 13,
-        "end": 42
+        "end": 42,
+        "role": "system"
       },
       {
         "role": "harm",
@@ -849,18 +895,18 @@
         "end": 1276
       },
       {
-        "category": "incident_developer",
         "value": "AI vendor",
         "text": " DuckDuckGo’s",
         "start": 12,
-        "end": 25
+        "end": 25,
+        "role": "developer"
       },
       {
-        "category": "incident_system",
         "value": "News summarization",
         "text": " DuckDuckGo’s",
         "start": 12,
-        "end": 25
+        "end": 25,
+        "role": "system"
       },
       {
         "role": "harmed_party",
@@ -883,18 +929,18 @@
         "end": 3682
       },
       {
-        "category": "incident_system",
         "value": "News summarization",
         "text": "Brave’s AI",
         "start": 3470,
-        "end": 3480
+        "end": 3480,
+        "role": "system"
       },
       {
-        "category": "incident_developer",
         "value": "AI vendor",
         "text": "Brave’s AI",
         "start": 3470,
-        "end": 3480
+        "end": 3480,
+        "role": "developer"
       },
       {
         "category": "incident_aftermath",
@@ -916,17 +962,25 @@
       ],
       "harmed_party": [
         "Sources/subjects of coverage"
-      ]
+      ],
+      "system": [
+        "Chatbot (general use)",
+        "News summarization"
+      ],
+      "developer": [
+        "AI vendor"
+      ],
+      "deployer": []
     }
   },
   "9RW38VQ4": {
     "quotes": [
       {
-        "category": "incident_system",
         "end": 154,
         "start": 130,
         "text": "artificial intelligence.",
-        "value": "Text generation"
+        "value": "Text generation",
+        "role": "system"
       },
       {
         "end": 120,
@@ -991,32 +1045,32 @@
         "value": "Deployment of AI with intention to harm, mislead, or troll"
       },
       {
-        "category": "incident_system",
         "end": 2705,
         "start": 2637,
         "text": "They said they used GPT-4 to create approximately 80% of the article",
-        "value": "Text generation"
+        "value": "Text generation",
+        "role": "system"
       },
       {
-        "category": "incident_developer",
         "end": 2705,
         "start": 2637,
         "text": "They said they used GPT-4 to create approximately 80% of the article",
-        "value": "AI vendor"
+        "value": "AI vendor",
+        "role": "developer"
       },
       {
-        "category": "incident_system",
         "end": 2739,
         "start": 2714,
         "text": "image generator Dalle-E 2",
-        "value": "Synthetic video/image generation"
+        "value": "Synthetic video/image generation",
+        "role": "system"
       },
       {
-        "category": "incident_developer",
         "end": 2739,
         "start": 2714,
         "text": "image generator Dalle-E 2",
-        "value": "AI vendor"
+        "value": "AI vendor",
+        "role": "developer"
       },
       {
         "end": 154,
@@ -1072,31 +1126,39 @@
       "harmed_party": [
         "News organization/publisher",
         "Audience/readers"
-      ]
+      ],
+      "system": [
+        "Text generation",
+        "Synthetic video/image generation"
+      ],
+      "developer": [
+        "AI vendor"
+      ],
+      "deployer": []
     }
   },
   "6L9GTWI2": {
     "quotes": [
       {
-        "category": "incident_system",
         "value": "Synthetic video/image generation",
         "text": "A ‘significant proportion’ of RT’s TV presenters do not exist, they have been created by artificial intelligence",
         "start": 1032,
-        "end": 1144
+        "end": 1144,
+        "role": "system"
       },
       {
-        "category": "incident_developer",
         "value": "Unknown/unspecified",
         "text": "A ‘significant proportion’ of RT’s TV presenters do not exist, they have been created by artificial intelligence",
         "start": 1032,
-        "end": 1144
+        "end": 1144,
+        "role": "developer"
       },
       {
-        "category": "incident_system",
         "value": "Text generation",
         "text": "the artificial presenters also run their own social networks",
         "start": 1311,
-        "end": 1371
+        "end": 1371,
+        "role": "system"
       },
       {
         "role": "actor",
@@ -1106,25 +1168,25 @@
         "end": 31
       },
       {
-        "category": "incident_system",
         "value": "Synthetic video/image generation",
         "text": "now images are selected or created by AI",
         "start": 2501,
-        "end": 2541
+        "end": 2541,
+        "role": "system"
       },
       {
-        "category": "incident_system",
         "value": "Translation",
         "text": "re-translate Vladimir Putin’s words into other languages",
         "start": 2751,
-        "end": 2807
+        "end": 2807,
+        "role": "system"
       },
       {
-        "category": "incident_system",
         "value": "Editing",
         "text": "now images are selected or created by AI",
         "start": 2501,
-        "end": 2541
+        "end": 2541,
+        "role": "system"
       }
     ],
     "roles": {
@@ -1133,7 +1195,17 @@
       ],
       "factor": [],
       "harm": [],
-      "harmed_party": []
+      "harmed_party": [],
+      "system": [
+        "Synthetic video/image generation",
+        "Text generation",
+        "Translation",
+        "Editing"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "deployer": []
     }
   },
   "LTZ8HQCU": {
@@ -1146,11 +1218,11 @@
         "value": "News organization/publisher"
       },
       {
-        "category": "incident_system",
         "end": 147,
         "start": 126,
         "text": "AI-generated articles",
-        "value": "Text generation"
+        "value": "Text generation",
+        "role": "system"
       },
       {
         "end": 266,
@@ -1185,7 +1257,13 @@
       ],
       "harmed_party": [
         "Audience/readers"
-      ]
+      ],
+      "system": [
+        "Text generation",
+        "Remixing/repurposing"
+      ],
+      "developer": [],
+      "deployer": []
     }
   },
   "URNKEZW4": {
@@ -1212,11 +1290,11 @@
         "value": "Journalist(s)"
       },
       {
-        "category": "incident_developer",
         "end": 1128,
         "start": 1025,
         "text": "without commenting on which AI models or tools the publication uses to write AI-generated news articles",
-        "value": "Unknown/unspecified"
+        "value": "Unknown/unspecified",
+        "role": "developer"
       },
       {
         "end": 2928,
@@ -1254,7 +1332,12 @@
       "harmed_party": [
         "News organization/publisher",
         "Journalist(s)"
-      ]
+      ],
+      "system": [],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "deployer": []
     }
   },
   "X7FEYBLM": {
@@ -1399,11 +1482,11 @@
         "value": "Economic harm to publisher(s)/journalist(s)"
       },
       {
-        "category": "incident_system",
         "value": "Deepfake generation",
         "text": "enlisting generative AI and other software to produce seemingly real news segments from top anchors at major news outlets",
         "start": 1167,
-        "end": 1288
+        "end": 1288,
+        "role": "system"
       }
     ],
     "roles": {
@@ -1429,7 +1512,12 @@
         "Journalist(s)",
         "News organization/publisher",
         "General public"
-      ]
+      ],
+      "system": [
+        "Deepfake generation"
+      ],
+      "developer": [],
+      "deployer": []
     }
   },
   "4LLVWIQB": {
@@ -1442,18 +1530,18 @@
         "value": "News organization/publisher"
       },
       {
-        "category": "incident_system",
         "end": 4353,
         "start": 4296,
         "text": "had all the hallmarks of an AI-generated piece of writing",
-        "value": "Text generation"
+        "value": "Text generation",
+        "role": "system"
       },
       {
-        "category": "incident_developer",
         "end": 4353,
         "start": 4296,
         "text": "had all the hallmarks of an AI-generated piece of writing",
-        "value": "Unknown/unspecified"
+        "value": "Unknown/unspecified",
+        "role": "developer"
       },
       {
         "end": 5236,
@@ -1666,7 +1754,23 @@
         "News organization/publisher",
         "Sources/subjects of coverage",
         "Audience/readers"
-      ]
+      ],
+      "system": [
+        "Text generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "deployer": []
+    }
+  },
+  "GVYZ9GGM": {
+    "quotes": [],
+    "roles": {
+      "actor": [],
+      "factor": [],
+      "harm": [],
+      "harmed_party": []
     }
   }
 }

@@ -86,7 +86,6 @@
   .tow-comment { font-size: 12px; color: #6e6e6e; font-style: italic; margin-top: 3px; }
   /* System / Developer values — same field block, but the chips drag into the
      claim sentence's optional clauses */
-  .tow-dragfield { display: flex; flex-wrap: wrap; gap: 7px; }
 
   /* Drag-to-group: palette of pooled characteristics + group drop zones.
      Grid so every role's chips start at the same left edge and wrapped chips
@@ -533,7 +532,15 @@ let saveTimer = null;
 // Four maximally-distinct hues so role highlights never read as the same color.
 // Order here is the order they appear in the document sidebar and the incident
 // palette: factor before harm, matching the highlight tag menu (TAG_ORDER).
+// Every controlled-vocabulary characteristic, in the coding scheme's order.
+// System, developer and deployer are ordinary roles: coded the same way, tagged
+// the same way on a quote, dragged into a claim the same way. Their colours are
+// the ones they carried when they were separate "fields", so a chip that was
+// violet yesterday is violet today.
 const ROLES = [
+  { role: 'system',       label: 'System',       color: '#c4b5fd' },  // violet
+  { role: 'developer',    label: 'Developer',    color: '#fdba74' },  // orange
+  { role: 'deployer',     label: 'Deployer',     color: '#f9a8d4' },  // pink
   { role: 'actor',        label: 'Actor',        color: '#fde047' },  // yellow
   { role: 'factor',       label: 'Factor',       color: '#86efac' },  // green
   { role: 'harm',         label: 'Harm',         color: '#fca5a5' },  // red
@@ -543,14 +550,13 @@ const ROLE = Object.fromEntries(ROLES.map(r => [r.role, r]));
 
 // Incident-level fields that are also draggable into a claim, filling its
 // optional "using … developed by …" clauses. They are not characteristics — they
-// aren't coded per document as roles — so they live outside ROLES and only exist
-// in the incident card view. `field` is where their values come from.
-const CLAIM_FIELDS = [
-  { role: 'system',    field: 'incident_system',    label: 'System',    color: '#c4b5fd' },  // violet
-  { role: 'developer', field: 'incident_developer', label: 'Developer', color: '#fdba74' },  // orange
+// Every characteristic is droppable into a claim, so this is just ROLE.
+const CLAIM_ROLE = ROLE;
+// The two clauses a claim reads as complete without.
+const OPTIONAL_CLAIM_ROLES = [
+  { role: 'system',    lead: ' using ',        placeholder: 'system' },
+  { role: 'developer', lead: ' developed by ', placeholder: 'developer' },
 ];
-// Lookup for anything droppable into a claim: the four roles plus these two.
-const CLAIM_ROLE = { ...ROLE, ...Object.fromEntries(CLAIM_FIELDS.map(c => [c.role, c])) };
 // Which slot a dragged value belongs to. The actor context is shared by every
 // claim in a group, so it lives on the group header; the rest describe a single
 // claim and are dropped onto the claim row itself.
@@ -737,7 +743,6 @@ function wireIncidentCard(root) {
     };
   });
   root.querySelectorAll('.tow-palette').forEach(el => buildPalette(el, INCIDENTS[el.dataset.inc]));
-  root.querySelectorAll('.tow-dragfield').forEach(el => buildFieldChips(el, INCIDENTS[el.dataset.inc]));
   root.querySelectorAll('.tow-groups').forEach(el => buildGroupsUI(el, INCIDENTS[el.dataset.inc]));
   root.querySelectorAll('.json-btn').forEach(btn => btn.onclick = () => toggleJson(btn.dataset.inc));
 }
@@ -770,20 +775,13 @@ let INCIDENTS = {};   // incident_id -> incident object, for post-render handler
 function incidentCard(inc, fields) {
   const chips = arr => arr.map(v => `<span class="tow-chip">${escapeHtml(v)}</span>`).join('');
 
-  // One field block (System, Developer, Aftermath, …) — value chips or "No data",
-  // plus any coder comments left on the field.
-  // System and Developer feed the claim sentence's optional clauses, so their
-  // chips are draggable. They're filled in after render (by buildFieldChips) so
-  // they can carry the same claim badges as the palette, rather than being
-  // duplicated in two places on the card.
+  // One field block — free text about the incident, plus any coder comments.
+  // Everything picked from a vocabulary is a characteristic and lives in the
+  // palette instead, so nothing here is draggable.
   const fieldBlock = (f) => {
     const vals = inc.field_values[f.key] || [];
     const cmts = (inc.field_comments && inc.field_comments[f.key]) || [];
-    const dragField = CLAIM_FIELDS.some(c => c.field === f.key);
-    const valHtml = !vals.length ? NODATA
-      : (dragField
-          ? `<span class="tow-dragfield" data-field="${f.key}" data-inc="${escapeHtml(inc.incident_id)}"></span>`
-          : chips(vals));
+    const valHtml = !vals.length ? NODATA : chips(vals);
     const cmtHtml = cmts.map(c => `<div class="tow-comment">“${escapeHtml(c)}”</div>`).join('');
     return `<div class="tow-field"><div class="tow-label">${escapeHtml(f.label)}</div>`
       + `<div class="tow-value">${valHtml}${cmtHtml}</div></div>`;
@@ -872,9 +870,6 @@ function refreshDraggables(inc) {
   document.querySelectorAll('.tow-palette').forEach(el => {
     if (el.dataset.inc === inc.incident_id) buildPalette(el, inc);
   });
-  document.querySelectorAll('.tow-dragfield').forEach(el => {
-    if (el.dataset.inc === inc.incident_id) buildFieldChips(el, inc);
-  });
 }
 
 // The pooled characteristics palette (left column) — draggable chips grouped by
@@ -886,8 +881,8 @@ function buildPalette(container, inc) {
   palette.className = 'tow-field';
   palette.innerHTML = `<div class="tow-label">Characteristics</div>`
     + `<div class="grp-hint">Drag a chip into a claim; click it to read the quotes behind it.</div>`;
-  // Characteristics only. System and Developer are draggable too, but from their
-  // own field blocks higher up the card — see buildFieldChips.
+  // Every characteristic, System and Developer included — one list, one way to
+  // code, one way to drag into a claim.
   const anyValues = ROLES.some(r => (inc.role_values[r.role] || []).length);
   if (!anyValues) {
     const nd = document.createElement('div'); nd.innerHTML = NODATA;
@@ -913,20 +908,6 @@ function buildPalette(container, inc) {
   container.appendChild(palette);
 }
 
-// Fill a System / Developer field block with draggable chips. Same chip as the
-// palette's, so it drags into a claim and shows which claims already use it.
-function buildFieldChips(container, inc) {
-  if (!inc) return;
-  const cfg = CLAIM_FIELDS.find(c => c.field === container.dataset.field);
-  if (!cfg) return;
-  container.innerHTML = '';
-  // These chips are tagged by field key, not by claim role — a System quote
-  // carries category "incident_system" — so that's the kind to look them up by.
-  ((inc.field_values || {})[cfg.field] || []).forEach(v => {
-    container.appendChild(makeChip(cfg.role, v, usedInClaims(inc, cfg.role, v), inc, cfg.field));
-    if (isQuotesOpen(inc, cfg.field, v)) container.appendChild(quotePanel(inc, cfg.field, v));
-  });
-}
 
 // The claim groups (right column) — each a fill-in-the-blank sentence + drop zone.
 // Rebuilds itself on every change and persists per incident.
@@ -1287,11 +1268,11 @@ function actorHeader(inc, grp, container) {
   h.appendChild(slot('actor', 'actor'));
   // "using …" / "developed by …" appear once the incident has something to drop
   // there, or once they're filled; otherwise the header reads as complete.
-  CLAIM_FIELDS.forEach((cfg, i) => {
-    const available = ((inc.field_values || {})[cfg.field] || []).length;
+  OPTIONAL_CLAIM_ROLES.forEach(cfg => {
+    const available = ((inc.role_values || {})[cfg.role] || []).length;
     if (!grp[cfg.role] && !available) return;
-    h.appendChild(document.createTextNode(i === 0 ? ' using ' : ' developed by '));
-    const sp = slot(cfg.role, i === 0 ? 'system' : 'developer');
+    h.appendChild(document.createTextNode(cfg.lead));
+    const sp = slot(cfg.role, cfg.placeholder);
     if (!grp[cfg.role]) sp.classList.add('opt');
     h.appendChild(sp);
   });
