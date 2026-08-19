@@ -41,6 +41,8 @@ matching edit in a second file.
 | What makes one *claim* complete | `claim_is_complete()`, `incidents.py` |
 | What makes one *incident* complete | `incident_completeness()`, `incidents.py` |
 | When a sign-off is withdrawn | `clear_signoff()`, `app.py` |
+| The judgements a coder can record | `INCIDENT_STATUSES`, `config.py` |
+| What recording a judgement does | `api_set_status()`, `app.py` |
 
 Changing `REQUIRED_CLAIM_ROLES` in `config.py` is enough on its own — the browser
 reads it from `/api/schema` at startup. Restart the app and reload the page.
@@ -62,7 +64,8 @@ Each coder gets their own `annotations.<coder>.json` and
 | Card layout / what a card shows | `incidentCard()`, `static/js/30-incidents.js` |
 | The characteristic palette down the left | `buildPalette()`, same file |
 | Claim groups down the right | `buildGroupsUI()`, `claimRow()`, same file |
-| The completion control in the header | `completeControl()`, same file |
+| The completion / not-an-incident control | `completeControl()`, same file |
+| Splitting live vs set-aside incidents | `loadIncidents()`, same file |
 | What the button *decides* | `completenessOf()` — mirrors the Python; see below |
 | Saving a claim edit | `saveGroups()`, same file |
 

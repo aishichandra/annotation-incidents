@@ -61,8 +61,8 @@ from datetime import datetime, timezone
 from flask import Flask, abort, jsonify, render_template, request
 
 from config import (
-    CODERS, OPTIONAL_CLAIM_ROLES, REQUIRED_CLAIM_ROLES, ROLE_KEYS, clean_fields,
-    current_coder, load_schema, save_schema,
+    CODERS, INCIDENT_STATUSES, OPTIONAL_CLAIM_ROLES, REQUIRED_CLAIM_ROLES,
+    ROLE_KEYS, clean_fields, current_coder, load_schema, save_schema,
 )
 from incidents import (
     _jsonable, _next_incident_id, aggregate_incidents, incident_completeness,
@@ -401,7 +401,10 @@ def clear_signoff(coder: str, inc_id: str) -> None:
     walks every document — never runs."""
     store = load_incident_coding(coder)
     entry = store.get(inc_id)
-    if not entry or not entry.get("status"):
+    # Only a sign-off is a claim about the coding being finished, so only it can
+    # be falsified by an edit. "not_an_incident" is a judgement about the
+    # material — coding more of it doesn't make the thing an incident.
+    if not entry or entry.get("status") != "complete":
         return
     incidents, _, _ = aggregate_incidents(coder)
     inc = incidents.get(inc_id)
@@ -413,39 +416,58 @@ def clear_signoff(coder: str, inc_id: str) -> None:
     mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
 
 
-@app.route("/api/incident/<path:inc_id>/complete", methods=["POST"])
-def api_set_complete(inc_id):
-    """Sign one incident off as finished, or withdraw that. Body: {complete: bool}.
+@app.route("/api/incident/<path:inc_id>/status", methods=["POST"])
+def api_set_status(inc_id):
+    """Record this coder's judgement about an incident as a whole.
+    Body: {status: "" | "complete" | "not_an_incident", reason?: "…"}.
 
-    Completeness is recomputed here from the stored coding rather than taken from
-    the request, so a card rendered before the coding changed can't sign off work
-    that no longer qualifies. A refusal returns 409 and names what is missing.
+    One route for every judgement, because they are the same kind of thing —
+    a coder saying where this incident stands for them — and differ only in what
+    has to be true first:
 
-    This is a per-coder attestation, not a data transfer: every save already
-    syncs to Mongo, so nothing new is uploaded here — what lands is the judgement
-    that this coder considers their reading of the incident done."""
+      "complete"         gated. Recomputed here from the stored coding rather
+                         than taken from the request, so a card rendered before
+                         the coding changed can't sign off work that no longer
+                         qualifies. A refusal is 409, naming what is missing.
+      "not_an_incident"  ungated. Deciding the material isn't an incident is a
+                         finding in its own right, and is usually reached long
+                         before the coding could ever be complete. `reason` is
+                         kept alongside it.
+      ""                 back to work in progress.
+
+    Per coder, like every other judgement. One coder excluding an incident
+    leaves the other's coding of it untouched — and that disagreement is data,
+    not a conflict to resolve here."""
     coder = current_coder(strict=True)
-    complete = bool((request.get_json(force=True) or {}).get("complete", True))
+    body = request.get_json(force=True) or {}
+    status = str(body.get("status") or "")
+    if status not in INCIDENT_STATUSES:
+        abort(400, f"unknown status {status!r} (expected one of {INCIDENT_STATUSES})")
 
     incidents, _, _ = aggregate_incidents(coder)
     inc = incidents.get(inc_id)
     if inc is None:
         abort(404, f"unknown incident {inc_id!r}")
 
-    state = incident_completeness(inc)
-    if complete and not state["ok"]:
-        return jsonify({"ok": False, "error": "incomplete",
-                        "missing": state["missing"]}), 409
+    if status == "complete":
+        state = incident_completeness(inc)
+        if not state["ok"]:
+            return jsonify({"ok": False, "error": "incomplete",
+                            "missing": state["missing"]}), 409
 
-    now = datetime.now(timezone.utc).isoformat(timespec="seconds") if complete else ""
     store = load_incident_coding(coder)
     entry = store.setdefault(inc_id, blank_incident_coding())
-    entry["status"] = "complete" if complete else ""
-    entry["completed_at"] = now
+    entry["status"] = status
+    # When the judgement was last set — a sign-off date, or when it was excluded.
+    entry["completed_at"] = (datetime.now(timezone.utc).isoformat(timespec="seconds")
+                             if status else "")
+    entry["excluded_reason"] = (str(body.get("reason") or "").strip()
+                                if status == "not_an_incident" else "")
     save_incident_coding(store, coder)
     mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
     return jsonify({"ok": True, "coder": coder, "incident_id": inc_id,
-                    "status": entry["status"], "completed_at": now,
+                    "status": status, "completed_at": entry["completed_at"],
+                    "excluded_reason": entry["excluded_reason"],
                     "synced": mongo_sync.mongo_db is not None})
 
 
