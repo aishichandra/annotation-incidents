@@ -22,9 +22,8 @@ DATA_CSV = HERE / "zotero_docs.csv"   # produced by zotero_import.py (single sou
 SCHEMA_JSON = HERE / "schema.json"
 # Shared across coders: which document sits in which incident.
 ASSIGNMENTS_JSON = HERE / "incident_assignments.json"
-# Pre-multi-coder files; migrated into the first coder's files on startup.
+# Pre-multi-coder file; migrated into the first coder's file on startup.
 LEGACY_ANNOTATIONS_JSON = HERE / "annotations.json"
-LEGACY_GROUPS_JSON = HERE / "incident_groups.json"
 
 
 def _load_dotenv(path: Path = HERE / ".env") -> None:
@@ -56,11 +55,6 @@ def incident_coding_path(coder: str) -> Path:
     """One coder's incident-level coding: the incident's field answers and its
     claim groups, keyed by incident id."""
     return HERE / f"incident_coding.{coder}.json"
-
-
-def groups_path(coder: str) -> Path:
-    """Pre-restructure claims file. Read once by the migration, never written."""
-    return HERE / f"incident_groups.{coder}.json"
 
 
 def annotated_csv_path(coder: str) -> Path:
