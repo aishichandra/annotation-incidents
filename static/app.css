@@ -119,9 +119,8 @@
      the group over, so the JSON button keeps its own auto margin. */
   /* Sign-off sits at the foot of the card: the last thing you do, after reading
      the coding above and leaving any comment. */
-  .tow-foot { display: flex; align-items: center; justify-content: flex-end;
-              gap: 10px; padding: 12px 20px; background: #fafafa;
-              border-top: 1px solid #e0e0e0; }
+  .tow-foot { display: flex; align-items: center; justify-content: space-between;
+              gap: 10px; padding: 12px 20px; background: #fafafa; }
   .inc-complete { display: flex; align-items: center; gap: 8px; }
   .inc-needs { font-size: 11px; color: #9a6b00; background: #fff8e6;
                border: 1px solid #f0e0b0; border-radius: 4px; padding: 3px 8px;
@@ -139,7 +138,7 @@
   .inc-undo:hover { border-color: #254c6f; color: #254c6f; }
   .inc-undo:disabled { opacity: .6; cursor: default; }
 
-  .json-btn { margin-left: auto; align-self: flex-start; flex: none; font-size: 11px;
+  .json-btn { flex: none; font-size: 11px;
               font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
               border: 1px solid #dcdcdc; background: #fff; color: #666; cursor: pointer;
               border-radius: 4px; padding: 3px 8px; }
@@ -224,7 +223,7 @@
   .grp-sentence .sent-x:hover { color: #dc2626; }
   .grp-sentence .sent-ph { color: #bbb; font-style: italic; }
   /* an optional clause (using … / developed by …) with nothing dropped in yet */
-  .grp-sentence .sent-slot.opt .sent-ph { color: #d4d4d4; }
+  .grp-sentence .sent-slot.opt .sent-ph { opacity: .55; }
   /* the × that takes an unwanted optional clause out of this group's sentence,
      and the control that puts it back — both quiet enough to sit in a sentence */
   .grp-sentence .sent-omit { color: #d4d4d4; font-size: 12px; margin-left: 2px;
