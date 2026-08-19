@@ -134,7 +134,6 @@ function incidentCard(inc, fields) {
     <div class="tow-head">
       <span class="tow-id">${encId}</span>
       <div class="tow-headdocs">${docsHtml}</div>
-      <button class="json-btn" data-inc="${encId}" title="Show this incident as it is stored">{ } JSON</button>
     </div>
     <div class="tow-body">
       <div class="tow-col c1">
@@ -154,6 +153,7 @@ function incidentCard(inc, fields) {
       <div class="inc-note-body"></div>
     </div>
     <div class="tow-foot">
+      <button class="json-btn" data-inc="${encId}" title="Show this incident as it is stored">{ } JSON</button>
       <div class="inc-complete" data-inc="${encId}">${completeControl(inc)}</div>
     </div>
     <div class="json-panel" data-inc="${encId}" hidden></div>
@@ -162,6 +162,16 @@ function incidentCard(inc, fields) {
 
 const roleColor = (role) => (CLAIM_ROLE[role] && CLAIM_ROLE[role].color) || '#e5e7eb';
 const roleLabel = (role) => (CLAIM_ROLE[role] && CLAIM_ROLE[role].label) || role;
+// The palette in ROLES is chip *background* colour — pale by design, and too light
+// to read as text on white (yellow worst of all). Darken it toward black for the
+// sentence placeholders, so an empty slot still shows which role it wants without
+// a second colour list that could drift out of step with the chips.
+function roleInk(role, amount = 0.45) {
+  const hex = roleColor(role);
+  const n = parseInt(hex.slice(1), 16);
+  const dim = (c) => Math.round(c * (1 - amount));
+  return `rgb(${dim((n >> 16) & 255)}, ${dim((n >> 8) & 255)}, ${dim(n & 255)})`;
+}
 
 // Persist an incident's groups (debounced-ish: fire immediately, it's small).
 // ---------- completion sign-off ----------
@@ -803,6 +813,7 @@ function actorHeader(inc, grp, container) {
     if (!v) {
       const ph = document.createElement('span');
       ph.className = 'sent-ph';
+      ph.style.color = roleInk(role);
       ph.textContent = `[${placeholder}]`;
       span.appendChild(ph);
       if (onOmit) {
@@ -880,7 +891,8 @@ function claimRow(inc, grp, cl, container) {
     const span = document.createElement('span');
     span.className = 'sent-slot';
     if (!cl[role]) {
-      span.innerHTML = `<span class="sent-ph">[${escapeHtml(placeholder)}]</span>`;
+      span.innerHTML = `<span class="sent-ph" style="color:${roleInk(role)}">`
+                      + `[${escapeHtml(placeholder)}]</span>`;
       return span;
     }
     span.appendChild(valueChip(role, cl[role], () => { cl[role] = null; rebuild(); }));
@@ -894,7 +906,8 @@ function claimRow(inc, grp, cl, container) {
     span.className = 'sent-slot';
     const vals = cl[key] || [];
     if (!vals.length) {
-      span.innerHTML = `<span class="sent-ph">[${escapeHtml(placeholder)}]</span>`;
+      span.innerHTML = `<span class="sent-ph" style="color:${roleInk(role)}">`
+                      + `[${escapeHtml(placeholder)}]</span>`;
       return span;
     }
     vals.forEach((v, i) => {
