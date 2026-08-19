@@ -236,19 +236,18 @@
     "quotes": [
       {
         "category": "incident_aftermath",
-        "text": "In our review, we have found that nothing published by the Searchlight team was created by generative AI. One staff-written story in the spring was trimmed as an experimental use of AI and then further edited by journalists. It is now labeled to reflect that process. We will have a public-facing policy governing the use of AI in research and writing before the end of the year.",
+        "end": 596,
         "start": 217,
-        "end": 596
+        "text": "In our review, we have found that nothing published by the Searchlight team was created by generative AI. One staff-written story in the spring was trimmed as an experimental use of AI and then further edited by journalists. It is now labeled to reflect that process. We will have a public-facing policy governing the use of AI in research and writing before the end of the year."
       }
     ],
     "roles": {
+      "system": [],
+      "developer": [],
       "actor": [],
       "factor": [],
       "harm": [],
-      "harmed_party": [],
-      "system": [],
-      "developer": [],
-      "deployer": []
+      "harmed_party": []
     }
   },
   "M5N3GHYU": {
@@ -1782,13 +1781,102 @@
     }
   },
   "EHX5QSRM": {
-    "quotes": [],
+    "quotes": [
+      {
+        "role": "actor",
+        "value": "Tech platform",
+        "text": "Adobe",
+        "start": 0,
+        "end": 5
+      },
+      {
+        "role": "system",
+        "value": "Deepfake generation",
+        "text": "artificially generated, realistic images of the Israel-Hamas war",
+        "start": 17,
+        "end": 81
+      },
+      {
+        "role": "factor",
+        "value": "Lack of audience disclosure",
+        "text": "used across the internet without any indication they are fake.",
+        "start": 98,
+        "end": 160
+      }
+    ],
     "roles": {
-      "system": [],
+      "system": [
+        "Deepfake generation"
+      ],
+      "developer": [],
+      "actor": [
+        "Tech platform"
+      ],
+      "factor": [
+        "Lack of audience disclosure"
+      ],
+      "harm": [],
+      "harmed_party": []
+    }
+  },
+  "I728F62P": {
+    "quotes": [
+      {
+        "role": "system",
+        "value": "Remixing/repurposing",
+        "text": "an article an intern had written had been turned into a shorter, slightly different article.",
+        "start": 849,
+        "end": 941
+      },
+      {
+        "role": "system",
+        "value": "Remixing/repurposing",
+        "text": " articles published with AI that create a list of stories based on a similar topic",
+        "start": 1006,
+        "end": 1088
+      },
+      {
+        "role": "system",
+        "value": "News summarization",
+        "text": "summarized using AI",
+        "start": 1354,
+        "end": 1373
+      },
+      {
+        "role": "factor",
+        "value": "Lack of internal transparency about AI-related management decisions",
+        "text": "Talbot said he often isn’t made aware that stories referencing his reporting are going to be published",
+        "start": 1375,
+        "end": 1477
+      },
+      {
+        "role": "factor",
+        "value": "Lack of internal transparency about AI-related management decisions",
+        "text": "This has been done without the input of reporters",
+        "start": 2158,
+        "end": 2207
+      },
+      {
+        "role": "harm",
+        "value": "Displacement of human judgement",
+        "text": "This has been done without the input of reporters",
+        "start": 2158,
+        "end": 2207
+      }
+    ],
+    "roles": {
+      "system": [
+        "Remixing/repurposing",
+        "News summarization"
+      ],
       "developer": [],
       "actor": [],
-      "factor": [],
-      "harm": [],
+      "factor": [
+        "Lack of internal transparency about AI-related management decisions"
+      ],
+      "harm": [
+        "Displacement of human judgement"
+      ],
       "harmed_party": []
     }
   }

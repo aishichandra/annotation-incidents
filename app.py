@@ -345,20 +345,25 @@ def save_annotations_only(store: dict, coder: str) -> None:
 
 
 def blank_incident_coding() -> dict:
-    return {"fields": {}, "notes": {}, "groups": []}
+    return {"fields": {}, "notes": {}, "groups": [], "comment": ""}
 
 
 def load_incident_coding(coder: str) -> dict:
     """One coder's incident-level coding, keyed by incident id:
-    {inc_id: {"fields": {...}, "groups": [...]}}.
+    {inc_id: {"fields": {...}, "notes": {...}, "groups": [...], "comment": "..."}}.
 
-    `fields` are the incident's own answers — system, developer, aftermath —
-    answered once for the incident rather than repeated on each of its documents.
-    `groups` are the claim groups built in the card view.
+    `fields` are the incident's own free-text answers — aftermath — answered once
+    for the incident rather than repeated on each of its documents. `notes` is the
+    free text belonging to a characteristic (the inciting actor's name), keyed by
+    role. `groups` are the claim groups built in the card view. `comment` is the
+    coder's own remark about the incident as a whole — uncertainty, a question for
+    the team, anything that belongs to no single field or characteristic.
 
     Filled in from Mongo per part, the same way `load_annotations` works: a part
     the local file already has is left alone, so a local edit can't be undone by
-    a stale remote copy, while work done elsewhere still appears without a Pull."""
+    a stale remote copy, while work done elsewhere still appears without a Pull.
+    Every part must be listed here — one left out is fetched from Mongo and then
+    dropped, and the next Push writes that emptiness back over the good copy."""
     store = {k: {**blank_incident_coding(), **(v or {})}
              for k, v in _read_json(incident_coding_path(coder)).items()}
     if mongo_db is None:
@@ -366,10 +371,9 @@ def load_incident_coding(coder: str) -> dict:
     remote = _mongo_snapshot(f"inc:{coder}", lambda: incident_coding_from_mongo(coder))
     for inc_id, entry in remote.items():
         local = store.setdefault(inc_id, blank_incident_coding())
-        if not local["fields"] and entry.get("fields"):
-            local["fields"] = entry["fields"]
-        if not local["groups"] and entry.get("groups"):
-            local["groups"] = entry["groups"]
+        for part in blank_incident_coding():
+            if not local.get(part) and entry.get(part):
+                local[part] = entry[part]
     return store
 
 
@@ -377,7 +381,7 @@ def save_incident_coding(store: dict, coder: str) -> None:
     # Incidents a coder has neither answered nor linked anything on aren't worth
     # a line in the file.
     lean = {k: v for k, v in store.items()
-            if v.get("fields") or v.get("groups") or v.get("notes")}
+            if v.get("fields") or v.get("groups") or v.get("notes") or v.get("comment")}
     _atomic_write(incident_coding_path(coder), json.dumps(lean, indent=2, ensure_ascii=False))
 
 
@@ -600,8 +604,8 @@ def incident_title_for(inc_id: str, assignments=None) -> str:
 
 
 def sync_incident_coding_to_mongo(inc_id: str, coder: str, entry: dict) -> None:
-    """Mirror one coder's incident-level coding — field answers and claim groups —
-    onto the incident. Only this coder's slot is written."""
+    """Mirror one coder's incident-level coding — field answers, claim groups and
+    the coder's comment — onto the incident. Only this coder's slot is written."""
     if mongo_db is None:
         return
     now = datetime.now(timezone.utc)
@@ -612,6 +616,7 @@ def sync_incident_coding_to_mongo(inc_id: str, coder: str, entry: dict) -> None:
              "$set": {f"by_coder.{coder}.fields": entry.get("fields") or {},
                       f"by_coder.{coder}.notes": entry.get("notes") or {},
                       f"by_coder.{coder}.groups": entry.get("groups") or [],
+                      f"by_coder.{coder}.comment": entry.get("comment") or "",
                       f"by_coder.{coder}.updated_at": now,
                       "title": incident_title_for(inc_id), "updated_at": now}},
             upsert=True)
@@ -640,16 +645,19 @@ def store_from_mongo(coder: str) -> dict:
 
 def incident_coding_from_mongo(coder: str) -> dict:
     """One coder's incident-level coding as Mongo has it:
-    {inc_id: {"fields": {...}, "groups": [...]}}. Empty if Mongo isn't connected."""
+    {inc_id: {"fields": {...}, "groups": [...], "comment": "..."}}. Empty if Mongo
+    isn't connected."""
     out = {}
     if mongo_db is None:
         return out
     for inc in mongo_db.incidents.find({}, {"by_coder": 1}):
         sub = (inc.get("by_coder") or {}).get(coder) or {}
-        if sub.get("fields") or sub.get("groups") or sub.get("notes"):
+        if (sub.get("fields") or sub.get("groups") or sub.get("notes")
+                or sub.get("comment")):
             out[str(inc["_id"])] = {"fields": sub.get("fields") or {},
                                     "notes": sub.get("notes") or {},
-                                    "groups": sub.get("groups") or []}
+                                    "groups": sub.get("groups") or [],
+                                    "comment": sub.get("comment") or ""}
     return out
 
 
@@ -820,8 +828,9 @@ def aggregate_incidents(coder: str):
     values; title is the first), the four characteristic roles are pooled into
     `role_values` — the palette the card view drags from — and saved claim
     groupings come from incident_groups.<coder>.json, pruned to values that still
-    exist so links can't dangle. Each document also carries `coded_by`, the coders
-    who have touched it, so progress is visible across the team.
+    exist so links can't dangle. The coder's comment on the incident as a whole
+    rides along too. Each document also carries `coded_by`, the coders who have
+    touched it, so progress is visible across the team.
     Returns (incidents_dict, field_defs, role_defs)."""
     store = load_annotations(coder)
     all_stores = {c: load_annotations(c) for c in CODERS}
@@ -840,7 +849,7 @@ def aggregate_incidents(coder: str):
             "incident_id": inc_id, "title": "", "documents": [],
             "field_values": {}, "field_comments": {},
             "role_values": {r["role"]: [] for r in role_defs}, "groups": [],
-            "role_notes": {}, "value_quotes": {},
+            "role_notes": {}, "value_quotes": {}, "comment": "",
         })
         g["documents"].append({
             "index": i, "doc_key": key, "title": cell(i, "title"),
@@ -867,6 +876,7 @@ def aggregate_incidents(coder: str):
             for role, note in ((inc_store.get(inc_id) or {}).get("notes") or {}).items():
                 if str(note or "").strip():
                     g["role_notes"][role] = str(note).strip()
+            g["comment"] = str((inc_store.get(inc_id) or {}).get("comment") or "")
         for r in role_defs:
             bucket = g["role_values"][r["role"]]
             for v in rec["roles"].get(r["role"], []):
@@ -929,12 +939,19 @@ def aggregate_incidents(coder: str):
             actor = keep(g, "actor", grp.get("actor"))
             system = keep(g, "system", grp.get("system"))
             developer = keep(g, "developer", grp.get("developer"))
+            # The optional clauses this group has taken out of its sentence. Not
+            # every actor context is about a named system, and saying so is a
+            # judgement — "inapplicable here" rather than "not answered yet" — so
+            # it survives a reload like any other. Filtered to the roles that have
+            # an optional clause; nothing else is omittable.
+            omit = [r for r in (grp.get("omit") or []) if r in OPTIONAL_CLAIM_ROLES]
             # An actor context with nothing left in it at all is dropped; one that
             # still names an actor is kept even with no claims, since it's the
-            # header a coder is about to hang claims off.
-            if actor or system or developer or claims:
+            # header a coder is about to hang claims off. A group that holds only
+            # an omission still holds a decision, so that counts as content too.
+            if actor or system or developer or claims or omit:
                 pruned.append({"id": grp.get("id"), "actor": actor, "system": system,
-                               "developer": developer, "claims": claims})
+                               "developer": developer, "claims": claims, "omit": omit})
         g["groups"] = pruned
 
     return incidents, field_defs, role_defs
@@ -1030,6 +1047,7 @@ def api_incident_json(inc_id):
              "by_coder": {coder: {
                  "fields": inc.get("fields") or {},
                  "groups": inc.get("groups") or [],
+                 "comment": inc.get("comment") or "",
                  "documents": strip_quotes(
                      {d["doc_key"]: doc_ann(ann, d["doc_key"])
                       for d in g.get("documents", []) if has_coding(ann.get(d["doc_key"]))})}}}
@@ -1044,10 +1062,10 @@ def api_push():
 
     Per document: this coder's evidence is upserted into
     `by_coder.<coder>.documents.<key>` via the same path a save uses, leaving the
-    other coders' readings in place. Per incident: this coder's field answers and
-    claim groups go to `by_coder.<coder>`. The pooled characteristic and field
-    lists a card shows are intentionally *not* stored — they're derived (see
-    aggregate_incidents). Non-fatal per item."""
+    other coders' readings in place. Per incident: this coder's field answers,
+    claim groups and comment go to `by_coder.<coder>`. The pooled characteristic
+    and field lists a card shows are intentionally *not* stored — they're derived
+    (see aggregate_incidents). Non-fatal per item."""
     if mongo_db is None:
         return jsonify({"ok": False, "error": "MongoDB not connected"}), 503
     coder = current_coder(strict=True)
@@ -1100,6 +1118,32 @@ def api_save_groups(inc_id):
     save_incident_coding(store, coder)
     sync_incident_coding_to_mongo(inc_id, coder, entry)
     return jsonify({"ok": True, "coder": coder, "groups": len(groups),
+                    "synced": mongo_db is not None})
+
+
+@app.route("/api/incident/<path:inc_id>/comment", methods=["POST"])
+def api_save_comment(inc_id):
+    """Persist the active coder's free-text comment on one incident as a whole.
+    Body: {comment: "…"}.
+
+    This is the place for what belongs to the incident but to none of its parts —
+    why a call was a close one, a question for the team, what a coder would want a
+    reader of this coding to know. Field comments justify one answer and role notes
+    name one characteristic; neither has room for a remark about the whole reading.
+
+    Per coder, like every other judgement: each coder comments on their own copy,
+    so a comment can't leak one coder's reading into another's while they code.
+    Written to the coder's JSON file and, when Mongo is connected, to
+    `by_coder.<coder>.comment` on the incident."""
+    coder = current_coder(strict=True)
+    body = request.get_json(force=True) or {}
+    comment = str(body.get("comment") or "").strip()
+    store = load_incident_coding(coder)
+    entry = store.setdefault(inc_id, blank_incident_coding())
+    entry["comment"] = comment
+    save_incident_coding(store, coder)
+    sync_incident_coding_to_mongo(inc_id, coder, entry)
+    return jsonify({"ok": True, "coder": coder, "comment": comment,
                     "synced": mongo_db is not None})
 
 
@@ -1164,8 +1208,22 @@ def api_save(i):
     inc_store = load_incident_coding(coder)
     entry = inc_store.setdefault(inc_id, blank_incident_coding())
     entry["fields"] = clean_fields(posted_fields)
-    entry["notes"] = {r: str(t).strip() for r, t in (body.get("notes") or {}).items()
-                      if r in ROLE_KEYS and str(t or "").strip()}
+    # Notes belong to the incident but are edited from a document, and an incident
+    # usually has several. So this merges rather than replaces: a role the payload
+    # doesn't mention keeps what it had. Replacing meant any save from a sibling
+    # document — which posts the notes *it* loaded, often none — silently wiped a
+    # name typed on another. A role that *is* mentioned, with empty text, is the
+    # coder actually clearing it.
+    notes = dict(entry.get("notes") or {})
+    for r, t in (body.get("notes") or {}).items():
+        if r not in ROLE_KEYS:
+            continue
+        t = str(t or "").strip()
+        if t:
+            notes[r] = t
+        else:
+            notes.pop(r, None)
+    entry["notes"] = notes
     save_incident_coding(inc_store, coder)
 
     sync_to_mongo(i, key, rec, coder, inc_id)

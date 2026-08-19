@@ -4,19 +4,21 @@
     "notes": {},
     "groups": [
       {
+        "id": "1",
         "actor": null,
+        "system": null,
+        "developer": null,
         "claims": [
           {
-            "factors": [],
+            "id": "1",
             "harm": null,
             "harmed_parties": [],
-            "id": "1"
+            "factors": []
           }
         ],
-        "developer": null,
-        "id": "1",
-        "system": null
+        "omit": []
       }
-    ]
+    ],
+    "comment": ""
   }
 }

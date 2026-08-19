@@ -84,6 +84,19 @@
     color: #333; padding: 3px 9px; border-radius: 3px; font-size: 13px; font-weight: 500;
     margin: 0 5px 5px 0; }
   .tow-comment { font-size: 12px; color: #6e6e6e; font-style: italic; margin-top: 3px; }
+  /* The coder's remark on the incident as a whole — full width along the foot of
+     the card, below both columns, since it belongs to neither. */
+  .inc-note { border-top: 1px solid #eee; padding: 12px 20px 14px; background: #fcfcfc; }
+  .inc-note-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 5px; }
+  .inc-note-head .tow-label { flex: 1 1 auto; }
+  .inc-note-state { font-size: 11px; color: #b0b0b0; flex: none; }
+  .inc-note-state.on { color: #2f7a4f; }
+  .inc-note textarea { width: 100%; box-sizing: border-box; resize: vertical;
+    font: 13px/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif;
+    color: #1a1a1a; background: #fff; border: 1px solid #e0e0e0; border-radius: 3px;
+    padding: 8px 10px; }
+  .inc-note textarea:focus { outline: none; border-color: #254c6f; }
+  .inc-note-set { font-size: 13px; padding: 6px 2px; }
   /* System / Developer values — same field block, but the chips drag into the
      claim sentence's optional clauses */
 
@@ -108,10 +121,6 @@
   .qt-none { font-size: 12px; color: #b0b0b0; font-style: italic; }
   /* free text belonging to a characteristic, shown with it */
   .pal-note { flex: 0 0 100%; font-size: 12px; color: #555; margin-bottom: 2px; }
-  .role-note { width: 100%; box-sizing: border-box; font: inherit; font-size: 13px;
-               padding: 5px 7px; border: 1px solid #dcdcdc; border-radius: 4px;
-               margin-bottom: 8px; }
-  .role-note:focus { outline: none; border-color: #254c6f; }
   /* raw JSON for one incident, under its card */
   .json-btn { margin-left: auto; align-self: flex-start; flex: none; font-size: 11px;
               font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -199,6 +208,14 @@
   .grp-sentence .sent-ph { color: #bbb; font-style: italic; }
   /* an optional clause (using … / developed by …) with nothing dropped in yet */
   .grp-sentence .sent-slot.opt .sent-ph { color: #d4d4d4; }
+  /* the × that takes an unwanted optional clause out of this group's sentence,
+     and the control that puts it back — both quiet enough to sit in a sentence */
+  .grp-sentence .sent-omit { color: #d4d4d4; font-size: 12px; margin-left: 2px;
+    vertical-align: middle; }
+  .grp-sentence .sent-restore { border: none; background: none; cursor: pointer;
+    color: #c0c0c0; font-family: 'Helvetica Neue', Helvetica, sans-serif; font-size: 11.5px;
+    padding: 0 4px; margin-left: 6px; vertical-align: middle; }
+  .grp-sentence .sent-restore:hover { color: #254c6f; }
   /* the actor context, shared by every claim below it */
   .grp-head { border-bottom: 1px solid #eee; background: #f7f8fa; font-weight: 500; }
   /* one claim: indented under its actor context, numbered <group>.<claim> */
@@ -704,6 +721,9 @@ function markIncidentDirty(incId) {
 // first visit but a full render, and after that only the cards whose data moved.
 async function refreshIncidents() {
   if (!INCIDENTS_RENDERED) return loadIncidents();
+  // A redraw replaces the textarea, so anything still on the debounce goes out
+  // first — otherwise re-reading the server's copy would undo it.
+  await flushIncidentComments();
   if (!DIRTY_INCIDENTS.size) return;
   let data;
   try { data = await (await fetch('/api/incidents')).json(); }
@@ -747,6 +767,8 @@ function wireIncidentCard(root) {
   });
   root.querySelectorAll('.tow-palette').forEach(el => buildPalette(el, INCIDENTS[el.dataset.inc]));
   root.querySelectorAll('.tow-groups').forEach(el => buildGroupsUI(el, INCIDENTS[el.dataset.inc]));
+  root.querySelectorAll('.inc-note-body').forEach(el =>
+    buildIncidentComment(el, el.closest('.inc-note').dataset.inc));
   root.querySelectorAll('.json-btn').forEach(btn => btn.onclick = () => toggleJson(btn.dataset.inc));
 }
 
@@ -825,6 +847,13 @@ function incidentCard(inc, fields) {
         ${aftermathBlock}
       </div>
     </div>
+    <div class="inc-note" data-inc="${encId}">
+      <div class="inc-note-head">
+        <div class="tow-label">Comments${CODER ? '(' + escapeHtml(CODER) + ')' : ''}</div>
+        <span class="inc-note-state"></span>
+      </div>
+      <div class="inc-note-body"></div>
+    </div>
     <div class="json-panel" data-inc="${encId}" hidden></div>
   </div>`;
 }
@@ -840,6 +869,118 @@ async function saveGroups(inc) {
       body: JSON.stringify({ groups: inc.groups }),
     });
   } catch (e) { /* non-fatal: local drag state stays until reload */ }
+}
+
+// Comments in flight, incident id -> pending debounce timer. Typing shouldn't
+// cost a request per keystroke, but nothing may be lost either, so a pending
+// comment is flushed before anything that could redraw its card.
+const COMMENT_TIMERS = new Map();
+
+function flushIncidentComments() {
+  return Promise.all(Array.from(COMMENT_TIMERS.keys()).map(incId => {
+    clearTimeout(COMMENT_TIMERS.get(incId));
+    COMMENT_TIMERS.delete(incId);
+    return saveComment(incId);
+  }));
+}
+
+// Typed and then reloaded, before the debounce ran. `keepalive` on the request is
+// what lets it outlive the page.
+window.addEventListener('pagehide', flushIncidentComments);
+
+// Persist one incident's comment. The text comes from the in-memory incident, so
+// this is safe to call after the textarea has gone (a re-render, a view switch).
+async function saveComment(incId) {
+  const inc = INCIDENTS[incId];
+  if (!inc) return;
+  const box = document.querySelector(`.inc-note[data-inc="${CSS.escape(incId)}"]`);
+  const state = box && box.querySelector('.inc-note-state');
+  if (state) { clearTimeout(state._clear); state.textContent = 'Saving…'; state.classList.remove('on'); }
+  try {
+    await fetch('/api/incident/' + encodeURIComponent(incId) + '/comment', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ comment: inc.comment || '' }), keepalive: true,
+    });
+    if (state) {
+      state.textContent = 'Saved ✓'; state.classList.add('on');
+      clearTimeout(state._clear);
+      state._clear = setTimeout(() => {
+        state.textContent = ''; state.classList.remove('on');
+      }, 2000);
+    }
+  } catch (e) {
+    if (state) { state.textContent = 'Not saved — check your connection'; state.classList.remove('on'); }
+  }
+}
+
+// One card's comment box. Set the same way the actor's name and the incident
+// title are: type it, press Enter, and it settles into plain text you click to
+// edit again — so a written comment reads as *entered* rather than as something
+// still sitting in a box. Shift+Enter is a new line, since a comment is prose.
+// Typing still autosaves on a debounce, so nothing is lost on the way to setting.
+function buildIncidentComment(wrap, incId) {
+  const inc = INCIDENTS[incId];
+  if (!inc) return;
+
+  // Leave edit mode and write it. `editing` only ever forces the box open over a
+  // comment that already exists, so it is not a "was the coder typing?" flag —
+  // a first comment is typed with it unset, and guarding on it here left Enter
+  // doing nothing at all until the second edit.
+  const settle = () => {
+    wrap.dataset.editing = '';
+    render(false);
+    saveNow();
+  };
+
+  const saveNow = () => {
+    clearTimeout(COMMENT_TIMERS.get(incId));
+    COMMENT_TIMERS.delete(incId);
+    saveComment(incId);
+  };
+
+  function render(focus) {
+    wrap.innerHTML = '';
+    const val = (inc.comment || '').trim();
+    if (val && wrap.dataset.editing !== '1') {
+      const box = document.createElement('div');
+      box.className = 'text-answer inc-note-set';
+      box.innerHTML = `<span class="val">${escapeHtml(val)}</span><button class="x" title="Clear">×</button>`;
+      box.querySelector('.x').onclick = (e) => {
+        e.stopPropagation();
+        inc.comment = ''; wrap.dataset.editing = ''; saveNow(); render(true);
+      };
+      box.onclick = (e) => {
+        if (e.target.classList.contains('x')) return;
+        wrap.dataset.editing = '1'; render(true);
+      };
+      wrap.appendChild(box);
+      return;
+    }
+    const ta = document.createElement('textarea');
+    ta.rows = 2;
+    ta.value = inc.comment || '';
+    ta.oninput = () => {
+      inc.comment = ta.value;
+      clearTimeout(COMMENT_TIMERS.get(incId));
+      COMMENT_TIMERS.set(incId, setTimeout(() => {
+        COMMENT_TIMERS.delete(incId);
+        saveComment(incId);
+      }, 700));
+    };
+    ta.onkeydown = (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); settle(); }
+    };
+    ta.onblur = () => {
+      if (!document.body.contains(ta)) return;   // ignore blur from our own re-render
+      if ((ta.value || '').trim()) settle();
+      else if (COMMENT_TIMERS.has(incId)) saveNow();   // cleared, and not yet written
+    };
+    wrap.appendChild(ta);
+    if (focus) ta.focus();
+  }
+
+  wrap.dataset.editing = '';
+  render(false);
 }
 
 // Where a characteristic has been used. A value can appear in any number of
@@ -959,7 +1100,8 @@ function newClaim(grp) {
 }
 
 function newGroup(inc) {
-  const g = { id: nextId(inc.groups || []), actor: null, system: null, developer: null, claims: [] };
+  const g = { id: nextId(inc.groups || []), actor: null, system: null, developer: null,
+              claims: [], omit: [] };
   g.claims.push(newClaim(g));
   return g;
 }
@@ -1257,39 +1399,73 @@ function buildGroupBox(inc, grp, container) {
 function actorHeader(inc, grp, container) {
   const h = document.createElement('div');
   h.className = 'grp-sentence grp-head';
+  const rebuild = () => { saveGroups(inc); buildGroupsUI(container, inc); };
+  const omitted = (role) => (grp.omit || []).includes(role);
 
-  const slot = (role, placeholder) => {
+  // `onOmit` is what an *empty* optional clause offers: an × that takes the
+  // clause out of this group's sentence, not a value out of a slot.
+  const slot = (role, placeholder, onOmit) => {
     const span = document.createElement('span');
     span.className = 'sent-slot';
     const v = grp[role];
     if (!v) {
-      span.innerHTML = `<span class="sent-ph">[${escapeHtml(placeholder)}]</span>`;
+      const ph = document.createElement('span');
+      ph.className = 'sent-ph';
+      ph.textContent = `[${placeholder}]`;
+      span.appendChild(ph);
+      if (onOmit) {
+        const x = document.createElement('button');
+        x.className = 'sent-x sent-omit'; x.textContent = '×';
+        x.title = `Drop "${placeholder}" from this group's sentence`;
+        x.onclick = onOmit;
+        span.appendChild(x);
+      }
       return span;
     }
     span.appendChild(valueChip(role, v, () => {
       grp[role] = null;
-      saveGroups(inc);
-      buildGroupsUI(container, inc);
+      rebuild();
     }));
     return span;
   };
 
   h.appendChild(slot('actor', 'actor'));
   // "using …" / "developed by …" appear once the incident has something to drop
-  // there, or once they're filled; otherwise the header reads as complete.
+  // there, or once they're filled; otherwise the header reads as complete. A
+  // group that doesn't need one can also drop it outright — not every actor
+  // context is about a named system, and an empty clause left standing reads as
+  // an unanswered question rather than an inapplicable one.
   OPTIONAL_CLAIM_ROLES.forEach(cfg => {
     const available = ((inc.role_values || {})[cfg.role] || []).length;
-    if (!grp[cfg.role] && !available) return;
+    if (!grp[cfg.role] && (omitted(cfg.role) || !available)) return;
     h.appendChild(document.createTextNode(cfg.lead));
-    const sp = slot(cfg.role, cfg.placeholder);
+    const sp = slot(cfg.role, cfg.placeholder, () => {
+      grp.omit = (grp.omit || []).concat([cfg.role]);
+      rebuild();
+    });
     if (!grp[cfg.role]) sp.classList.add('opt');
     h.appendChild(sp);
   });
 
+  // Bringing a dropped clause back. Only offered where there is something to put
+  // in it, matching the rule for showing the clause in the first place.
+  const restorable = OPTIONAL_CLAIM_ROLES.filter(cfg =>
+    omitted(cfg.role) && !grp[cfg.role] && ((inc.role_values || {})[cfg.role] || []).length);
+  restorable.forEach(cfg => {
+    const b = document.createElement('button');
+    b.className = 'sent-restore';
+    b.textContent = '+ ' + cfg.placeholder;
+    b.title = `Put "${cfg.lead.trim()} [${cfg.placeholder}]" back in this group's sentence`;
+    b.onclick = () => { grp.omit = (grp.omit || []).filter(r => r !== cfg.role); rebuild(); };
+    h.appendChild(b);
+  });
+
   dropZone(h, GROUP_ROLES, (m) => {
     grp[m.role] = m.value;          // scalar: a drop replaces
-    saveGroups(inc);
-    buildGroupsUI(container, inc);
+    // Dropping into a clause the group had dropped is the coder saying they want
+    // it after all, so the drop is never refused for having been put away.
+    grp.omit = (grp.omit || []).filter(r => r !== m.role);
+    rebuild();
   });
   return h;
 }
@@ -2113,7 +2289,7 @@ function buildValueEvidence(values, opts) {
 
 // settable free text: type + Enter sets it to plain, settled text;
 // click the text to edit, × to clear. For multiline, Shift+Enter adds a newline.
-function buildText(fa, prop, multiline) {
+function buildText(fa, prop, multiline, placeholder) {
   const wrap = document.createElement('div');
 
   function render(focus) {
@@ -2137,6 +2313,7 @@ function buildText(fa, prop, multiline) {
     } else {
       const inp = document.createElement(multiline ? 'textarea' : 'input');
       if (multiline) { inp.className = 'comments'; inp.rows = 2; } else { inp.type = 'text'; }
+      if (placeholder) inp.placeholder = placeholder;
       inp.value = fa[prop] || '';
       inp.oninput = () => { fa[prop] = inp.value; persistSoon(); };
       inp.onkeydown = (e) => {
@@ -2470,16 +2647,14 @@ function buildRoleCard(r) {
   // with its characteristic rather than in a field of its own, because it says
   // *which* actor, and is meaningless apart from the actor codes above it.
   const noteLabel = (SCHEMA_ROLES.find(x => x.role === r.role) || {}).note_label;
+  // Set the same way Incident title is: type it, press Enter, and it settles
+  // into plain text you click to edit again — so a typed name reads as *entered*
+  // rather than as something still sitting in a box.
   if (noteLabel) {
     curDoc.ann.notes = curDoc.ann.notes || {};
     body.appendChild(subLabel(noteLabel));
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.className = 'role-note';
-    input.placeholder = 'Organisation name(s) — not individuals';
-    input.value = curDoc.ann.notes[r.role] || '';
-    input.oninput = () => { curDoc.ann.notes[r.role] = input.value; persistSoon(); };
-    body.appendChild(input);
+    body.appendChild(buildText(curDoc.ann.notes, r.role, false,
+                               'Organisation name(s) — not individuals'));
   }
 
   body.appendChild(subLabel('Justification (highlight each selection)'));
