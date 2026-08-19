@@ -121,13 +121,12 @@ def save_annotations(store: dict, coder: str) -> None:
 
 def blank_incident_coding() -> dict:
     """Every part of one coder's incident-level coding. `status` is their
-    judgement about the incident as a whole (see INCIDENT_STATUSES),
-    `completed_at` when they last set it, and `excluded_reason` the note that
-    goes with "not_an_incident". Both belong
+    judgement about the incident as a whole (see INCIDENT_STATUSES) and
+    `completed_at` when they last set it. Both belong
     here for the reason in load_incident_coding: a part left out of this dict is
     read from Mongo and then dropped on the next write."""
     return {"fields": {}, "notes": {}, "groups": [], "comment": "",
-            "status": "", "completed_at": "", "excluded_reason": ""}
+            "status": "", "completed_at": ""}
 
 
 def load_incident_coding(coder: str) -> dict:

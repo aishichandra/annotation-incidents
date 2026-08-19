@@ -419,7 +419,7 @@ def clear_signoff(coder: str, inc_id: str) -> None:
 @app.route("/api/incident/<path:inc_id>/status", methods=["POST"])
 def api_set_status(inc_id):
     """Record this coder's judgement about an incident as a whole.
-    Body: {status: "" | "complete" | "not_an_incident", reason?: "…"}.
+    Body: {status: "" | "complete" | "not_an_incident"}.
 
     One route for every judgement, because they are the same kind of thing —
     a coder saying where this incident stands for them — and differ only in what
@@ -431,8 +431,9 @@ def api_set_status(inc_id):
                          qualifies. A refusal is 409, naming what is missing.
       "not_an_incident"  ungated. Deciding the material isn't an incident is a
                          finding in its own right, and is usually reached long
-                         before the coding could ever be complete. `reason` is
-                         kept alongside it.
+                         before the coding could ever be complete. Why it went
+                         belongs in the card's comment, like any other remark
+                         about the incident as a whole.
       ""                 back to work in progress.
 
     Per coder, like every other judgement. One coder excluding an incident
@@ -461,13 +462,31 @@ def api_set_status(inc_id):
     # When the judgement was last set — a sign-off date, or when it was excluded.
     entry["completed_at"] = (datetime.now(timezone.utc).isoformat(timespec="seconds")
                              if status else "")
-    entry["excluded_reason"] = (str(body.get("reason") or "").strip()
-                                if status == "not_an_incident" else "")
     save_incident_coding(store, coder)
     synced = mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
+
+    # A sign-off says this reading is final, so make sure Mongo holds all of it
+    # rather than only the flag. Every save already syncs, but a save whose sync
+    # failed — Atlas briefly unreachable, a validator rejection — would leave the
+    # analysis copy short of the very evidence the sign-off is attesting to. This
+    # is one upsert per member document, and it is the moment worth spending them:
+    # it makes "complete" mean complete in Mongo too, and `synced` says whether it
+    # actually is.
+    if status == "complete":
+        ann = load_annotations(coder)
+        for d in inc.get("documents") or []:
+            if not mongo_sync.sync_to_mongo(d["index"], d["doc_key"],
+                                            doc_ann(ann, d["doc_key"]), coder, inc_id):
+                synced = False
+        mongo_sync.invalidate_mongo_cache()
+
     return jsonify({"ok": True, "coder": coder, "incident_id": inc_id,
                     "status": status, "completed_at": entry["completed_at"],
-                    "excluded_reason": entry["excluded_reason"],
+                    "documents": len(inc.get("documents") or []) if status == "complete" else 0,
+                    # `synced` is whether the write landed; `mongo` whether there
+                    # was anywhere to write to. Without both, a coder running
+                    # offline on purpose is told a sync "failed".
+                    "mongo": mongo_sync.mongo_db is not None,
                     "synced": synced})
 
 

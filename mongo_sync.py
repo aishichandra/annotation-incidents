@@ -173,7 +173,6 @@ def sync_incident_coding_to_mongo(inc_id: str, coder: str, entry: dict) -> bool:
                       f"by_coder.{coder}.comment": entry.get("comment") or "",
                       f"by_coder.{coder}.status": entry.get("status") or "",
                       f"by_coder.{coder}.completed_at": entry.get("completed_at") or "",
-                      f"by_coder.{coder}.excluded_reason": entry.get("excluded_reason") or "",
                       f"by_coder.{coder}.updated_at": now,
                       "title": storage.incident_title_for(inc_id), "updated_at": now}},
             upsert=True)
@@ -218,8 +217,7 @@ def incident_coding_from_mongo(coder: str) -> dict:
                                     "groups": sub.get("groups") or [],
                                     "comment": sub.get("comment") or "",
                                     "status": sub.get("status") or "",
-                                    "completed_at": sub.get("completed_at") or "",
-                                    "excluded_reason": sub.get("excluded_reason") or ""}
+                                    "completed_at": sub.get("completed_at") or ""}
     return out
 
 
