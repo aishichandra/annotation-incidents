@@ -1,24 +1,30 @@
 {
-  "INC-001": {
+  "INC-003": {
     "fields": {},
     "notes": {},
     "groups": [
       {
         "id": "1",
-        "actor": null,
-        "system": null,
-        "developer": null,
+        "actor": "Mis/disinformation actor",
+        "system": "Synthetic video/image generation",
+        "developer": "Unknown/unspecified",
         "claims": [
           {
             "id": "1",
-            "harm": null,
-            "harmed_parties": [],
-            "factors": []
+            "harm": "Perpetuation of stereotypes",
+            "harmed_parties": [
+              "News organization/publisher"
+            ],
+            "factors": [
+              "Deployment of AI with intention to harm, mislead, or troll"
+            ]
           }
         ],
         "omit": []
       }
     ],
-    "comment": ""
+    "comment": "",
+    "status": "",
+    "completed_at": ""
   }
 }
