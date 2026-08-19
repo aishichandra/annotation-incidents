@@ -56,13 +56,16 @@ through their module - `doc_source.df` and `mongo_sync.mongo_db` - never bound
 by name, which would capture a stale copy.
 """
 import os
+from datetime import datetime, timezone
 
 from flask import Flask, abort, jsonify, render_template, request
 
 from config import (
     CODERS, ROLE_KEYS, clean_fields, current_coder, load_schema, save_schema,
 )
-from incidents import _jsonable, _next_incident_id, aggregate_incidents
+from incidents import (
+    _jsonable, _next_incident_id, aggregate_incidents, incident_completeness,
+)
 from incidents_vocab import (
     FIELD_VOCAB, ROLE_VOCAB, load_vocab, save_vocab,
 )
@@ -258,6 +261,7 @@ def api_save(i):
 
     mongo_sync.sync_to_mongo(i, key, rec, coder, inc_id)
     mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
+    clear_signoff(coder, inc_id)
     return jsonify({"ok": True, "coder": coder, "n": len(rec["quotes"])})
 
 
@@ -365,7 +369,62 @@ def api_save_groups(inc_id):
     entry["groups"] = groups
     save_incident_coding(store, coder)
     mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
+    clear_signoff(coder, inc_id)
     return jsonify({"ok": True, "coder": coder, "groups": len(groups),
+                    "synced": mongo_sync.mongo_db is not None})
+
+
+
+def clear_signoff(coder: str, inc_id: str) -> None:
+    """Drop a coder's sign-off on one incident, if they had given one.
+
+    Called when the coding the completeness check reads has changed. A sign-off
+    attests to a particular reading; once that reading moves, the attestation is
+    stale and the coder has to give it again. Comments don't invalidate it —
+    they're not part of what the check looks at."""
+    store = load_incident_coding(coder)
+    entry = store.get(inc_id)
+    if not entry or not entry.get("status"):
+        return
+    entry["status"] = ""
+    entry["completed_at"] = ""
+    save_incident_coding(store, coder)
+    mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
+
+
+@app.route("/api/incident/<path:inc_id>/complete", methods=["POST"])
+def api_set_complete(inc_id):
+    """Sign one incident off as finished, or withdraw that. Body: {complete: bool}.
+
+    Completeness is recomputed here from the stored coding rather than taken from
+    the request, so a card rendered before the coding changed can't sign off work
+    that no longer qualifies. A refusal returns 409 and names what is missing.
+
+    This is a per-coder attestation, not a data transfer: every save already
+    syncs to Mongo, so nothing new is uploaded here — what lands is the judgement
+    that this coder considers their reading of the incident done."""
+    coder = current_coder(strict=True)
+    complete = bool((request.get_json(force=True) or {}).get("complete", True))
+
+    incidents, _, _ = aggregate_incidents(coder)
+    inc = incidents.get(inc_id)
+    if inc is None:
+        abort(404, f"unknown incident {inc_id!r}")
+
+    state = incident_completeness(inc)
+    if complete and not state["ok"]:
+        return jsonify({"ok": False, "error": "incomplete",
+                        "missing": state["missing"]}), 409
+
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds") if complete else ""
+    store = load_incident_coding(coder)
+    entry = store.setdefault(inc_id, blank_incident_coding())
+    entry["status"] = "complete" if complete else ""
+    entry["completed_at"] = now
+    save_incident_coding(store, coder)
+    mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
+    return jsonify({"ok": True, "coder": coder, "incident_id": inc_id,
+                    "status": entry["status"], "completed_at": now,
                     "synced": mongo_sync.mongo_db is not None})
 
 

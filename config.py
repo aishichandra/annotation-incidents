@@ -142,6 +142,11 @@ def clean_fields(fields: dict) -> dict:
 # without them.
 OPTIONAL_CLAIM_ROLES = ("system", "developer")
 
+# What a coder must have coded before they can sign an incident off as complete.
+# Derived from ROLE_KEYS rather than listed, so a role added to the scheme is
+# required by default — the coding scheme decides, not this constant.
+REQUIRED_CLAIM_ROLES = tuple(r for r in ROLE_KEYS if r not in OPTIONAL_CLAIM_ROLES)
+
 
 def load_schema() -> dict:
     if not SCHEMA_JSON.exists():
