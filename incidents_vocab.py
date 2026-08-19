@@ -138,19 +138,27 @@ def build_validator(vocab: dict | None = None) -> dict:
             "system": {"bsonType": ["string", "null"]},
             "developer": {"bsonType": ["string", "null"]},
             "claims": {"bsonType": "array", "items": claim_obj},
+            # optional clauses ("using …", "developed by …") this group has taken
+            # out of its sentence as inapplicable
+            "omit": {"bsonType": "array"},
             # flat links written before the actor-grouped structure; still
             # permitted so any pre-restructure document keeps validating
             "members": {"bsonType": "array"}}},
     }
     # Everything one coder judges about this incident, in one subtree: the
-    # incident's own field answers, their claim groups, and their evidence per
-    # source document. Keeping it under a single path is what lets a save be one
+    # incident's own field answers, their claim groups, their comment on the
+    # incident as a whole, and their evidence per source document. Keeping it under a single path is what lets a save be one
     # $set that cannot reach another coder's work.
     coder_entry = {
         "bsonType": "object",
         "properties": {
             "fields": {"bsonType": ["object", "null"]},
+            # free text belonging to one characteristic (the inciting actor's
+            # name), keyed by role
+            "notes": {"bsonType": ["object", "null"]},
             "groups": groups_array,
+            # this coder's remark about the incident as a whole
+            "comment": {"bsonType": ["string", "null"]},
             "documents": {"bsonType": "object", "additionalProperties": evidence},
             "updated_at": {"bsonType": ["date", "null"]},
         },

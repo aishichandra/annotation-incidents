@@ -120,9 +120,18 @@ each other's judgements while coding.
 Push / Pull act on the current coder alone: pushing as alice never touches bob's
 work in Atlas, and pulling as bob never rewrites alice's local file.
 
+Each incident card ends in a **comment box** for the incident as a whole — a close
+call, a question for the team, anything that belongs to the reading but to no one
+field or characteristic. It autosaves as you type and is per coder like every other
+judgement, so commenting can't leak one coder's reading into another's.
+
 Claim links autosave to Mongo like everything else — dragging a characteristic into
 a claim writes `incident_coding.<coder>.json` *and* `by_coder.<coder>.groups` on the
-incident, so Push is only ever a bulk re-send. Note that a claim stores role/value
+incident, so Push is only ever a bulk re-send. A group's sentence carries two
+optional clauses — *using [system]*, *developed by [developer]* — and a group that
+isn't about a named system can drop either with the small × beside it (`omit`),
+which reads as "inapplicable here" rather than "not answered yet"; `+ system` puts
+it back, and so does dragging a value in. Note that a claim stores role/value
 pairs, not references: `aggregate_incidents` drops any value no longer coded on a
 member document, and a claim left with nothing disappears. An incident whose
 documents have all moved away is deleted once nothing is coded on it.
@@ -164,8 +173,10 @@ incidents {
   by_coder: {
     <coder>: {
       fields:    { <field_key>: { answer, comments? }, ... },   # the INCIDENT's answers
-      groups:    [ { id, actor, system, developer,
+      notes:     { <role>: "…" },         # free text naming one characteristic
+      groups:    [ { id, actor, system, developer, omit[],
                      claims: [ { id, harm, harmed_parties[], factors[] } ] }, ... ],
+      comment:   "…",                     # this coder's remark on the whole incident
       documents: {                        # evidence, per source document
         <doc_key>: {
           quotes: [ { text, start, end, role? | category?, value? }, ... ],
@@ -250,7 +261,7 @@ Everything in the repo is one of five things: **code**, **config**, **data**,
 | **Data** | |
 | `zotero_docs.csv` | Import output / app input |
 | `annotations.<coder>.json` | One coder's evidence per document (quotes + characteristics) |
-| `incident_coding.<coder>.json` | One coder's incident-level answers + claim groups |
+| `incident_coding.<coder>.json` | One coder's incident-level answers, claim groups + comment |
 | `incident_assignments.json` | **Shared** doc → incident mapping (all coders) |
 | `data_annotated.<coder>.csv` | Flat CSV mirror of one coder's annotations |
 | **Deploy** | |
