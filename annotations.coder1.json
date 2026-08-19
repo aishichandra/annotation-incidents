@@ -1780,45 +1780,6 @@
       "harmed_party": []
     }
   },
-  "EHX5QSRM": {
-    "quotes": [
-      {
-        "role": "actor",
-        "value": "Tech platform",
-        "text": "Adobe",
-        "start": 0,
-        "end": 5
-      },
-      {
-        "role": "system",
-        "value": "Deepfake generation",
-        "text": "artificially generated, realistic images of the Israel-Hamas war",
-        "start": 17,
-        "end": 81
-      },
-      {
-        "role": "factor",
-        "value": "Lack of audience disclosure",
-        "text": "used across the internet without any indication they are fake.",
-        "start": 98,
-        "end": 160
-      }
-    ],
-    "roles": {
-      "system": [
-        "Deepfake generation"
-      ],
-      "developer": [],
-      "actor": [
-        "Tech platform"
-      ],
-      "factor": [
-        "Lack of audience disclosure"
-      ],
-      "harm": [],
-      "harmed_party": []
-    }
-  },
   "I728F62P": {
     "quotes": [
       {
@@ -1877,6 +1838,45 @@
       "harm": [
         "Displacement of human judgement"
       ],
+      "harmed_party": []
+    }
+  },
+  "VZ8LCAFI": {
+    "quotes": [
+      {
+        "role": "actor",
+        "value": "Tech platform",
+        "text": "Adobe",
+        "start": 204,
+        "end": 209
+      },
+      {
+        "role": "system",
+        "value": "Deepfake generation",
+        "text": "artificially generated, realistic images of the Israel-Hamas war",
+        "start": 221,
+        "end": 285
+      },
+      {
+        "role": "factor",
+        "value": "Lack of audience disclosure",
+        "text": "used across the internet without any indication they are fake.",
+        "start": 302,
+        "end": 364
+      }
+    ],
+    "roles": {
+      "system": [
+        "Deepfake generation"
+      ],
+      "developer": [],
+      "actor": [
+        "Tech platform"
+      ],
+      "factor": [
+        "Lack of audience disclosure"
+      ],
+      "harm": [],
       "harmed_party": []
     }
   }
