@@ -256,11 +256,7 @@ function wireComplete(el) {
   const restore = el.querySelector('.inc-restore');
   if (restore) restore.onclick = () => setStatus(restore.dataset.inc, '');
   const drop = el.querySelector('.inc-drop');
-  if (drop) drop.onclick = () => {
-    const why = prompt('Why is this not an incident? (optional)') ;
-    if (why === null) return;                       // cancelled
-    setStatus(drop.dataset.inc, 'not_an_incident', why);
-  };
+  if (drop) drop.onclick = () => setStatus(drop.dataset.inc, 'not_an_incident');
 }
 
 async function setStatus(incId, status, reason) {
