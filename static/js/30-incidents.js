@@ -81,22 +81,32 @@ async function loadIncidents() {
   }
   INCIDENTS = {};
   data.incidents.forEach(inc => { INCIDENTS[inc.incident_id] = inc; });
-  // Incidents this coder has set aside drop to their own collapsed list at the
-  // foot of the page: out of the way of the ones still being coded, but visible
-  // and countable, since "what did I rule out" is part of the record.
-  const live = data.incidents.filter(inc => inc.status !== 'not_an_incident');
-  const out = data.incidents.filter(inc => inc.status === 'not_an_incident');
-  const body = live.length
-    ? live.map(inc => incidentCard(inc, data.fields)).join('')
-    : `<div class="iempty">${out.length ? 'Every incident has been set aside.'
-                                        : 'No incidents coded yet.'}</div>`;
-  const excluded = out.length
-    ? `<details class="inc-out-list">
-         <summary>Not an incident (${out.length})</summary>
-         ${out.map(inc => incidentCard(inc, data.fields)).join('')}
-       </details>`
+  // Three lists, in the order a coder works through them: what still needs
+  // coding on top, then what has been settled — signed off, or ruled out —
+  // folded away below. Settled work stays visible and countable rather than
+  // hidden, since "what have I finished" and "what did I rule out" are both
+  // part of the record.
+  const done = inc => inc.status === 'complete';
+  const out  = inc => inc.status === 'not_an_incident';
+  const open = data.incidents.filter(inc => !done(inc) && !out(inc));
+  const finished = data.incidents.filter(done);
+  const setAside = data.incidents.filter(out);
+
+  const cards = list => list.map(inc => incidentCard(inc, data.fields)).join('');
+  const fold = (cls, label, list) => list.length
+    ? `<details class="${cls}"><summary>${label} (${list.length})</summary>`
+      + `${cards(list)}</details>`
     : '';
-  wrap.innerHTML = `<div class="inc-wrap">${body}${excluded}</div>`;
+
+  const body = open.length
+    ? cards(open)
+    : `<div class="iempty">${data.incidents.length
+         ? 'Nothing left in progress — everything is signed off or set aside.'
+         : 'No incidents coded yet.'}</div>`;
+  wrap.innerHTML = `<div class="inc-wrap">${body}`
+    + fold('inc-done-list', 'Complete', finished)
+    + fold('inc-out-list', 'Not an incident', setAside)
+    + `</div>`;
   wireIncidentCard(wrap);
   INCIDENTS_RENDERED = true;
   DIRTY_INCIDENTS.clear();
@@ -214,10 +224,8 @@ function completeControl(inc) {
   const encId = escapeHtml(inc.incident_id);
   const when = (inc.completed_at || '').slice(0, 10);
   if (inc.status === 'not_an_incident') {
-    const why = inc.excluded_reason
-      ? ` \u00b7 ${escapeHtml(inc.excluded_reason)}` : '';
     return `<span class="inc-out" title="Set aside by you${when ? ' on ' + when : ''}">`
-         + `Not an incident${why}</span>`
+         + `Not an incident</span>`
          + `<button class="inc-restore" data-inc="${encId}" `
          + `title="Put this back with the incidents you are coding">Restore</button>`;
   }
@@ -259,7 +267,7 @@ function wireComplete(el) {
   if (drop) drop.onclick = () => setStatus(drop.dataset.inc, 'not_an_incident');
 }
 
-async function setStatus(incId, status, reason) {
+async function setStatus(incId, status) {
   const inc = INCIDENTS[incId];
   if (!inc) return;
   const was = inc.status;
@@ -268,7 +276,7 @@ async function setStatus(incId, status, reason) {
   try {
     const res = await fetch('/api/incident/' + encodeURIComponent(incId) + '/status', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status, reason: reason || '' }),
+      body: JSON.stringify({ status }),
     });
     // An error page is HTML, not JSON, so parsing has to be allowed to fail —
     // otherwise every non-JSON response arrives here as a bare parse error and
@@ -291,16 +299,22 @@ async function setStatus(incId, status, reason) {
     }
     inc.status = j.status;
     inc.completed_at = j.completed_at;
-    inc.excluded_reason = j.excluded_reason || '';
+    if (status === 'complete') {
+      const s = document.getElementById('status');
+      if (s) s.textContent = j.synced
+        ? `${incId}: signed off, ${j.documents} document(s) pushed to Mongo \u2713`
+        : (j.mongo
+            ? `${incId}: signed off locally \u2014 Mongo sync failed, use Push to Mongo`
+            : `${incId}: signed off \u2014 saved locally (Mongo not connected)`);
+    }
   } catch (e) {
     // fetch itself threw: nothing answered at all.
     if (el) el.innerHTML = '<span class="inc-needs">No response \u2014 is the app running?</span>';
     return;
   }
-  // Crossing into or out of "not an incident" moves the card between the live
-  // list and the set-aside one — a change to the list, not to one card, so the
-  // whole thing is redrawn. Every other transition just restyles the control.
-  if (status === 'not_an_incident' || was === 'not_an_incident') return loadIncidents();
+  // Every status change moves the card between the in-progress list and one of
+  // the folded ones, which is a change to the list rather than to a single card.
+  if (status !== was) return loadIncidents();
   refreshComplete(inc);
 }
 

@@ -147,8 +147,20 @@
   .inc-restore:hover { border-color: #254c6f; color: #254c6f; }
   .inc-restore:disabled { opacity: .6; cursor: default; }
 
-  /* the collapsed list of set-aside incidents, below the ones being coded */
-  .inc-out-list { margin-top: 26px; border-top: 1px solid #e0e0e0; padding-top: 6px; }
+  /* the folded lists of settled incidents, below the ones still being coded */
+  .inc-done-list { margin-top: 26px; border-top: 1px solid #e0e0e0; padding-top: 6px; }
+  .inc-done-list > summary { cursor: pointer; padding: 10px 4px; color: #1c6b3f;
+                             font: 600 12px 'Helvetica Neue', Helvetica, sans-serif;
+                             text-transform: uppercase; letter-spacing: .05em;
+                             list-style: none; }
+  .inc-done-list > summary::-webkit-details-marker { display: none; }
+  .inc-done-list > summary::before { content: '\25b8 '; display: inline-block; }
+  .inc-done-list[open] > summary::before { content: '\25be '; }
+  .inc-done-list > summary:hover { color: #145029; }
+  .inc-done-list .tow-card { opacity: .72; }
+  .inc-done-list .tow-card:hover { opacity: 1; }
+  /* a set-aside incident is a closed question, so it reads quieter still */
+  .inc-out-list { margin-top: 8px; border-top: 1px solid #e0e0e0; padding-top: 6px; }
   .inc-out-list > summary { cursor: pointer; padding: 10px 4px; color: #6b7280;
                             font: 600 12px 'Helvetica Neue', Helvetica, sans-serif;
                             text-transform: uppercase; letter-spacing: .05em;
