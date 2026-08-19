@@ -159,6 +159,12 @@ def build_validator(vocab: dict | None = None) -> dict:
             "groups": groups_array,
             # this coder's remark about the incident as a whole
             "comment": {"bsonType": ["string", "null"]},
+            # this coder's judgement about the incident: "" (still working),
+            # "complete" (signed off), or "not_an_incident" (set aside), with
+            # when it was set and, for the last, why
+            "status": {"bsonType": ["string", "null"]},
+            "completed_at": {"bsonType": ["string", "null"]},
+            "excluded_reason": {"bsonType": ["string", "null"]},
             "documents": {"bsonType": "object", "additionalProperties": evidence},
             "updated_at": {"bsonType": ["date", "null"]},
         },

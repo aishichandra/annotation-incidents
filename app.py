@@ -379,10 +379,10 @@ def api_save_groups(inc_id):
     entry = store.setdefault(inc_id, blank_incident_coding())
     entry["groups"] = groups
     save_incident_coding(store, coder)
-    mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
+    synced = mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
     clear_signoff(coder, inc_id)
     return jsonify({"ok": True, "coder": coder, "groups": len(groups),
-                    "synced": mongo_sync.mongo_db is not None})
+                    "synced": synced})
 
 
 
@@ -464,11 +464,11 @@ def api_set_status(inc_id):
     entry["excluded_reason"] = (str(body.get("reason") or "").strip()
                                 if status == "not_an_incident" else "")
     save_incident_coding(store, coder)
-    mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
+    synced = mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
     return jsonify({"ok": True, "coder": coder, "incident_id": inc_id,
                     "status": status, "completed_at": entry["completed_at"],
                     "excluded_reason": entry["excluded_reason"],
-                    "synced": mongo_sync.mongo_db is not None})
+                    "synced": synced})
 
 
 @app.route("/api/incident/<path:inc_id>/comment", methods=["POST"])
@@ -492,9 +492,9 @@ def api_save_comment(inc_id):
     entry = store.setdefault(inc_id, blank_incident_coding())
     entry["comment"] = comment
     save_incident_coding(store, coder)
-    mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
+    synced = mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
     return jsonify({"ok": True, "coder": coder, "comment": comment,
-                    "synced": mongo_sync.mongo_db is not None})
+                    "synced": synced})
 
 
 @app.route("/api/pull", methods=["POST"])

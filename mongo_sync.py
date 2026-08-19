@@ -102,7 +102,7 @@ def sync_to_mongo(i, key, record, coder, inc_id):
     carrying *every* coder's evidence across so nobody loses work when someone
     else regroups. Any incident left empty by the move is deleted. Non-fatal."""
     if mongo_db is None:
-        return
+        return False
     now = datetime.now(timezone.utc)
     doc_entry = {"doc_id": key, "url": cell(i, "url"), "title": cell(i, "title")}
     try:
@@ -145,15 +145,23 @@ def sync_to_mongo(i, key, record, coder, inc_id):
         # This write is now the freshest state; don't serve a pre-write snapshot.
         invalidate_mongo_cache()
         prune_empty_incidents()
+        return True
     except Exception as e:
         print(f"[mongo] sync failed for {key} ({e.__class__.__name__}: {e})")
+        return False
 
 
-def sync_incident_coding_to_mongo(inc_id: str, coder: str, entry: dict) -> None:
-    """Mirror one coder's incident-level coding — field answers, claim groups and
-    the coder's comment — onto the incident. Only this coder's slot is written."""
+def sync_incident_coding_to_mongo(inc_id: str, coder: str, entry: dict) -> bool:
+    """Mirror one coder's incident-level coding — field answers, claim groups, the
+    sign-off and the coder's comment — onto the incident. Only this coder's slot
+    is written.
+
+    Returns whether the write actually landed. A failure here isn't fatal — the
+    local file is the source of truth and a later Push resends — but it must not
+    be reported to the coder as a success, or they are told their judgement is in
+    Mongo when the collection validator rejected it."""
     if mongo_db is None:
-        return
+        return False
     now = datetime.now(timezone.utc)
     try:
         mongo_db.incidents.update_one(
@@ -163,15 +171,17 @@ def sync_incident_coding_to_mongo(inc_id: str, coder: str, entry: dict) -> None:
                       f"by_coder.{coder}.notes": entry.get("notes") or {},
                       f"by_coder.{coder}.groups": entry.get("groups") or [],
                       f"by_coder.{coder}.comment": entry.get("comment") or "",
-                     f"by_coder.{coder}.status": entry.get("status") or "",
-                     f"by_coder.{coder}.completed_at": entry.get("completed_at") or "",
-                     f"by_coder.{coder}.excluded_reason": entry.get("excluded_reason") or "",
+                      f"by_coder.{coder}.status": entry.get("status") or "",
+                      f"by_coder.{coder}.completed_at": entry.get("completed_at") or "",
+                      f"by_coder.{coder}.excluded_reason": entry.get("excluded_reason") or "",
                       f"by_coder.{coder}.updated_at": now,
                       "title": storage.incident_title_for(inc_id), "updated_at": now}},
             upsert=True)
         invalidate_mongo_cache()
+        return True
     except Exception as e:
         print(f"[mongo] incident coding sync failed for {inc_id} ({e.__class__.__name__}: {e})")
+        return False
 
 
 def store_from_mongo(coder: str) -> dict:
