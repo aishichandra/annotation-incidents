@@ -174,7 +174,7 @@ on the incident, so analysis can separate finished coding from work in progress.
 ### Not an incident
 
 Some documents turn out not to describe an incident at all. **Not an incident**
-on any card sets it aside, with an optional reason:
+on any card sets it aside — one click, no confirmation:
 
 - **Nothing is deleted.** The documents stay assigned and the coding stays put.
   An incident is not a record you can remove — it exists because documents point
@@ -192,8 +192,12 @@ on any card sets it aside, with an optional reason:
 
 Set-aside incidents drop into a collapsed **Not an incident (n)** list at the
 foot of the page, where **Restore** puts one back. In Mongo they are
-`by_coder.<coder>.status = "not_an_incident"`, with the reason at
-`by_coder.<coder>.excluded_reason`.
+`by_coder.<coder>.status = "not_an_incident"`.
+
+Why it went is worth writing down, but the card's **Comments** box is already
+the place for a remark about the incident as a whole, so the button doesn't ask.
+(The route still accepts a `reason`, stored at
+`by_coder.<coder>.excluded_reason`, for anything scripted against the API.)
 
 All three judgements go through one route, `POST /api/incident/<id>/status`,
 with `status` one of `""`, `"complete"`, `"not_an_incident"`
