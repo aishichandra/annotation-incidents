@@ -1,0 +1,463 @@
+  :root {
+    --fg: #1a1a1a; --muted: #6b7280; --line: #e5e7eb;
+    --rail: #f4f4f5; --accent: #2563eb; --bar-h: 52px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: var(--fg); font: 15px/1.6 -apple-system, system-ui, sans-serif; }
+
+  .bar { position: fixed; top: 0; left: 0; right: 0; height: var(--bar-h); z-index: 30;
+    display: flex; align-items: center; gap: 14px; padding: 0 20px;
+    background: #fff; border-bottom: 1px solid var(--line); }
+  .bar select { font: inherit; padding: 6px 10px; border: 1px solid var(--line);
+    border-radius: 8px; max-width: 560px; }
+  .bar .pull { font: inherit; font-size: 13px; padding: 6px 12px; border: 1px solid var(--line);
+    border-radius: 8px; background: #fff; color: #555; cursor: pointer; white-space: nowrap; }
+  .bar .pull:hover { border-color: #111; color: #111; }
+  .bar .pull:disabled { opacity: .5; cursor: default; }
+  .bar .status { color: var(--muted); font-size: 13px; margin-left: auto; }
+  /* who is coding — always visible so nobody codes as the wrong person */
+  .coderpick { display: flex; align-items: center; gap: 6px; flex: none;
+    font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .coderpick select { font-size: 13px; padding: 5px 8px; }
+  .bar .hint { color: var(--muted); font-size: 12px; }
+  .viewtabs { display: flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; flex: none; }
+  .viewtabs .tab { font: inherit; font-size: 13px; padding: 6px 14px; border: none;
+    background: #fff; color: #666; cursor: pointer; }
+  .viewtabs .tab + .tab { border-left: 1px solid var(--line); }
+  .viewtabs .tab.active { background: #111; color: #fff; }
+
+  /* ---- Incident (by-incident) view — styled after the Tow/CJR P+P tracker ---- */
+  /* Brand: deep blue #254c6f, Tow orange #de5a35, hairline #e0e0e0, square cards,
+     serif headlines, tiny uppercase gray field labels. */
+  body.view-incidents .app, body.view-incidents #arrows,
+  body.view-incidents #docSelect { display: none; }
+  #incidents { display: none; }
+  body.view-incidents #incidents { display: block; }
+  #incidents { padding: calc(var(--bar-h) + 40px) 24px 100px; background: #f6f6f4;
+    min-height: 100vh; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+  .inc-wrap { max-width: 1000px; margin: 0 auto; }
+  .inc-pagehead { margin: 0 0 26px; padding-bottom: 16px; border-bottom: 2px solid #de5a35; }
+  .inc-pagehead h1 { font-family: Georgia, 'Times New Roman', serif; font-size: 30px;
+    color: #254c6f; margin: 0 0 4px; font-weight: 700; letter-spacing: -.01em; }
+  .inc-pagehead p { margin: 0; color: #6e6e6e; font-size: 13px; }
+  .iempty { color: var(--muted); padding: 40px 4px; text-align: center; }
+
+  .tow-card { background: #fff; border: 1px solid #e0e0e0; margin-bottom: 20px; }
+  .tow-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 14px;
+    padding: 14px 20px; background: #fafafa; border-bottom: 1px solid #e0e0e0; }
+  .tow-id { font: 600 11px 'Helvetica Neue', Helvetica, sans-serif; text-transform: uppercase;
+    letter-spacing: .06em; color: #254c6f; background: #eaf0f6; border: 1px solid #d6e0eb;
+    padding: 3px 9px; border-radius: 3px; flex: none; }
+  .tow-title { font-family: Georgia, 'Times New Roman', serif; font-size: 20px; font-weight: 700;
+    color: #222; line-height: 1.25; flex: 1 1 260px; min-width: 0; }
+  .tow-title-ph { color: #bbb; font-style: italic; font-weight: 400; }
+  .tow-headdocs { flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+  .tow-headdocs .tow-doc { margin-bottom: 0; }
+  .tow-meta { font-size: 12px; color: #999; flex: none; }
+  .tow-meta b { color: #444; font-weight: 600; }
+
+  .tow-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0; padding: 20px; }
+  .tow-col { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+  .tow-col.c1 { padding-right: 22px; border-right: 1px solid #e0e0e0; }
+  .tow-col.c2 { padding-left: 22px; }
+  @media (max-width: 720px) {
+    .tow-body { grid-template-columns: 1fr; gap: 18px; }
+    .tow-col.c1 { padding-right: 0; border-right: none; border-bottom: 1px solid #e0e0e0;
+      padding-bottom: 18px; }
+    .tow-col.c2 { padding-left: 0; }
+  }
+
+  .tow-field { display: flex; flex-direction: column; gap: 5px; }
+  .tow-label { font-size: 11px; font-weight: 400; text-transform: uppercase;
+    letter-spacing: .06em; color: #999; }
+  .tow-value { font-size: 14px; line-height: 1.5; color: #1a1a1a; word-break: break-word; }
+  .tow-nodata { font-size: 13px; color: #b8b8b8; font-style: italic; }
+  .tow-chip { display: inline-block; background: #f5f5f5; border: 1px solid #e0e0e0;
+    color: #333; padding: 3px 9px; border-radius: 3px; font-size: 13px; font-weight: 500;
+    margin: 0 5px 5px 0; }
+  .tow-comment { font-size: 12px; color: #6e6e6e; font-style: italic; margin-top: 3px; }
+  /* The coder's remark on the incident as a whole — full width along the foot of
+     the card, below both columns, since it belongs to neither. */
+  .inc-note { border-top: 1px solid #eee; padding: 12px 20px 14px; background: #fcfcfc; }
+  .inc-note-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 5px; }
+  .inc-note-head .tow-label { flex: 1 1 auto; }
+  .inc-note-state { font-size: 11px; color: #b0b0b0; flex: none; }
+  .inc-note-state.on { color: #2f7a4f; }
+  .inc-note textarea { width: 100%; box-sizing: border-box; resize: vertical;
+    font: 13px/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif;
+    color: #1a1a1a; background: #fff; border: 1px solid #e0e0e0; border-radius: 3px;
+    padding: 8px 10px; }
+  .inc-note textarea:focus { outline: none; border-color: #254c6f; }
+  .inc-note-set { font-size: 13px; padding: 6px 2px; }
+  /* System / Developer values — same field block, but the chips drag into the
+     claim sentence's optional clauses */
+
+  /* Drag-to-group: palette of pooled characteristics + group drop zones.
+     Grid so every role's chips start at the same left edge and wrapped chips
+     line up under the first one (not back at the label). */
+  .pal-row { display: grid; grid-template-columns: 74px 1fr; align-items: start;
+    gap: 10px; margin-bottom: 9px; }
+  .pal-role { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700;
+    line-height: 1.3; padding-top: 5px; }
+  .pal-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  /* the evidence behind one chip, opened by clicking it. A flex item at full
+     width, so it drops onto its own line under the chips it belongs to. */
+  .qt-panel { flex: 0 0 100%; margin: 2px 0 6px; border-left: 2px solid #e2e6ea;
+              padding: 2px 0 2px 10px; }
+  .qt-head { font-size: 11px; color: #8a8a8a; margin-bottom: 4px; }
+  .qt-item { font-size: 12px; line-height: 1.5; color: #444; margin-bottom: 6px; }
+  .qt-item:last-child { margin-bottom: 0; }
+  .qt-text { font-style: italic; }
+  .qt-src { display: block; font-size: 10.5px; color: #a0a0a0; font-style: normal;
+            margin-top: 1px; }
+  .qt-none { font-size: 12px; color: #b0b0b0; font-style: italic; }
+  /* free text belonging to a characteristic, shown with it */
+  .pal-note { flex: 0 0 100%; font-size: 12px; color: #555; margin-bottom: 2px; }
+  /* raw JSON for one incident, under its card */
+  .json-btn { margin-left: auto; align-self: flex-start; flex: none; font-size: 11px;
+              font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+              border: 1px solid #dcdcdc; background: #fff; color: #666; cursor: pointer;
+              border-radius: 4px; padding: 3px 8px; }
+  .json-btn:hover { border-color: #254c6f; color: #254c6f; }
+  .json-btn.on { background: #254c6f; border-color: #254c6f; color: #fff; }
+  .json-panel { border-top: 1px solid #eee; padding: 10px 16px 14px; background: #fbfcfd; }
+  .json-bar { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+  .json-src { font-size: 11px; color: #8a8a8a; flex: 1 1 auto; }
+  .json-act { font-size: 11px; border: 1px solid #dcdcdc; background: #fff; color: #666;
+              cursor: pointer; border-radius: 4px; padding: 2px 7px; flex: none; }
+  .json-act:hover { border-color: #254c6f; color: #254c6f; }
+  /* The tree. Indentation carries the nesting, so each level gets a hairline to
+     follow rather than counting spaces in a wall of text. */
+  .json-tree { max-height: 460px; overflow: auto; background: #fff;
+               border: 1px solid #ececec; border-radius: 4px; padding: 10px 12px;
+               font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+               font-size: 12px; line-height: 1.65; }
+  .jn-body { padding-left: 15px; margin-left: 4px; border-left: 1px solid #f0f0f0; }
+  .jn-head { cursor: pointer; border-radius: 3px; }
+  .jn-head:hover { background: #f4f7fa; }
+  .jn-caret { display: inline-block; width: 11px; color: #b8b8b8; font-size: 9px;
+              transition: transform .12s; }
+  .jn.collapsed > .jn-head > .jn-caret { transform: rotate(-90deg); }
+  .jn.collapsed > .jn-body, .jn.collapsed > .jn-tail { display: none; }
+  .jn-sum { display: none; color: #b0b0b0; }
+  .jn.collapsed > .jn-head > .jn-sum { display: inline; }
+  .jn-tail { padding-left: 11px; }
+  .jn-count { color: #c0c0c0; font-size: 10px; margin-left: 6px; }
+  .jn.collapsed > .jn-head > .jn-count { display: none; }
+  /* value colouring: the point is telling keys from values at a glance */
+  .jn-key  { color: #254c6f; font-weight: 600; }
+  .jn-str  { color: #2f7a4f; }
+  .jn-num  { color: #8a4fbf; }
+  .jn-bool { color: #b45309; }
+  .jn-null { color: #b0b0b0; font-style: italic; }
+  .jn-p    { color: #c4c4c4; }
+  .jn-empty { color: #c0c0c0; }
+  /* a chip whose evidence is open */
+  .drag-chip.open { box-shadow: 0 0 0 2px #cfd6dd; }
+  .drag-chip .chip-qn { flex: none; font-size: 9.5px; color: #9aa0a6; }
+  .drag-chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px;
+    border-radius: 3px; font-size: 12.5px; border: 1px solid; cursor: grab; user-select: none; }
+  .drag-chip[draggable="true"]:active { cursor: grabbing; }
+  .drag-chip .chip-role { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+  .drag-chip .chip-x { border: none; background: none; color: #888; cursor: pointer; font-size: 14px;
+    line-height: 1; padding: 0 0 0 2px; }
+  .drag-chip .chip-x:hover { color: #dc2626; }
+  /* Already dragged into at least one claim. Deliberately still draggable and
+     still legible — a characteristic is expected to appear in several claims —
+     so "used" reads as a receipt, not as disabled. */
+  .drag-chip.used { color: #6b7280; border-style: dashed; }
+  .drag-chip.used:hover { color: #111; border-style: solid; }
+  /* one badge per claim this characteristic is already in */
+  .drag-chip .chip-used { flex: none; min-width: 17px; text-align: center;
+    font-size: 9.5px; font-weight: 700; letter-spacing: .02em;
+    color: #254c6f; background: #fff; border-radius: 8px; padding: 1px 5px; }
+  .drag-chip .chip-used + .chip-used { margin-left: -2px; }
+  .drag-chip .chip-more { color: #8a9bb0; }
+  .grp-hint { font-size: 12px; color: #b8b8b8; font-style: italic; margin: 4px 0 8px; }
+  .grp-box { border: 1px solid #e0e0e0; border-radius: 4px; margin-bottom: 10px; background: #fcfcfc; }
+  .grp-top { display: flex; align-items: center; padding: 6px 10px; border-bottom: 1px solid #eee; }
+  .grp-name { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+    color: #555; }
+  .grp-del { margin-left: auto; border: none; background: none; color: #ccc; cursor: pointer;
+    font-size: 16px; line-height: 1; }
+  .grp-del:hover { color: #dc2626; }
+  .grp-add { font-size: 12px; border: 1px dashed #cfcfcf; background: #fff; color: #555;
+    border-radius: 4px; padding: 6px 12px; cursor: pointer; }
+  .grp-add:hover { border-color: #254c6f; color: #254c6f; }
+  .grp-section { margin-top: 26px; }
+  /* The sentence is the drop zone; dropping a characteristic fills its gap. */
+  .grp-sentence { padding: 12px; font-size: 14px; line-height: 2.4; color: #333;
+    font-family: Georgia, 'Times New Roman', serif; border-radius: 0 0 4px 4px;
+    transition: background .15s ease; }
+  .grp-sentence.over { background: #eaf0f6; box-shadow: inset 0 0 0 2px #254c6f; }
+  .grp-sentence .sent-v { display: inline-flex; align-items: center; gap: 3px; margin: 0 3px;
+    padding: 2px 5px 2px 8px; border-radius: 3px; border: 1px solid #e0e0e0;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif; font-size: 12.5px; line-height: 1.3;
+    vertical-align: middle; }
+  .grp-sentence .sent-x { border: none; background: none; color: #999; cursor: pointer;
+    font-size: 13px; line-height: 1; padding: 0; }
+  .grp-sentence .sent-x:hover { color: #dc2626; }
+  .grp-sentence .sent-ph { color: #bbb; font-style: italic; }
+  /* an optional clause (using … / developed by …) with nothing dropped in yet */
+  .grp-sentence .sent-slot.opt .sent-ph { color: #d4d4d4; }
+  /* the × that takes an unwanted optional clause out of this group's sentence,
+     and the control that puts it back — both quiet enough to sit in a sentence */
+  .grp-sentence .sent-omit { color: #d4d4d4; font-size: 12px; margin-left: 2px;
+    vertical-align: middle; }
+  .grp-sentence .sent-restore { border: none; background: none; cursor: pointer;
+    color: #c0c0c0; font-family: 'Helvetica Neue', Helvetica, sans-serif; font-size: 11.5px;
+    padding: 0 4px; margin-left: 6px; vertical-align: middle; }
+  .grp-sentence .sent-restore:hover { color: #254c6f; }
+  /* the actor context, shared by every claim below it */
+  .grp-head { border-bottom: 1px solid #eee; background: #f7f8fa; font-weight: 500; }
+  /* one claim: indented under its actor context, numbered <group>.<claim> */
+  .grp-claims { display: flex; flex-direction: column; }
+  .grp-claim { position: relative; padding-left: 44px; padding-right: 28px;
+               border-bottom: 1px dashed #ededed; }
+  .grp-claim:last-child { border-bottom: none; }
+  .claim-num { position: absolute; left: 12px; top: 12px; font-size: 11px;
+               font-weight: 700; color: #b0b0b0; letter-spacing: .03em; }
+  .claim-del { position: absolute; right: 6px; top: 8px; }
+  .grp-add-claim { margin: 8px 12px 12px; }
+
+  .tow-doc { display: flex; gap: 8px; align-items: baseline; font-size: 13px; margin-bottom: 7px;
+    cursor: pointer; }
+  .tow-doc .dtitle { color: #254c6f; text-decoration: none; flex: 1 1 auto; }
+  .tow-doc:hover .dtitle { text-decoration: underline; }
+  /* coverage badge: which coders have touched this document (not what they coded) */
+  .tow-doc .dcoders { display: flex; gap: 4px; flex: none; }
+  .tow-doc .dcoder { font-size: 9.5px; text-transform: uppercase; letter-spacing: .04em;
+    color: #6b7280; background: #eeeeec; border-radius: 3px; padding: 1px 5px; }
+  .tow-doc .dcoder.me { background: #254c6f; color: #fff; }
+  .tow-doc .dcoder.none { background: none; color: #bbb; padding-left: 0; }
+  .tow-doc .durl { color: #999; font-size: 11px; text-decoration: none; flex: none; }
+  .tow-doc .durl:hover { color: #254c6f; text-decoration: underline; }
+
+  .app { position: relative; padding-top: var(--bar-h); }
+  .reader { margin-right: 440px; padding: 40px 48px 160px; }
+  .side { position: fixed; top: var(--bar-h); right: 0; bottom: 0; width: 440px;
+    background: #fff; border-left: 1px solid var(--line); overflow-y: auto;
+    padding: 8px 22px 48px; }
+
+  /* Article prose */
+  #text { font-family: Georgia, 'Times New Roman', serif; font-size: 19px;
+    line-height: 1.85; max-width: 40em; }
+  #text h1, #text h2, #text h3 { line-height: 1.25; margin: 1.4em 0 .5em; font-weight: 700; }
+  #text h1 { font-size: 1.5em; } #text h2 { font-size: 1.28em; } #text h3 { font-size: 1.1em; }
+  #text p { margin: 0 0 1.1em; }
+  #text ul, #text ol { margin: 0 0 1.1em; padding-left: 1.4em; }
+  #text a { color: #1a1a1a; text-decoration: underline; text-decoration-color: #bbb; }
+  #text img { max-width: 100%; height: auto; border-radius: 6px; }
+  .doctitle { font-family: Georgia, serif; font-size: 30px; font-weight: 700;
+    line-height: 1.2; margin: 0 0 8px; max-width: 40em; }
+  .docurl { display: block; margin: 0 0 28px; font-size: 13px; color: var(--accent);
+    text-decoration: none; word-break: break-all; max-width: 40em; }
+  .docurl:hover { text-decoration: underline; }
+  mark { background: transparent; padding: 1px 0 0; cursor: pointer; }
+  mark.active { box-shadow: 0 0 0 2px rgba(0,0,0,.4); }
+
+  /* Coding form — clean, monospace, hairline dividers (no boxes) */
+  #form { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace; }
+  .card { border-top: 1px solid var(--line); padding: 20px 2px; }
+  .card:first-child { border-top: none; padding-top: 8px; }
+  .card.armed { background: #fbfbfa; }
+  .card .head { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .card .sq { width: 13px; height: 13px; border-radius: 3px; flex: none; }
+  .card .label { font-weight: 700; font-size: 13px; }
+  .card .arm { margin-left: auto; font-size: 11px; color: #888; border: 1px solid #dadada;
+    border-radius: 5px; padding: 3px 9px; white-space: nowrap; letter-spacing: .01em; }
+  .card.armed .arm { color: #111; border-color: #111; }
+  .card .body { margin-top: 13px; padding-left: 23px; }
+  .card textarea, .card input[type=text] { width: 100%; border: 1px solid #dcdcdc;
+    border-radius: 5px; padding: 7px 8px; font: inherit; font-size: 12.5px; color: #333;
+    resize: vertical; background: #fff; }
+  .card textarea:focus, .card input:focus { outline: none; border-color: #999; }
+  /* multi-select dropdown */
+  .select { position: relative; }
+  .select-control { display: flex; flex-wrap: wrap; gap: 5px; align-items: center;
+    min-height: 34px; border: 1px solid #dcdcdc; border-radius: 5px; padding: 5px 26px 5px 8px;
+    cursor: pointer; background: #fff; }
+  .select-control:hover { border-color: #999; }
+  .select.open .select-control { border-color: #111; }
+  .select-ph { color: #aaa; font-size: 12px; }
+  .select-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px;
+    background: #f0f0ef; border: 1px solid #ddd; border-radius: 4px; padding: 2px 4px 2px 7px; }
+  .select-tag button { border: none; background: none; color: #999; cursor: pointer;
+    font-size: 12px; line-height: 1; padding: 0; }
+  .select-tag button:hover { color: #dc2626; }
+  /* committed free-text answer: plain, settled text (press Enter to set) */
+  .text-answer { display: flex; align-items: flex-start; gap: 8px; padding: 4px 2px;
+    font-size: 12.5px; color: #111; line-height: 1.5; cursor: pointer; }
+  .text-answer:hover { color: #000; }
+  .text-answer .val { flex: 1; white-space: pre-wrap; word-break: break-word; }
+  .text-answer .x { border: none; background: none; color: #ccc; cursor: pointer;
+    font-size: 13px; line-height: 1; padding: 0; flex: none; }
+  .text-answer .x:hover { color: #dc2626; }
+  /* incident id: input + existing-incident picker */
+  .incident-id { display: flex; flex-direction: column; gap: 6px; padding: 2px; }
+  .inc-input { font: inherit; font-size: 13px; padding: 6px 8px; border: 1px solid #ddd;
+    border-radius: 6px; width: 100%; box-sizing: border-box; }
+  .inc-input:focus { outline: none; border-color: #111; }
+  .inc-row { display: flex; gap: 6px; }
+  .inc-select { flex: 1; font: inherit; font-size: 12px; padding: 5px 6px; border: 1px solid #ddd;
+    border-radius: 6px; background: #fff; cursor: pointer; }
+  .inc-new { font: inherit; font-size: 12px; padding: 5px 10px; border: 1px solid #ddd;
+    border-radius: 6px; background: #fafafa; cursor: pointer; white-space: nowrap; }
+  .inc-new:hover { border-color: #111; background: #fff; }
+  .caret { position: absolute; right: 9px; top: 9px; color: #999; font-size: 10px;
+    pointer-events: none; }
+  .select-menu { position: absolute; z-index: 20; left: 0; right: 0; top: calc(100% + 4px);
+    background: #fff; border: 1px solid #ccc; border-radius: 6px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.12); max-height: 260px; overflow-y: auto;
+    padding: 5px; display: none; }
+  .select.open .select-menu { display: block; }
+  .menu-opt { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #333;
+    padding: 6px 8px; border-radius: 5px; cursor: pointer; }
+  .menu-opt:hover { background: #f5f5f4; }
+  .menu-opt input { margin: 0; accent-color: #111; }
+  .menu-opt.sel { color: #111; font-weight: 600; }
+  /* Collapsible group heading inside a dropdown (harm / factor categories).
+     Collapsed by default, and sticky while open so you always know which group
+     you're scrolling through. */
+  .menu-group { display: flex; align-items: center; gap: 6px; width: 100%;
+    position: sticky; top: -5px; z-index: 1; background: #fff; text-align: left;
+    font: inherit; font-size: 10px; text-transform: uppercase; letter-spacing: .06em;
+    font-weight: 700; color: #6b7280; border: none; border-radius: 5px;
+    padding: 8px; margin: 2px 0; cursor: pointer; }
+  .menu-group:hover { background: #f5f5f4; color: #111; }
+  .menu-group.open { color: #111; }
+  .menu-group .mg-caret { font-size: 8px; color: #9ca3af; width: 8px; flex: none; }
+  .menu-group.open .mg-caret { color: #111; }
+  .menu-group .mg-name { flex: 1; white-space: normal; line-height: 1.35; }
+  /* how many of this group's options are already chosen — a collapsed group must
+     not hide that its contents are in use */
+  .menu-group .mg-sel { flex: none; background: #111; color: #fff; border-radius: 9px;
+    padding: 1px 6px; font-size: 9px; letter-spacing: 0; }
+  .menu-group .mg-n { flex: none; color: #c4c4c4; font-weight: 600; letter-spacing: 0; }
+  .menu-opt.in-group { margin-left: 14px; }
+  .cat-vopt.in-group { margin-left: 14px; width: calc(100% - 14px); }
+  .menu-add { display: flex; gap: 6px; padding: 7px 6px 4px; border-top: 1px solid #eee;
+    margin-top: 4px; }
+  .menu-add input { flex: 1; font-size: 12px; padding: 5px 8px; }
+  .menu-add button { font-size: 12px; border: 1px solid #dcdcdc; background: #fff;
+    border-radius: 5px; padding: 5px 10px; cursor: pointer; color: #333; }
+  .menu-add button:hover { border-color: #111; }
+  .sub { font-size: 10px; text-transform: uppercase; letter-spacing: .08em;
+    color: #b0b0b0; margin: 17px 0 7px; }
+  .quotes { display: flex; flex-direction: column; gap: 6px; }
+  .quote { font-size: 12px; line-height: 1.5; color: #555; background: none;
+    border-left: 2px solid #ccc; padding: 1px 20px 1px 12px;
+    position: relative; cursor: pointer; }
+  .quote .x { position: absolute; top: 1px; right: 4px; border: none; background: none;
+    color: #ccc; cursor: pointer; font-size: 13px; line-height: 1; }
+  .quote .x:hover { color: #dc2626; }
+  .quotes-empty { font-size: 11.5px; color: #bbb; }
+  .comments { margin-top: 0; }
+
+  /* Role highlights carry a subscript claim number; hovering links a claim's marks */
+  mark.role-mark[data-badge]::after { content: attr(data-badge); display: inline-block;
+    box-sizing: border-box; width: 1.4em; height: 1.4em; line-height: 1.4em; text-align: center;
+    font-size: .66em; font-weight: 800; border-radius: 50%; background: #111; color: #fff;
+    vertical-align: super; margin-left: 3px; }
+  mark.linked { box-shadow: 0 0 0 2px rgba(0,0,0,.55); }
+  #arrows { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 6; }
+  .arrow-path { fill: none; stroke: #111; stroke-width: 1.6; opacity: .7; }
+
+  /* highlight-first category pop-up */
+  .cat-menu { position: fixed; z-index: 40; background: #fff; border: 1px solid #ccc;
+    border-radius: 8px; box-shadow: 0 8px 28px rgba(0,0,0,.16); padding: 9px 10px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; max-width: 300px; }
+  .cat-title { font-size: 11px; color: #666; margin-bottom: 8px; max-width: 280px; }
+  .cat-group { margin-bottom: 6px; }
+  .cat-group-label { font-size: 9.5px; text-transform: uppercase; letter-spacing: .06em;
+    color: #aaa; margin-bottom: 5px; }
+  .cat-btns { display: flex; flex-wrap: wrap; gap: 5px; }
+  .cat-btn { display: inline-flex; align-items: center; gap: 5px; font: inherit; font-size: 11.5px;
+    border: 1px solid #ddd; background: #fff; border-radius: 6px; padding: 4px 9px; cursor: pointer; color: #222; }
+  .cat-btn:hover { border-color: #111; }
+  .cat-dot { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+  .cat-btn-wrap { display: inline-flex; align-items: stretch; }
+  .cat-btn-wrap .cat-btn { border-radius: 6px 0 0 6px; border-right: none; }
+  /* Chips with no value-picker caret (e.g. aftermath) keep a full, closed button. */
+  .cat-btn-wrap .cat-btn:only-child { border-radius: 6px; border-right: 1px solid #ddd; }
+  .cat-caret { font: inherit; font-size: 9px; border: 1px solid #ddd; background: #fafafa;
+    border-radius: 0 6px 6px 0; padding: 0 6px; cursor: pointer; color: #888; }
+  .cat-caret:hover { border-color: #111; color: #111; background: #fff; }
+  .cat-vlist { max-height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 3px; }
+  .cat-vopt { display: block; width: 100%; text-align: left; font: inherit; font-size: 12px;
+    border: 1px solid #eee; background: #fff; border-radius: 6px; padding: 5px 9px; cursor: pointer; color: #222; }
+  .cat-vopt:hover { border-color: #111; }
+  .cat-vopt-text { color: #2563eb; border-color: #cfe0ff; margin-bottom: 3px; }
+  .cat-vopt-text:hover { border-color: #2563eb; }
+  .cat-back { font-size: 11px; border: none; background: none; color: #888; cursor: pointer;
+    padding: 5px 2px 2px; }
+  .cat-back:hover { color: #111; }
+  .cat-newclaim { font-size: 11px; border: 1px dashed #cfcfcf; background: #fff; border-radius: 6px;
+    padding: 5px 9px; cursor: pointer; color: #555; margin: 2px 0 6px; width: 100%; }
+  .cat-newclaim:hover { border-color: #111; color: #111; }
+  .cat-div { border-top: 1px solid #eee; margin: 4px 0 8px; }
+  .cat-del { display: block; width: 100%; text-align: left; font: inherit; font-size: 12px;
+    border: 1px solid #f0c4c4; background: #fff; color: #b91c1c; border-radius: 6px;
+    padding: 6px 9px; cursor: pointer; margin-bottom: 5px; }
+  .cat-del:hover { background: #fef2f2; border-color: #b91c1c; }
+  .cat-goto { display: block; width: 100%; text-align: left; font: inherit; font-size: 12px;
+    border: 1px solid #ddd; background: #fff; color: #333; border-radius: 6px;
+    padding: 6px 9px; cursor: pointer; }
+  .cat-goto:hover { border-color: #111; }
+  /* multi-select chip state */
+  .cat-btn.on { border-color: #111; background: #111; color: #fff; }
+  .cat-btn .cat-check { display: inline-block; width: 9px; font-size: 10px; line-height: 1; }
+  .cat-done { display: block; width: 100%; text-align: center; font: inherit; font-size: 12px;
+    font-weight: 600; border: 1px solid #111; background: #111; color: #fff; border-radius: 6px;
+    padding: 6px 9px; cursor: pointer; margin-top: 8px; }
+  .cat-done:hover { background: #333; }
+  /* span menu: one row per category on a shared highlight */
+  .span-row { display: flex; align-items: center; gap: 7px; padding: 4px 2px; }
+  .span-name { flex: 1; font-size: 12px; color: #333; }
+  .span-x { border: none; background: none; color: #b91c1c; cursor: pointer; font-size: 12px;
+    padding: 0 4px; line-height: 1; }
+  .span-x:hover { color: #7f1d1d; }
+
+  /* Claims panel — actor ↔ harm ↔ factor ↔ harmed party */
+  .claims-section { border-top: 2px solid var(--line); margin-top: 26px; padding: 20px 2px 8px; }
+  .claims-head { display: flex; align-items: baseline; gap: 8px; }
+  .claims-head .label { font-weight: 700; font-size: 13px; }
+  .claims-empty { font-size: 11.5px; color: #bbb; margin: 10px 0; }
+  .claim-list { display: flex; flex-direction: column; gap: 14px; }
+  .claim-row { border: 1px solid #e2e2e2; border-radius: 8px; padding: 11px 12px; background: #fcfcfc; }
+  .claim-top { display: flex; align-items: center; margin-bottom: 10px; }
+  .claim-num { font-size: 13px; font-weight: 800; color: #111; letter-spacing: .02em; }
+  .claim-del { margin-left: auto; border: none; background: none; color: #ccc; cursor: pointer;
+    font-size: 15px; line-height: 1; padding: 0; }
+  .claim-del:hover { color: #dc2626; }
+  .claim-chain { display: flex; flex-direction: column; gap: 4px; }
+  .role-slot { border-radius: 6px; padding: 6px 7px; }
+  .role-slot.armed { background: #fbfbfa; box-shadow: inset 0 0 0 1px #111; }
+  .role-slot .role-head { display: flex; align-items: center; gap: 7px; }
+  .role-dot { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+  .role-name { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+    color: #555; min-width: 84px; }
+  .role-arm { margin-left: auto; font-size: 10px; color: #888; border: 1px solid #dadada;
+    border-radius: 5px; padding: 2px 8px; white-space: nowrap; cursor: pointer; }
+  .role-slot.armed .role-arm { color: #111; border-color: #111; }
+  .role-select { margin-top: 6px; }
+
+  /* per-selection justification — clean list, no boxes */
+  .value-ev { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+  .ev-none { font-size: 11px; color: #bbb; }
+  .ev-row { padding: 0; }
+  .ev-head { display: flex; align-items: center; gap: 8px; }
+  .ev-dot { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+  .ev-val { font-size: 13px; color: #111; font-weight: 600; }
+  .ev-count { font-size: 10.5px; color: #bbb; white-space: nowrap; }
+  .ev-warn { font-size: 10.5px; color: #d97706; font-weight: 700; white-space: nowrap; }
+  .ev-arm { margin-left: auto; font-size: 10px; color: #9a9a9a; border: none; background: none;
+    cursor: pointer; padding: 2px 4px; }
+  .ev-arm:hover { color: #111; }
+  .ev-row.armed .ev-arm { color: #111; font-weight: 700; }
+  .ev-row .quotes { margin: 5px 0 0 2px; }
+  .claim-arrow { color: #cbd5e1; font-size: 12px; text-align: center; line-height: 1; margin: 1px 0; }
+  .claim-add { margin-top: 14px; font-size: 12px; border: 1px dashed #cfcfcf; background: #fff;
+    border-radius: 6px; padding: 8px 12px; cursor: pointer; color: #555; width: 100%; }
+  .claim-add:hover { border-color: #111; color: #111; }
