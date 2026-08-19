@@ -136,7 +136,7 @@ pairs, not references: `aggregate_incidents` drops any value no longer coded on 
 member document, and a claim left with nothing disappears. An incident whose
 documents have all moved away is deleted once nothing is coded on it.
 
-## 2c. Signing an incident off as complete
+## 2c. Judging an incident: complete, or not an incident
 
 Every save already reaches Mongo on its own, so nothing needs uploading by hand.
 What the card view adds is a **judgement**: the coder saying their reading of this
@@ -170,6 +170,34 @@ the incident, including edits the check never reads, such as aftermath text.
 
 Sign-offs are per coder and land at `by_coder.<coder>.status` / `.completed_at`
 on the incident, so analysis can separate finished coding from work in progress.
+
+### Not an incident
+
+Some documents turn out not to describe an incident at all. **Not an incident**
+on any card sets it aside, with an optional reason:
+
+- **Nothing is deleted.** The documents stay assigned and the coding stays put.
+  An incident is not a record you can remove — it exists because documents point
+  at it through the *shared* `incident_assignments.json`, so deleting one would
+  unassign its documents and turn each into its own incident again.
+- **It is ungated.** Unlike a sign-off, nothing has to be coded first. Judging
+  that the material isn't an incident is a finding in its own right, and is
+  usually reached long before the coding could ever be complete.
+- **It is per coder**, like every other judgement. One coder setting an incident
+  aside leaves the other's coding of it untouched — and that disagreement is
+  data, not a conflict for the app to resolve.
+- **It survives editing.** A sign-off is withdrawn when an edit costs the
+  incident its completeness; an exclusion is not, because coding more of
+  something does not make it an incident.
+
+Set-aside incidents drop into a collapsed **Not an incident (n)** list at the
+foot of the page, where **Restore** puts one back. In Mongo they are
+`by_coder.<coder>.status = "not_an_incident"`, with the reason at
+`by_coder.<coder>.excluded_reason`.
+
+All three judgements go through one route, `POST /api/incident/<id>/status`,
+with `status` one of `""`, `"complete"`, `"not_an_incident"`
+(`INCIDENT_STATUSES` in `config.py`).
 
 ## 3. Read the data in Mongo
 

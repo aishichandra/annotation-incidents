@@ -147,6 +147,13 @@ OPTIONAL_CLAIM_ROLES = ("system", "developer")
 # required by default — the coding scheme decides, not this constant.
 REQUIRED_CLAIM_ROLES = tuple(r for r in ROLE_KEYS if r not in OPTIONAL_CLAIM_ROLES)
 
+# What one coder can say about an incident as a whole. "" is the default — still
+# working on it. "complete" is a sign-off, and the completeness check gates it.
+# "not_an_incident" sets the incident aside as out of scope, and nothing gates
+# that: judging that something isn't an incident is itself a finding, and it can
+# be reached long before the coding would ever be complete.
+INCIDENT_STATUSES = ("", "complete", "not_an_incident")
+
 
 def load_schema() -> dict:
     if not SCHEMA_JSON.exists():

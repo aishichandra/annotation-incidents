@@ -133,6 +133,35 @@
               flex: none; font-weight: 600; }
   .inc-mark:hover { background: #175834; border-color: #175834; }
   .inc-mark:disabled { opacity: .6; cursor: default; }
+  /* set aside as out of scope — muted, since it is a closed question */
+  .inc-out { font-size: 11px; font-weight: 600; color: #6b7280; background: #f3f4f6;
+             border: 1px solid #dcdfe3; border-radius: 4px; padding: 3px 8px;
+             max-width: 46ch; overflow: hidden; text-overflow: ellipsis;
+             white-space: nowrap; }
+  .inc-drop { font-size: 11px; border: 1px solid #dcdcdc; background: #fff; color: #777;
+              cursor: pointer; border-radius: 4px; padding: 3px 9px; flex: none; }
+  .inc-drop:hover { border-color: #b45309; color: #b45309; }
+  .inc-drop:disabled { opacity: .6; cursor: default; }
+  .inc-restore { font-size: 11px; border: 1px solid #dcdcdc; background: #fff; color: #666;
+                 cursor: pointer; border-radius: 4px; padding: 3px 8px; flex: none; }
+  .inc-restore:hover { border-color: #254c6f; color: #254c6f; }
+  .inc-restore:disabled { opacity: .6; cursor: default; }
+
+  /* the collapsed list of set-aside incidents, below the ones being coded */
+  .inc-out-list { margin-top: 26px; border-top: 1px solid #e0e0e0; padding-top: 6px; }
+  .inc-out-list > summary { cursor: pointer; padding: 10px 4px; color: #6b7280;
+                            font: 600 12px 'Helvetica Neue', Helvetica, sans-serif;
+                            text-transform: uppercase; letter-spacing: .05em;
+                            list-style: none; }
+  .inc-out-list > summary::-webkit-details-marker { display: none; }
+  .inc-out-list > summary::before { content: '\25b8 '; display: inline-block;
+                                    transition: transform .12s; }
+  .inc-out-list[open] > summary::before { content: '\25be '; }
+  .inc-out-list > summary:hover { color: #254c6f; }
+  /* a set-aside card is still readable, just clearly not in play */
+  .inc-out-list .tow-card { opacity: .62; }
+  .inc-out-list .tow-card:hover { opacity: 1; }
+
   .inc-undo { font-size: 11px; border: 1px solid #dcdcdc; background: #fff; color: #666;
               cursor: pointer; border-radius: 4px; padding: 3px 8px; flex: none; }
   .inc-undo:hover { border-color: #254c6f; color: #254c6f; }

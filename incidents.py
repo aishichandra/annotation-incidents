@@ -201,6 +201,7 @@ def aggregate_incidents(coder: str):
         g["completeness"] = incident_completeness(g)
         g["status"] = entry.get("status") or ""
         g["completed_at"] = entry.get("completed_at") or ""
+        g["excluded_reason"] = entry.get("excluded_reason") or ""
 
     return incidents, field_defs, role_defs
 

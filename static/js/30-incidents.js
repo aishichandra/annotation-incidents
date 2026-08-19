@@ -81,10 +81,22 @@ async function loadIncidents() {
   }
   INCIDENTS = {};
   data.incidents.forEach(inc => { INCIDENTS[inc.incident_id] = inc; });
-  const body = data.incidents.length
-    ? data.incidents.map(inc => incidentCard(inc, data.fields)).join('')
-    : '<div class="iempty">No incidents coded yet.</div>';
-  wrap.innerHTML = `<div class="inc-wrap">${body}</div>`;
+  // Incidents this coder has set aside drop to their own collapsed list at the
+  // foot of the page: out of the way of the ones still being coded, but visible
+  // and countable, since "what did I rule out" is part of the record.
+  const live = data.incidents.filter(inc => inc.status !== 'not_an_incident');
+  const out = data.incidents.filter(inc => inc.status === 'not_an_incident');
+  const body = live.length
+    ? live.map(inc => incidentCard(inc, data.fields)).join('')
+    : `<div class="iempty">${out.length ? 'Every incident has been set aside.'
+                                        : 'No incidents coded yet.'}</div>`;
+  const excluded = out.length
+    ? `<details class="inc-out-list">
+         <summary>Not an incident (${out.length})</summary>
+         ${out.map(inc => incidentCard(inc, data.fields)).join('')}
+       </details>`
+    : '';
+  wrap.innerHTML = `<div class="inc-wrap">${body}${excluded}</div>`;
   wireIncidentCard(wrap);
   INCIDENTS_RENDERED = true;
   DIRTY_INCIDENTS.clear();
@@ -200,18 +212,30 @@ function missingText(missing) {
 
 function completeControl(inc) {
   const encId = escapeHtml(inc.incident_id);
+  const when = (inc.completed_at || '').slice(0, 10);
+  if (inc.status === 'not_an_incident') {
+    const why = inc.excluded_reason
+      ? ` \u00b7 ${escapeHtml(inc.excluded_reason)}` : '';
+    return `<span class="inc-out" title="Set aside by you${when ? ' on ' + when : ''}">`
+         + `Not an incident${why}</span>`
+         + `<button class="inc-restore" data-inc="${encId}" `
+         + `title="Put this back with the incidents you are coding">Restore</button>`;
+  }
   if (inc.status === 'complete') {
-    const when = (inc.completed_at || '').slice(0, 10);
     return `<span class="inc-done" title="Signed off ${escapeHtml(inc.completed_at || '')}">`
          + `\u2713 Complete${when ? ' \u00b7 ' + escapeHtml(when) : ''}</span>`
          + `<button class="inc-undo" data-inc="${encId}" title="Withdraw this sign-off">Undo</button>`;
   }
+  // Excluding is always available: it is a judgement about the material, so it
+  // never waits on the coding being finished.
+  const drop = `<button class="inc-drop" data-inc="${encId}" `
+             + `title="This isn't an incident \u2014 set it aside">Not an incident</button>`;
   const st = completenessOf(inc);
   if (!st.ok) {
     return `<span class="inc-needs" title="Fill these in to sign this incident off">`
-         + `Needs ${escapeHtml(missingText(st.missing))}</span>`;
+         + `Needs ${escapeHtml(missingText(st.missing))}</span>` + drop;
   }
-  return `<button class="inc-mark" data-inc="${encId}">Mark complete</button>`;
+  return drop + `<button class="inc-mark" data-inc="${encId}">Mark complete</button>`;
 }
 
 // Re-render the control wherever this incident is on screen. Called after any
@@ -226,21 +250,29 @@ function refreshComplete(inc) {
 
 function wireComplete(el) {
   const mark = el.querySelector('.inc-mark');
-  if (mark) mark.onclick = () => setComplete(mark.dataset.inc, true);
+  if (mark) mark.onclick = () => setStatus(mark.dataset.inc, 'complete');
   const undo = el.querySelector('.inc-undo');
-  if (undo) undo.onclick = () => setComplete(undo.dataset.inc, false);
+  if (undo) undo.onclick = () => setStatus(undo.dataset.inc, '');
+  const restore = el.querySelector('.inc-restore');
+  if (restore) restore.onclick = () => setStatus(restore.dataset.inc, '');
+  const drop = el.querySelector('.inc-drop');
+  if (drop) drop.onclick = () => {
+    const why = prompt('Why is this not an incident? (optional)') ;
+    if (why === null) return;                       // cancelled
+    setStatus(drop.dataset.inc, 'not_an_incident', why);
+  };
 }
 
-async function setComplete(incId, flag) {
+async function setStatus(incId, status, reason) {
   const inc = INCIDENTS[incId];
   if (!inc) return;
+  const was = inc.status;
   const el = document.querySelector(`.inc-complete[data-inc="${CSS.escape(incId)}"]`);
-  const btn = el && el.querySelector('button');
-  if (btn) { btn.disabled = true; btn.textContent = flag ? 'Marking\u2026' : 'Undoing\u2026'; }
+  el && el.querySelectorAll('button').forEach(b => b.disabled = true);
   try {
-    const res = await fetch('/api/incident/' + encodeURIComponent(incId) + '/complete', {
+    const res = await fetch('/api/incident/' + encodeURIComponent(incId) + '/status', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ complete: flag }),
+      body: JSON.stringify({ status, reason: reason || '' }),
     });
     const j = await res.json();
     if (!res.ok || !j.ok) {
@@ -252,10 +284,15 @@ async function setComplete(incId, flag) {
     }
     inc.status = j.status;
     inc.completed_at = j.completed_at;
+    inc.excluded_reason = j.excluded_reason || '';
   } catch (e) {
     if (el) el.innerHTML = '<span class="inc-needs">Could not save \u2014 try again</span>';
     return;
   }
+  // Crossing into or out of "not an incident" moves the card between the live
+  // list and the set-aside one — a change to the list, not to one card, so the
+  // whole thing is redrawn. Every other transition just restyles the control.
+  if (status === 'not_an_incident' || was === 'not_an_incident') return loadIncidents();
   refreshComplete(inc);
 }
 
