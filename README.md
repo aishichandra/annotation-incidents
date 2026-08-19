@@ -136,6 +136,38 @@ pairs, not references: `aggregate_incidents` drops any value no longer coded on 
 member document, and a claim left with nothing disappears. An incident whose
 documents have all moved away is deleted once nothing is coded on it.
 
+## 2c. Signing an incident off as complete
+
+Every save already reaches Mongo on its own, so nothing needs uploading by hand.
+What the card view adds is a **judgement**: the coder saying their reading of this
+incident is finished. Each incident card carries one control, per coder:
+
+| Card shows | Meaning |
+|---|---|
+| `Needs harm, a linked claim` | Not signed off, and what is missing |
+| `Mark complete` | Everything required is coded — sign-off available |
+| `✓ Complete · 2026-08-19` + `Undo` | Signed off, with the date |
+
+An incident qualifies when **every required characteristic has at least one
+value** — actor, factor, harm and harmed party, with system and developer staying
+optional (`REQUIRED_CLAIM_ROLES` in `config.py`, derived from the scheme so a new
+role is required unless it is listed as optional) — **and at least one claim group
+names an actor and holds a complete claim** (harm + harmed party + factor).
+
+The second bar is the one that matters: an incident can have a full palette and
+still assert nothing. Linking is what turns a pile of characteristics into a claim
+about who did what to whom.
+
+The check runs on the server (`incident_completeness`) whenever coding is read,
+and again before a sign-off is recorded, so a card rendered before the coding
+changed cannot sign off work that no longer qualifies — it gets a 409 naming what
+is missing. **Editing the coding withdraws an existing sign-off**, since the
+attestation was about a reading that has since moved; comments don't, as they are
+not part of what the check reads.
+
+Sign-offs are per coder and land at `by_coder.<coder>.status` / `.completed_at`
+on the incident, so analysis can separate finished coding from work in progress.
+
 ## 3. Read the data in Mongo
 
 Open [`mongo_connect.ipynb`](mongo_connect.ipynb). Run the connect cell once,

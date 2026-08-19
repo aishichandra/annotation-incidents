@@ -114,7 +114,28 @@
   /* free text belonging to a characteristic, shown with it */
   .pal-note { flex: 0 0 100%; font-size: 12px; color: #555; margin-bottom: 2px; }
   /* raw JSON for one incident, under its card */
-  .json-btn { margin-left: auto; align-self: flex-start; flex: none; font-size: 11px;
+  /* Completion sign-off, in the card header. Sits to the right of the documents
+     and left of the JSON button; margin-left:auto on the first of the pair pushes
+     the group over, so the JSON button keeps its own auto margin. */
+  .inc-complete { margin-left: auto; align-self: flex-start; flex: none;
+                  display: flex; align-items: center; gap: 8px; }
+  .inc-needs { font-size: 11px; color: #9a6b00; background: #fff8e6;
+               border: 1px solid #f0e0b0; border-radius: 4px; padding: 3px 8px;
+               white-space: nowrap; }
+  .inc-done { font-size: 11px; font-weight: 600; color: #1c6b3f; background: #e8f6ee;
+              border: 1px solid #bfe3cf; border-radius: 4px; padding: 3px 8px;
+              white-space: nowrap; }
+  .inc-mark { font-size: 11px; border: 1px solid #1c6b3f; background: #1c6b3f;
+              color: #fff; cursor: pointer; border-radius: 4px; padding: 3px 10px;
+              flex: none; font-weight: 600; }
+  .inc-mark:hover { background: #175834; border-color: #175834; }
+  .inc-mark:disabled { opacity: .6; cursor: default; }
+  .inc-undo { font-size: 11px; border: 1px solid #dcdcdc; background: #fff; color: #666;
+              cursor: pointer; border-radius: 4px; padding: 3px 8px; flex: none; }
+  .inc-undo:hover { border-color: #254c6f; color: #254c6f; }
+  .inc-undo:disabled { opacity: .6; cursor: default; }
+
+  .json-btn { margin-left: 0; align-self: flex-start; flex: none; font-size: 11px;
               font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
               border: 1px solid #dcdcdc; background: #fff; color: #666; cursor: pointer;
               border-radius: 4px; padding: 3px 8px; }

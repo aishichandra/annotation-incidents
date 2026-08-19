@@ -67,6 +67,7 @@ function wireIncidentCard(root) {
   root.querySelectorAll('.tow-groups').forEach(el => buildGroupsUI(el, INCIDENTS[el.dataset.inc]));
   root.querySelectorAll('.inc-note-body').forEach(el =>
     buildIncidentComment(el, el.closest('.inc-note').dataset.inc));
+  root.querySelectorAll('.inc-complete').forEach(el => wireComplete(el));
   root.querySelectorAll('.json-btn').forEach(btn => btn.onclick = () => toggleJson(btn.dataset.inc));
 }
 
@@ -133,6 +134,7 @@ function incidentCard(inc, fields) {
     <div class="tow-head">
       <span class="tow-id">${encId}</span>
       <div class="tow-headdocs">${docsHtml}</div>
+      <div class="inc-complete" data-inc="${encId}">${completeControl(inc)}</div>
       <button class="json-btn" data-inc="${encId}" title="Show this incident as it is stored">{ } JSON</button>
     </div>
     <div class="tow-body">
@@ -160,6 +162,92 @@ const roleColor = (role) => (CLAIM_ROLE[role] && CLAIM_ROLE[role].color) || '#e5
 const roleLabel = (role) => (CLAIM_ROLE[role] && CLAIM_ROLE[role].label) || role;
 
 // Persist an incident's groups (debounced-ish: fire immediately, it's small).
+// ---------- completion sign-off ----------
+// A mirror of incident_completeness() in incidents.py, so the control can react
+// to a drag without a round trip. The server re-checks before recording a
+// sign-off and answers 409 if it disagrees, so the two drifting apart costs a
+// confusing button, never a wrong record.
+const REQUIRED_ROLES = ['actor', 'factor', 'harm', 'harmed_party'];
+const MISSING_LABEL = { complete_claim: 'a linked claim' };
+
+function claimIsComplete(cl) {
+  return !!(cl.harm && (cl.harmed_parties || []).length && (cl.factors || []).length);
+}
+
+function completenessOf(inc) {
+  const missing = REQUIRED_ROLES.filter(r => !(((inc.role_values || {})[r]) || []).length);
+  if (!(inc.groups || []).some(g => g.actor && (g.claims || []).some(claimIsComplete))) {
+    missing.push('complete_claim');
+  }
+  return { ok: !missing.length, missing };
+}
+
+function missingText(missing) {
+  return missing.map(m => MISSING_LABEL[m] || roleLabel(m).toLowerCase()).join(', ');
+}
+
+function completeControl(inc) {
+  const encId = escapeHtml(inc.incident_id);
+  if (inc.status === 'complete') {
+    const when = (inc.completed_at || '').slice(0, 10);
+    return `<span class="inc-done" title="Signed off ${escapeHtml(inc.completed_at || '')}">`
+         + `\u2713 Complete${when ? ' \u00b7 ' + escapeHtml(when) : ''}</span>`
+         + `<button class="inc-undo" data-inc="${encId}" title="Withdraw this sign-off">Undo</button>`;
+  }
+  const st = completenessOf(inc);
+  if (!st.ok) {
+    return `<span class="inc-needs" title="Fill these in to sign this incident off">`
+         + `Needs ${escapeHtml(missingText(st.missing))}</span>`;
+  }
+  return `<button class="inc-mark" data-inc="${encId}">Mark complete</button>`;
+}
+
+// Re-render the control wherever this incident is on screen. Called after any
+// edit the completeness check reads, so the button tracks the coding.
+function refreshComplete(inc) {
+  document.querySelectorAll('.inc-complete').forEach(el => {
+    if (el.dataset.inc !== inc.incident_id) return;
+    el.innerHTML = completeControl(inc);
+    wireComplete(el);
+  });
+}
+
+function wireComplete(el) {
+  const mark = el.querySelector('.inc-mark');
+  if (mark) mark.onclick = () => setComplete(mark.dataset.inc, true);
+  const undo = el.querySelector('.inc-undo');
+  if (undo) undo.onclick = () => setComplete(undo.dataset.inc, false);
+}
+
+async function setComplete(incId, flag) {
+  const inc = INCIDENTS[incId];
+  if (!inc) return;
+  const el = document.querySelector(`.inc-complete[data-inc="${CSS.escape(incId)}"]`);
+  const btn = el && el.querySelector('button');
+  if (btn) { btn.disabled = true; btn.textContent = flag ? 'Marking\u2026' : 'Undoing\u2026'; }
+  try {
+    const res = await fetch('/api/incident/' + encodeURIComponent(incId) + '/complete', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ complete: flag }),
+    });
+    const j = await res.json();
+    if (!res.ok || !j.ok) {
+      // The server saw coding this card was rendered before. Say what it wants
+      // rather than silently reverting the button.
+      if (el) el.innerHTML = `<span class="inc-needs">Needs `
+        + `${escapeHtml(missingText(j.missing || []))}</span>`;
+      return;
+    }
+    inc.status = j.status;
+    inc.completed_at = j.completed_at;
+  } catch (e) {
+    if (el) el.innerHTML = '<span class="inc-needs">Could not save \u2014 try again</span>';
+    return;
+  }
+  refreshComplete(inc);
+}
+
+
 async function saveGroups(inc) {
   try {
     await fetch('/api/incident/' + encodeURIComponent(inc.incident_id) + '/groups', {
@@ -167,6 +255,10 @@ async function saveGroups(inc) {
       body: JSON.stringify({ groups: inc.groups }),
     });
   } catch (e) { /* non-fatal: local drag state stays until reload */ }
+  // Editing the claims invalidates any sign-off — the server does this in
+  // clear_signoff(); reflect it here so the card can't keep claiming complete.
+  if (inc.status === 'complete') { inc.status = ''; inc.completed_at = ''; }
+  refreshComplete(inc);
 }
 
 // Comments in flight, incident id -> pending debounce timer. Typing shouldn't

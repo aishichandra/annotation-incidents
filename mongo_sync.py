@@ -163,6 +163,8 @@ def sync_incident_coding_to_mongo(inc_id: str, coder: str, entry: dict) -> None:
                       f"by_coder.{coder}.notes": entry.get("notes") or {},
                       f"by_coder.{coder}.groups": entry.get("groups") or [],
                       f"by_coder.{coder}.comment": entry.get("comment") or "",
+                     f"by_coder.{coder}.status": entry.get("status") or "",
+                     f"by_coder.{coder}.completed_at": entry.get("completed_at") or "",
                       f"by_coder.{coder}.updated_at": now,
                       "title": storage.incident_title_for(inc_id), "updated_at": now}},
             upsert=True)
@@ -199,11 +201,13 @@ def incident_coding_from_mongo(coder: str) -> dict:
     for inc in mongo_db.incidents.find({}, {"by_coder": 1}):
         sub = (inc.get("by_coder") or {}).get(coder) or {}
         if (sub.get("fields") or sub.get("groups") or sub.get("notes")
-                or sub.get("comment")):
+                or sub.get("comment") or sub.get("status")):
             out[str(inc["_id"])] = {"fields": sub.get("fields") or {},
                                     "notes": sub.get("notes") or {},
                                     "groups": sub.get("groups") or [],
-                                    "comment": sub.get("comment") or ""}
+                                    "comment": sub.get("comment") or "",
+                                    "status": sub.get("status") or "",
+                                    "completed_at": sub.get("completed_at") or ""}
     return out
 
 

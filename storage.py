@@ -120,7 +120,12 @@ def save_annotations(store: dict, coder: str) -> None:
 
 
 def blank_incident_coding() -> dict:
-    return {"fields": {}, "notes": {}, "groups": [], "comment": ""}
+    """Every part of one coder's incident-level coding. `status` is their
+    sign-off ("complete" or ""), `completed_at` when they gave it. Both belong
+    here for the reason in load_incident_coding: a part left out of this dict is
+    read from Mongo and then dropped on the next write."""
+    return {"fields": {}, "notes": {}, "groups": [], "comment": "",
+            "status": "", "completed_at": ""}
 
 
 def load_incident_coding(coder: str) -> dict:
@@ -157,7 +162,8 @@ def save_incident_coding(store: dict, coder: str) -> None:
     # Incidents a coder has neither answered nor linked anything on aren't worth
     # a line in the file.
     lean = {k: v for k, v in store.items()
-            if v.get("fields") or v.get("groups") or v.get("notes") or v.get("comment")}
+            if v.get("fields") or v.get("groups") or v.get("notes")
+            or v.get("comment") or v.get("status")}
     _atomic_write(incident_coding_path(coder), json.dumps(lean, indent=2, ensure_ascii=False))
 
 

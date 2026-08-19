@@ -7,7 +7,9 @@ claim groups into one object per incident.
 import re
 from datetime import datetime
 
-from config import CODERS, IDENTITY_FIELDS, OPTIONAL_CLAIM_ROLES, load_schema
+from config import (
+    CODERS, IDENTITY_FIELDS, OPTIONAL_CLAIM_ROLES, REQUIRED_CLAIM_ROLES, load_schema,
+)
 from doc_source import cell
 import doc_source
 import storage
@@ -22,6 +24,36 @@ def _next_incident_id(ids):
 def coded_by(key, stores) -> list:
     """Which coders have coded this document. Drives the "coded by" badge."""
     return [coder for coder, store in stores.items() if storage.has_coding(store.get(key))]
+
+
+
+def claim_is_complete(cl: dict) -> bool:
+    """A claim reads as finished when it says who was harmed, how, and why —
+    harm, at least one harmed party, at least one factor. The optional
+    `using … developed by …` clauses are not part of the sentence's core."""
+    return bool(cl.get("harm")
+                and (cl.get("harmed_parties") or [])
+                and (cl.get("factors") or []))
+
+
+def incident_completeness(inc: dict) -> dict:
+    """Whether one coder's reading of an incident is finished enough to sign off.
+
+    Two bars, and the second is the one that matters. Every required role must
+    have at least one value, which says the coder has read the documents and
+    picked out the characteristics. And at least one claim group must name an
+    actor and carry a complete claim, which says they have gone the further step
+    of asserting who did what to whom — the judgement the flat lists alone never
+    state. An incident can have a full palette and still assert nothing.
+
+    Returns `{"ok": bool, "missing": [...]}`; `missing` names what is absent so
+    the card can say why the button is disabled rather than just disabling it."""
+    missing = [role for role in REQUIRED_CLAIM_ROLES
+               if not (inc.get("role_values") or {}).get(role)]
+    if not any(g.get("actor") and any(claim_is_complete(c) for c in (g.get("claims") or []))
+               for g in (inc.get("groups") or [])):
+        missing.append("complete_claim")
+    return {"ok": not missing, "missing": missing}
 
 
 def aggregate_incidents(coder: str):
@@ -160,6 +192,15 @@ def aggregate_incidents(coder: str):
                 pruned.append({"id": grp.get("id"), "actor": actor, "system": system,
                                "developer": developer, "claims": claims, "omit": omit})
         g["groups"] = pruned
+        # Computed after pruning, so the check sees the same groups the card
+        # does. The stored sign-off rides alongside it: `completeness` is what
+        # the coding currently supports, `status` is what the coder has actually
+        # attested to, and the two can disagree — signing off then editing is
+        # what clears the flag (see api_set_complete).
+        entry = inc_store.get(inc_id) or {}
+        g["completeness"] = incident_completeness(g)
+        g["status"] = entry.get("status") or ""
+        g["completed_at"] = entry.get("completed_at") or ""
 
     return incidents, field_defs, role_defs
 
