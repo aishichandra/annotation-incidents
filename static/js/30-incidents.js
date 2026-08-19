@@ -270,19 +270,31 @@ async function setStatus(incId, status, reason) {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status, reason: reason || '' }),
     });
-    const j = await res.json();
-    if (!res.ok || !j.ok) {
-      // The server saw coding this card was rendered before. Say what it wants
-      // rather than silently reverting the button.
-      if (el) el.innerHTML = `<span class="inc-needs">Needs `
-        + `${escapeHtml(missingText(j.missing || []))}</span>`;
+    // An error page is HTML, not JSON, so parsing has to be allowed to fail —
+    // otherwise every non-JSON response arrives here as a bare parse error and
+    // the real status code is lost.
+    let j = null;
+    try { j = await res.json(); } catch (_) { /* not JSON: an error page */ }
+    if (!res.ok || !j || !j.ok) {
+      // 409 is the completeness refusal, and it names what is missing — the one
+      // failure that is about the coding rather than the plumbing.
+      const msg = (res.status === 409 && j)
+        ? `Needs ${escapeHtml(missingText(j.missing || []))}`
+        : (res.status === 404
+            // This page asked for a route the server doesn't have, which almost
+            // always means the server predates it: app.py runs without the
+            // reloader unless FLASK_DEBUG is set, so a .py change needs a restart.
+            ? 'Route not found \u2014 restart the app to pick up server changes'
+            : `Save failed \u2014 HTTP ${res.status}`);
+      if (el) el.innerHTML = `<span class="inc-needs">${msg}</span>`;
       return;
     }
     inc.status = j.status;
     inc.completed_at = j.completed_at;
     inc.excluded_reason = j.excluded_reason || '';
   } catch (e) {
-    if (el) el.innerHTML = '<span class="inc-needs">Could not save \u2014 try again</span>';
+    // fetch itself threw: nothing answered at all.
+    if (el) el.innerHTML = '<span class="inc-needs">No response \u2014 is the app running?</span>';
     return;
   }
   // Crossing into or out of "not an incident" moves the card between the live
@@ -865,15 +877,22 @@ function actorHeader(inc, grp, container) {
     return span;
   };
 
-  h.appendChild(slot('actor', 'actor'));
+  h.appendChild(slot('actor', 'Actor'));
+  // The whole thing reads as one sentence across two blocks: this header, then
+  // each numbered claim under it. The comma after the actor is always there;
+  // the one closing the clauses only if a clause actually rendered, so a group
+  // that drops both reads "[Actor]," and not a stranded pair of commas.
+  h.appendChild(document.createTextNode(','));
   // "using …" / "developed by …" appear once the incident has something to drop
   // there, or once they're filled; otherwise the header reads as complete. A
   // group that doesn't need one can also drop it outright — not every actor
   // context is about a named system, and an empty clause left standing reads as
   // an unanswered question rather than an inapplicable one.
+  let anyClause = false;
   OPTIONAL_CLAIM_ROLES.forEach(cfg => {
     const available = ((inc.role_values || {})[cfg.role] || []).length;
     if (!grp[cfg.role] && (omitted(cfg.role) || !available)) return;
+    anyClause = true;
     h.appendChild(document.createTextNode(cfg.lead));
     const sp = slot(cfg.role, cfg.placeholder, () => {
       grp.omit = (grp.omit || []).concat([cfg.role]);
@@ -882,6 +901,7 @@ function actorHeader(inc, grp, container) {
     if (!grp[cfg.role]) sp.classList.add('opt');
     h.appendChild(sp);
   });
+  if (anyClause) h.appendChild(document.createTextNode(','));
 
   // Bringing a dropped clause back. Only offered where there is something to put
   // in it, matching the rule for showing the clause in the first place.
@@ -906,7 +926,8 @@ function actorHeader(inc, grp, container) {
   return h;
 }
 
-// One claim: "allegedly caused <harm> to <party> because of <factors>". harm and
+// One claim: "allegedly contributed to <harm> affecting <party> because of
+// <factors>." harm and
 // party are single-valued; factors is a list, since several contributing causes
 // for one harm read unambiguously.
 function claimRow(inc, grp, cl, container) {
@@ -953,12 +974,13 @@ function claimRow(inc, grp, cl, container) {
     return span;
   };
 
-  row.appendChild(document.createTextNode('allegedly caused '));
+  row.appendChild(document.createTextNode('allegedly contributed to '));
   row.appendChild(scalarSlot('harm', 'harm'));
-  row.appendChild(document.createTextNode(' to '));
+  row.appendChild(document.createTextNode(' affecting '));
   row.appendChild(listSlot('harmed_party', 'harmed_parties', 'harmed party/ies'));
   row.appendChild(document.createTextNode(' because of '));
   row.appendChild(listSlot('factor', 'factors', 'factor(s)'));
+  row.appendChild(document.createTextNode('.'));
 
   const del = document.createElement('button');
   del.className = 'grp-del claim-del'; del.textContent = '×'; del.title = 'Delete claim';
