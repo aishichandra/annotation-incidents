@@ -15,10 +15,14 @@ server.log
 *.bak.csv
 
 # Coding data IS committed on purpose — it's the research output:
-#   annotations.<coder>.json      source of truth, one file per coder
-#   incident_groups.<coder>.json  claim links, one file per coder
-#   incident_assignments.json     shared doc -> incident map
-#   data_annotated.<coder>.csv    flat mirror, regenerated on every save
+#   annotations.<coder>.json       source of truth, one file per coder
+#   incident_coding.<coder>.json   incident answers, claim groups + comment
+#   incident_assignments.json      shared doc -> incident map
+
+# Derived, not committed: app.py rewrites the whole file on every save and
+# nothing ever reads it back, so it carries no coding Mongo and the JSON
+# above don't already have. Regenerate by saving in the app.
+data_annotated.*.csv
 
 # Backups written by docs/mongo_guide.ipynb
 backup-incidents-*.json

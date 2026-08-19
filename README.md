@@ -255,12 +255,13 @@ Everything in the repo is one of five things: **code**, **config**, **data**,
 | `annotations.<coder>.json` | One coder's evidence per document (quotes + characteristics) |
 | `incident_coding.<coder>.json` | One coder's incident-level answers, claim groups + comment |
 | `incident_assignments.json` | **Shared** doc → incident mapping (all coders) |
-| `data_annotated.<coder>.csv` | Flat CSV mirror of one coder's annotations |
+| `data_annotated.<coder>.csv` | Flat CSV mirror of one coder's annotations — rewritten on every save, git-ignored (nothing reads it back) |
 | **Deploy** | |
 | `Procfile`, `requirements.txt`, `runtime.txt`, `mise.toml` | How the host builds and runs it |
 
 Generated at runtime and git-ignored: `server.log`, `__pycache__/`, `*.tmp`,
-`backup-incidents-*.json`. Safe to delete at any time.
+`backup-incidents-*.json`, `data_annotated.<coder>.csv`. Safe to delete at any
+time — the CSV comes back the next time that coder saves.
 
 ## Deploy (Railway / Render)
 
