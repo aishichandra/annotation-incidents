@@ -136,10 +136,6 @@ pairs, not references: `aggregate_incidents` drops any value no longer coded on 
 member document, and a claim left with nothing disappears. An incident whose
 documents have all moved away is deleted once nothing is coded on it.
 
-**Migrating an existing project:** run
-[`migrate_structure.py`](migrate_structure.py) (see below) — it converts both Atlas
-and the local files, and refuses to write if the quote count would change.
-
 ## 3. Read the data in Mongo
 
 Open [`mongo_connect.ipynb`](mongo_connect.ipynb). Run the connect cell once,
@@ -227,17 +223,6 @@ codings { incident_id, doc_id, coder, kind, role, value, n_quotes, quotes[] }
 without any highlight still gets a row with `n_quotes: 0` — the gap an agreement
 measure should see. Drop and rebuild it whenever; nothing reads back from it.
 
-## Migrating an existing database
-
-[`migrate_structure.py`](migrate_structure.py) converts a pre-restructure database
-and the local files in one pass, refusing to write if the quote count would change:
-
-```
-$PY migrate_structure.py            # dry run
-$PY migrate_structure.py --apply
-```
-
-
 ## Files
 
 Everything in the repo is one of five things: **code**, **config**, **data**,
@@ -247,9 +232,16 @@ Everything in the repo is one of five things: **code**, **config**, **data**,
 |------|------|
 | **Code** | |
 | `zotero_import.py` | Step 1 — Zotero → `zotero_docs.csv` |
-| `app.py` | Step 2 — Flask coding UI + Mongo sync |
-| `templates/index.html` | The coding UI (HTML + all the frontend JS) |
+| `app.py` | Step 2 — the Flask routes (HTTP layer only) |
+| `config.py` | Paths, coders, schema, file helpers — imports nothing local |
+| `doc_source.py` | `zotero_docs.csv` → the `df` of documents to code |
+| `storage.py` | Reads/writes the coding on disk (one file per coder) |
+| `mongo_sync.py` | The optional MongoDB mirror; a no-op without `MONGO_URI` |
+| `incidents.py` | Rolls per-document coding up into per-incident views |
 | `incidents_vocab.py` | vocab.json → UI options + Mongo validator/indexes |
+| `templates/index.html` | Page markup; loads the CSS and JS below |
+| `static/app.css` | All the styling |
+| `static/js/*.js` | The frontend, nine files loaded in order (see index.html) |
 | **Config** | |
 | `schema.json` | Coding scheme (fields + claim roles) |
 | `vocab.json` | Controlled vocabularies |
