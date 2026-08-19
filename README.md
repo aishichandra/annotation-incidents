@@ -161,9 +161,12 @@ about who did what to whom.
 The check runs on the server (`incident_completeness`) whenever coding is read,
 and again before a sign-off is recorded, so a card rendered before the coding
 changed cannot sign off work that no longer qualifies — it gets a 409 naming what
-is missing. **Editing the coding withdraws an existing sign-off**, since the
-attestation was about a reading that has since moved; comments don't, as they are
-not part of what the check reads.
+is missing.
+
+A sign-off is **withdrawn only when an edit actually breaks completeness**
+(`clear_signoff`). Editing coding that leaves the incident complete keeps it —
+otherwise every autosave while coding a member document would silently un-sign
+the incident, including edits the check never reads, such as aftermath text.
 
 Sign-offs are per coder and land at `by_coder.<coder>.status` / `.completed_at`
 on the incident, so analysis can separate finished coding from work in progress.
@@ -177,6 +180,13 @@ code in the app.
 New to MongoDB? Start with [`docs/mongo_guide.ipynb`](docs/mongo_guide.ipynb)
 instead — a read-only guided tour of what's stored, why it's shaped that way, and
 how to query it, ending in a tidy per-coder table for agreement analysis.
+
+## Changing the code
+
+[`EDITING.md`](EDITING.md) is the map: a table from *the thing you want to
+change* to *the file you open*, which changes are a one-line edit to `config.py`
+or `vocab.json` rather than code at all, and the single place where one change
+means editing two files.
 
 ## Learning the codebase
 
@@ -280,6 +290,7 @@ Everything in the repo is one of five things: **code**, **config**, **data**,
 | `.env` | Secrets + `CODERS` (git-ignored; copy from `.env.example`) |
 | **Docs** | |
 | `docs/mongo_guide.ipynb` | Learn MongoDB through this project's data |
+| `EDITING.md` | Where to change what — start here to edit the code |
 | `docs/flask_guide.md` | Learn how the Flask app is built |
 | `mongo_connect.ipynb` | Scratch notebook for quick looks at Atlas |
 | **Data** | |
