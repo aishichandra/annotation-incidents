@@ -49,6 +49,12 @@ const CLAIM_ROLES_DROP = ['harm', 'harmed_party', 'factor'];
 // absent: one harm per claim is what keeps a claim one countable proposition.
 const CLAIM_LIST_KEYS = { harmed_party: 'harmed_parties', factor: 'factors' };
 let SCHEMA_ROLES = [];      // [{role,label,options,groups?}] from schema.claim_roles
+// The coding rules, served by /api/schema from config.py so they are defined in
+// one place rather than restated here. `required_roles` is what a completion
+// sign-off demands; edit REQUIRED_CLAIM_ROLES in config.py and this follows.
+// The fallback only matters if the schema fetch failed.
+let RULES = { required_roles: ['actor', 'factor', 'harm', 'harmed_party'],
+              optional_roles: ['system', 'developer'] };
 function roleOptions(role) {
   const r = SCHEMA_ROLES.find(x => x.role === role);
   return (r && r.options) || [];

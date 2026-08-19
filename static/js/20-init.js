@@ -10,6 +10,7 @@ async function init() {
   const schema = await (await fetch('/api/schema')).json();
   SCHEMA = schema.fields;
   SCHEMA_ROLES = schema.claim_roles || [];
+  if (schema.rules) RULES = schema.rules;
   SCHEMA.forEach((f, i) => color[f.key] = COLORS[i % COLORS.length]);
   const docs = await (await fetch('/api/docs')).json();
   const sel = document.getElementById('docSelect');

@@ -134,7 +134,6 @@ function incidentCard(inc, fields) {
     <div class="tow-head">
       <span class="tow-id">${encId}</span>
       <div class="tow-headdocs">${docsHtml}</div>
-      <div class="inc-complete" data-inc="${encId}">${completeControl(inc)}</div>
       <button class="json-btn" data-inc="${encId}" title="Show this incident as it is stored">{ } JSON</button>
     </div>
     <div class="tow-body">
@@ -154,6 +153,9 @@ function incidentCard(inc, fields) {
       </div>
       <div class="inc-note-body"></div>
     </div>
+    <div class="tow-foot">
+      <div class="inc-complete" data-inc="${encId}">${completeControl(inc)}</div>
+    </div>
     <div class="json-panel" data-inc="${encId}" hidden></div>
   </div>`;
 }
@@ -167,7 +169,6 @@ const roleLabel = (role) => (CLAIM_ROLE[role] && CLAIM_ROLE[role].label) || role
 // to a drag without a round trip. The server re-checks before recording a
 // sign-off and answers 409 if it disagrees, so the two drifting apart costs a
 // confusing button, never a wrong record.
-const REQUIRED_ROLES = ['actor', 'factor', 'harm', 'harmed_party'];
 const MISSING_LABEL = { complete_claim: 'a linked claim' };
 
 function claimIsComplete(cl) {
@@ -175,7 +176,8 @@ function claimIsComplete(cl) {
 }
 
 function completenessOf(inc) {
-  const missing = REQUIRED_ROLES.filter(r => !(((inc.role_values || {})[r]) || []).length);
+  const missing = (RULES.required_roles || [])
+    .filter(r => !(((inc.role_values || {})[r]) || []).length);
   if (!(inc.groups || []).some(g => g.actor && (g.claims || []).some(claimIsComplete))) {
     missing.push('complete_claim');
   }

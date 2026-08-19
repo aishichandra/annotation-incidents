@@ -61,7 +61,8 @@ from datetime import datetime, timezone
 from flask import Flask, abort, jsonify, render_template, request
 
 from config import (
-    CODERS, ROLE_KEYS, clean_fields, current_coder, load_schema, save_schema,
+    CODERS, OPTIONAL_CLAIM_ROLES, REQUIRED_CLAIM_ROLES, ROLE_KEYS, clean_fields,
+    current_coder, load_schema, save_schema,
 )
 from incidents import (
     _jsonable, _next_incident_id, aggregate_incidents, incident_completeness,
@@ -99,7 +100,17 @@ def index():
 
 @app.route("/api/schema")
 def api_schema():
-    return jsonify(load_schema())
+    """The coding scheme the UI builds itself from: fields, claim roles and their
+    controlled vocabularies.
+
+    `rules` carries the constants the frontend would otherwise have to hardcode.
+    They live in config.py; sending them means the coding scheme is edited in one
+    place and the UI follows, instead of the same rule being written once in
+    Python and once in JavaScript and quietly drifting apart."""
+    schema = load_schema()
+    schema["rules"] = {"required_roles": list(REQUIRED_CLAIM_ROLES),
+                       "optional_roles": list(OPTIONAL_CLAIM_ROLES)}
+    return jsonify(schema)
 
 
 def add_vocab_option(vkey, option):
@@ -376,15 +387,25 @@ def api_save_groups(inc_id):
 
 
 def clear_signoff(coder: str, inc_id: str) -> None:
-    """Drop a coder's sign-off on one incident, if they had given one.
+    """Withdraw a sign-off when the coding no longer supports it.
 
-    Called when the coding the completeness check reads has changed. A sign-off
-    attests to a particular reading; once that reading moves, the attestation is
-    stale and the coder has to give it again. Comments don't invalidate it —
-    they're not part of what the check looks at."""
+    A sign-off says "my reading of this incident is finished". An edit that
+    leaves the incident complete doesn't contradict that, so the flag stands —
+    withdrawing on *any* edit would mean every autosave while coding a member
+    document silently un-signed the incident, including edits the check never
+    reads, like aftermath text. An edit that breaks completeness does contradict
+    it, so that one withdraws and the coder has to look again.
+
+    The `status` check comes first because it makes the common case free: with no
+    sign-off to protect there is nothing to do, and the aggregate below — which
+    walks every document — never runs."""
     store = load_incident_coding(coder)
     entry = store.get(inc_id)
     if not entry or not entry.get("status"):
+        return
+    incidents, _, _ = aggregate_incidents(coder)
+    inc = incidents.get(inc_id)
+    if inc is not None and incident_completeness(inc)["ok"]:
         return
     entry["status"] = ""
     entry["completed_at"] = ""
