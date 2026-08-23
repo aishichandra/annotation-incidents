@@ -286,8 +286,13 @@ def api_vocab_rename():
     migrated = rename_role_value(role, old, new)
     mongo_sync.resync_validator()
     mongo_sync.invalidate_mongo_cache()
-    return jsonify({"ok": True, "migrated": migrated,
-                    "total": sum(migrated.values())})
+    # `slots` is what the rewrite physically touched, `total` how many uses that
+    # is — a document counts once however many quotes back it. The Codebook shows
+    # the use count before a rename, so the report afterwards has to match it or
+    # the same rename appears to have grown on the way through.
+    uses = role_value_usage([role]).get(role, {}).get(new, {})
+    return jsonify({"ok": True, "migrated": uses, "total": sum(uses.values()),
+                    "slots": sum(migrated.values())})
 
 
 @app.route("/api/vocab/delete", methods=["POST"])
