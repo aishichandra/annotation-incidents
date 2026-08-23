@@ -572,9 +572,6 @@
     background: var(--cb-accent, #d4d4d8); }
   .cb-role-name { font-family: Georgia, 'Times New Roman', serif; font-size: 19px;
     font-weight: 700; color: #222; flex: 1; }
-  .cb-role-n, .cb-role-def { font-size: 10.5px; text-transform: uppercase;
-    letter-spacing: .06em; font-weight: 700; color: #a0a0a0; flex: none; }
-  .cb-role-def.all { color: #2f7d4f; }
 
   .cb-group { font-size: 10px; text-transform: uppercase; letter-spacing: .07em;
     font-weight: 700; color: #8a8a8a; padding: 15px 20px 5px; }

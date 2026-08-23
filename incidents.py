@@ -152,6 +152,18 @@ def aggregate_incidents(coder: str):
         rather than dangle."""
         return value if still_coded(g, role, value) else None
 
+    def keep_list(g, role, values, legacy=None):
+        """The still-coded values of a group's list slot, in order.
+
+        `legacy` is the pre-plural single value the slot used to hold: groups
+        saved before systems and developers went plural carry one there, and it
+        is folded in so an old grouping renders as a one-item list rather than
+        as an empty clause."""
+        out = [v for v in (values or []) if still_coded(g, role, v)]
+        if legacy and legacy not in out and still_coded(g, role, legacy):
+            out.append(legacy)
+        return out
+
     for inc_id, g in incidents.items():
         saved = (inc_store.get(inc_id) or {}).get("groups") or []
         pruned = []
@@ -176,8 +188,13 @@ def aggregate_incidents(coder: str):
                     claims.append({"id": cl.get("id"), "harm": harm,
                                    "harmed_parties": parties, "factors": factors})
             actor = keep(g, "actor", grp.get("actor"))
-            system = keep(g, "system", grp.get("system"))
-            developer = keep(g, "developer", grp.get("developer"))
+            # Plural for the same reason factors are: one actor context can run
+            # on several systems, and a system can have more than one party
+            # behind it. The actor itself stays single — a second actor is a
+            # second context, which is a second group.
+            systems = keep_list(g, "system", grp.get("systems"), grp.get("system"))
+            developers = keep_list(g, "developer", grp.get("developers"),
+                                   grp.get("developer"))
             # The optional clauses this group has taken out of its sentence. Not
             # every actor context is about a named system, and saying so is a
             # judgement — "inapplicable here" rather than "not answered yet" — so
@@ -188,9 +205,10 @@ def aggregate_incidents(coder: str):
             # still names an actor is kept even with no claims, since it's the
             # header a coder is about to hang claims off. A group that holds only
             # an omission still holds a decision, so that counts as content too.
-            if actor or system or developer or claims or omit:
-                pruned.append({"id": grp.get("id"), "actor": actor, "system": system,
-                               "developer": developer, "claims": claims, "omit": omit})
+            if actor or systems or developers or claims or omit:
+                pruned.append({"id": grp.get("id"), "actor": actor,
+                               "systems": systems, "developers": developers,
+                               "claims": claims, "omit": omit})
         g["groups"] = pruned
         # Computed after pruning, so the check sees the same groups the card
         # does. The stored sign-off rides alongside it: `completeness` is what

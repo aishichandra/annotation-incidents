@@ -250,11 +250,13 @@ def incident_fields(coder, inc_id, assignments=None, inc_store=None) -> dict:
 # justifies it ({role, value}). Both have to move together or a rename would
 # leave a document selected for a code its quotes no longer name.
 #
-# Incident coding spreads them out instead: actor, system and developer describe
-# the actor context and live on the group; harm is one value on the claim; harmed
-# parties and factors are lists on the claim. `harmed_party` singular is the
-# pre-plural shape, still read (see build_validator) so old codings migrate too.
+# Incident coding spreads them out instead: the actor, the systems it used and
+# who developed them describe the actor context and live on the group; harm is
+# one value on the claim; harmed parties and factors are lists on the claim.
+# `system`, `developer` and `harmed_party` singular are the pre-plural shapes,
+# still read (see build_validator) so old codings migrate too.
 _GROUP_VALUE_ROLES = ("actor", "system", "developer")
+_GROUP_LIST_ROLES = {"system": "systems", "developer": "developers"}
 _CLAIM_LIST_ROLES = {"harmed_party": "harmed_parties", "factor": "factors"}
 _CLAIM_VALUE_ROLES = {"harm": "harm", "harmed_party": "harmed_party"}
 
@@ -284,6 +286,13 @@ def _walk_role_values(store, inc_store, role: str, fn) -> int:
                 if new != grp[role]:
                     grp[role] = new
                     changed += 1
+            gkey = _GROUP_LIST_ROLES.get(role)
+            if gkey and isinstance(grp.get(gkey), list):
+                for i, v in enumerate(grp[gkey]):
+                    new = fn(v)
+                    if new != v:
+                        grp[gkey][i] = new
+                        changed += 1
             for claim in grp.get("claims") or []:
                 ckey = _CLAIM_VALUE_ROLES.get(role)
                 if ckey and claim.get(ckey):

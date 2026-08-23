@@ -504,9 +504,9 @@ def api_incident_json(inc_id):
 @app.route("/api/incident/<path:inc_id>/groups", methods=["POST"])
 def api_save_groups(inc_id):
     """Persist the active coder's card-view claim groupings for one incident.
-    Body: {groups:[…]}. A group is one actor context — {id, actor, system,
-    developer, claims:[{id, harm, harmed_parties:[], factors:[]}]} — where
-    actor, system, developer and harm are single values, and harmed_parties
+    Body: {groups:[…]}. A group is one actor context — {id, actor, systems:[],
+    developers:[], claims:[{id, harm, harmed_parties:[], factors:[]}]} — where
+    actor and harm are single values, and systems, developers, harmed_parties
     and factors are lists. This is the single
     home for links now that the document view codes characteristics flat; each coder
     links their own claims, so the groupings are per coder.

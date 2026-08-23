@@ -242,9 +242,9 @@ def build_validator(vocab: dict | None = None) -> dict:
             "updated_at": {"bsonType": ["date", "null"]},
         },
     }
-    # One element per actor context: who did it, optionally with what system and
-    # whose model, and the claims made about that context. actor, system,
-    # developer and harm are single values; `harmed_parties` and `factors` are
+    # One element per actor context: who did it, optionally with what systems and
+    # whose models, and the claims made about that context. actor and harm are
+    # single values; `systems`, `developers`, `harmed_parties` and `factors` are
     # lists. The asymmetry is deliberate — one harm reaching several parties, or
     # arising from several factors, is a conjunction anyone can read back, whereas
     # plural harms alongside plural parties would leave "which harm hit which
@@ -266,6 +266,9 @@ def build_validator(vocab: dict | None = None) -> dict:
         "items": {"bsonType": "object", "properties": {
             "id": {"bsonType": ["string", "null"]},
             "actor": {"bsonType": ["string", "null"]},
+            "systems": {"bsonType": "array"},
+            "developers": {"bsonType": "array"},
+            # pre-plural single values, still permitted so older groups validate
             "system": {"bsonType": ["string", "null"]},
             "developer": {"bsonType": ["string", "null"]},
             "claims": {"bsonType": "array", "items": claim_obj},

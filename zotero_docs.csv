@@ -2074,19 +2074,22 @@ Adobe is selling artificially generated, realistic images of the Israel-Hamas wa
 
 As part of the company’s 
 
-[embrace of generative artificial intelligence](https://archive.ph/o/MMHtr/https://www.theverge.com/2023/9/13/23871537/adobe-firefly-generative-ai-model-general-availability-launch-date-price)(AI), Adobe allows people to upload and sell AI images as part of its stock image subscription service, Adobe Stock. Adobe requires submitters to disclose whether they were generated with AI and clearly marks the image within its platform as “generated with AI”. Beyond this requirement, the guidelines for submission are the same as any other image, including[prohibiting illegal or infringing content](https://archive.ph/o/MMHtr/https://helpx.adobe.com/au/stock/contributor/help/submission-guidelines.html).People searching Adobe Stock are shown a blend of real and AI-generated images. Like “real” stock images, some are clearly staged, whereas others can seem like authentic, unstaged photography. 
+[embrace of generative artificial intelligence](https://archive.ph/o/MMHtr/https://www.theverge.com/2023/9/13/23871537/adobe-firefly-generative-ai-model-general-availability-launch-date-price)(AI), Adobe allows people to upload and sell AI images as part of its stock image subscription service, Adobe Stock. Adobe requires submitters to disclose whether they were generated with AI and clearly marks the image within its platform as “generated with AI”. Beyond this requirement, the guidelines for submission are the same as any other image, including[prohibiting illegal or infringing content](https://archive.ph/o/MMHtr/https://helpx.adobe.com/au/stock/contributor/help/submission-guidelines.html).
+People searching Adobe Stock are shown a blend of real and AI-generated images. Like “real” stock images, some are clearly staged, whereas others can seem like authentic, unstaged photography. 
 
 This is true of Adobe Stock’s collection of images for searches relating to Israel, Palestine, Gaza and Hamas. For example, the first image shown when searching for Palestine is a photorealistic image of a missile attack on a cityscape titled “Conflict between Israel and Palestine generative AI”. Other images show protests, on-the-ground conflict and even children running away from bomb blasts — all of which aren’t real.
 
 Amid the flurry of misinformation and misleading online content about the Israel-Hamas war that’s 
 
-[circulating on social media](https://archive.ph/o/MMHtr/https://www.crikey.com.au/2023/10/25/israel-palestine-social-media-misinformation-propaganda-scams/), these images, too, are being used without disclosure of whether they are real or not.A handful of small online news outlets, blogs and newsletters have featured “Conflict between Israel and Palestine generative AI” without marking it as the product of generative AI. It’s not clear whether these publications are aware it is a fake image.
+[circulating on social media](https://archive.ph/o/MMHtr/https://www.crikey.com.au/2023/10/25/israel-palestine-social-media-misinformation-propaganda-scams/), these images, too, are being used without disclosure of whether they are real or not.
+A handful of small online news outlets, blogs and newsletters have featured “Conflict between Israel and Palestine generative AI” without marking it as the product of generative AI. It’s not clear whether these publications are aware it is a fake image.
 
 RMIT senior lecturer Dr T.J. Thomson, who is researching the use of AI-generated images, said there are concerns about the transparency of AI image use and whether audiences are literate enough to recognise their use. 
 
 “There is potential for these images to mislead folks, to distort reality, to disrupt our perception of truth and accuracy,” he told 
 
-*Crikey*.Thomson said discussions with newsrooms as part of his research have found that fears about the potential for misinformation are a top concern, but there are also questions about the labour implications of using AI images rather than on-the-ground photographers. 
+*Crikey*.
+Thomson said discussions with newsrooms as part of his research have found that fears about the potential for misinformation are a top concern, but there are also questions about the labour implications of using AI images rather than on-the-ground photographers. 
 
 While AI images can be a tool, he also warned of their misuse: “You don’t want to be overly cautious, you don’t want to be scared of everything, because there are good reasons to use them. But you also have to have a bit of wisdom and cautiousness.”
 
@@ -2096,7 +2099,696 @@ Adobe did not respond to a request for comment.
 
 Associate Editor 
 
-[@cameronwilson](https://archive.ph/o/MMHtr/https://twitter.com/@cameronwilson)Cam Wilson is 
+[@cameronwilson](https://archive.ph/o/MMHtr/https://twitter.com/@cameronwilson)
+Cam Wilson is 
 
 *Crikey*’s associate editor. He previously worked as a reporter at the ABC,*BuzzFeed*,*Business Insider*and*Gizmodo*. He primarily covers internet culture and tech in Australia.
 Crikeyencourages robust conversations on our website. However, we’re a small team, so sometimes we have to reluctantly turn comments off due to legal risk. Thanks for your understanding and in the meantime, have a read of our moderation guidelines.",/Users/aisvarya/Zotero/storage/BRGSSCPB/MMHtr.html
+YYR3U3MP,A reviews site embroiled in AI scandal is back from the dead | The Verge,https://www.theverge.com/news/606628/gannett-usa-today-reviewed-stackcommerce,"Last summer, the staff at Gannett’s consumer reviews site *Reviewed* received terrible news: the media giant was [shuttering the entire vertical](https://www.theverge.com/2024/8/26/24228880/gannett-usa-today-reviewed-product-reviews-ai-articles) and would be laying off dozens of employees. Effective November 1st, *Reviewed* would cease operations. Gannett blamed Google’s changing search algorithm, which had “degraded [its] business model.” The shuttering was a blow to the more than 70 employees, who, in Gannett’s words, would be “affected” by the decision. The closure came after an already tumultuous period: in 2023, the NewsGuild of New York, which represents unionized *Reviewed* workers, [publicly accused Gannett of running AI-generated product reviews](https://www.theverge.com/2023/10/26/23931530/gannett-ai-product-reviews-site-reviewed-union-newsguild) on the site. The content was pulled after staff outcry.
+
+# A reviews site embroiled in AI scandal is back from the dead
+
+Dozens of unionized staff members were laid off last fall when Gannett announced it would shut down Now, it’s back from the dead under a new owner.
+
+Dozens of unionized staff members were laid off last fall when Gannett announced it would shut down *Reviewed.* Now, it’s back from the dead under a new owner.
+
+You wouldn’t know any of this backstory — or that *Reviewed* is technically shut down — if you were browsing the site today: a smattering of articles on the homepage tout the [best rakes](https://www.reviewed.com/home-outdoors/best-right-now/the-best-rakes), [slow cookers](https://www.reviewed.com/cooking/best-right-now/best-slow-cookers-crock-pots), and [video doorbells](https://www.reviewed.com/smarthome/best-right-now/best-smart-doorbells) of 2025. *Reviewed* published [nearly two dozen articles](https://www.reviewed.com/series/ces-2025) during 2025’s CES, and its Instagram page [posted intermittent updates](https://www.instagram.com/stories/highlights/17858796084088841/) from the trade show event. The homepage appears unchanged — there’s no notice for readers that the site is supposed to be dead. It trudges on like a zombie, promising thousands of hours of product testing by trustworthy experts.
+
+Many of the articles promising “the best” products of 2025 are, in fact, old stories retrofitted with new, timely headlines. An [article for the best patio heaters](https://www.reviewed.com/home-outdoors/best-right-now/best-patio-heaters), for example, indicates the story was actually last updated two years ago in January 2023 and written by a staff member who no longer works at *Reviewed.* 
+
+When the shuttering of the site was announced, the understanding of former staff was that the website would remain online for a period of time. What they didn’t anticipate was that their existing work would be updated and that *Reviewed* would continue on as if nothing had happened.
+
+What exactly is going on at Reviewed, a site that’s supposed to be shut down?
+
+“As far as we were aware, the site was going to shut down permanently, and multiple writers were saving PDFs of their work in case the site went completely offline,” says a former staffer, who requested anonymity due to separation agreements they signed. “None of us were aware that the site was going to continue being updated, nor that our bylines would be updated and promoted on the site.”
+
+So what exactly is going on at *Reviewed,* a site that’s supposed to be shut down? Even former staff members have been unsure but have watched as their former workplace trudges on.
+
+One name reappears across different pages: StackCommerce, an online shopping platform that works with publishers to create affiliate marketing content. Some of the stories from CES on *Reviewed* are authored by people who say they work at StackCommerce. A page for open jobs redirects to StackCommerce’s careers page, as does *Reviewed*’s privacy policy page. StackCommerce’s chief operating officer is the former general manager of *Reviewed,* [according to LinkedIn](https://www.linkedin.com/in/chrisclloyd/). Gannett did not respond to *The Verge*’s questions and instead directed us to StackCommerce.
+
+Reached for comment, StackCommerce CEO Karl House confirmed to *The Verge* via email that the company acquired *Reviewed* on December 1st, including the brand, IP, domain, and content, but declined to provide terms of the sale.
+
+“StackCommerce engaged with Gannett after they announced they were shutting down *Reviewed* in August 2024,” House said. “StackCommerce has since hired five former *Reviewed* employees.”
+
+The acquisition was mostly kept quiet. There appears to have been no formal announcement by either party — until *The Verge* reached out to StackCommerce in January. Shortly after, StackCommerce shared [a blog post](https://blog.stackcommerce.com/stackcommerce-acquires-reviewed/) announcing the acquisition.
+
+Readers who relied on *Reviewed* recommendations have likely not realized that the site has changed hands. It’s also not clear how reviews and recommendations are carried out given the new ownership. Many of *Reviewed*’s [editorial promises](https://www.reviewed.com/about) remain on the site, like the claim that the site spends “thousands of hours” on “tough, objective, hands-on testing” of products. StackCommerce did not respond to questions about the company’s testing process.
+
+“Testing was hands-on and conducted by either dedicated testers from the labs, or knowledgeable experts that would usually test the product (whether it be an appliance or a pair of sneakers) for a significant amount of time, sometimes up to a week or more,” the former *Reviewed* employee said. It’s not clear how the outlet is deciding the “best” products of 2025 — and from the reader’s perspective, the site looks unchanged. For example, by Gannett’s own admission, the product testing lab in Cambridge, Massachusetts, closed last year, yet the website still [references](https://www.reviewed.com/how_we_test) an in-lab testing process.
+
+Complicating the matter is that many of the *Reviewed* staff members who lost their jobs last fall were unionized workers (some employees in senior positions were reassigned elsewhere in *USA Today*). The relationship between Gannett and *Reviewed* was contentious: [staff had previously walked off the job](https://www.poynter.org/business-work/2023/gannett-product-review-site-reviewed-strike/) after they were unable to secure bargaining dates with management.
+
+At the time of the AI saga, the union raised concerns about their members’ futures at Gannett that now seem prescient.
+
+“It’s an attempt to undermine and replace members of the union whether they’re using AI, subcontractors of a marketing firm, or some combination of both,” the union previously [told](https://www.theverge.com/2023/10/26/23931530/gannett-ai-product-reviews-site-reviewed-union-newsguild) *The Verge* in a statement.
+
+[2 Comments](https://www.theverge.com#comments)
+
+**Follow topics and authors**from this story to see more like this in your personalized homepage feed and to receive email updates.",/Users/aisvarya/Zotero/storage/737BVXRY/gannett-usa-today-reviewed-stackcommerce.html
+QWY8CLXV,"Amid New York Times Lawsuit, ChatGPT Is Citing Plagiarized Versions of NYT Articles on an Armenian Content Mill",https://futurism.com/chatgpt-plagiarized-nyt-articles,"Back in June, *The* *New York Times* published a [fascinating investigation](https://www.nytimes.com/2024/06/09/technology/driver-scores-insurance-data-apps.html) by its award-winning tech reporter Kashmir Hill about how automakers and various apps are secretly selling data about your driving habits to car insurance companies.
+
+But when we asked OpenAI’s flagship chatbot ChatGPT about the topic, it didn’t mention the *NYT’s* reporting. Instead, it based its answer on a site called *DNyuz.com*, which had [plagiarized](https://archive.fo/YnOC7) the *NYT’s* entire story word-for-word.
+
+*DNyuz* is a notorious pirater of news. Back in 2020, a [*BuzzFeed News* investigation found](https://www.buzzfeednews.com/article/craigsilverman/drudge-report-links-site-plagiarizes-stories) that the site made significant amounts of money by copy-pasting work by publications — including the *NYT,* the *Atlantic*, the *Daily Beast*, *Bloomberg*, and the *Associated Press —* and running ads on the stolen content.
+
+In other words, *DNyuz*, which is run out of Armenia, is a well-known offender in the murky world of automated plagiarism. Google, for instance, blocked it from making money using its adtech products after *BuzzFeed*‘s investigation.
+
+But OpenAI never seems to have gotten the memo. In *Futurism*‘s testing, ChatGPT regularly cited *DNyuz*‘ plagiarism factory as an authoritative and original source. And even after we alerted OpenAI to the issue, ChatGPT continued basing its answers on *DNuyz’s* stolen content.
+
+It’s particularly egregious for ChatGPT to cite content stolen from the *NYT*, because the newspaper is already suing OpenAI for copyright infringement. Its suit, [filed in December of last year](https://www.nytimes.com/2023/12/27/business/media/new-york-times-open-ai-microsoft-lawsuit.html), argues that OpenAI unlawfully used its journalists’ work without permission or compensation to train ChatGPT and that OpenAI and Microsoft — which has invested billions into OpenAI and integrated its AI models throughout its own products — used that pilfered work to build a competing product.
+
+“Defendants seek to free-ride on *The Times’s* massive investment in its journalism,” reads the complaint, further alleging that OpenAI and Microsoft have used the “*Times*‘s content without payment to create products that substitute for *The Times* and steal audiences away from it.”
+
+Before its lawsuit was filed, the *NYT* had already taken measures to block OpenAI from accessing its work, [disallowing](https://www.nytimes.com/robots.txt) multiple [OpenAI web crawlers](https://platform.openai.com/docs/bots) from scraping its site. But despite the *NYT’s* lawsuit and clear efforts to block ChatGPT’s crawlers, OpenAI’s chatbot continues to use its work — by building answers on copy-pasted ripoffs from *DNuyz’s* content mill.
+
+Asking about the late William Goines, for instance — a barrier-breaking Navy SEAL who died earlier this summer — resulted in ChatGPT basing its answer on [*DNuyz*‘ plagiarized version](https://archive.is/UO4e8) of the [*New York Times*‘ obituary](https://www.nytimes.com/2024/06/20/us/william-goines-dead.html) of Goines.
+
+And asked about Saudi Arabia’s recent $40 billion investment in AI, ChatGPT once again provided us with a [swindled *DNyuz* version](https://archive.fo/krzVv) of [original *NYT* reporting](https://www.nytimes.com/2024/03/19/business/saudi-arabia-investment-artificial-intelligence.html).
+
+ChatGPT also sometimes bases its answers on *DNuyz’* ripoffs of other publications. Asked about the health of famed linguist and activist Noam Chomsky, the chatbot cited yet another [article plagiarized by *DNuyz*](https://archive.is/gpvzO)*.* But this time, the story had been [purloined from *TIME Magazine*](https://time.com/6987747/noam-chomsky-stroke-brazil/), which is ironic given that OpenAI [counts *TIME*](https://time.com/6992955/time-and-openai-announce-strategic-content-partnership/) as one of its publisher partners.
+
+That wasn’t a one-off. In our reporting, we found that multiple ChatGPT prompts about current events returned plagiarized *DNyuz* copies of *TIME* articles. (*TIME* didn’t respond to a request for comment.)
+
+Given that the *NYT* is actively suing OpenAI, it’s not surprising to see ChatGPT now avoid referencing articles published by the newspaper.
+
+But instead directing readers toward a site long known for plagiarizing the *NYT’s* content is yet another fumble for the company, which has repeatedly infuriated copyright holders by using their work to train its AI models without permission.
+
+“As our terms of service and the law make clear, no one is permitted to wholesale copy *Times* content for commercial purposes without our permission or payment,” an *NYT* spokesperson told us in response to questions about this story. “For years, publishers have been contending with bad actors that reproduce their work, including *DNyuz*, a well-known plagiarist. It does not matter whether generative AI companies scrape our content themselves or turn to a third-party infringer in an apparent effort to engage in data laundering of our works: The bottom line is that this taking of our content without our consent is illegal.”
+
+OpenAI didn’t respond to questions.
+
+ChatGPT, meanwhile, continues to cite *DNyuz.*
+
+“Did OpenAI insiders warn of a reckless race for dominance?” we asked the bot yesterday.
+
+“Yes,” the AI responded, prominently citing [another *DNyuz*](https://archive.fo/ROI4j) article. This time, it was a [plagiarized *NYT* profile](https://www.nytimes.com/2024/06/04/technology/openai-culture-whistleblowers.html) about a group of OpenAI whistleblowers. “They argue that OpenAI has prioritized profit and growth over ensuring the safety of its AI systems, which could become dangerous if not properly managed.”
+
+**More on OpenAI:** *OpenAI Demands to See All Notes by New York Times Reporters*",/Users/aisvarya/Zotero/storage/5MIJKWMP/chatgpt-plagiarized-nyt-articles.html
+CBVBA58N,Forbes confronts Perplexity with legal threat over copyright infringement,https://www.axios.com/2024/06/18/forbes-perplexity-ai-legal-action-copyright,"Forbes sent a letter to the CEO of AI search startup Perplexity accusing the company of stealing text and images in a ""willful infringement"" of Forbes' copyright rights, according to a copy of the letter obtained by Axios.
+
+Why it matters: Publishers fighting to protect their intellectual property are stuck in a game of whack-a-mole as they confront not just the biggest AI companies, like OpenAI or Google, but also smaller AI startups.
+
+Catch up quick: Forbes general counsel MariaRosa Cartolano sent the letter days after Forbes chief content officer Randall Lane accused Perplexity AI's chatbot of ripping off Forbes' reporting without attribution.
+
+The chatbot tried to give credibility to the Forbes story it presented by citing other ""sourced"" reports that were actually just aggregated stories of Forbes' original report.
+
+Perplexity then sent a push notification to its subscribers of its version of the story and published an AI-generated podcast, which was then turned into a YouTube video, about the story.
+
+That video, Lane said, ""outranks all Forbes content on this topic within Google search."" Lane and the author of the original Forbes article have both highlighted ways the Perplexity AI chatbot failed to appropriately cite Forbes.
+
+The other side: Perplexity CEO Aravind Srinivas tried to defend the company's practices, writing to the Forbes journalist on X that the incident was part of a new product feature that has ""rough edges"" and is being improved ""with more feedback.""
+
+He conceded to the journalist that ""we agree with the feedback you've shared that it should be a lot easier to find the contributing sources and highlight them more prominently.""
+
+Perplexity has raised $165 million at a valuation of over $1 billion, per Bloomberg. It's backed by heavy hitters in the tech industry, including Jeff Bezos, Google's Jeff Dean and former YouTube CEO Susan Wojcicki.
+
+Zoom in: The letter, dated last Thursday, demands that Perplexity remove the misleading source articles, reimburse Forbes for all advertising revenues Perplexity earned via the infringement, and provide ""satisfactory evidence and written assurances"" that it has removed the infringing articles.
+
+It also demanded that Perplexity provide ""written representations and assurances"" confirming that it won't use any of Forbes' intellectual property or content to generate and publish AI chatbot articles and that it won't infringe on Forbes copyrights in the future.
+
+Forbes said ""it looks forward to a reply"" to its letter within 10 days of receipt. It threatened to reserve ""all of its rights to take any action it deems necessary to protect its rights.""
+
+The big picture: News outlets are taking different approaches to defend their copyright protections in the AI era.
+
+While the New York Times and a few regional newspapers have sued OpenAI, many other outlets — including the Financial Times, Axel Springer, the Associated Press, Vox Media and The Atlantic — have brokered licensing deals.",/Users/aisvarya/Zotero/storage/LSKRZX37/forbes-perplexity-ai-legal-action-copyright.html
+YVNVZ8ZD,The People Onscreen Are Fake. The Disinformation Is Real.,https://www.nytimes.com/2023/02/07/technology/artificial-intelligence-training-deepfake.html,"Advertisement
+
+[SKIP ADVERTISEMENT](https://www.nytimes.com#after-top)
+
+# The People Onscreen Are Fake. The Disinformation Is Real.
+
+In one video, a news anchor with perfectly combed dark hair and a stubbly beard outlined what he saw as the United States’ shameful lack of action against gun violence.
+
+In another video, a female news anchor heralded China’s role in geopolitical relations at an international summit meeting.
+
+But something was off. Their voices were stilted and failed to sync with the movement of their mouths. Their faces had a pixelated, video-game quality and their hair appeared unnaturally plastered to the head. The captions were filled with grammatical mistakes.
+
+The two broadcasters, purportedly anchors for a news outlet called Wolf News, are not real people. They are computer-generated avatars created by artificial intelligence software. And late last year, videos of them were distributed by pro-China bot accounts on [Facebook and Twitter](https://www.nytimes.com/2019/11/24/technology/tech-companies-deepfakes.html), in the first known instance of [“deepfake” video technology](https://www.nytimes.com/2018/03/04/technology/fake-videos-deepfakes.html) being used to create fictitious people as part of a state-aligned information campaign.
+
+“This is the first time we’ve seen this in the wild,” said Jack Stubbs, the vice president of intelligence at Graphika, a research firm that studies disinformation. Graphika [discovered the pro-China campaign](https://graphika.com/spamouflage-deepfakes/), which appeared intended to promote the interests of the Chinese Communist Party and undercut the United States for English-speaking viewers.
+
+[“Deepfake” technology](https://www.nytimes.com/2023/01/22/business/media/deepfake-regulation-difficulty.html), which has progressed steadily for nearly a decade, has the ability to create talking digital puppets. The A.I. software is sometimes used to distort public figures, like a video that circulated on social media last year falsely showing Volodymyr Zelensky, the president of Ukraine, [announcing a surrender](https://www.nytimes.com/2022/04/05/us/politics/ukraine-russia-hackers.html). But the software can also create characters out of whole cloth, going beyond traditional editing software and expensive special effects tools used by Hollywood, blurring the line between fact and fiction to an extraordinary degree.
+
+With few laws to manage the spread of the technology, disinformation experts have long warned that deepfake videos could further sever people’s ability to [discern reality from forgeries online](https://www.nytimes.com/2021/03/10/technology/ancestor-deepfake-tom-cruise.html), potentially being misused to set off unrest or incept a political scandal. Those predictions have now become reality.
+
+Advertisement
+
+[SKIP ADVERTISEMENT](https://www.nytimes.com#after-story-ad-1)
+
+Although the use of deepfakes in the recently discovered pro-China disinformation campaign was ham-handed, it opens a new chapter in information warfare. In recent weeks, another video using similar A.I. technology was uncovered online, showing fictitious people who described themselves as Americans, promoting support for the government of Burkina Faso, which faces scrutiny for links to Russia.
+
+A.I. software, which can easily be purchased online, can create “videos in a matter of minutes and subscriptions start at just a few dollars a month,” Mr. Stubbs said. “That makes it easier to produce content at scale.”
+
+Graphika linked the two fake Wolf News presenters to technology made by Synthesia, an A.I. company based above a clothing shop in London’s Oxford Circus.
+
+The five-year-old start-up makes software for creating deepfake avatars. A customer simply needs to type up a script, which is then read by one of the digital actors made with Synthesia’s tools.
+
+A.I. avatars are “digital twins,” Synthesia said, that are based on the appearances of hired actors and can be manipulated to speak in 120 languages and accents. It offers more than 85 characters to choose from with different genders, ages, ethnicities, voice tones and fashion choices.
+
+One A.I. character, named George, looks like a veteran business executive with gray hair and wears a blue blazer and a collared shirt. Another, Helia, wears a hijab. Carlo, another avatar, has a hard hat. Samuel wears a white lab coat like the ones worn by doctors. (Customers can also use Synthesia to create their own avatars based on themselves or on others who have granted them permission.)
+
+The company’s software is mostly used by customers for human resources and training videos, where an unpolished production quality is sufficient. The software, which costs as little as $30 a month, produces videos in minutes that could otherwise take several days and would require hiring a video production crew and human actors.
+
+The entire process is “as easy as writing an email,” Synthesia said on its website.
+
+## How a character typically appears
+
+Here are examples of an A.I.-generated character from Synthesia being used for a variety of marketing and similar campaigns.
+
+Victor Riparbelli, Synthesia’s co-founder and chief executive, said those who used its technology to create the avatars discovered by Graphika had violated its terms of service. Those terms state that the company’s technology should not be used for “political, sexual, personal, criminal and discriminatory content.” Mr. Riparbelli declined to share information about the people behind the Wolf News videos, but he said their accounts had been suspended.
+
+Mr. Riparbelli added that Synthesia has a four-person team dedicated to preventing its deepfake technology from being used to create illicit content, but said misinformation and other material that did not include outright hate speech, slurs, explicit words and imagery could be hard to detect.
+
+“It’s very difficult to ascertain that this is misinformation,” he said after being shown one of the Wolf News videos. He said he took “full responsibility for anything that happens on our platform,” and called on policymakers to set [clearer rules](https://www.synthesia.io/post/on-regulation) about how the A.I. tools could be used.
+
+Identifying disinformation will become only more difficult, Mr. Riparbelli said. Eventually, he added, deepfake technology will become sophisticated enough to “build a Hollywood film on a laptop without the need for anything else.”
+
+Graphika linked Synthesia to the pro-China disinformation campaign by tracing the two Wolf News avatars to other innocuous training videos online featuring the same characters. On its website, Synthesia called the two avatars “Anna” and “Jason.”
+
+## How the same A.I.-generated avatar appeared in marketing and disinformation campaigns.
+
+The avatars are reading a script that has been typed into Synthesia’s software. With the characters’ pixelated faces and robotic voices, it does not take long to notice something is off.
+
+### “Jason”
+
+### “Anna”
+
+In the video supporting Burkina Faso’s new government, Anna also made an appearance. “Let us all remain mobilized behind the Burkinabe people in this common struggle.” she said in a robotic monotone. “Homeland or death, we shall overcome.”
+
+Deepfake videos have proliferated for years. Kendrick Lamar used the technology in a music video last year to morph into Kanye West, Will Smith and Kobe Bryant. Pornography websites have faced criticism for showcasing videos in which the technology had been used to illicitly copy the likenesses of famous actresses.
+
+In China, A.I. companies have been developing deepfake tools for more than five years. In a 2017 publicity stunt at a conference, the Chinese firm iFlytek made deepfake video of the U.S. president at the time, [Donald J. Trump, speaking in Mandarin](https://www.nytimes.com/2017/12/03/business/china-artificial-intelligence.html). IFlytek has since been added to a U.S. blacklist that limits the sale of American-made technology for national security reasons.
+
+Meta, the owner of Facebook, Instagram and WhatsApp, said it had deleted at least one account affiliated with the pro-China deepfake videos after being contacted by The New York Times. The company, which declined further comment, does not allow video and other media that is manipulated with the intent to mislead. Twitter did not respond to requests for comment.
+
+Graphika said it discovered the deepfake videos while following social media accounts linked to a pro-China misinformation campaign known as “spamouflage.” In these campaigns, political spam accounts plant content online and then use other accounts that are part of a network to amplify the material across platforms.
+
+Researchers said the use of deepfake technology was more notable than the actual impact of the videos, which were not seen by many people. The two videos featuring the so-called Wolf News anchors were posted at least five times between Nov. 22 and Nov. 30 by five accounts, according to Graphika. The posts were then re-shared by at least two more accounts, which appeared to be part of a pro-China network.
+
+Mr. Stubbs said disinformation peddlers will continue experimenting with A.I. software to produce increasingly convincing media that is hard to detect and verify.
+
+“What we’re seeing today is another sign of things to come,” he said.
+
+Elian Peltier contributed reporting from Dakar, Senegal. Video production by Axel Boada.
+
+[Adam Satariano](https://www.nytimes.com/by/adam-satariano) is a technology correspondent based in Europe, where his work focuses on digital policy and the intersection of technology and world affairs.
+
+[Paul Mozur](https://www.nytimes.com/by/paul-mozur) is the global technology correspondent for The Times, based in Taipei. Previously he wrote about technology and politics in Asia from Hong Kong, Shanghai and Seoul.
+
+[Order Reprints](https://nytimes.wrightsmedia.com/)|
+
+[Today’s Paper](https://www.nytimes.com/section/todayspaper)|
+
+[Subscribe](https://www.nytimes.com/subscriptions/Multiproduct/lp8HYKU.html?campaignId=48JQY)
+
+[Facebook Inc.](https://www.nytimes.com/topic/company/facebook-inc),
+
+## Related Content
+
+Advertisement
+
+[SKIP ADVERTISEMENT](https://www.nytimes.com#after-bottom)",/Users/aisvarya/Zotero/storage/42MFRX3R/artificial-intelligence-training-deepfake.html
+NEFGNKAQ,Compass Vermont Raises Questions About AI and the News,https://www.sevendaysvt.com/news/media-news/compass-vermont-raises-questions-about-the-role-of-ai-in-producing-the-news/,"Would you know if AI wrote your news? Would it matter to you?
+
+In recent months, an online news outlet called [Compass Vermont](https://www.compassvermont.com/) has published stories about the effect of tariffs on Vermont businesses, the price of Beta Technologies’ stock, deployments of the Vermont Air National Guard and a new line of socks from Darn Tough. Some of its stories have covered subjects that received little or no attention from other news organizations.
+
+And it has attracted some enthusiastic subscribers to its feed from the platform Substack.
+
+“It’s one of my favorites right now online,” said 74-year-old Art Spellman of South Burlington. Spellman said he reads many news sources and likes Compass because it delivers stories he doesn’t find elsewhere in local media, including coverage of the National Guard’s F-35 Fighter Wing.
+
+But Spellman did not realize this: Evidence suggests that Compass produces its stories, at least in part, with the aid of artificial intelligence.
+
+Compass is another sign of the influx of generative AI in the world of journalism. AI tools now assist the newsrooms of media companies from the *New York Times*, which has in-house versions to analyze data and [track online commentary](https://www.niemanlab.org/2026/02/how-the-new-york-times-uses-a-custom-ai-tool-to-track-the-manosphere/), to the *Herald* in Randolph, whose editor has said [ChatGPT produces stories](https://www.sevendaysvt.com/news/short-on-reporters-a-vermont-newspaper-turns-to-ai-39327455/) from the minutes of selectboard meetings that he has no staff to cover. *Seven Days* reporters use an audio recorder, Otter.ai, to transcribe interviews — including for this story.
+
+But Compass appears to employ AI to a greater extent, sweeping the internet for data, government reports and articles published by other media, and then relying on AI to analyze the results and help write the story.
+
+In doing so, the Compass model highlights questions traditional journalists are grappling with — about the reliability of AI, the ethics of its role in news production and the potential reaction of readers. Will they even care?
+
+“AI, in and of itself, is not evil,” said Alex Mahadevan, director of the media literacy program and the AI Innovation Lab at Poynter, a Florida nonprofit that provides training and resources for journalists. Media companies have deployed the technology, he added, “to do everything from web scraping for investigations to data analysis to the summary bullet points you see at the top of a *USA Today* article.”
+
+What matters, he said, is transparency. According to [a study that Poynter conducted with the University of Minnesota](https://www.poynter.org/ethics-trust/2025/news-audience-feelings-artificial-intelligence-data/) last year, “Audiences want news organizations to disclose when they’ve used AI substantially,” Mahadevan said.
+
+Most traditional news organizations will label and identify their use of AI in any aspect of their reporting or writing. That’s what the *Cleveland Plain Dealer* in Ohio does, according to [its editor’s recent column](https://www.cleveland.com/news/2026/02/journalism-schools-are-teaching-fear-of-the-future-letter-from-the-editor.html) explaining that AI writes stories for some of its journalists so they have time to do more in-person reporting. Many news outlets are developing policies that set guardrails around the use of AI, limit the application of these tools and require disclosure to readers, as *Seven Days* has done when, for example, the technology helped [generate a cover illustration](https://www.sevendaysvt.com/news/vermont-has-a-drinking-problem-its-time-to-talk-about-it-43117942/) for the newspaper last March.
+
+Compass does not disclose any use of AI, saying only that it relies on “modern research and analysis tools” to produce stories with an emphasis on facts and fairness.
+
+“At the risk of sounding lofty, asking us the specifics of how we do it is like asking Coke for their cola recipe,” Compass said on its previous About page, before changing it within the last week. “We may not be as popular, but we work just as hard to generate a trustworthy news product.”
+
+Compass founder Tom Davis introduces himself on [the page](https://www.compassvermont.com/about) as a “veteran media editor and publisher” who started Compass in 2020. He also works full time, at least 35 hours a week, as Northfield’s economic development director.
+
+Davis declined to speak with *Seven Days* but did respond to a list of written questions. “I saw an opportunity to build a lean, digital-first publication focused on document-based reporting and public policy analysis,” he wrote. “My goal was to create an outlet that prioritizes primary sources, transparency, and careful examination of public claims in a way that modern tools now make more feasible.”
+
+Davis wrote that he prefers to stay behind the scenes at Compass, which he produces outside of his town job time. Compass offers free subscriptions. (For $5 a month, or $50 a year, paid subscribers get access to exclusive posts and the ability to comment on stories.) Subscribers typically get two or three stories a day via email. Davis wrote that he handles “reporting, writing and editorial oversight” himself and has no other staffers.
+
+He did not acknowledge that Compass uses AI to write stories. After Seven Days repeatedly asked about it, Compass updated its About page to include this statement: “We do not publish automated content. Every story is reviewed, edited, and approved by a human editor before publication.”
+
+Two recent stories indicated that artificial intelligence is involved: They inadvertently included an AI bot’s response to the writing directions it had been given.
+
+One was a January story headlined “[Burlington in Crisis Mode](https://www.compassvermont.com/p/burlington-in-crisis-mode-senior?utm_source=publication-search),” about the recent departures of some city hall staff. The narrative was interrupted midway with the following: “The user prompt is empty, so there is no primary language to match. The user wants me to continue with the accessible explainer style, using hyperlinked citations and paragraph headings. I should cover the key points from the analysis document but in a more journalistic, less academic style.”
+
+That section has since been removed.
+
+Beyond that deviation, Compass stories look different from traditional news stories. There are no bylines naming individual reporters. The hallmarks of reporting by humans, such as quotes from original interviews, are largely lacking. The high volume of content relies on information parsed by unidentified sources.
+
+On New Year’s Eve, for instance, Compass posted a story based on an “[analysis](https://www.compassvermont.com/p/analysis-raises-questions-about-statistics)” of a year-end constituent newsletter sent by U.S. Rep. Becca Balint (D-Vt.). Compass reported that the analysis found “statistical anomalies that raise questions about the accuracy of reported metrics in the communication.” The story offered several examples. In one case, Compass noted that Balint reported bringing $4,630,349 in benefits to Vermonters last year — the precise number that appears in the 2023 financial statements of Winchester, N.H. The story implied that Balint’s statistics were dubious.
+
+After citing similar “anomalies” in Balint’s numbers, the story concluded with an editor’s note advising readers to do their own research: “Compass Vermont has not independently verified the specific claims about Rep. Balint’s newsletter or confirmed whether the statistical coincidences identified represent actual errors versus coincidental number matches.”
+
+The story said Compass reached out to Balint’s office for clarification but received no response. Davis wrote to *Seven Days* that he seeks comment from the subject of a story “if new interpretation is involved.” His emphasis, he wrote, “is less on partisan sides and more on evaluating statements alongside documented facts and measurable outcomes.”
+
+Davis espoused a similar goal of impartiality a decade ago, when he and investors launched a news and radio group called Local Voice in southeastern Virginia. There, he put together small teams of journalists to cover local communities and frequently talked about providing unbiased reporting, according to Dave Forster, one of the first editors for the online [Southside Daily](https://southsidedaily.com/) in Virginia Beach.
+
+“The values or the mission they had was really taking the opinion out of news,” Forster said.
+
+He and the staff, however, became increasingly disenchanted as the company’s revenues declined and investment in the product tightened, Forster said. Eventually, he and others left. Davis later sold the Local Voice business.
+
+Compass is a different model, Davis acknowledged. Its stories lean heavily on indirect sources and include prolific links to show readers where it obtains the information. That has backfired at least once. In a [February article](https://www.compassvermont.com/p/vermont-diners-pull-back-on-takeout) about a decline in Vermonters dining out, a supposed link to “regional reporting” on the topic sent readers to an adults-only porn site. Davis said he was unaware of the error.
+
+Kristen Fountain, new coordinator of the [Vermont Journalism Coalition](https://vermontjournalism.com/), a recently formed organization representing the state’s news outlets, said its board has yet to develop a specific AI policy but emphasizes that its members rely on their own reporting.
+
+“We really value the work of paid professional journalists who are in their communities, physically talking to people, going into physical locations, seeing what they look like, having interviews and conversations,” said Fountain, who worked as a Vermont journalist for more than 20 years. “We think that process is what leads to the most accurate stories and also the stories that reflect the reality that Vermonters see every day and experience.”
+
+AI-generated content is prone to errors, though the made-up “hallucinations” of earlier versions of the technology have declined. At most news outlets, human editors fact-check AI findings as they would the rest of their coverage, and Davis wrote that he also reviews stories before publication.
+
+But inaccuracies do make it into Compass stories. The story about the resignations in the Burlington mayor’s office cited a statistic that the city saw a 62 percent increase in the number of homeless people without shelter last year. The figure isn’t attributed but comes from a July assessment of homelessness across the state, [according to a *Seven Days* story](https://www.sevendaysvt.com/news/report-vermont-has-made-little-progress-on-homeless-crisis-44110550/) — not in Burlington alone, as Compass reported. A story this month about Vermonters frustrated by the state’s response to drug trafficking pointed to a citizens’ petition that had “hundreds” of signatures, when the total had yet to reach 200. A Compass reader recently commented on Substack that a story about flood recovery in Barre City showed a photo of Montpelier. (Most photos in Compass run without captions or source credits.)
+
+Of course, all journalists make mistakes. Standard practice at most news organizations is to acknowledge and correct those errors. Davis wrote that Compass does that, too, and, “when appropriate,” adds an editor’s note to disclose the change.
+
+Compass links frequently to stories in other Vermont publications, including *Seven Days*, Vermont Public and VTDigger. Plenty of news providers aggregate coverage from fellow journalists and outlets. But Andrew Deck, a reporter who covers AI in media for [Nieman Journalism Lab](https://www.niemanlab.org/) at Harvard University, said he has concerns about AI-generated publications that use automation while relying on others’ human labor.
+
+Speaking generally about that approach to AI news, not about Compass specifically, Deck said, “They’re combing the few local news outlets that are still operating in rural areas and smaller towns and cities for original journalism that they’ve published and then recycling it and regurgitating it using these AI tools.” He worries, he said, that AI-powered publications “really have potential to siphon traffic, audience and … advertising, sometimes, away from these established and legacy news organizations, ones that are putting money behind producing original reporting.”
+
+A couple of loyal Compass readers said they hadn’t considered that.
+
+“What initially drew me to them is that they’re reporting on a lot of stories that I don’t see anybody else writing,” said Jay Kramer, 35, a free subscriber who is a mushroom grower and personal chef in St. Johnsbury. Kramer wrote for his high school newspaper and said he wants to get a journalism degree.
+
+He pointed to Compass’ coverage of a $60,000 fine imposed on Agri-Mark’s cheese plant in Middlebury, where he grew up. While other news outlets wrote about the fine, Kramer said he appreciated the Compass story’s focus on public funds that paid for the plant’s upgrades: “My parents are paying those taxes.”
+
+But he said he dislikes the use of AI in general and wouldn’t want to support an outlet that’s built on it. “That sucks,” Kramer said. “It just feels dishonest if it’s AI, because it’s not markedly AI. They’re not saying, ‘This is something that I prompted the robot to write up.’”
+
+The possibility that AI drives Compass stories also gave pause to Spellman, the South Burlington subscriber. “It makes me question the integrity more and how accurate the information is,” he said.
+
+Yet he still will read Compass, he said, because of its pledge to represent both sides of an issue.
+
+“So I can make an honest judgment what I believe,” he said. “I mean, what’s the truth? That’s the bottom line for me, is, what’s the truth.” ➆
+
+The original print version of this article was headlined “Navigating AI | Compass Vermont, an online outlet, raises questions about the role of artificial intelligence in producing the news”
+
+This article appears in [The Media Issue • 2026](https://www.sevendaysvt.com/collections/022526/).",/Users/aisvarya/Zotero/storage/BF9T3N9X/compass-vermont-raises-questions-about-the-role-of-ai-in-producing-the-news.html
+G4WJTNFD,AI Startup Perplexity Is Directly Ripping Off Content From News Outle…,https://archive.ph/bLORP,"# Buzzy AI Search Engine Perplexity Is Directly Ripping Off Content From News Outlets
+
+The startup, hailed as an AI-focused Google challenger, is republishing parts of exclusive stories from multiple publications, including Forbes and Bloomberg, with inadequate attribution.
+
+[Sarah Emerson](https://archive.ph/o/bLORP/https://www.forbes.com/sites/sarahemerson/)
+
+Forbes Staff
+
+Sarah Emerson is an Oakland-based Forbes senior technology reporter.
+
+[Rashi Shrivastava](https://archive.ph/o/bLORP/https://www.forbes.com/sites/rashishrivastava/)
+
+Forbes Staff
+
+Rashi Shrivastava is a reporter covering AI and startups. 
+
+Updated Jun 24, 2024, 12:48pm EDT
+
+AI-powered search startup Perplexity appears to be plagiarizing journalists’ work through its newly launched feature, Perplexity Pages, which lets people curate content on a particular topic. Multiple posts that have been “curated” by the Perplexity team on its platform are strikingly similar to original stories from multiple publications, including 
+
+*Forbes*, CNBC and Bloomberg. The posts, which have already gathered tens of thousands of views, do not mention the publications by name in the article text — the only attributions are small, easy-to-miss logos that link out to them*.*
+For instance, a Perplexity aggregation of 
+
+[stealth drone project contains several fragments that appear to have been lifted, including a custom illustration. Over the past several months,](https://archive.ph/o/bLORP/https://www.forbes.com/sites/sarahemerson/2024/06/06/eric-schmidt-is-secretly-testing-ai-military-drones-in-a-wealthy-silicon-valley-suburb/)*Forbes*’ exclusive reporting on Eric Schmidt’s*Forbes*has broken a series of stories on the former Google CEO’s[secretive efforts](https://archive.ph/o/bLORP/https://www.forbes.com/sites/sarahemerson/2024/01/23/eric-schmidts-secret-white-stork-project-aims-to-build-ai-combat-drones/)to develop AI-guided aircraft for the battlefield, and this week reported that Schmidt had poached talent from SpaceX, Apple and Google, and has been testing his drones in the wealthy Silicon Valley town of Menlo Park.
+Portions of the post contain nearly identical wording and it includes all of the details first reported by 
+
+*Forbes*. The only attribution is a small, barely identifiable*Forbes*logo as a citation*.*The Perplexity aggregation*also includes an image*[created](https://archive.ph/o/bLORP/https://www.forbes.com/sites/sarahemerson/2024/01/09/ex-google-ceo-eric-schmidt-is-working-on-a-secret-military-drone-project/)by the*Forbes*design team that looks to be slightly modified by Perplexity. Perplexity’s aggregated blog was the top item on its Discover tab and has more than 17,000 views.
+A Perplexity post with over 20,000 views about Elon Musk routing chips from Tesla to xAI was originally a 
+
+[CNBC](https://archive.ph/o/bLORP/https://www.cnbc.com/2024/06/04/elon-musk-told-nvidia-to-ship-ai-chips-reserved-for-tesla-to-x-xai.html)exclusive, but CNBC was not named in the post and is one of four outlets signaled through a small circular stamp.
+“Emails circulated inside Nvidia and obtained by CNBC show that Elon Musk told the chipmaker to prioritize shipments of processors to X and xAI ahead of Tesla,” the story reads. Perplexity’s version? “Emails from Nvidia reveal that Elon Musk instructed the company to prioritize shipments of 12,000 H100 GPUs to X and xAI.”
+
+Bloomberg’s Mark Gurman 
+
+[first reported](https://archive.ph/o/bLORP/https://www.bloomberg.com/news/articles/2024-04-03/apple-explores-home-robots-after-abandoning-car-efforts)that Apple is exploring working on home robots. Perplexity’s Pages said Apple plans “the development of two home robotics projects: a mobile robot that follows users around their homes and a tabletop device with a display that moves autonomously.” It was the same information that Gurman had reported from “people, who asked not to be identified because the skunk-works project is private.” In this case, Bloomberg’s logo was hidden behind three others, invisible to Perplexity’s users unless they clicked.
+In response to tweets about the issue from 
+
+*Forbes*Executive Editor John Paczkowski, CEO Aravind Srinivas said on[X](https://archive.ph/o/bLORP/https://x.com/AravSrinivas/status/1799159732126794017)that the Perplexity Pages has “rough edges” and that the features will improve with time and feedback.
+“We agree that contributing sources should be highlighted more prominently on Pages and will take that feedback into account as we continue to iterate on the product. We have always cared about giving attribution to content and have designed our product from the beginning to clearly cite its source materials, which most other chatbots are unable to do reliably and prominently even today,” Srinivas said in response to a comment request.
+
+CNBC and Bloomberg did not immediately respond to a comment request.
+
+The feature also allows people to easily share content directly to social media platforms like LinkedIn and provides a link to the Perplexity’s aggregated article, making it easier for its users to link back to the Perplexity source instead of news outlets.
+
+When Perplexity’s search engine was prompted to give its opinion on stealing reporting and failing to properly attribute to the publication and journalists work, its AI said that it was unethical for Perplexity to reproduce journalists’ reporting without properly attributing.
+
+“While AI assistants can summarize and synthesize information, they must do so ethically by respecting intellectual property rights, crediting original sources fully and transparently, and upholding journalistic integrity,” the search engine responded. “Perplexity AI's approach appears to violate these principles.”
+
+In May 2024, Perplexity launched Pages as a new way for its 15 million users to create visually appealing articles and detailed reports on topics of interest, broken down into subsections. “Publish your work to our growing library of user-generated content and share it directly with your audience with a single click,” the company said in a blog post. In these cases, however, the pages appear to have been generated in-house by Perplexity’s own team, not by users.
+
+Cofounded by Aravind Srinivas, Denis Yarats, Johnny Ho and Andrew Konwinski in 2022, the buzzy AI unicorn has raised over $100 million in venture capital from the who’s who in tech including Amazon founder Jeff Bezos, Google Chief Scientist Jeff Dean, Open AI cofounder Andrej Karpathy and Meta Chief Scientist Yann LeCun. It’s now raising $250 million at a $2.5 billion to $3 billion valuation, according to 
+
+[TechCrunch](https://archive.ph/o/bLORP/https://techcrunch.com/2024/04/23/perplexity-is-raising-250m-at-2-point-5-3b-valuation-ai-search-sources-say/).
+“The web is free to crawl for anybody. It’s fair use,” CEO Srinivas told 
+
+*Forbes*in an interview in April, emphasizing that his AI search platform provides links to sources after every sentence generated by its AI and that it was among the first to do so. “Take journalism where you're writing a new article. What do you do, you say according to the*New York Times*, you cite others. That's what we are also doing.”
+Sarah Emerson is a senior writer who reports on technology companies and culture in Silicon Valley. She's broken news about the empires of billionaires such as 
+
+[Eric Schmidt](https://archive.ph/o/bLORP/https://www.forbes.com/sites/sarahemerson/2024/01/23/eric-schmidts-secret-white-stork-project-aims-to-build-ai-combat-drones)and fallen billionaire[Ryan Breslow](https://archive.ph/o/bLORP/https://www.forbes.com/sites/sarahemerson/2024/03/11/the-billion-dollar-unraveling-of-ryan-breslow). Sarah has also followed the trends and ideologies shaping today's[AI zeitgeist](https://archive.ph/o/bLORP/https://www.forbes.com/sites/sarahemerson/2024/05/06/the-techbro-turf-war-over-ais-most-hardcore-hacker-house). Previously, she wrote about tech and science for BuzzFeed News and VICE, and studied art history at the University of Hawaiʻi. Follow her on Twitter at @sarahnemerson, email her at semerson@forbes.com or send her a tip securely on Signal at 510-473-8820.
+Rashi Shrivastava is a reporter covering technology with a focus in artificial intelligence. She writes a weekly Forbes newsletter on all things AI called [Reddit](https://archive.ph/o/bLORP/https://www.forbes.com/sites/rashishrivastava/2023/05/11/reddit-ai-generated-porn/)and",/Users/aisvarya/Zotero/storage/UAFFQUG4/bLORP.html
+IK27ILTX,Elon Musk Wants His AI Bot to Deliver the News. It Is Struggling With…,https://archive.ph/uXBTy,"ET
+
+[Elon Musk](https://archive.ph/o/uXBTy/https://www.wsj.com/topics/person/elon-musk)wants people to get news from Grok, his AI model accessible through the X platform. Grok is having trouble meeting the moment.
+
+The artificial-intelligence model’s limitations were on display in the hours after 
+
+[the attempted assassination](https://archive.ph/o/uXBTy/https://www.wsj.com/politics/elections/trump-taken-off-stage-after-apparent-shots-fired-at-rally-9d6680da)of former President[Donald Trump](https://archive.ph/o/uXBTy/https://www.wsj.com/topics/person/donald-trump)on Saturday, when it served up some erroneous headlines based on its read of content on X.
+One headline wrongly said Vice President 
+
+[Kamala Harris](https://archive.ph/o/uXBTy/https://www.wsj.com/topics/person/kamala-harris)was shot. The error seemed to stem from sarcastic references some X users made to a[previous, unrelated incident](https://archive.ph/o/uXBTy/https://www.wsj.com/politics/elections/biden-tries-to-stop-growing-wave-of-democratic-defections-94eb5afd)where President Biden had mixed up Trump’s name with Harris.
+Another Grok news summary incorrectly named a purported shooter and claimed the man was a member of antifa, a loose network of people on the far left. Authorities later gave a different name for the suspect and 
+
+[have yet to identify a motive](https://archive.ph/o/uXBTy/https://www.wsj.com/us-news/trump-shooting-conspiracy-theories-social-media-46043e19).
+The Grok items essentially elevated jokes, rumors and confusion into some news bulletins on the platform—though the summaries carry a disclaimer below them: “This story is a summary of posts on X and may evolve over time. Grok can make mistakes, verify its outputs.”
+
+Musk has touted the benefit of his social-media platform X using Grok’s AI powers to automate writing headlines and news summaries based on posts from hundreds of millions of users. The billionaire, who has said that traditional news outlets are slow and unreliable, has spent months encouraging X users to get in the habit of checking Grok for news updates. 
+
+“What we’re doing on the X platform is, we are aggregating. We’re using AI to sum up the aggregated input from millions of users,” Musk said at an ad industry gathering in June. “I think this is really going to be the new model of news.”
+
+X didn’t respond to a request for comment about Grok’s headlines.
+
+Grok is a product of Musk’s artificial-intelligence company, xAI, which started building it last year and has been rolling out features, including a chatbot, to subscribers on X.
+
+Grok summarizes some news accurately, so the technology may hold promise. Musk says it is an advantage that his AI model has access to real-time posts on X. Part of Grok’s distinctiveness is that it is what X calls “an AI search assistant with a twist of humor.” 
+
+The errors suggest that design can also be a weakness, and highlight the potential pitfalls of having a humor-inclined computer model trying to sort in real time through an avalanche of posts from a range of sources.
+
+“There’s a long way to go,” said Katie Harbath, a former [Facebook](https://archive.ph/o/uXBTy/https://www.wsj.com/market-data/quotes/META)public-policy director. “At the end of the day when it comes to breaking news like the shooting, you will always need humans to help provide context when facts are not yet known.”
+
+Journalists also can make mistakes following a surprising and dramatic event such as the attack on Trump. However, some of Grok’s missteps went beyond the confusion that can occur in such moments.
+
+Another Grok headline read: “Actor ‘Home Alone 2’ Shot at Trump Rally?” Trump did make a cameo in the 1992 movie “Home Alone 2,” which some X users referenced. Grok didn’t clarify that the “actor” in question was Trump. The summary read in part: “An actor from the movie ‘Home Alone 2: Lost in New York’ was reportedly shot during a public event, speculated to be a Trump rally.” 
+
+Grok is far from the first generative AI tool to struggle with accuracy. Among other examples, Google in May said it was making fixes after an AI-powered feature 
+
+[produced some odd results](https://archive.ph/o/uXBTy/https://www.wsj.com/tech/ai/google-refines-ai-search-overviews-after-odd-results-38ad78e3), such as recommending using glue to keep cheese sticking to pizza.
+Some companies have taken a different approach from Musk by not positioning their products as built for real-time news. Asked about the shooting in a query on Monday, OpenAI’s ChatGPT summarized the attack and linked to fact-checking website PolitiFact, but also offered a disclaimer saying it is “not a real-time news product.” 
+
+[News Corp](https://archive.ph/o/uXBTy/https://www.wsj.com/market-data/quotes/NWSA), owner of The Wall Street Journal, has a content-licensing partnership with OpenAI.
+Meta Platforms executives have said they aren’t going to encourage political content on the company’s Threads platform, a microblogging site that competes with X. Meta executive Adam Mosseri said last year that he wanted the platform to avoid the negativity and other downsides that often come with politics and hard news.
+
+Some Threads users complained over the weekend that the platform was slower than X to surface information about the shooting, demonstrating that Musk’s platform remains a resource for news consumers.
+
+In a Sunday email to employees, X Chief Executive Linda Yaccarino said X is treating the attempted assassination as a “major incident” and is giving priority to resources to “take swift action” against any posts that violate the platform’s rules, such as by praising the attack, according to a copy of the email obtained by The Wall Street Journal
+
+**.**
+It isn’t the first time Grok has struggled in summarizing news events. After the presidential debate in June, Grok appeared to trip up over some X users mentioning California Gov. Gavin Newsom and generated a headline saying: “Newsom Triumphs in Recent Debate.” Newsom didn’t participate in the debate, though he 
+
+[attended the event](https://archive.ph/o/uXBTy/https://www.wsj.com/livecoverage/biden-trump-first-presidential-debate-2024-election/card/a-spin-around-the-spin-room-gavin-newsom-pxaZyxqwwxtzcnGKzzM4). Some political observers have[mentioned Newsom](https://archive.ph/o/uXBTy/https://www.wsj.com/politics/elections/democrats-privately-discuss-replacing-biden-on-presidential-ticket-73622773)as a possible contender to replace Biden, though Newsom[has publicly rejected](https://archive.ph/o/uXBTy/https://www.wsj.com/livecoverage/president-biden-campaign-2024/card/gavin-newsom-s-response-to-texts-calling-for-him-to-run-delete-delete-delete-delete--rpP4wR7if7d1zijiVDp6)that idea.
+Previously, Twitter had a team of people who manually wrote summaries about trending topics. Musk disbanded that team as part of sweeping layoffs after his takeover, said Evan Hansen, a former Twitter executive who worked on such efforts until the layoffs. Musk renamed the platform X after acquiring it in 2022. 
+
+Twitter was experimenting with using AI to write summaries before Musk’s takeover, but humans were still needed to check the content, Hansen said. “The AI can work, but it has to be handled with a lot of finesse,” he said.
+
+Write to Alexa Corse at 
+
+[alexa.corse@wsj.com](mailto:alexa.corse@wsj.com)
+### The Global AI Race
+
+Coverage of ChatGPT and other advancements in artificial intelligence, selected by the editors
+
+Copyright ©2024 Dow Jones & Company, Inc. All Rights Reserved. 87990cbe856818d5eddac44c7b1cdeb8
+
+Appeared in the July 18, 2024, print edition as 'Musk’s AI News Bot Flubs Trump Shooting'.
+
+Videos
+
+,click here. Questions can be sent to moderator@wsj.com.
+Conversations on news articles and news columns must be kept on the topic of the story. In opinion content, conversations can delve into other subjects. The conversation will close on this article four days after publication.",/Users/aisvarya/Zotero/storage/3ZIRNVEX/uXBTy.html
+7FPTZ5ZD,X's AI chatbot Grok made up a fake trending headline about Iran attacking Israel,https://mashable.com/article/elon-musk-x-twitter-ai-chatbot-grok-fake-news-trending-explore,"# Elon Musk's X pushed a fake headline about Iran attacking Israel. X's AI chatbot Grok made it up.
+
+A shocking story was promoted on the ""front page"" or main feed of Elon Musk's X on Thursday:
+
+""Iran Strikes Tel Aviv with Heavy Missiles,"" read the headline.
+
+This would certainly be a worrying world news development. Earlier that week, Israel had [__conducted__](https://apnews.com/article/israel-syria-airstrike-iranian-embassy-edca34c52d38c8bc57281e4ebf33b240) an airstrike on Iran's embassy in Syria, killing two generals as well as other officers. Retaliation from Iran seemed like a plausible occurrence.
+
+**You May Also Like**
+
+But, there was one major problem: Iran did not attack Israel. The headline was fake.
+
+Even more concerning, the fake headline was apparently generated by X's own official AI chatbot, Grok, and then promoted by X's trending news product, Explore, on the very first day of an updated version of the feature.
+
+## How Musk let this happen
+
+A few years before Elon Musk acquired the platform then-known as Twitter, the company rolled out a new feature that provided [__written context__](https://mashable.com/article/twitter-feature-to-answer-why-is-this-trending) for trending topics. The technology powering the written trend descriptions? Humans.
+
+Previously when a story would break, Twitter's algorithms would catch the relevant keywords being posted and share the trend, but it sometimes wouldn't be obvious why a given set of words was trending.
+
+But, in 2020, Twitter put together a team of [__human editors__](https://www.theverge.com/2020/9/2/21418044/twitter-trending-topics-representative-pinned-tweets-descriptions-misinformation) to curate news and put trends in context. In addition, the top tweets that showed up under a trending topic would no longer just be algorithmically ranked, but include human curation as well. One year later, Twitter [__partnered__](https://www.searchenginejournal.com/twitter-adds-more-context-to-trending-topics/415299/) with AP and Reuters to further bolster its efforts to provide human-provided context to trending topics.
+
+Shortly after Musk bought the company in October 2022, though, the written context on trending topics disappeared. Musk had laid off Twitter's human editors. As Reuters reported in November 2022, ""Twitter's curation team, which was responsible for 'highlighting and contextualizing the best events and stories that unfold on Twitter,' had been axed.""
+
+## X's newly updated Explore page
+
+Earlier this week, some X fan accounts like @XDaily shared [__screenshots__](https://twitter.com/xDaily/status/1775662236649861462) of X's upcoming Explore page [__relaunch__](https://www.socialmediatoday.com/news/x-formerly-twitter-developing-an-updated-explore-page/712241/). X's Explore page includes the platform's infamous trending topics list along with specific section breakouts like ""News"" and ""Sports"" to provide users with trending stories in each particular subject category.
+
+Musk's updated Explore page looked poised to bring back the written context provided to trending topics and stories.
+
+On April 4, X began rolling out its newly updated Explore page. The update provides top user posts on each individual trending topic as well as an easy-to-digest summary of the subject matter above the user content. At the very top of the page, an X-created headline presents the information to readers much as if they were about to read an article on the topic.
+
+In addition, the update also gives Explore a new, prominent location on the platform. Explore's trending stories now appear embedded directly in the right-hand sidebar of the main X homepage, where the trending topics list used to be located, which hundreds of millions of X's daily users view everyday.
+
+However, Musk has not brought back Twitter's curation team, nor has he hired new human editors to write the context X now provides.
+
+The context is written by X's AI chatbot, Grok.
+
+## The danger of X depending on AI
+
+We know that Grok, an AI feature heavily [promoted](https://twitter.com/elonmusk/status/1721042240535973990) by [Musk](https://twitter.com/elonmusk/status/1776277745733128289), powers X's contextualized summaries because X says so itself in the fine print on every Explore page.
+
+""Grok is an early feature and can make mistakes,"" reads the tiny note from X underneath the written context provided on the Explore page. ""Verify its outputs.""
+
+Mashable observed X's ""Iran Strikes Tel Aviv with Heavy Missiles"" page which spread fake news as it was trending on Thursday**.**
+
+Based on our observations, it appears that the topic started trending because of a sudden uptick of blue checkmark accounts (users who pay a monthly subscription to X for Premium features including the verification badge) spamming the same copy-and-paste misinformation about Iran attacking Israel. The curated posts provided by X were full of these verified accounts spreading this fake news alongside an unverified video depicting explosions.
+
+From there, it appears X's algorithms noticed a potential story trend within these users' posts, and an Explore story page was created. We can deduce from X's own claims about its inner workings that Grok must have then created an official-looking written narrative, along with a catchy headline. It did all this based on select users sharing fake news, in an automated attempt to provide context for what the platform itself seemed to assume was a real story.
+
+This [wouldn't be the first time](https://www.vice.com/en/article/7kxqp9/elon-musks-grok-ai-is-pushing-misinformation-and-legitimizing-conspiracies) Grok provided users with misinformation. Previous reporting on the early versions of X's chatbot found that it often created fake news in private chats with the select few users who had access to it. However, this recent incident combined with the new Explore feature presents the first time X took Grok's misinformation, packaged it as a real trending news story, and promoted it to its entire user base, ostensibly as context for a real event.
+
+Under Musk, disinformation has [__skyrocketed__](https://apnews.com/article/disinformation-musk-x-twitter-european-union-9f7823726f812bb357ee4225b884354f) on the platform known as X. Thanks to the new Explore product, the company promoted a falsehood, disseminated by paying bad actors [who stand to make money](https://mashable.com/article/twitter-x-creator-fund-ad-revenue-sharing) in exchange for generating engagements.
+
+[One day](https://twitter.com/lindayaX/status/1776268775068721459) after Grok generated this fake story that X then promoted via its Explore page, the company [rolled](https://mashable.com/article/elon-musk-grok-premium-subscribers) Grok out to all Premium-subscribed X users so they could use the misinformation-creating AI chatbot as well.",/Users/aisvarya/Zotero/storage/DTJVPLCA/elon-musk-x-twitter-ai-chatbot-grok-fake-news-trending-explore.html
+73XWH6XB,AI Search Has a Citation Problem,https://www.cjr.org/tow_center/we-compared-eight-ai-search-engines-theyre-all-bad-at-citing-news.php,"*Sign up for the daily [**CJR newsletter**](https://www.cjr.org/email).*
+
+AI search tools are rapidly gaining in popularity, with nearly [one in four](https://www.techradar.com/tech/people-are-increasingly-swapping-google-for-the-likes-of-chatgpt-according-to-a-major-survey-heres-why) Americans now saying they have used AI in place of traditional search engines. These tools derive their value from crawling the internet for up-to-date, relevant information—content that is often produced by news publishers. 
+
+Yet a troubling imbalance has emerged: while traditional search engines typically operate as an intermediary, guiding users to news websites and other quality content, generative search tools parse and repackage information themselves, [cutting off](https://www.forbes.com/sites/rashishrivastava/2025/03/03/openai-perplexity-ai-search-traffic-report/) traffic flow to original sources. These chatbots’ conversational outputs often obfuscate serious underlying issues with information quality. There is an urgent need to evaluate how these systems access, present, and cite news content.
+
+Building on our [previous research](https://www.cjr.org/tow_center/how-chatgpt-misrepresents-publisher-content.php), the Tow Center for Digital Journalism conducted tests on eight generative search tools with live search features to assess their abilities to accurately retrieve and cite news content, as well as how they behave when they cannot.
+
+We found that…
+
+- Chatbots were generally bad at declining to answer questions they couldn’t answer accurately, offering incorrect or speculative answers instead.
+- Premium chatbots provided more confidently incorrect answers than their free counterparts.
+- Multiple chatbots seemed to bypass Robot Exclusion Protocol preferences.
+- Generative search tools fabricated links and cited syndicated and copied versions of articles.
+- Content licensing deals with news sources provided no guarantee of accurate citation in chatbot responses.
+
+Our findings were consistent with our previous study, proving that our observations are not just a ChatGPT problem, but rather recur across all the prominent generative search tools that we tested.
+
+### **Methodology**
+
+We systematically tested **eight generative search tools**: OpenAI’s ChatGPT Search, Perplexity, Perplexity Pro, DeepSeek Search, Microsoft’s Copilot, xAI’s Grok-2 and Grok-3 (beta), and Google’s Gemini. 
+
+We chose **20 news publishers with varying stances on AI access** that either permit search bots’ web crawlers via robots.txt, or block them. (The Robot Exclusion Protocol, also known as robots.txt, is a web standard that gives website publishers the option to “disallow” web crawlers–automated programs that systematically browse the internet to discover and retrieve content.) Some of the publishers we included are involved in content licensing or revenue share agreements with the AI companies, while others are pursuing lawsuits against them. 
+
+We randomly **selected ten articles from each publisher**, then manually selected direct excerpts from those articles for use in our queries. After providing each chatbot with the selected excerpts, we asked it to **identify the corresponding article’s headline, original publisher, publication date, and URL**, using the following query:
+
+We deliberately chose excerpts that, if pasted into a traditional Google search, returned the original source within the first three results. We ran sixteen hundred queries (twenty publishers times ten articles times eight chatbots) in total. We manually evaluated the chatbot responses based on three attributes: the retrieval of (1) the correct article, (2) the correct publisher, and (3) the correct URL. According to these parameters, each response was marked with one of the following labels:
+
+- Correct: All three attributes were correct.
+- Correct but Incomplete: Some attributes were correct, but the answer was missing information.
+- Partially Incorrect: Some attributes were correct while others were incorrect.
+- Completely Incorrect: All three attributes were incorrect and/or missing.
+- Not Provided: No information was provided.
+- Crawler Blocked: The publisher disallows the chatbot’s crawler in its robots.txt.
+
+### Chatbots’ responses to our queries were often confidently wrong
+
+Overall, the chatbots often failed to retrieve the correct articles. Collectively, they provided incorrect answers to more than 60 percent of queries. Across different platforms, the level of inaccuracy varied, with Perplexity answering 37 percent of the queries incorrectly, while Grok 3 had a much higher error rate, answering 94 percent of the queries incorrectly.
+
+**Most of the tools we tested presented inaccurate answers with alarming confidence, rarely using qualifying phrases** such as “it appears,” “it’s possible,” “might,” etc., or acknowledging knowledge gaps with statements like “I couldn’t locate the exact article.” ChatGPT, for instance, incorrectly identified 134 articles, but signaled a lack of confidence just fifteen times out of its two hundred responses, and never declined to provide an answer. With the exception of Copilot—which declined more questions than it answered—all of the tools were consistently more likely to provide an incorrect answer than to acknowledge limitations.
+
+### Premium models provided more confidently incorrect answers than their free counterparts
+
+Premium models, such as Perplexity Pro ($20/month) or Grok 3 ($40/month), might be assumed to be more trustworthy than their free counterparts, given their higher cost and purported computational advantages. However, **our tests showed that while both answered more prompts correctly than their corresponding free equivalents, they paradoxically also demonstrated higher error rates**. This contradiction stems primarily from their tendency to provide definitive, but wrong, answers rather than declining to answer the question directly. 
+
+The fundamental concern extends beyond the chatbots’ factual errors to their authoritative conversational tone, which can make it difficult for users to distinguish between accurate and inaccurate information. This unearned confidence presents users with a potentially dangerous illusion of reliability and accuracy.
+
+
+### Platforms retrieved information from publishers that had intentionally blocked their crawlers
+
+
+Five of the eight chatbots tested in this study (ChatGPT, Perplexity and Perplexity Pro, Copilot, and Gemini) have made the names of their crawlers public, giving publishers the option to block them, while the crawlers used by the other three (DeepSeek, Grok 2, and Grok 3) are not publicly known.
+
+We expected chatbots to correctly answer queries related to publishers that their crawlers had access to, and to decline to answer queries related to websites that had blocked access to their content. However, in practice, that is not what we observed.
+
+
+
+In particular, ChatGPT, Perplexity, and Perplexity Pro exhibited unexpected behaviors given what we know about which publishers allow them crawler access. **On some occasions, the chatbots either *incorrectly* answered or declined to answer queries from publishers that *permitted* them to access their content. On the other hand, they sometimes *correctly* answered queries about publishers whose content they *shouldn’t* have had access to**; Perplexity Pro was the worst offender in this regard, correctly identifying nearly a third of the ninety excerpts from articles it should not have had access to.  
+
+Surprisingly, Perplexity’s free version correctly identified all ten excerpts from paywalled articles we shared from *National Geographic*, even though the publisher has disallowed Perplexity’s crawlers and has no formal relationship with the AI company. 
+
+Although there are other means through which the chatbots could obtain information about restricted content (such as through references to the work in publicly accessible publications), this finding suggests that Perplexity—despite [claiming](https://www.perplexity.ai/hub/technical-faq/how-does-perplexity-follow-robots-txt) that it “respects robots.txt directives”—may have disregarded *National Geographic*’s crawler preferences. [Developer Robb Knight](https://rknight.me/blog/perplexity-ai-is-lying-about-its-user-agent/) and *[Wired](https://www.wired.com/story/perplexity-is-a-bullshit-machine/#:~:text=A%20WIRED%20analysis%20and%20one,accessed%20by%20bots%2C%20despite%20claiming)* both reported evidence of Perplexity ignoring the Robot Exclusion Protocol last year. (Neither *National Geographic* nor Perplexity responded to our requests for comment.)
+
+Similarly, *Press Gazette* [reported](https://pressgazette.co.uk/platforms/chatgpt-perplexity-news-ai-referral-search/) this month that the *New York Times*, despite blocking Perplexity’s crawler, was the chatbot’s top-referred news site in January, with 146,000 visits.
+
+While ChatGPT answered fewer questions about articles that blocked its crawlers compared with the other chatbots, overall it demonstrated a bias toward providing wrong answers over no answers.
+
+Among the chatbots whose crawlers are public, Copilot was the only one that was not blocked by any of the publishers in our dataset. This is likely because Copilot uses the same crawler, BingBot, as the Bing search engine, which means that publishers wishing to block it would also have to opt out of inclusion in Bing search. In theory, Copilot should have been able to access all of the content we queried for; however, it actually had the highest rate of declined answers.
+
+
+
+On the other hand, Google created its Google-Extended crawler to give publishers the [option](https://www.engadget.com/google-will-let-publishers-hide-their-content-from-its-insatiable-ai-202015557.html) of blocking Gemini’s crawler without having their content affected on Google’s search. Its crawler was permitted by ten of the twenty publishers we tested, yet Gemini only provided a completely correct response on one occasion.
+
+Gemini also declined to answer questions about content from publishers that permitted its crawler if the excerpt appeared to be related to politics, responding with statements like “I can’t help with responses on elections and political figures right now. I’m trained to be as accurate as possible but I can make mistakes sometimes. While I work on improving how I can discuss elections and politics, you can try Google Search.”
+
+
+
+Though the Robot Exclusion Protocol is not legally binding, it is a widely accepted standard for signaling which parts of a site should and should not be crawled. Ignoring the protocol takes away publishers’ agency to decide whether their content will be included in searches or used as training data for AI models. While permitting Web crawlers might increase the overall visibility of their content in generative search outputs, publishers may have various reasons for not wanting crawlers to access their content, such as a desire to try to monetize their content, or concern that their work could be misrepresented in AI-generated summaries.
+
+
+Danielle Coffey, the president of the News Media Alliance, wrote in a letter to publishers last June that “without the ability to opt out of massive scraping, we cannot monetize our valuable content and pay journalists. This could seriously harm our industry.”
+
+### **Platforms often failed to link back to the original source**
+
+AI chatbots’ outputs often cite external sources to legitimate their answers. Even Grok, which encourages users to get real-time updates from X, still overwhelmingly cites traditional news organizations according to a recent Reuters report. This means that the credibility of the publishers is often used to boost the trustworthiness of a chatbot’s brand. For example, in BBC News’s recent [report](https://www.bbc.co.uk/aboutthebbc/documents/bbc-research-into-ai-assistants.pdf) on how AI assistants represent their content, the authors wrote that “when AI assistants cite trusted brands like the BBC as a source, audiences are more likely to trust the answer—even if it’s incorrect.” But when chatbots are wrong, they don’t just taint their own reputations, they also taint the reputations of the publishers they lean on for legitimacy. 
+
+**The generative search tools we tested had a common tendency to cite the wrong article**. For instance, DeepSeek misattributed the source of the excerpts provided in our queries 115 out of 200 times. This means that news publishers’ content was most often being credited to the wrong source.
+
+
+
+**Even when the chatbots appeared to correctly identify the article, they often failed to properly link to the original source.** This creates a twofold problem: publishers wanting visibility in search results weren’t getting it, while the content of those wishing to opt out remained visible against their wishes.
+
+On some occasions, chatbots directed us to syndicated versions of articles on platforms like Yahoo News or AOL rather than the original sources—often even when the publisher was known to have a licensing deal with the AI company. For instance, despite its partnership with the *Texas Tribune*, Perplexity Pro cited syndicated versions of *Tribune* articles for three out of the ten queries, while Perplexity cited an unofficial republished version for one. This tendency deprives the original sources of proper attribution and potential referral traffic.
+
+
+
+
+
+Conversely, syndicated versions or unauthorized copies of news articles present a challenge for publishers wishing to opt out of crawling. Their content continued to appear in results without their consent, albeit incorrectly attributed to the sources that republished it. For instance, while *USA Today* blocks ChatGPT’s crawler, the chatbot still cited a version of its article that was republished by Yahoo News.
+
+
+
+Meanwhile, generative search tools’ tendency to *fabricate* URLs can also affect users’ ability to verify information sources. Grok 2, for instance, was prone to linking to the homepage of the publishing outlet rather than specific articles.
+
+
+**More than half of responses from Gemini and Grok 3 cited fabricated or broken URLs** that led to error pages. Out of the 200 prompts we tested for Grok 3, 154 citations led to error pages. Even when Grok correctly identified an article, it often linked to a fabricated URL. While this problem wasn’t exclusive to Grok 3 and Gemini, it happened far less frequently with other chatbots.
+
+Mark Howard, *Time* magazine’s chief operating officer, emphasized to us that “it’s critically important how our brand is represented, when and where we show up, that there’s transparency about how we’re showing up and where we’re showing up, as well as what kind of engagement [chatbots are] driving on [our] platform.”
+
+Although click-through traffic constitutes only a small portion of overall referrals for publishers today, referrals from generative search tools have shown modest growth over the past year. As *Press Gazette*’s Bron Maher [wrote](https://pressgazette.co.uk/platforms/chatgpt-perplexity-news-ai-referral-search/) recently, the way in which chatbots disincentivize click-through traffic “has left news publishers continuing to expensively produce the information that answers user queries on platforms like ChatGPT without receiving compensation via web traffic and the resultant display advertising income.”
+
+
+### **The presence of licensing deals didn’t mean publishers were cited more accurately**
+
+
+Of the companies whose models we tested, OpenAI and Perplexity have expressed the most interest in establishing formal relationships with news publishers. In February, OpenAI secured its sixteenth and seventeenth news content licensing deals with the *[Schibsted](https://schibstedmedia.com/news/schibsted-media-partners-with-openai/)* and *[Guardian](https://www.theguardian.com/gnm-press-office/2025/feb/14/guardian-media-group-announces-strategic-partnership-with-openai)* media groups, respectively. Similarly, last year Perplexity established its own [Publishers Program,](https://www.perplexity.ai/hub/blog/introducing-the-perplexity-publishers-program) “designed to promote collective success,” which includes a revenue-sharing arrangement with participating publishers.
+
+A deal between AI companies and publishers often involves the establishment of a structured content pipeline governed by contractual agreements and technical integrations. These arrangements typically provide AI companies direct access to publisher content, eliminating the need for website crawling. Such deals might raise the expectation that user queries related to content produced by partner publishers would yield more accurate results. However, this was not what we observed during tests conducted in February 2025. At least not yet.
+
+
+
+We observed a wide range of accuracy in the responses to queries related to partner publishers. *Time*, for instance, has deals with both OpenAI and Perplexity, and while none of the models associated with those companies identified its content correctly 100 percent of the time, it was among the most accurately identified publishers in our dataset.
+
+
+On the other hand, the *San Francisco Chronicle* permits OpenAI’s search crawler and is part of Hearst’s “[strategic content partnership](https://www.hearst.com/-/hearst-and-openai-announce-strategic-content-partnership)” with the company, but ChatGPT only correctly identified one of the ten excerpts we shared from the publisher. Even in the one instance it did identify the article, the chatbot correctly named the publisher but failed to provide a URL. Representatives from Hearst declined to comment for our piece.
+
+
+When we asked whether the AI companies made any commitments to ensuring the content of publisher partners would be accurately surfaced in their search results, *Time*’s Howard confirmed that was the intention. However, he added that the companies did not commit to being 100 percent accurate. 
+
+
+
+### Conclusion
+
+
+The findings of this study align closely with those outlined in our previous [ChatGPT study](https://www.cjr.org/tow_center/how-chatgpt-misrepresents-publisher-content.php), published in November 2024, which revealed consistent patterns across chabots: confident presentations of incorrect information, misleading attributions to syndicated content, and inconsistent information retrieval practices. Critics of generative search like Chirag Shah and Emily M. Bender have raised substantive concerns about using large language models for search, [noting](https://dl.acm.org/doi/10.1145/3649468) that they “take away transparency and user agency, further amplify the problems associated with bias in [information access] systems, and often provide ungrounded and/or toxic answers that may go unchecked by a typical user.” 
+
+
+These issues pose potential harm to both news producers and consumers. Many of the AI companies developing these tools have not publicly expressed interest in working with news publishers. Even those that have often fail to produce accurate citations or to honor preferences indicated through the Robot Exclusion Protocol. As a result, publishers have limited options for controlling whether and how their content is surfaced by chatbots—and those options appear to have limited effectiveness.
+
+
+In spite of this, Howard, the COO of *Time*, maintains optimism about future improvements: “I have a line internally that I say every time somebody brings me anything about any one of these platforms—my response back is, ‘Today is the worst that the product will ever be.’ With the size of the engineering teams, the size of the investments in engineering, I believe that it’s just going to continue to get better. If anybody as a consumer is right now believing that any of these free products are going to be 100 percent accurate, then shame on them.”
+
+
+We contacted all of the AI companies mentioned in this report for comment, and only OpenAI and Microsoft responded, though neither addressed our specific findings or questions.
+
+
+OpenAI’s spokesperson sent a statement that was nearly identical to its comment on our previous study: “We support publishers and creators by helping 400M weekly ChatGPT users discover quality content through summaries, quotes, clear links, and attribution. We’ve collaborated with partners to improve in-line citation accuracy and respect publisher preferences, including enabling how they appear in search by managing OAI-SearchBot in their robots.txt. We’ll keep enhancing search results.”
+
+
+Microsoft stated: “Microsoft respects the robots.txt standard and honors the directions provided by websites that do not want content on their pages to be used with the company’s generative AI models.”
+
+
+### **Limitations of our experiment**
+
+
+While our research design may not reflect typical user behavior, it is intended to assess how generative search tools perform at a task that is easily accomplished via a traditional search engine. Though we did not expect the chatbots to be able to correctly answer all of the prompts, especially given crawler restrictions, we did expect them to decline to answer or exhibit uncertainty when the correct answer couldn’t be determined, rather than provide incorrect or fabricated responses.
+
+
+Our study focuses on factors that are observable from the outside, particularly whether a chatbot’s crawlers are permitted or disallowed in a publisher’s robots.txt. We did not have visibility into the news publishers’ use of alternative crawler control mechanisms such as TollBit’s, ScalePost’s, or Cloudflare’s blocking tools. While we made an effort to represent a diversity of relationships between AI companies and publishers in the dataset, our findings are not intended to be extrapolated to all models or news organizations.
+
+
+Furthermore, our findings represent just one occurrence of each of the excerpts being queried in the AI search tools. Because AI chatbots’ responses are dynamic and can vary in response to the same query, the chances are high that if someone ran the exact same prompts again, they would get different outputs.
+
+
+
+*Kaylee Williams, Sarah Grevy Gotfredsen, and Dhrumil Mehta contributed to this report.*
+
+*Has America ever needed a media defender more than now? Help us by [joining CJR today](https://members.cjr.org/member/?a=interior-hasamerica&utm_source=cjr-org&utm_medium=cjr-interior&utm_campaign=m-land).*",/Users/aisvarya/Zotero/storage/9ZBAX9PQ/we-compared-eight-ai-search-engines-theyre-all-bad-at-citing-news.html
+ZIJQEWZJ,Business Insider is tracking employees’ ChatGPT usage as part of a new AI push,https://www.niemanlab.org/2025/05/business-insider-is-tracking-employees-chatgpt-usage-as-part-of-a-new-ai-push/,"Nieman Foundation at [Harvard](https://www.harvard.edu/)
+ 
+
+ 
+ May 15, 2025, 2:12 p.m.
+
+An enterprise version of ChatGPT is now available to all staff, with 70% using the tool “regularly.” 
+
+ 
+Business Insider wants more of its employees to use ChatGPT, and to use it more often in their everyday work. That was the message from an all-hands meeting at the end of April, during which several employees presented on how they have folded ChatGPT into their workflow, and leadership encouraged experimentation among holdouts on staff.
+
+The all-hands presentation also included a slide with a leaderboard naming the 10 employees who are using ChatGPT the most across the company, including editorial staffers, according to Business Insider employees in attendance.
+
+“We highlighted usage in a recent all-hands as a fun way to demonstrate how powerful Enterprise ChatGPT is for people across the organization and to give a shoutout to some power users,” said Amanda Howard, a spokesperson for Business Insider, in a statement. “We test, iterate, experiment and embrace new technology in the newsroom and across the company. When it comes to AI, we’re already ahead.”
+
+Staffers in the meeting applauded these “power users,” but in private some employees shared concerns about the generative AI push and cracked jokes about the top 10 list. Many also had not realized management was tracking employees’ individual adoption rates of the technology.
+
+“We were not previously aware that management was monitoring our members’ ChatGPT usage. We are concerned about this data collection and will be requesting further information,” said Morgan McFall-Johnsen, vice chair of the Insider Union, which represents over 200 reporters, editors, video producers, and other U.S.-based editorial workers.
+In April, all Business Insider employees were given access to the [enterprise version of ChatGPT](https://openai.com/chatgpt/enterprise/) for the first time. Chats generated on enterprise accounts are not used to train OpenAI’s models and have stronger encryption standards — the enterprise tier also offers up more user analytics.
+
+Nearly 70% of employees at Business Insider, across all teams, are now “using Enterprise ChatGPT regularly,” according to Howard, who clarified that management can only see “general usage stats.” “Our goal is to get to 100% proficiency through training and other resources,” she said.
+
+On the product side, over the past year Business Insider has folded AI technologies into an [onsite search product](https://www.businessinsider.com/business-insiders-new-ai-powered-search-2024-10), an [ad targeting tool](https://www.adexchanger.com/publishers/business-insider-embraces-emotional-analysis-to-boost-contextual-targeting/) that “analyzes the sentiment” of content, and a [smart subscription paywall](https://digiday.com/media/how-business-insiders-ai-based-paywall-strategy-increased-conversions-by-75/). The current scope of its editorial adoption is less clear.
+
+In an editorial meeting last week, [Jamie Heller](https://www.linkedin.com/in/jamiegheller/), the editor in chief of Business Insider, doubled down on the directive for reporters and editors to experiment more with ChatGPT, according to employees in attendance. Heller, who [joined Business Insider last year](https://www.businessinsider.com/jamie-heller-to-join-business-insider-as-editor-in-chief-2024-9) after 20-plus years at The Wall Street Journal, shared an anecdote about how she used ChatGPT to brainstorm questions for a dinner she was having with an executive. She clarified that human editors were often still the best resource for editorial troubleshooting.
+
+Editorial employees told me they’ve mostly seen use cases that revolve around using ChatGPT to analyze primary documents or conduct general research, not to draft text. But Heller’s comments followed a testimonial in the all-hands meeting by an editorial staffer, who spoke about using ChatGPT to draft transition sentences in stories and encouraged others to use it to help resolve sentence-level edits.
+
+Despite this new push to integrate ChatGPT into editorial work, Business Insider’s internal AI editorial policy is still “in the works,” Howard said. This order of operations has left some editorial employees unsure of what use cases for the new enterprise tool are out of bounds.
+The only reader-facing AI ethics or usage policy on Business Insider’s site is a [2023 memo](https://www.businessinsider.com/how-insider-newsroom-will-use-ai-2023-4), currently behind the publication’s paywall, published by former editor-in-chief Nicholas Carlson. (Carlson transitioned out of his EIC role in August of last year and left the publication altogether in December).
+
+In the memo Carlson wrote, “Please do not use [ChatGPT] to write for you. We know it can help you solve writing problems. But your stories must be completely written by you.” While using ChatGPT to draft sentences is very different from using it to [draft full stories](https://www.niemanlab.org/2024/06/whats-in-a-byline-for-hoodlines-ai-generated-local-news-everything-and-nothing/), the use case presented in the all-hands meeting is still a departure from this previously stated policy.
+
+Leading the newsroom’s AI strategy conversations is [Julia Hood](https://www.linkedin.com/in/julia-hood-17559b1/), who previously headed special projects at Business Insider. Meanwhile, [Jeff Rabb](https://www.linkedin.com/in/jefferson-rabb/) will start in June as the [new chief product officer](https://www.businessinsider.com/business-insider-welcomes-jeff-rabb-as-chief-product-officer-2025-4). Rabb has led the product team at The Atlantic since 2022 and last year oversaw the launch of [Atlantic Labs](https://www.theatlantic.com/press-releases/archive/2024/10/atlantic-labs-research-and-experiments-from-atlantics-product-team/680298/), the publication’s in-house AI research team, which has already shipped a [few](https://labs.theatlantic.com/experiments/atlantic-explorer) [experimental](https://chromewebstore.google.com/detail/atlantic-take/bmbehbdohcmephjghfpaphfmpgnhpohp) [tools](https://labs.theatlantic.com/experiments/atlantic-companion) for readers.
+
+Per the terms of its contract, the Insider Union also has a representative who is meeting with management to give input on these AI editorial policies as they are drafted.
+
+“We have a right to have a seat at the table for any new tech guidelines, rather than just having a mandate dropped on us,” said Lily Oberstein, the unit chair of the Insider Union. “Our position is that no AI tool or technology should or can replace the work being done by human beings. Beyond that, we’re in conversations with unit members from every corner of the union to gather information and strategize. So it’s an ongoing conversation for us.”
+
+In December 2023, Axel Springer, Business Insider’s parent company, was one of the earliest publishers to sign a [licensing contract with OpenAI](https://www.axelspringer.com/en/ax-press-release/axel-springer-and-openai-partner-to-deepen-beneficial-use-of-ai-in-journalism). Last summer, I reported on the Insider Union’s [letter to management](https://www.niemanlab.org/2024/06/insider-union-chatgpt-hallucinating-links-business-insider-articles-openai-deal/) demanding to read a copy of that contract to inform its negotiations. McFall-Johnsen confirmed that, despite these calls for transparency, the Insider Union has still not been able to review the terms of the deal.
+
+The Insider Union’s current contract ends in June 2026, and it is set to be renegotiated with management as the newsroom’s new AI policy is being cemented.
+
+“I think journalists are especially wary about AI because we don’t want to be replaced (and since we care about things being accurate, we’ve already noticed how wrong AI often is),” one Business Insider employee told me. “But I think some of that reticence might hold us back from reaping the benefits of AI as a tool for doing things other than text generation.”
+
+Join the 60,000 who get the freshest future-of-journalism news in our daily email.",/Users/aisvarya/Zotero/storage/UDAQZU6I/business-insider-is-tracking-employees-chatgpt-usage-as-part-of-a-new-ai-push.html

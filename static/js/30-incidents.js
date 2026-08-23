@@ -455,7 +455,7 @@ function usedInClaims(inc, role, value) {
   const marks = [];
   (inc.groups || []).forEach(g => {
     if (GROUP_ROLES.includes(role)) {
-      if (g[role] === value) marks.push(String(g.id));
+      if (groupValues(g, role).includes(value)) marks.push(String(g.id));
       return;
     }
     (g.claims || []).forEach(cl => {
@@ -854,44 +854,65 @@ function buildGroupBox(inc, grp, container) {
   return box;
 }
 
-// The three single-valued slots shared by every claim in the group. Dropping a
-// value replaces whatever is there — these are scalars, so there is never more
-// than one actor, one system or one developer.
+// The slots shared by every claim in the group. The actor is single — a second
+// actor is a second context, so it gets its own group — while the systems it
+// used and who developed them are lists, joined by "&" the way a claim's factors
+// are. Dropping onto the actor replaces; dropping onto the others adds.
 function actorHeader(inc, grp, container) {
   const h = document.createElement('div');
   h.className = 'grp-sentence grp-head';
   const rebuild = () => { saveGroups(inc); buildGroupsUI(container, inc); };
   const omitted = (role) => (grp.omit || []).includes(role);
 
-  // `onOmit` is what an *empty* optional clause offers: an × that takes the
-  // clause out of this group's sentence, not a value out of a slot.
-  const slot = (role, placeholder, onOmit) => {
+  // An empty slot: the placeholder, plus — for an optional clause — an × that
+  // takes the clause out of this group's sentence rather than a value out of it.
+  const emptySlot = (role, placeholder, onOmit) => {
     const span = document.createElement('span');
     span.className = 'sent-slot';
-    const v = grp[role];
-    if (!v) {
-      const ph = document.createElement('span');
-      ph.className = 'sent-ph';
-      ph.style.color = roleInk(role);
-      ph.textContent = `[${placeholder}]`;
-      span.appendChild(ph);
-      if (onOmit) {
-        const x = document.createElement('button');
-        x.className = 'sent-x sent-omit'; x.textContent = '×';
-        x.title = `Drop "${placeholder}" from this group's sentence`;
-        x.onclick = onOmit;
-        span.appendChild(x);
-      }
-      return span;
+    const ph = document.createElement('span');
+    ph.className = 'sent-ph';
+    ph.style.color = roleInk(role);
+    ph.textContent = `[${placeholder}]`;
+    span.appendChild(ph);
+    if (onOmit) {
+      const x = document.createElement('button');
+      x.className = 'sent-x sent-omit'; x.textContent = '×';
+      x.title = `Drop "${placeholder}" from this group's sentence`;
+      x.onclick = onOmit;
+      span.appendChild(x);
     }
-    span.appendChild(valueChip(role, v, () => {
-      grp[role] = null;
-      rebuild();
-    }));
     return span;
   };
 
-  h.appendChild(slot('actor', 'Actor'));
+  // The actor: one value, and a drop replaces it.
+  const scalarSlot = (role, placeholder) => {
+    const v = grp[role];
+    if (!v) return emptySlot(role, placeholder);
+    const span = document.createElement('span');
+    span.className = 'sent-slot';
+    span.appendChild(valueChip(role, v, () => { grp[role] = null; rebuild(); }));
+    return span;
+  };
+
+  // Systems and developers: every value dropped in, joined by "&", each with its
+  // own × — the same shape a claim's harmed parties and factors take.
+  const listSlot = (role, key, placeholder, onOmit) => {
+    const vals = groupValues(grp, role);
+    if (!vals.length) return emptySlot(role, placeholder, onOmit);
+    const span = document.createElement('span');
+    span.className = 'sent-slot';
+    vals.forEach((v, i) => {
+      if (i) span.appendChild(document.createTextNode(' & '));
+      span.appendChild(valueChip(role, v, () => {
+        grp[key] = groupValues(grp, role).filter(x => x !== v);
+        grp[role] = null;              // the pre-plural single value is spent
+        rebuild();
+      }));
+    });
+    return span;
+  };
+
+  h.appendChild(scalarSlot('actor', 'Actor'));
   // The whole thing reads as one sentence across two blocks: this header, then
   // each numbered claim under it. The comma after the actor is always there;
   // the one closing the clauses only if a clause actually rendered, so a group
@@ -904,15 +925,16 @@ function actorHeader(inc, grp, container) {
   // an unanswered question rather than an inapplicable one.
   let anyClause = false;
   OPTIONAL_CLAIM_ROLES.forEach(cfg => {
+    const filled = groupValues(grp, cfg.role).length;
     const available = ((inc.role_values || {})[cfg.role] || []).length;
-    if (!grp[cfg.role] && (omitted(cfg.role) || !available)) return;
+    if (!filled && (omitted(cfg.role) || !available)) return;
     anyClause = true;
     h.appendChild(document.createTextNode(cfg.lead));
-    const sp = slot(cfg.role, cfg.placeholder, () => {
+    const sp = listSlot(cfg.role, cfg.key, cfg.placeholder, () => {
       grp.omit = (grp.omit || []).concat([cfg.role]);
       rebuild();
     });
-    if (!grp[cfg.role]) sp.classList.add('opt');
+    if (!filled) sp.classList.add('opt');
     h.appendChild(sp);
   });
   if (anyClause) h.appendChild(document.createTextNode(','));
@@ -920,7 +942,8 @@ function actorHeader(inc, grp, container) {
   // Bringing a dropped clause back. Only offered where there is something to put
   // in it, matching the rule for showing the clause in the first place.
   const restorable = OPTIONAL_CLAIM_ROLES.filter(cfg =>
-    omitted(cfg.role) && !grp[cfg.role] && ((inc.role_values || {})[cfg.role] || []).length);
+    omitted(cfg.role) && !groupValues(grp, cfg.role).length
+    && ((inc.role_values || {})[cfg.role] || []).length);
   restorable.forEach(cfg => {
     const b = document.createElement('button');
     b.className = 'sent-restore';
@@ -931,7 +954,15 @@ function actorHeader(inc, grp, container) {
   });
 
   dropZone(h, GROUP_ROLES, (m) => {
-    grp[m.role] = m.value;          // scalar: a drop replaces
+    const key = GROUP_LIST_KEYS[m.role];
+    if (key) {                      // list: a drop adds, duplicates are ignored
+      const vals = groupValues(grp, m.role);
+      if (vals.includes(m.value)) return;
+      grp[key] = vals.concat([m.value]);
+      grp[m.role] = null;           // folded into the list; don't count it twice
+    } else {
+      grp[m.role] = m.value;        // the actor: a drop replaces
+    }
     // Dropping into a clause the group had dropped is the coder saying they want
     // it after all, so the drop is never refused for having been put away.
     grp.omit = (grp.omit || []).filter(r => r !== m.role);

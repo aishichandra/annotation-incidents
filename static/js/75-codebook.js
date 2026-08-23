@@ -46,13 +46,9 @@ function cbRoleSection(r) {
 
   const head = document.createElement('div');
   head.className = 'cb-role-head';
-  const defined = r.options.filter(o => o.definition).length;
   head.innerHTML =
     `<span class="cb-dot"></span>` +
-    `<span class="cb-role-name">${escapeHtml(r.label)}</span>` +
-    `<span class="cb-role-n">${r.options.length} codes</span>` +
-    `<span class="cb-role-def${defined === r.options.length ? ' all' : ''}">` +
-    `${defined}/${r.options.length} defined</span>`;
+    `<span class="cb-role-name">${escapeHtml(r.label)}</span>`;
   sec.appendChild(head);
 
   // Grouped vocabularies (harm, factor) keep their headings here too, so the
