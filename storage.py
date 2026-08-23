@@ -12,6 +12,7 @@ remote copy.
   vocabulary  role_value_usage(), role_value_incidents(), rename_role_value()
 """
 import json
+from collections import Counter
 
 from config import (
     ASSIGNMENTS_JSON, CODERS, LEGACY_ANNOTATIONS_JSON, LEGACY_CODER, ROLE_KEYS,
@@ -310,63 +311,115 @@ def _walk_role_values(store, inc_store, role: str, fn) -> int:
     return changed
 
 
+def _fold_legacy(single, values):
+    """A slot's values with its pre-plural single folded in, deduplicated.
+
+    Counting has to see what the card shows: a group carrying both `system` and
+    `systems`, or a claim carrying both `harmed_party` and `harmed_parties`,
+    names that code once, not twice."""
+    out = [v for v in (values or []) if v]
+    if single and single not in out:
+        out.append(single)
+    return out
+
+
+def _document_role_values(rec, role: str) -> set:
+    """The codes one document applies for `role`, as a set.
+
+    The sidebar selection and the quotes that justify it are the same act of
+    coding said twice, so which slot a code sits in doesn't matter here — only
+    whether the document names it. This is where counting parts company with
+    _walk_role_values, which has to visit every slot because a rename must move
+    all of them together."""
+    vals = {q["value"] for q in (rec or {}).get("quotes") or []
+            if q.get("role") == role and q.get("value")}
+    selected = ((rec or {}).get("roles") or {}).get(role)
+    if isinstance(selected, list):
+        vals.update(v for v in selected if v)
+    return vals
+
+
+def _incident_role_values(inc_store, role: str):
+    """Every code an incident's own coding names for `role`, slot by slot.
+
+    Walks the same slots as _walk_role_values, off the same maps, but folds the
+    pre-plural singles. Callers dedupe — repeats across groups are the same
+    incident saying the same thing twice."""
+    for entry in (inc_store or {}).values():
+        for grp in (entry or {}).get("groups") or []:
+            if role in _GROUP_VALUE_ROLES:
+                yield from _fold_legacy(grp.get(role),
+                                        grp.get(_GROUP_LIST_ROLES.get(role, "")))
+            for claim in grp.get("claims") or []:
+                yield from _fold_legacy(claim.get(_CLAIM_VALUE_ROLES.get(role, "")),
+                                        claim.get(_CLAIM_LIST_ROLES.get(role, "")))
+
+
+def _role_uses_by_incident(store, inc_store, role: str, assignments) -> dict:
+    """{incident: {codes one coder names for `role` there}} — the unit a use is
+    counted in.
+
+    The incident is what the codebook is really counting: a code applied to three
+    documents of the same incident, and again on two of its claim groups, is that
+    incident using the code, not five uses of it. A document's codes are filed
+    under the incident it belongs to; the incident coding's groups and claims
+    belong to their incident directly; both fold into the one set."""
+    per_inc = {}
+    for key, rec in (store or {}).items():
+        vals = _document_role_values(rec, role)
+        if vals:
+            per_inc.setdefault(incident_of(key, assignments), set()).update(vals)
+    for inc_id, entry in (inc_store or {}).items():
+        vals = set(_incident_role_values({inc_id: entry}, role))
+        if vals:
+            per_inc.setdefault(inc_id, set()).update(vals)
+    return per_inc
+
+
 def role_value_usage(roles) -> dict:
-    """How often each code is actually used, per coder: {role: {value: {coder: n}}}.
+    """How many incidents use each code, per coder: {role: {value: {coder: n}}}.
 
     What the Codebook needs before it lets anyone rename or delete something. One
-    pass over each coder's two files rather than one per option, and it counts
-    values as they are on disk — including any that are no longer in the
-    vocabulary at all, which is exactly what an editor needs to see."""
+    incident counts once for a coder however many of its documents or claim groups
+    name the code; two coders coding the same incident are two uses, since the
+    count is what each coder would have to revisit. One pass over each coder's two
+    files rather than one per option, and it counts values as they are on disk,
+    including any no longer in the vocabulary at all, which is exactly what an
+    editor needs to see."""
     out = {r: {} for r in roles}
+    assignments = load_assignments()
     for coder in CODERS:
         store = _read_json(annotations_path(coder))
         inc_store = _read_json(incident_coding_path(coder))
         for role in roles:
-            counts = out[role]
-
-            def tally(v, _counts=counts, _coder=coder):
-                _counts.setdefault(v, {})
-                _counts[v][_coder] = _counts[v].get(_coder, 0) + 1
-                return v
-
-            _walk_role_values(store, inc_store, role, tally)
+            counts = Counter()
+            for vals in _role_uses_by_incident(store, inc_store, role,
+                                               assignments).values():
+                counts.update(vals)
+            for value, n in counts.items():
+                out[role].setdefault(value, {})[coder] = n
     return out
 
 
 def role_value_incidents(role: str, value: str) -> dict:
-    """Which incidents one code is actually used in: {inc_id: {coder: n}}.
+    """Which incidents one code is used in: {inc_id: {coder: 1}}.
 
-    Evidence is filed per document, so a quote's incident is the one its document
-    was assigned to; incident-level coding is already keyed by incident. A
-    document that belongs to no incident yet is counted under "" — it is still a
+    One per coder per incident, matching the count that opens this list. Evidence
+    is filed per document, so a quote's incident is the one its document was
+    assigned to; incident-level coding is already keyed by incident. A document
+    that belongs to no incident yet is listed under its own key — it is still a
     use of the code, and hiding it would make the total not add up."""
     assignments = load_assignments()
     out = {}
-
-    def bump(inc_id, coder, n):
-        if n:
-            out.setdefault(inc_id, {})
-            out[inc_id][coder] = out[inc_id].get(coder, 0) + n
-
+    # Built from the same per-incident sets the header count is, so the panel
+    # always adds up to the number that opened it.
     for coder in CODERS:
-        for key, rec in (_read_json(annotations_path(coder)) or {}).items():
-            n = sum(1 for q in (rec or {}).get("quotes") or []
-                    if q.get("role") == role and q.get("value") == value)
-            selected = ((rec or {}).get("roles") or {}).get(role)
-            if isinstance(selected, list):
-                n += sum(1 for v in selected if v == value)
-            bump(incident_of(key, assignments), coder, n)
-        for inc_id, entry in (_read_json(incident_coding_path(coder)) or {}).items():
-            hits = 0
-
-            def tally(v, _value=value):
-                nonlocal hits
-                if v == _value:
-                    hits += 1
-                return v
-
-            _walk_role_values({}, {inc_id: entry}, role, tally)
-            bump(inc_id, coder, hits)
+        uses = _role_uses_by_incident(_read_json(annotations_path(coder)),
+                                      _read_json(incident_coding_path(coder)),
+                                      role, assignments)
+        for inc_id, vals in uses.items():
+            if value in vals:
+                out.setdefault(inc_id, {})[coder] = 1
     return out
 
 
