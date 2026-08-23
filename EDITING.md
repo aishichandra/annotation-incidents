@@ -34,6 +34,7 @@ matching edit in a second file.
 |---|---|
 | Add/remove a harm, factor, actor type, … | `vocab.json` — the app also offers an "add your own" box in the UI, which writes here for you |
 | Group vocabulary options under headings | `vocab.json`, the `<list>_groups` keys |
+| Define what an option means | `vocab.json`, the `<list>_definitions` keys — the definition shows as a tooltip wherever that option can be chosen |
 | Add/rename/remove a **field** | `schema.json` → `fields` |
 | Add/remove a **claim role** | `schema.json` → `claim_roles` |
 | Which roles a *finished* incident needs | `REQUIRED_CLAIM_ROLES`, `config.py` — derived as "every role that isn't optional", so a new role is required by default |

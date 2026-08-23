@@ -101,6 +101,8 @@ function buildRoleCard(r) {
   const select = buildSelect({
     options: roleOptions(r.role),
     groups: roleGroups(r.role),
+    definitions: roleDefinitions(r.role),
+    accent: r.color,
     selected: arr,
     onChange: () => { persistSoon(); refreshEv(); },
     onRemoveValue: (v) => {

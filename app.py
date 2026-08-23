@@ -68,12 +68,15 @@ from incidents import (
     _jsonable, _next_incident_id, aggregate_incidents, incident_completeness,
 )
 from incidents_vocab import (
-    FIELD_VOCAB, ROLE_VOCAB, load_vocab, save_vocab,
+    FIELD_VOCAB, ROLE_VOCAB, add_option, delete_option, load_vocab,
+    rename_option, save_vocab, set_definition,
 )
 from storage import (
     blank_incident_coding, doc_ann, has_coding, incident_fields, incident_of,
     load_annotations, load_assignments, load_incident_coding, record_assignment,
-    save_annotations, save_assignments, save_incident_coding, _seed_shared_files,
+    incident_title_for, rename_role_value, role_value_incidents,
+    role_value_usage, save_annotations, save_assignments,
+    save_incident_coding, _seed_shared_files,
 )
 import doc_source
 import mongo_sync
@@ -167,6 +170,145 @@ def api_add_role_option():
                 save_schema(schema)
             return jsonify(r)
     return jsonify({"error": "role not found"}), 404
+
+
+# ---------------------------------------------------------------- codebook
+# The Codebook tab edits the controlled vocabulary itself: what the codes are and
+# what each one means. It is shared, not per coder — one scheme is the whole
+# point of coding the same incidents twice — so every route here writes
+# vocab.json and every coder sees the result.
+#
+# Renaming and deleting are the dangerous pair, because coding already on disk
+# names its codes as strings. A rename therefore migrates that coding in the same
+# request, and a delete is refused while anything still uses the code.
+
+
+def _vocab_key(role: str) -> str:
+    """The vocab.json list behind a claim role, or None if it isn't controlled."""
+    return ROLE_VOCAB.get(role)
+
+
+@app.route("/api/vocab")
+def api_vocab():
+    """The whole codebook as the editor needs it: every role, its options in
+    order with their group and definition, and how many times each is already
+    used — an editor should never rename or delete blind. `unknown` is anything
+    the coding names that the vocabulary no longer offers."""
+    schema = load_schema()          # already carries the vocab overlay
+    usage = role_value_usage(list(ROLE_VOCAB))
+    roles = []
+    for r in schema.get("claim_roles", []):
+        role = r["role"]
+        vkey = _vocab_key(role)
+        if not vkey:
+            continue
+        group_of = {}
+        for g in r.get("groups") or []:
+            for o in g["options"]:
+                group_of[o] = g["label"]
+        defs = r.get("definitions") or {}
+        used = usage.get(role, {})
+        options = [{"name": o, "definition": defs.get(o, ""), "group": group_of.get(o, ""),
+                    "uses": used.get(o, {}), "total": sum((used.get(o) or {}).values())}
+                   for o in r.get("options") or []]
+        known = {o["name"] for o in options}
+        unknown = [{"name": v, "uses": by, "total": sum(by.values())}
+                   for v, by in used.items() if v not in known]
+        roles.append({"role": role, "label": r.get("label", role),
+                      "groups": [g["label"] for g in r.get("groups") or []],
+                      "options": options,
+                      "unknown": sorted(unknown, key=lambda u: -u["total"])})
+    return jsonify({"roles": roles, "coders": CODERS})
+
+
+@app.route("/api/vocab/uses")
+def api_vocab_uses():
+    """Which incidents one code is used in, newest id last, with each coder's
+    count. What the Codebook shows when you click a code's use count — a number
+    on its own doesn't tell you whether a rename is safe, the incidents behind it
+    do."""
+    role, option = request.args.get("role", ""), request.args.get("option", "")
+    if role not in ROLE_VOCAB:
+        return jsonify({"error": "unknown role"}), 404
+    assignments = load_assignments()
+    by_inc = role_value_incidents(role, option)
+    incidents = [{"incident_id": inc_id,
+                  "title": incident_title_for(inc_id, assignments) if inc_id else "",
+                  "uses": by, "total": sum(by.values())}
+                 for inc_id, by in by_inc.items()]
+    incidents.sort(key=lambda i: (i["incident_id"] == "", i["incident_id"]))
+    return jsonify({"role": role, "option": option, "incidents": incidents,
+                    "total": sum(i["total"] for i in incidents)})
+
+
+@app.route("/api/vocab/definition", methods=["POST"])
+def api_vocab_definition():
+    """Write one code's definition — the text the coding UI shows on hover."""
+    body = request.get_json(force=True)
+    vkey = _vocab_key(body.get("role"))
+    if not vkey:
+        return jsonify({"error": "unknown role"}), 404
+    if not set_definition(vkey, body.get("option", ""), body.get("definition", "")):
+        return jsonify({"error": "unknown option"}), 404
+    return jsonify({"ok": True})
+
+
+@app.route("/api/vocab/option", methods=["POST"])
+def api_vocab_add():
+    """Add a code, optionally into one of the role's existing groups."""
+    body = request.get_json(force=True)
+    role = body.get("role")
+    vkey = _vocab_key(role)
+    if not vkey:
+        return jsonify({"error": "unknown role"}), 404
+    if not add_option(vkey, body.get("option", ""), body.get("group", ""),
+                      body.get("definition", "")):
+        return jsonify({"error": "blank or duplicate option"}), 400
+    mongo_sync.resync_validator()
+    return jsonify({"ok": True})
+
+
+@app.route("/api/vocab/rename", methods=["POST"])
+def api_vocab_rename():
+    """Rename a code and rewrite every quote and claim that names it.
+
+    Both halves or neither: the vocabulary is written first because a failure
+    there leaves the coding untouched, whereas coding migrated against a
+    vocabulary that never changed would name a code nobody offers."""
+    body = request.get_json(force=True)
+    role = body.get("role")
+    vkey = _vocab_key(role)
+    if not vkey:
+        return jsonify({"error": "unknown role"}), 404
+    old, new = body.get("old", ""), (body.get("new") or "").strip()
+    if not rename_option(vkey, old, new):
+        return jsonify({"error": "unknown option, or that name is taken"}), 400
+    migrated = rename_role_value(role, old, new)
+    mongo_sync.resync_validator()
+    mongo_sync.invalidate_mongo_cache()
+    return jsonify({"ok": True, "migrated": migrated,
+                    "total": sum(migrated.values())})
+
+
+@app.route("/api/vocab/delete", methods=["POST"])
+def api_vocab_delete():
+    """Remove a code — refused while any coder still uses it, since deleting
+    would leave their quotes naming something the scheme no longer has. Rename it
+    into another code first, or clear it from the coding."""
+    body = request.get_json(force=True)
+    role = body.get("role")
+    vkey = _vocab_key(role)
+    if not vkey:
+        return jsonify({"error": "unknown role"}), 404
+    option = body.get("option", "")
+    uses = role_value_usage([role]).get(role, {}).get(option, {})
+    if uses:
+        return jsonify({"error": "in use", "uses": uses,
+                        "total": sum(uses.values())}), 409
+    if not delete_option(vkey, option):
+        return jsonify({"error": "unknown option"}), 404
+    mongo_sync.resync_validator()
+    return jsonify({"ok": True})
 
 
 @app.route("/api/coders")

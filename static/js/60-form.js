@@ -77,6 +77,8 @@ function buildCard(f) {
     const select = buildSelect({
       options: f.options || [],
       groups: f.groups || null,
+      definitions: f.definitions || null,
+      accent: color[f.key],
       selected: fa.answer,
       onChange: () => { persistSoon(); refreshEv(); },
       onRemoveValue: (v) => {
@@ -256,7 +258,8 @@ function buildIncidentId(fa) {
 
 // Generic multiselect dropdown with tags + "add option". `selected` is an array
 // mutated in place; onChange fires after any change; onAdd (optional) persists a
-// new option and returns the updated options list.
+// new option and returns the updated options list. `definitions` (optional) is
+// the codebook, {option: text}, shown on hover in `accent`'s colour.
 function buildSelect(cfg) {
   const selected = cfg.selected;
   let options = cfg.options || [];
@@ -329,6 +332,7 @@ function buildSelect(cfg) {
 
   function buildMenu() {
     menu.innerHTML = '';
+    hideDefTip();          // the row a tip was explaining is about to be replaced
     // Grouped vocabularies (harm, factor) show a collapsible heading before their
     // options; ungrouped ones render as a plain flat list, always visible.
     groupedOptions(options, cfg.groups).forEach(section => {
@@ -343,6 +347,7 @@ function buildSelect(cfg) {
         row.className = 'menu-opt' + (on ? ' sel' : '') + (section.label ? ' in-group' : '');
         row.dataset.opt = o;
         row.innerHTML = `<input type="checkbox" ${on ? 'checked' : ''}><span>${escapeHtml(o)}</span>`;
+        attachDefTip(row, o, (cfg.definitions || {})[o], cfg.accent);
         row.querySelector('input').onchange = (e) => {
           if (e.target.checked) { if (!selected.includes(o)) selected.push(o); }
           else {

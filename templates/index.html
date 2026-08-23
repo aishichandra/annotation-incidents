@@ -12,6 +12,7 @@
   <div class="viewtabs">
     <button id="tabIncidents" class="tab active">Incidents</button>
     <button id="tabDocs" class="tab">Documents</button>
+    <button id="tabCodebook" class="tab">Codebook</button>
   </div>
   <label class="coderpick" title="Whose coding you are viewing and editing. Each coder's work is saved separately.">
     Coding as <select id="coderSelect"></select>
@@ -25,6 +26,9 @@
 
 <!-- By-incident view: one card per incident, populated from /api/incidents -->
 <div id="incidents"></div>
+
+<!-- The coding scheme itself: categories and their definitions, from /api/vocab -->
+<div id="codebook"></div>
 
 <div class="app">
   <div class="reader">
@@ -60,6 +64,7 @@
     50-reader.js      document view: markdown render, highlight lanes, span menus
     60-form.js        coding form: cards, selects, text fields, evidence lists
     70-arming.js      armed-field styling and hints; roles panel
+    75-codebook.js    the Codebook tab: edit the categories and their definitions
     80-persist.js     debounced save, escapeHtml, outside-click close, init()
 -->
 <script src="{{ url_for('static', filename='js/00-coder.js') }}"></script>
@@ -70,6 +75,7 @@
 <script src="{{ url_for('static', filename='js/50-reader.js') }}"></script>
 <script src="{{ url_for('static', filename='js/60-form.js') }}"></script>
 <script src="{{ url_for('static', filename='js/70-arming.js') }}"></script>
+<script src="{{ url_for('static', filename='js/75-codebook.js') }}"></script>
 <script src="{{ url_for('static', filename='js/80-persist.js') }}"></script>
 </body>
 </html>

@@ -9,11 +9,12 @@ remote copy.
   evidence    load_annotations(), save_annotations()  (+ the flat CSV mirror)
   incident    load_incident_coding(), save_incident_coding()
   shared map  load_assignments(), record_assignment(), incident_of()
+  vocabulary  role_value_usage(), role_value_incidents(), rename_role_value()
 """
 import json
 
 from config import (
-    ASSIGNMENTS_JSON, LEGACY_ANNOTATIONS_JSON, LEGACY_CODER, ROLE_KEYS,
+    ASSIGNMENTS_JSON, CODERS, LEGACY_ANNOTATIONS_JSON, LEGACY_CODER, ROLE_KEYS,
     _atomic_write, _read_json, annotated_csv_path, annotations_path,
     incident_coding_path, load_schema,
 )
@@ -238,6 +239,147 @@ def incident_fields(coder, inc_id, assignments=None, inc_store=None) -> dict:
     if title:
         fields["incident_title"] = {"answer": title}
     return fields
+
+
+# ------------------------------------------------- vocabulary already in use
+# Where a chosen value physically sits, so renaming a code in the Codebook can
+# find every one and counting can tell an editor what a change would touch.
+#
+# A document record holds a code twice over: once in `roles` ({role: [values]}),
+# which is what the sidebar's multiselect shows, and again on every quote that
+# justifies it ({role, value}). Both have to move together or a rename would
+# leave a document selected for a code its quotes no longer name.
+#
+# Incident coding spreads them out instead: actor, system and developer describe
+# the actor context and live on the group; harm is one value on the claim; harmed
+# parties and factors are lists on the claim. `harmed_party` singular is the
+# pre-plural shape, still read (see build_validator) so old codings migrate too.
+_GROUP_VALUE_ROLES = ("actor", "system", "developer")
+_CLAIM_LIST_ROLES = {"harmed_party": "harmed_parties", "factor": "factors"}
+_CLAIM_VALUE_ROLES = {"harm": "harm", "harmed_party": "harmed_party"}
+
+
+def _walk_role_values(store, inc_store, role: str, fn) -> int:
+    """Pass every stored value of `role` through `fn`, replacing it with what fn
+    returns. Mutates both stores; returns how many values actually changed."""
+    changed = 0
+    for rec in (store or {}).values():
+        for q in (rec or {}).get("quotes") or []:
+            if q.get("role") == role and q.get("value"):
+                new = fn(q["value"])
+                if new != q["value"]:
+                    q["value"] = new
+                    changed += 1
+        selected = ((rec or {}).get("roles") or {}).get(role)
+        if isinstance(selected, list):
+            for i, v in enumerate(selected):
+                new = fn(v)
+                if new != v:
+                    selected[i] = new
+                    changed += 1
+    for entry in (inc_store or {}).values():
+        for grp in (entry or {}).get("groups") or []:
+            if role in _GROUP_VALUE_ROLES and grp.get(role):
+                new = fn(grp[role])
+                if new != grp[role]:
+                    grp[role] = new
+                    changed += 1
+            for claim in grp.get("claims") or []:
+                ckey = _CLAIM_VALUE_ROLES.get(role)
+                if ckey and claim.get(ckey):
+                    new = fn(claim[ckey])
+                    if new != claim[ckey]:
+                        claim[ckey] = new
+                        changed += 1
+                lkey = _CLAIM_LIST_ROLES.get(role)
+                if lkey and isinstance(claim.get(lkey), list):
+                    for i, v in enumerate(claim[lkey]):
+                        new = fn(v)
+                        if new != v:
+                            claim[lkey][i] = new
+                            changed += 1
+    return changed
+
+
+def role_value_usage(roles) -> dict:
+    """How often each code is actually used, per coder: {role: {value: {coder: n}}}.
+
+    What the Codebook needs before it lets anyone rename or delete something. One
+    pass over each coder's two files rather than one per option, and it counts
+    values as they are on disk — including any that are no longer in the
+    vocabulary at all, which is exactly what an editor needs to see."""
+    out = {r: {} for r in roles}
+    for coder in CODERS:
+        store = _read_json(annotations_path(coder))
+        inc_store = _read_json(incident_coding_path(coder))
+        for role in roles:
+            counts = out[role]
+
+            def tally(v, _counts=counts, _coder=coder):
+                _counts.setdefault(v, {})
+                _counts[v][_coder] = _counts[v].get(_coder, 0) + 1
+                return v
+
+            _walk_role_values(store, inc_store, role, tally)
+    return out
+
+
+def role_value_incidents(role: str, value: str) -> dict:
+    """Which incidents one code is actually used in: {inc_id: {coder: n}}.
+
+    Evidence is filed per document, so a quote's incident is the one its document
+    was assigned to; incident-level coding is already keyed by incident. A
+    document that belongs to no incident yet is counted under "" — it is still a
+    use of the code, and hiding it would make the total not add up."""
+    assignments = load_assignments()
+    out = {}
+
+    def bump(inc_id, coder, n):
+        if n:
+            out.setdefault(inc_id, {})
+            out[inc_id][coder] = out[inc_id].get(coder, 0) + n
+
+    for coder in CODERS:
+        for key, rec in (_read_json(annotations_path(coder)) or {}).items():
+            n = sum(1 for q in (rec or {}).get("quotes") or []
+                    if q.get("role") == role and q.get("value") == value)
+            selected = ((rec or {}).get("roles") or {}).get(role)
+            if isinstance(selected, list):
+                n += sum(1 for v in selected if v == value)
+            bump(incident_of(key, assignments), coder, n)
+        for inc_id, entry in (_read_json(incident_coding_path(coder)) or {}).items():
+            hits = 0
+
+            def tally(v, _value=value):
+                nonlocal hits
+                if v == _value:
+                    hits += 1
+                return v
+
+            _walk_role_values({}, {inc_id: entry}, role, tally)
+            bump(inc_id, coder, hits)
+    return out
+
+
+def rename_role_value(role: str, old: str, new: str) -> dict:
+    """Rewrite every use of one code, for every coder, to its new name.
+
+    Works on the local files only — the ones this app treats as the source of
+    truth — rather than through load_annotations(), whose Mongo overlay would
+    quietly materialise remote documents locally as a side effect of a rename.
+    Mongo catches up on the next Push."""
+    out = {}
+    for coder in CODERS:
+        store = _read_json(annotations_path(coder))
+        inc_store = _read_json(incident_coding_path(coder))
+        n = _walk_role_values(store, inc_store, role,
+                              lambda v, _o=old, _n=new: _n if v == _o else v)
+        if n:
+            save_annotations(store, coder)
+            _atomic_write(incident_coding_path(coder),
+                          json.dumps(inc_store, indent=2, ensure_ascii=False))
+            out[coder] = n
+    return out
 
 
 def _seed_shared_files() -> None:
