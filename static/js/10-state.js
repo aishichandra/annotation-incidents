@@ -34,10 +34,12 @@ const ROLE = Object.fromEntries(ROLES.map(r => [r.role, r]));
 
 // Every characteristic is droppable into a claim, so this is just ROLE.
 const CLAIM_ROLE = ROLE;
-// The two clauses a claim reads as complete without.
+// The two clauses a claim reads as complete without. Both are lists: one actor
+// context can involve several systems, and a system can be built by more than
+// one party, so "using A & B" is an ordinary thing to need to say.
 const OPTIONAL_CLAIM_ROLES = [
-  { role: 'system',    lead: ' using ',        placeholder: 'system' },
-  { role: 'developer', lead: ' developed by ', placeholder: 'developer' },
+  { role: 'system',    key: 'systems',    lead: ' using ',        placeholder: 'system' },
+  { role: 'developer', key: 'developers', lead: ' developed by ', placeholder: 'developer' },
 ];
 // Which slot a dragged value belongs to. The actor context is shared by every
 // claim in a group, so it lives on the group header; the rest describe a single
@@ -48,6 +50,24 @@ const CLAIM_ROLES_DROP = ['harm', 'harmed_party', 'factor'];
 // listed here is a single value that a drop replaces. `harm` is deliberately
 // absent: one harm per claim is what keeps a claim one countable proposition.
 const CLAIM_LIST_KEYS = { harmed_party: 'harmed_parties', factor: 'factors' };
+// The same, for the slots on the group header. `actor` is deliberately absent:
+// the actor is what makes this context one context, so a second actor is a
+// second group, not a second chip. The systems it used and who built them are
+// descriptions of that one context, and several of each read as a conjunction.
+const GROUP_LIST_KEYS = { system: 'systems', developer: 'developers' };
+
+// A group's values for one role, whichever shape they are stored in. Systems and
+// developers went plural after groups had already been saved holding one value
+// each, so the pre-plural `system` / `developer` string is still read and folded
+// in — the same courtesy a claim pays `harmed_party` beside `harmed_parties`.
+// Writers put the list first and blank the singular, so nothing is counted twice.
+function groupValues(grp, role) {
+  const key = GROUP_LIST_KEYS[role];
+  if (!key) return grp[role] ? [grp[role]] : [];
+  const vals = Array.isArray(grp[key]) ? grp[key].slice() : [];
+  if (grp[role] && !vals.includes(grp[role])) vals.push(grp[role]);
+  return vals;
+}
 let SCHEMA_ROLES = [];      // [{role,label,options,groups?}] from schema.claim_roles
 // The coding rules, served by /api/schema from config.py so they are defined in
 // one place rather than restated here. `required_roles` is what a completion
