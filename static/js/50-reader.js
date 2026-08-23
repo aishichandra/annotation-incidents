@@ -195,6 +195,7 @@ let catMenuEl = null;
 // value would need its group re-opened. Starts empty: collapsed by default.
 const valueGroupsOpen = new Set();
 function closeCategoryMenu() {
+  hideDefTip();
   if (catMenuEl) {
     if (catMenuEl._onDown) document.removeEventListener('mousedown', catMenuEl._onDown);
     catMenuEl.remove();
@@ -379,8 +380,13 @@ function showValuePicker(pending, target, rect) {
   // so a value sits in the same place whichever route you reach it by.
   const groups = target.type === 'role'
     ? roleGroups(target.role) : ((field(target.key) || {}).groups || null);
+  const defs = (target.type === 'role'
+    ? roleDefinitions(target.role) : ((field(target.key) || {}).definitions || null)) || {};
+  const accent = target.type === 'role'
+    ? (ROLE[target.role] || {}).color : color[target.key];
   const fillList = () => {
     list.innerHTML = '';
+    hideDefTip();
     list.appendChild(useText);
     groupedOptions(valueOptions(target), groups).forEach(section => {
       if (section.label) {
@@ -392,6 +398,7 @@ function showValuePicker(pending, target, rect) {
         b.className = 'cat-vopt' + (section.label ? ' in-group' : '');
         b.textContent = o;
         b.onclick = () => { assignHighlight(pending, target, o); showCategoryMenu(pending, rect); };
+        attachDefTip(b, o, defs[o], accent);
         list.appendChild(b);
       });
     });

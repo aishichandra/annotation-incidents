@@ -402,6 +402,27 @@
   .menu-group .mg-n { flex: none; color: #c4c4c4; font-weight: 600; letter-spacing: 0; }
   .menu-opt.in-group { margin-left: 14px; }
   .cat-vopt.in-group { margin-left: 14px; width: calc(100% - 14px); }
+  /* A category's definition, on hover. Fixed and body-level: both the dropdown
+     and the highlight value picker scroll inside their own box, which would clip
+     a tip positioned within them. Light card rather than a dark bubble — these
+     are two or three sentences of codebook prose, not a one-word label. */
+  .deftip { position: fixed; z-index: 60; width: max-content; max-width: 300px;
+    background: #fff; border: 2px solid var(--tip-accent, #d4d4d8);
+    border-radius: 8px; padding: 10px 12px 11px;
+    box-shadow: 0 12px 32px rgba(0,0,0,.14), 0 2px 6px rgba(0,0,0,.05);
+    pointer-events: none; animation: deftip-in .13s ease-out; }
+  .deftip-name { font-size: 11.5px; font-weight: 700; color: var(--fg); line-height: 1.35;
+    margin-bottom: 5px; }
+  .deftip-body { font-size: 12px; line-height: 1.55; color: #4b5563; }
+  @keyframes deftip-in { from { opacity: 0; transform: translateY(2px); }
+                         to   { opacity: 1; transform: none; } }
+  /* Mark the options that have one, so a coder knows there is something to hover
+     for. Options nobody has defined yet look exactly as they did before. */
+  .menu-opt.has-def > span, .cat-vopt.has-def {
+    text-decoration: underline dotted #c8c8c8; text-underline-offset: 3px;
+    text-decoration-thickness: 1px; }
+  .menu-opt.has-def:hover > span, .cat-vopt.has-def:hover {
+    text-decoration-color: #6b7280; }
   .menu-add { display: flex; gap: 6px; padding: 7px 6px 4px; border-top: 1px solid #eee;
     margin-top: 4px; }
   .menu-add input { flex: 1; font-size: 12px; padding: 5px 8px; }
@@ -526,3 +547,100 @@
   .claim-add { margin-top: 14px; font-size: 12px; border: 1px dashed #cfcfcf; background: #fff;
     border-radius: 6px; padding: 8px 12px; cursor: pointer; color: #555; width: 100%; }
   .claim-add:hover { border-color: #111; color: #111; }
+
+  /* ---- Codebook view: the coding scheme itself ---- */
+  /* Same Tow/CJR treatment as the incidents view — this is a document you read
+     as much as a form you fill in. */
+  body.view-codebook .app, body.view-codebook #arrows,
+  body.view-codebook #docSelect { display: none; }
+  #codebook { display: none; }
+  body.view-codebook #codebook { display: block; }
+  #codebook { padding: calc(var(--bar-h) + 40px) 24px 100px; background: #f6f6f4;
+    min-height: 100vh; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+  .cb-head { max-width: 900px; margin: 0 auto 26px; padding-bottom: 16px;
+    border-bottom: 2px solid #de5a35; }
+  .cb-head h1 { font-family: Georgia, 'Times New Roman', serif; font-size: 30px;
+    color: #254c6f; margin: 0 0 6px; font-weight: 700; letter-spacing: -.01em; }
+  .cb-head p { margin: 0; color: #6e6e6e; font-size: 13px; line-height: 1.6; max-width: 68ch; }
+  .cb-empty { max-width: 900px; margin: 0 auto; color: var(--muted); padding: 40px 4px;
+    text-align: center; }
+
+  .cb-role { max-width: 900px; margin: 0 auto 20px; background: #fff; border: 1px solid #e0e0e0; }
+  .cb-role-head { display: flex; align-items: center; gap: 10px; padding: 13px 20px;
+    background: #fafafa; border-bottom: 1px solid #e0e0e0; }
+  .cb-dot { width: 12px; height: 12px; border-radius: 3px; flex: none;
+    background: var(--cb-accent, #d4d4d8); }
+  .cb-role-name { font-family: Georgia, 'Times New Roman', serif; font-size: 19px;
+    font-weight: 700; color: #222; flex: 1; }
+  .cb-role-n, .cb-role-def { font-size: 10.5px; text-transform: uppercase;
+    letter-spacing: .06em; font-weight: 700; color: #a0a0a0; flex: none; }
+  .cb-role-def.all { color: #2f7d4f; }
+
+  .cb-group { font-size: 10px; text-transform: uppercase; letter-spacing: .07em;
+    font-weight: 700; color: #8a8a8a; padding: 15px 20px 5px; }
+  .cb-group-warn { color: #b45309; }
+
+  .cb-row { display: flex; gap: 16px; align-items: flex-start;
+    padding: 9px 20px 11px; border-top: 1px solid #f1f1f1; }
+  .cb-row:hover { background: #fcfcfb; }
+  .cb-row-orphan { background: #fffaf5; }
+  .cb-main { flex: 1; min-width: 0; }
+  .cb-side { flex: none; display: flex; align-items: center; gap: 9px; padding-top: 3px; }
+
+  /* click-to-edit: plain text until you click it */
+  .cb-name-view, .cb-name { font-size: 14px; font-weight: 600; color: #222;
+    line-height: 1.35; cursor: text; padding: 2px 4px; margin-left: -4px; border-radius: 3px; }
+  .cb-name-view:hover { background: #eeeeec; }
+  .cb-def-view { font-size: 12.5px; line-height: 1.55; color: #5b6470; cursor: text;
+    padding: 3px 4px; margin: 1px 0 0 -4px; border-radius: 3px; }
+  .cb-def-view:hover { background: #eeeeec; }
+  .cb-def-view.empty { color: #b4b4b4; font-style: italic; }
+  .cb-name-field, .cb-def-field { width: 100%; font: inherit; border: 1px solid #254c6f;
+    border-radius: 4px; padding: 5px 7px; background: #fff; }
+  .cb-name-field { font-size: 14px; font-weight: 600; }
+  .cb-def-field { font-size: 12.5px; line-height: 1.5; resize: vertical; margin-top: 3px; }
+
+  .cb-uses { font-size: 11px; white-space: nowrap; }
+  .cb-used { color: #6e6e6e; }
+  .cb-unused { color: #c4c4c4; }
+  /* the count is a control: it opens the incidents behind it */
+  .cb-uses-btn { font: inherit; border: 1px solid #e0e0e0; background: #fff;
+    border-radius: 4px; padding: 3px 9px; cursor: pointer; }
+  .cb-uses-btn:hover { border-color: #254c6f; }
+  .cb-uses-btn:hover .cb-used { color: #254c6f; }
+  .cb-uses-btn.open { background: #254c6f; border-color: #254c6f; }
+  .cb-uses-btn.open .cb-used { color: #fff; }
+
+  .cb-uses-panel { background: #f7f9fb; border-top: 1px solid #e3ebf2;
+    border-bottom: 1px solid #e3ebf2; padding: 10px 20px 12px; }
+  .cb-uses-head { font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em;
+    font-weight: 700; color: #254c6f; margin-bottom: 7px; }
+  .cb-uses-loading { font-size: 12px; color: #8a8a8a; }
+  .cb-uses-inc { display: flex; align-items: baseline; gap: 10px; width: 100%;
+    text-align: left; font: inherit; background: #fff; border: 1px solid #e3ebf2;
+    border-radius: 4px; padding: 6px 10px; margin-bottom: 4px; cursor: pointer; }
+  .cb-uses-inc:hover { border-color: #254c6f; }
+  .cb-uses-inc-none { cursor: default; background: #fafafa; }
+  .cb-uses-inc-none:hover { border-color: #e3ebf2; }
+  .cb-uses-id { font-size: 10.5px; font-weight: 700; letter-spacing: .05em;
+    color: #254c6f; background: #eaf0f6; border: 1px solid #d6e0eb; border-radius: 3px;
+    padding: 2px 7px; flex: none; }
+  .cb-uses-title { font-size: 12.5px; color: #333; flex: 1; min-width: 0;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .cb-uses-by { font-size: 11px; color: #9a9a9a; flex: none; }
+  /* the card you were sent to, so it is obvious which one answered the click */
+  .tow-card.cb-target { outline: 2px solid #de5a35; outline-offset: 2px; }
+  .cb-del { font: inherit; font-size: 14px; line-height: 1; width: 22px; height: 22px;
+    border: 1px solid #e0e0e0; background: #fff; color: #aaa; border-radius: 4px;
+    cursor: pointer; flex: none; }
+  .cb-del:hover { border-color: #de5a35; color: #de5a35; }
+
+  .cb-add { display: flex; gap: 8px; padding: 12px 20px 15px; border-top: 1px solid #f1f1f1;
+    background: #fcfcfb; }
+  .cb-add-name { flex: 1; min-width: 0; font: inherit; font-size: 13px; padding: 6px 9px;
+    border: 1px solid #e0e0e0; border-radius: 4px; }
+  .cb-add-group { font: inherit; font-size: 12px; padding: 6px 8px; border: 1px solid #e0e0e0;
+    border-radius: 4px; max-width: 240px; }
+  .cb-add-go { font: inherit; font-size: 12px; padding: 6px 15px; border: 1px solid #254c6f;
+    background: #254c6f; color: #fff; border-radius: 4px; cursor: pointer; }
+  .cb-add-go:hover { background: #1c3c58; }

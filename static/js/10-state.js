@@ -69,6 +69,12 @@ function roleGroups(role) {
   const r = SCHEMA_ROLES.find(x => x.role === role);
   return (r && r.groups) || null;
 }
+// The codebook, from vocab.json ("<list>_definitions"): {option: text} for the
+// options that have been defined. Undefined options are simply absent.
+function roleDefinitions(role) {
+  const r = SCHEMA_ROLES.find(x => x.role === role);
+  return (r && r.definitions) || null;
+}
 
 // Arrange a flat option list into labelled sections for a menu. Sections follow
 // the vocab's group order; anything ungrouped (including options a coder added
@@ -111,6 +117,66 @@ function groupHeader(section, expanded, rebuild, nSel) {
   };
   return head;
 }
+
+// ---------------------------------------------------------------- definitions
+// A category's definition, shown on hover wherever that category can be chosen,
+// so the rule a coder is applying is legible at the moment they apply it rather
+// than in a codebook beside the app.
+//
+// One element on <body> rather than a tip inside each row: both menus scroll
+// inside their own box, which would clip anything positioned within them.
+let defTipEl = null;
+let defTipTimer = null;
+
+function hideDefTip() {
+  clearTimeout(defTipTimer);
+  if (defTipEl) { defTipEl.remove(); defTipEl = null; }
+}
+
+function showDefTip(anchor, name, text, accent) {
+  hideDefTip();
+  const tip = document.createElement('div');
+  tip.className = 'deftip';
+  // The name is repeated inside the tip because a long option wraps in the menu
+  // and the tip may sit over it — you should always be able to see which code
+  // the definition you're reading belongs to.
+  tip.innerHTML = `<div class="deftip-name">${escapeHtml(name)}</div>`
+                + `<div class="deftip-body">${escapeHtml(text)}</div>`;
+  // Bordered in the characteristic's own colour, so a definition is tied to the
+  // same hue as its chips and highlights rather than introducing one of its own.
+  if (accent) tip.style.setProperty('--tip-accent', accent);
+  document.body.appendChild(tip);
+  defTipEl = tip;
+  // Beside the row it explains, flipped to the other side when that would run
+  // off screen, and always kept fully on screen vertically.
+  const r = anchor.getBoundingClientRect();
+  const tw = tip.offsetWidth, th = tip.offsetHeight;
+  let left = r.right + 12;
+  if (left + tw > window.innerWidth - 10) left = r.left - tw - 12;
+  const top = Math.min(Math.max(10, r.top + r.height / 2 - th / 2),
+                       window.innerHeight - th - 10);
+  tip.style.left = Math.max(10, left) + 'px';
+  tip.style.top = Math.max(10, top) + 'px';
+}
+
+// Give one option row its definition tooltip. `text` missing (an option nobody
+// has defined yet) leaves the row exactly as it was — no marker, no tip.
+// The delay keeps running the cursor down a long list from strobing.
+function attachDefTip(el, name, text, accent) {
+  if (!text) return el;
+  el.classList.add('has-def');
+  el.addEventListener('mouseenter', () => {
+    clearTimeout(defTipTimer);
+    defTipTimer = setTimeout(() => showDefTip(el, name, text, accent), 220);
+  });
+  el.addEventListener('mouseleave', hideDefTip);
+  return el;
+}
+
+// Scrolling the menu (or clicking anywhere) would strand a tip beside a row that
+// has moved on. Capture phase, so a scroll inside a menu counts too.
+document.addEventListener('scroll', hideDefTip, true);
+document.addEventListener('mousedown', hideDefTip, true);
 
 // What's currently receiving highlights: a specific selected value in a field or
 // claim-role multiselect (value is undefined for a whole text field).

@@ -131,6 +131,81 @@
       "Privacy harm",
       "Scams"
     ]
+  },
+  "systems_definitions": {
+    "Chatbot (general use)": "Open-ended, general-purpose use of a conversational AI system where no more specific task code applies. Do not use when the chatbot is performing a task covered by another code.",
+    "News summarization": "Use of AI to produce summaries of news content, typically for individual consumption.",
+    "Text generation": "Use of AI to assist in producing materially new text, such as generating an article or story from scratch or from source material or notes.",
+    "Quote generation": "Use of AI to generate fake quotations attributed to a person.",
+    "Deepfake generation": "Use of AI to generate a digital image, video, or audio that falsely depicts a specific real person, place, or event doing, saying, or showing something that did not actually happen.",
+    "Synthetic video/image generation": "Use of AI to generate video, image, or audio content depicting people, places, events, or voices that do not exist or did not actually occur, without reference to or manipulation of any specific real person, place, or event.",
+    "Translation": "Use of AI to translate text, audio, or video from one language to another.",
+    "Editing": "Use of AI to process already-written text without materially changing its content, such as copyediting, proofreading, or light rewriting for clarity or style.",
+    "Remixing/repurposing": "Use of AI to transform existing news content into a materially different version or format where the underlying reporting or content is substantially preserved rather than newly generated."
+  },
+  "developers_definitions": {
+    "In-house AI system": "The AI system's core capability was developed internally by the journalism entity involved in the incident.",
+    "AI vendor": "The AI system was developed by an external company or organization rather than the journalism entity itself, whether adopted, licensed, integrated, or used directly, including informal or unauthorized use of a publicly available AI tool.",
+    "Unknown/unspecified": "Whether the AI system was developed in-house or by an external vendor cannot be determined from the available documentation.",
+    "Hybrid/in-house tool on vendor model": "A tool built or customized by the journalism entity involved, but whose core underlying AI capability, such as a foundation model or API, was developed by an external vendor."
+  },
+  "actor_definitions": {
+    "News organization/publisher": "A reputable media outlet or publisher, including editorial staff and management, whose action, decision, or failure caused or contributed to the harm.",
+    "Individual journalist": "A journalist or media worker, including staff, freelance, or independent workers, whose own action or decision, made independently of institutional process or sanction, caused or contributed to the harm.",
+    "AI developer": "A company or entity that builds or provides the AI system or AI-powered feature involved in the harm.",
+    "Tech platform": "A technology company that hosts, distributes, or surfaces content, such as a search engine, social media platform, or content distributor, whose non-AI distribution, surfacing, or hosting mechanisms contributed to the harm. AI-feature-related harms should instead be coded as AI developer.",
+    "Content farm/SEO-manipulation actor": "An entity that republishes, remixes, or repackages news content at scale, typically without authorization from the original publisher, for the purpose of exploiting search or platform recommendation systems for traffic or advertising revenue.",
+    "Mis/disinformation actor": "An entity whose primary identifiable purpose is producing or spreading false or misleading content, distinct from an entity that produces misleading content as a side effect of another primary purpose.",
+    "PR/marketing agency": "An agency or firm producing or distributing content on behalf of a client.",
+    "Unknown/unspecified": "The identity or type of actor cannot be determined from the available documentation.",
+    "Government/state actor": "A government body or state-affiliated entity that caused or contributed to the harm."
+  },
+  "factor_definitions": {
+    "Inadequate human oversight": "Human-in-the-loop protocols were absent, minimal, or not followed when reviewing AI-generated output before publication or deployment. This includes cases where an AI system was reasonably suited to the task but its output was published without adequate human review and contained errors.",
+    "Contextually inappropriate application of AI": "AI tools were applied to tasks, formats, or subject matter for which they were ill-suited or untested, such as sensitive, breaking, or highly nuanced news topics. This is a mismatch between the task and the tool's capabilities, regardless of whether human review was in place.",
+    "Lack of audience disclosure": "AI-generated or AI-assisted content was published without clear labeling, attribution, or disclosure to audiences. The missing disclosure is to the audience; staff not being informed belongs under 'Lack of internal transparency about AI-related management decisions'.",
+    "Publishers' lack of control over AI content presentation": "A publisher's content was surfaced, summarized, or presented in an AI output, such as a search engine's AI summary, in a manner the publisher did not authorize or control.",
+    "Publisher's lack of due diligence": "A publisher failed to verify sources, credentials, or accuracy before commissioning or publication, such as failing to confirm that a freelancer is a real person or failing to verify underlying claims or pitches. This is distinct from failure to review AI-generated output itself.",
+    "Inadequate content moderation by platforms": "A platform hosting or distributing AI-generated or AI-related content failed to detect, flag, or remove harmful or fraudulent material.",
+    "Deployment of AI with intention to harm, mislead, or troll": "AI was intentionally used to deceive, manipulate, or harm audiences, sources, or institutions in a manner not captured by a more specific intentional-misuse category.",
+    "AI-based hoaxing/counterfeiting of journalists/outlets": "AI was used to fabricate content attributed to realistic-seeming but fictitious journalists or news organizations, such as fake bylines or spoofed branding.",
+    "AI-based mimicry of established journalists/outlets": "AI was used to replicate a specific journalist's voice, writing style, image, or persona without informed consent, or AI-generated content was falsely attributed to real journalists or news organizations.",
+    "SEO/algorithm gaming": "AI-generated content was used to artificially manipulate search engine rankings or platform recommendation systems, such as through backlinking schemes, other than through expired domain abuse.",
+    "Expired domain abuse": "A lapsed or expired domain, often previously belonging to a legitimate publisher, was acquired and repurposed to host AI-generated content while exploiting the domain's residual search ranking or backlink authority.",
+    "AI substitution for human journalists": "An organization used AI to functionally replace journalists in tasks they would typically perform, such as reporting, writing, or editorial review.",
+    "AI cited to justify job cuts": "An organization cited the adoption or capabilities of AI tools as a rhetorical or strategic justification for layoffs, role eliminations, or restructuring of journalistic staff, regardless of whether AI was the substantive cause.",
+    "Lack of internal transparency about AI-related management decisions": "Rank-and-file staff were excluded from or not informed about organizational decisions regarding AI deployment.",
+    "Lack of internal standards regarding AI use": "Absence of internal policies or guidelines governing AI use. This should be coded only when the absence of such standards is explicitly documented."
+  },
+  "harm_definitions": {
+    "Publication of low quality outputs / ai slop": "Low-effort, low-value, or filler AI-generated content was published with minimal human refinement.",
+    "Plagiarism": "AI-generated content reproduced others' work without attribution.",
+    "Citation fabrication": "AI-generated content cited sources that do not exist, or attributed claims or quotations to sources that did not actually contain them.",
+    "Distorted source representation": "AI-generated content mischaracterized, distorted, or misrepresented the substance of a real, correctly cited source, such as through inaccurate summarization.",
+    "Amplification of misinformation": "AI tools spread or scaled false or misleading claims.",
+    "Propaganda/disinformation": "AI was used to generate or scale persuasive content serving a political or ideological agenda, distinguished from misinformation by intent. The intent must be documented or alleged in reporting rather than inferred by the coder.",
+    "Reputational harm": "Individual journalists or organizations experienced damage to their reputations or credibility as a result of an action they did not take.",
+    "Undermining of journalistic standards": "Journalists or organizations experienced or alleged erosion of professional norms, such as verification, sourcing, or editorial review, as a result of AI use.",
+    "Journalists being duped": "A journalist or news organization was misled by AI-generated or AI-amplified content, such as unknowingly relying on or reporting fabricated AI output as fact.",
+    "Breach of contract": "Violation of established AI policies, labor contracts, or codes of conduct.",
+    "Displacement of human judgement": "Editorial discretion was ceded to AI even where the relevant jobs or roles remained in place.",
+    "Displacement of human labor": "Jobs or roles were eliminated or reduced as a result of AI adoption.",
+    "Increased workload / burden on journalists": "AI-related tasks, such as correcting AI errors, verifying AI outputs, or managing AI tools, imposed additional labor on journalists beyond their typical workload.",
+    "Economic harm to publisher(s)/journalist(s)": "Revenue or business harm resulted from AI-related activity, such as competition from AI-driven SEO manipulation.",
+    "Disintermediation": "The relationship between a publisher and its audience was disrupted, such as audiences consuming AI-summarized news without visiting the original source.",
+    "Perpetuation of stereotypes": "AI-generated content reproduced or reinforced harmful stereotypes about a group, including racial, gender, ethnic, or religious stereotypes.",
+    "Dignity harm to individuals depicted": "Specific identified individuals depicted in AI-generated content were subjected to racist, discriminatory, degrading, or otherwise harmful portrayals.",
+    "Misrepresentation of individuals depicted": "AI outputs misquoted or misrepresented interview subjects, sources, or other individuals depicted in content.",
+    "Loss of diversity": "There was a loss of diversity of viewpoints in published content as a result of AI use.",
+    "Privacy harm": "An individual's personal data or likeness was exposed or used without consent through AI training or outputs, such as through deepfaked individuals. This can apply to non-journalist subjects as well.",
+    "Scams": "AI was used to defraud audiences.",
+    "Legal burden": "A qualifying incident resulted in legal costs, liability exposure, or regulatory or compliance consequences for an involved party. This does not apply when the central and only documented harm is a copyright or licensing dispute itself."
+  },
+  "harmed_party_definitions": {
+    "Journalist(s)": "Individual journalists or media workers were harmed, such as through reputational damage, job loss, or misattributed work.",
+    "News organization/publisher": "A news organization or publisher, as a collective entity distinct from its individual staff, was harmed, such as through reputational or financial harm to the organization itself.",
+    "Sources/subjects of coverage": "Individuals or experts referenced, quoted, depicted, or interviewed within the content were harmed.",
+    "Audience/readers": "People who consumed the content as readers or viewers of the news organization involved were harmed, such as through exposure to misinformation, deception, or fraud.",
+    "General public": "People were harmed more diffusely, independent of direct readership of the specific outlet involved, such as through broader erosion of public trust in news or exposure to AI-generated misinformation through other channels."
   }
 }
-
