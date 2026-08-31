@@ -1,5 +1,7 @@
 # Secrets — never commit
 .env
+.env.*
+!.env.example
 
 # Python / editor / OS noise
 __pycache__/
@@ -26,3 +28,7 @@ data_annotated.*.csv
 
 # Backups written by docs/mongo_guide.ipynb
 backup-incidents-*.json
+
+# Archived rounds are kept whole, including files ignored at the root:
+# the derived CSV is part of the frozen record there.
+!archive/**

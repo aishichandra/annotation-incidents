@@ -1,0 +1,595 @@
+{
+  "INC-022": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "Individual journalist",
+        "systems": [
+          "Text generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Dignity harm to individuals depicted",
+            "harmed_parties": [
+              "Sources/subjects of coverage"
+            ],
+            "factors": [
+              "Deployment of AI with intention to harm, mislead, or troll"
+            ]
+          },
+          {
+            "id": "2",
+            "harm": "Undermining of journalistic standards",
+            "harmed_parties": [
+              "Sources/subjects of coverage"
+            ],
+            "factors": [
+              "Deployment of AI with intention to harm, mislead, or troll"
+            ]
+          }
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "",
+    "status": "",
+    "completed_at": ""
+  },
+  "INC-023": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "Content farm/SEO-manipulation actor",
+        "systems": [
+          "Remixing/repurposing"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Amplification of misinformation",
+            "harmed_parties": [
+              "Sources/subjects of coverage"
+            ],
+            "factors": [
+              "Contextually inappropriate application of AI",
+              "Inadequate human oversight"
+            ]
+          },
+          {
+            "id": "3",
+            "harm": "Misrepresentation of individuals depicted",
+            "harmed_parties": [
+              "Sources/subjects of coverage"
+            ],
+            "factors": [
+              "Contextually inappropriate application of AI"
+            ]
+          },
+          {
+            "id": "4",
+            "harm": "Misrepresentation of individuals depicted",
+            "harmed_parties": [
+              "Sources/subjects of coverage"
+            ],
+            "factors": [
+              "Inadequate human oversight"
+            ]
+          }
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "",
+    "status": "",
+    "completed_at": ""
+  },
+  "INC-024": {
+    "fields": {},
+    "notes": {
+      "actor": "Google"
+    },
+    "groups": [
+      {
+        "id": "1",
+        "actor": "AI developer",
+        "systems": [
+          "News summarization"
+        ],
+        "developers": [
+          "AI vendor"
+        ],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Disintermediation",
+            "harmed_parties": [
+              "Journalist(s)",
+              "News organization/publisher"
+            ],
+            "factors": [
+              "Publishers' lack of control over AI content presentation"
+            ]
+          },
+          {
+            "id": "2",
+            "harm": "Plagiarism",
+            "harmed_parties": [
+              "News organization/publisher",
+              "Journalist(s)"
+            ],
+            "factors": [
+              "Publishers' lack of control over AI content presentation"
+            ]
+          }
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "",
+    "status": "",
+    "completed_at": ""
+  },
+  "INC-025": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "PR/marketing agency",
+        "systems": [
+          "Text generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Displacement of human labor",
+            "harmed_parties": [
+              "Journalist(s)"
+            ],
+            "factors": [
+              "AI substitution for human journalists"
+            ]
+          }
+        ],
+        "omit": []
+      },
+      {
+        "id": "2",
+        "actor": "News organization/publisher",
+        "systems": [
+          "Text generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Displacement of human labor",
+            "harmed_parties": [
+              "Journalist(s)"
+            ],
+            "factors": [
+              "AI substitution for human journalists"
+            ]
+          }
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "",
+    "status": "",
+    "completed_at": ""
+  },
+  "INC-027": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "Content farm/SEO-manipulation actor",
+        "systems": [
+          "Remixing/repurposing"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Publication of low quality outputs / ai slop",
+            "harmed_parties": [],
+            "factors": [
+              "SEO/algorithm gaming",
+              "Expired domain abuse"
+            ]
+          }
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "",
+    "status": "",
+    "completed_at": ""
+  },
+  "INC-029": {
+    "fields": {},
+    "notes": {
+      "actor": "Buzzfeed; Trendii"
+    },
+    "groups": [
+      {
+        "id": "1",
+        "actor": "PR/marketing agency",
+        "systems": [
+          "Remixing/repurposing"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Dignity harm to individuals depicted",
+            "harmed_parties": [
+              "Sources/subjects of coverage"
+            ],
+            "factors": [
+              "Contextually inappropriate application of AI"
+            ]
+          }
+        ],
+        "omit": []
+      },
+      {
+        "id": "2",
+        "actor": "News organization/publisher",
+        "systems": [
+          "Remixing/repurposing"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Dignity harm to individuals depicted",
+            "harmed_parties": [
+              "Sources/subjects of coverage"
+            ],
+            "factors": [
+              "Publisher's lack of due diligence"
+            ]
+          }
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "we would make this exposure to offensive content, and audience as harms",
+    "status": "",
+    "completed_at": ""
+  },
+  "INC-031": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "",
+    "status": "not_an_incident",
+    "completed_at": "2026-08-20T14:24:57+00:00"
+  },
+  "INC-032": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "Tech platform",
+        "systems": [
+          "Remixing/repurposing"
+        ],
+        "developers": [
+          "AI vendor"
+        ],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Amplification of misinformation",
+            "harmed_parties": [
+              "Sources/subjects of coverage"
+            ],
+            "factors": [
+              "AI-based mimicry of established journalists/outlets"
+            ]
+          },
+          {
+            "id": "2",
+            "harm": "Reputational harm",
+            "harmed_parties": [
+              "Sources/subjects of coverage"
+            ],
+            "factors": [
+              "AI-based mimicry of established journalists/outlets"
+            ]
+          }
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "",
+    "status": "not_an_incident",
+    "completed_at": "2026-08-21T14:49:48+00:00"
+  },
+  "INC-033": {
+    "fields": {},
+    "notes": {
+      "actor": "Adobe"
+    },
+    "groups": [
+      {
+        "id": "1",
+        "actor": "News organization/publisher",
+        "systems": [
+          "Synthetic video/image generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Amplification of misinformation",
+            "harmed_parties": [
+              "Audience/readers"
+            ],
+            "factors": [
+              "Lack of audience disclosure"
+            ]
+          }
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "",
+    "status": "",
+    "completed_at": ""
+  },
+  "INC-035": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "AI developer",
+        "system": null,
+        "developer": null,
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Publication of erroneous AI outputs",
+            "harmed_parties": [
+              "General public"
+            ],
+            "factors": [
+              "Inadequate content moderation by platforms",
+              "Inadequate human oversight"
+            ]
+          },
+          {
+            "id": "2",
+            "harm": "Amplification of misinformation",
+            "harmed_parties": [
+              "General public"
+            ],
+            "factors": [
+              "Inadequate human oversight",
+              "Inadequate content moderation by platforms"
+            ]
+          }
+        ],
+        "omit": [],
+        "systems": [
+          "Text generation",
+          "News summarization"
+        ],
+        "developers": [
+          "AI vendor"
+        ]
+      }
+    ],
+    "comment": "",
+    "status": "",
+    "completed_at": ""
+  },
+  "INC-036": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "AI developer",
+        "systems": [
+          "Remixing/repurposing",
+          "News summarization"
+        ],
+        "developers": [
+          "AI vendor"
+        ],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Plagiarism",
+            "harmed_parties": [
+              "News organization/publisher"
+            ],
+            "factors": [
+              "Publishers' lack of control over AI content presentation"
+            ]
+          },
+          {
+            "id": "2",
+            "harm": "Disintermediation",
+            "harmed_parties": [
+              "News organization/publisher"
+            ],
+            "factors": [
+              "Publishers' lack of control over AI content presentation"
+            ]
+          }
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "",
+    "status": "",
+    "completed_at": ""
+  },
+  "INC-039": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "actor": "Unknown/unspecified",
+        "claims": [
+          {
+            "factors": [
+              "Lack of audience disclosure"
+            ],
+            "harm": "Amplification of misinformation",
+            "harmed_parties": [
+              "Audience/readers"
+            ],
+            "id": "1"
+          },
+          {
+            "factors": [
+              "Lack of audience disclosure"
+            ],
+            "harm": "Distorted source representation",
+            "harmed_parties": [
+              "Audience/readers"
+            ],
+            "id": "2"
+          }
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "id": "1",
+        "omit": [],
+        "systems": [
+          "Remixing/repurposing"
+        ]
+      }
+    ],
+    "comment": "Chose content farm as the definition for news publisher is \"reputable,\" and this clearly isn't. However, do we need to define content farm by scale? This publishes ~1-3 articles a day.",
+    "status": "",
+    "completed_at": ""
+  },
+  "INC-040": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "AI developer",
+        "system": null,
+        "developer": null,
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Disintermediation",
+            "harmed_parties": [
+              "News organization/publisher"
+            ],
+            "factors": [
+              "Publishers' lack of control over AI content presentation"
+            ]
+          }
+        ],
+        "omit": [],
+        "systems": [
+          "News summarization"
+        ],
+        "developers": [
+          "AI vendor"
+        ]
+      }
+    ],
+    "comment": "I coded this one, but I wonder if it doesn't count as an incident because it's based off of experimentation vs it occurring in the wild, so to speak?\n\nAlso, for sake of discussion, I coded this one focusing on OpenAI's role in this, but do we also code for plagiarism given the outlet they're citing has plagiarized the NYT? Is it plagiarism if someone cites plagiarized content \"by accident?\" (In quotes because they told OpenAI about this and nothing changed, so they eventually knew)",
+    "status": "not_an_incident",
+    "completed_at": "2026-08-26T19:35:31+00:00"
+  },
+  "INC-041": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "Government/state actor",
+        "system": null,
+        "developer": null,
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Propaganda/disinformation",
+            "harmed_parties": [
+              "General public"
+            ],
+            "factors": [
+              "Deployment of AI with intention to harm, mislead, or troll",
+              "Lack of audience disclosure"
+            ]
+          }
+        ],
+        "omit": [],
+        "systems": [
+          "Synthetic multimedia generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ]
+      }
+    ],
+    "comment": "The definition of synthetic media generation states that it is... \"without reference to or manipulation of any specific real person, place, or event...\" Does event count as phenomenon? I'm categorizing as synthetic multimedia generation because the videos in question for this specific information campaign speak to trends vs discrete events.",
+    "status": "not_an_incident",
+    "completed_at": "2026-08-26T19:22:30+00:00"
+  },
+  "INC-042": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "skipping for now.",
+    "status": "",
+    "completed_at": ""
+  },
+  "INC-043": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "I began to code this, but I don't think this counts as an incident 1) because Business Insider is driving this and is just making a decision as a publisher (so far a feature and not a bug), and 2) there is no harmed party that I can identify. Any harms that are discussed are hypothetical.",
+    "status": "not_an_incident",
+    "completed_at": "2026-08-26T19:10:22+00:00"
+  },
+  "INC-034": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "I don't think this is an incident because it's covering a phenomenon, not a discrete event.",
+    "status": "not_an_incident",
+    "completed_at": "2026-08-26T19:08:57+00:00"
+  }
+}
