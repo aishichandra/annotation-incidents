@@ -155,13 +155,19 @@ function hideDefTip() {
 
 // A definition is plain text — it is typed into a textarea in the Codebook tab —
 // laid out here as what it was written as: a line break starts a new paragraph,
-// and **bold** is bold. Definitions now run past one sentence (the rule for the
-// edge case usually follows the definition itself), and a paragraph break is the
-// whole of what they need.
+// and starred text is emphasis, set in italic. Definitions now run past one
+// sentence (the rule for the edge case usually follows the definition itself),
+// and a paragraph break is the whole of what they need.
+//
+// Both `**this**` and `*this*` count: the codebook was written in the first and
+// nobody should have to go back through it to keep an italic. A single star has
+// to hug the text it marks — otherwise "5 * 3" and a real rule further down the
+// line would pair off and italicise everything between them.
 function defHtml(text) {
   return String(text || '').trim().split(/\n+/)
     .map(p => p.trim()).filter(Boolean)
-    .map(p => `<p>${escapeHtml(p).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')}</p>`)
+    .map(p => `<p>${escapeHtml(p).replace(/\*\*([^*]+)\*\*|\*(\S|\S[^*\n]*?\S)\*/g,
+                                        (m, a, b) => `<em>${a || b}</em>`)}</p>`)
     .join('');
 }
 
