@@ -66,10 +66,11 @@ from config import (
 )
 from incidents import (
     _jsonable, _next_incident_id, aggregate_incidents, incident_completeness,
+    incident_sort_key,
 )
 from incidents_vocab import (
     FIELD_VOCAB, ROLE_VOCAB, add_option, delete_option, load_vocab,
-    rename_option, save_vocab, set_definition,
+    rename_option, reorder_options, save_vocab, set_definition,
 )
 from storage import (
     blank_incident_coding, doc_ann, has_coding, incident_fields, incident_of,
@@ -208,9 +209,22 @@ def api_vocab():
                 group_of[o] = g["label"]
         defs = r.get("definitions") or {}
         used = usage.get(role, {})
+        # In display order — groups in their own order, then anything ungrouped.
+        # The codebook used to read the flat list, which for a grouped vocabulary
+        # is only the record of what exists: `harm`'s flat order diverges from its
+        # groups', so the same group was listed one way here and another way in
+        # the menu a coder picks from.
+        flat = list(r.get("options") or [])
+        seen, ordered = set(), []
+        for g in r.get("groups") or []:
+            for o in g["options"]:
+                if o in flat and o not in seen:
+                    seen.add(o)
+                    ordered.append(o)
+        ordered += [o for o in flat if o not in seen]
         options = [{"name": o, "definition": defs.get(o, ""), "group": group_of.get(o, ""),
                     "uses": used.get(o, {}), "total": sum((used.get(o) or {}).values())}
-                   for o in r.get("options") or []]
+                   for o in ordered]
         known = {o["name"] for o in options}
         unknown = [{"name": v, "uses": by, "total": sum(by.values())}
                    for v, by in used.items() if v not in known]
@@ -265,6 +279,23 @@ def api_vocab_add():
                       body.get("definition", "")):
         return jsonify({"error": "blank or duplicate option"}), 400
     mongo_sync.resync_validator()
+    return jsonify({"ok": True})
+
+
+@app.route("/api/vocab/reorder", methods=["POST"])
+def api_vocab_reorder():
+    """Reorder one section of a role's codes: a named group, or the flat list.
+
+    Order is presentation, not meaning — no coding names a position — so unlike
+    rename this touches vocab.json alone and never migrates anything."""
+    body = request.get_json(force=True)
+    role = body.get("role")
+    vkey = _vocab_key(role)
+    if not vkey:
+        return jsonify({"error": "unknown role"}), 404
+    if not reorder_options(vkey, body.get("group", "") or "", body.get("order") or []):
+        return jsonify({"error": "order must list exactly the codes already in "
+                                 "that section"}), 400
     return jsonify({"ok": True})
 
 
@@ -333,7 +364,8 @@ def api_incidents():
     display_fields = [{"key": f["key"], "label": f["label"]}
                       for f in field_defs if f["key"] not in ("incident_id", "incident_title")]
     roles_meta = [{"role": r["role"], "label": r["label"]} for r in role_defs]
-    ordered = sorted(incidents.values(), key=lambda g: g["incident_id"])
+    ordered = sorted(incidents.values(),
+                     key=lambda g: incident_sort_key(g["incident_id"]))
     return jsonify({"incidents": ordered, "fields": display_fields,
                     "roles": roles_meta, "coder": coder, "coders": CODERS})
 

@@ -147,32 +147,84 @@
   .inc-restore:hover { border-color: #254c6f; color: #254c6f; }
   .inc-restore:disabled { opacity: .6; cursor: default; }
 
-  /* the folded lists of settled incidents, below the ones still being coded */
-  .inc-done-list { margin-top: 26px; border-top: 1px solid #e0e0e0; padding-top: 6px; }
-  .inc-done-list > summary { cursor: pointer; padding: 10px 4px; color: #1c6b3f;
-                             font: 600 12px 'Helvetica Neue', Helvetica, sans-serif;
-                             text-transform: uppercase; letter-spacing: .05em;
-                             list-style: none; }
-  .inc-done-list > summary::-webkit-details-marker { display: none; }
-  .inc-done-list > summary::before { content: '\25b8 '; display: inline-block; }
-  .inc-done-list[open] > summary::before { content: '\25be '; }
-  .inc-done-list > summary:hover { color: #145029; }
-  .inc-done-list .tow-card { opacity: .72; }
-  .inc-done-list .tow-card:hover { opacity: 1; }
-  /* a set-aside incident is a closed question, so it reads quieter still */
-  .inc-out-list { margin-top: 8px; border-top: 1px solid #e0e0e0; padding-top: 6px; }
-  .inc-out-list > summary { cursor: pointer; padding: 10px 4px; color: #6b7280;
-                            font: 600 12px 'Helvetica Neue', Helvetica, sans-serif;
-                            text-transform: uppercase; letter-spacing: .05em;
-                            list-style: none; }
-  .inc-out-list > summary::-webkit-details-marker { display: none; }
-  .inc-out-list > summary::before { content: '\25b8 '; display: inline-block;
-                                    transition: transform .12s; }
-  .inc-out-list[open] > summary::before { content: '\25be '; }
-  .inc-out-list > summary:hover { color: #254c6f; }
-  /* a set-aside card is still readable, just clearly not in play */
-  .inc-out-list .tow-card { opacity: .62; }
-  .inc-out-list .tow-card:hover { opacity: 1; }
+  /* ---------- the collapsed index ----------
+     The default view is a scannable index, not a stack of open cards: fifty-odd
+     incidents as tiles, several to a row, with one expanded at a time. Opening a
+     tile is what builds its card (see openIncident), so the cost and the height
+     both belong to the incident actually being worked on. */
+
+  /* Table of contents. Sticks under the fixed top bar so the sections stay
+     reachable from anywhere in a long index. */
+  .inc-toc { position: sticky; top: var(--bar-h); z-index: 20; margin: 0 0 22px;
+             background: #f6f6f4;
+             padding: 10px 0 9px; }
+  .toc-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .toc-links { display: flex; gap: 6px; flex-wrap: wrap; }
+  .toc-link { display: inline-flex; align-items: center; gap: 7px; cursor: pointer;
+              font: 600 11px 'Helvetica Neue', Helvetica, sans-serif;
+              text-transform: uppercase; letter-spacing: .05em;
+              background: #fff; border: 1px solid #e0e0e0; border-radius: 4px;
+              padding: 5px 10px; color: #555; }
+  .toc-link:hover:not(.active) { border-color: #254c6f; color: #254c6f; }
+  /* the selected tab reads as the surface below it, not as another button */
+  .toc-link.active { background: #254c6f; border-color: #254c6f; color: #fff; }
+  .toc-link.active .toc-n { background: rgba(255,255,255,.22); color: #fff; }
+  .toc-n { font-weight: 700; background: #f2f2f0; border-radius: 9px; padding: 1px 7px;
+           font-size: 10px; color: #333; }
+  .toc-link.sec-todo .toc-n { background: #eaf0f6; color: #254c6f; }
+  .toc-link.sec-done .toc-n { background: #e8f6ee; color: #1c6b3f; }
+  .toc-link.sec-out  .toc-n { background: #f3f4f6; color: #6b7280; }
+
+  /* Sections — one showing at a time, chosen by the tabs above. */
+  .inc-section { margin: 0; }
+  .sec-empty { color: #a0a0a0; font-size: 13px; font-style: italic; padding: 8px 2px 14px; }
+
+  /* Tiles, several to a row. An open one spans the full width in place, so the
+     card appears where its tile sat rather than somewhere else on the page. */
+  .inc-grid { display: grid; gap: 10px;
+              grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); }
+  .inc-tile { background: #fff; border: 1px solid #e0e0e0; min-width: 0; }
+  .inc-tile.open { grid-column: 1 / -1; border-color: #254c6f;
+                   box-shadow: 0 2px 14px rgba(37,76,111,.13); }
+  .tile-head { padding: 10px 12px 11px; cursor: pointer; display: flex;
+               flex-direction: column; gap: 5px; }
+  .tile-head:hover { background: #fafafa; }
+  .tile-head:focus-visible { outline: 2px solid #254c6f; outline-offset: -2px; }
+  /* Open, the card's own document row carries the id and the title, so the tile
+     heading above it would only repeat them. */
+  .inc-tile.open .tile-head { display: none; }
+  .t-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .t-id { font: 600 10px 'Helvetica Neue', Helvetica, sans-serif; text-transform: uppercase;
+          letter-spacing: .06em; color: #254c6f; background: #eaf0f6;
+          border: 1px solid #d6e0eb; padding: 2px 7px; border-radius: 3px; flex: none; }
+  /* the status pip: at a glance, which pile a tile belongs to */
+  .t-state { width: 8px; height: 8px; border-radius: 50%; flex: none;
+             background: #d8d8d4; }
+  .t-state.todo.ready { background: #d8a200; }   /* everything filled in, unsigned */
+  .t-state.done { background: #1c6b3f; }
+  .t-state.out { background: #cfd2d6; }
+  /* The whole title, however long: a tile is chosen from its title, so clipping
+     it to a fixed number of lines hid the part that distinguishes two incidents
+     about the same outlet. Tiles in a row stretch to match the tallest. */
+  .t-title { font-family: Georgia, 'Times New Roman', serif; font-size: 14px;
+             line-height: 1.3; color: #222; overflow-wrap: anywhere; }
+  /* An incident nobody has named is shown by its first document instead. Italic
+     says the words are borrowed from that document rather than being the
+     incident's own title — many incidents here were grouped but never named. */
+  .t-untitled { color: #6f6f6f; font-style: italic; }
+  #sec-done .inc-tile:not(.open), #sec-out .inc-tile:not(.open) { opacity: .72; }
+  #sec-done .inc-tile:hover, #sec-out .inc-tile:hover { opacity: 1; }
+
+  /* The card inside an open tile: it already has the tile's border and heading,
+     so it drops its own frame and spacing. */
+  .tile-card > .tow-card { border: none; margin-bottom: 0; }
+
+  /* Close sits at the end of the card's document row rather than in a strip of
+     its own; Escape does the same thing. */
+  .card-close { flex: none; cursor: pointer; background: none; border: none;
+                font-size: 20px; line-height: 1; color: #b0b0b0; padding: 0 2px;
+                align-self: center; }
+  .card-close:hover { color: #de5a35; }
 
   .inc-undo { font-size: 11px; border: 1px solid #dcdcdc; background: #fff; color: #666;
               cursor: pointer; border-radius: 4px; padding: 3px 8px; flex: none; }
@@ -577,6 +629,14 @@
     font-weight: 700; color: #8a8a8a; padding: 15px 20px 5px; }
   .cb-group-warn { color: #b45309; }
 
+  /* Drag to reorder: the grip is the only handle, so the name and definition
+     fields stay ordinary editable text. */
+  .cb-list { display: block; }
+  .cb-grip { flex: none; cursor: grab; color: #c8c8c8; font-size: 15px; line-height: 1.4;
+             user-select: none; padding: 0 2px; letter-spacing: -2px; }
+  .cb-grip:active { cursor: grabbing; }
+  .cb-row:hover .cb-grip { color: #8a8a8a; }
+  .cb-row.cb-dragging { opacity: .45; background: #f4f7fa; }
   .cb-row { display: flex; gap: 16px; align-items: flex-start;
     padding: 9px 20px 11px; border-top: 1px solid #f1f1f1; }
   .cb-row:hover { background: #fcfcfb; }

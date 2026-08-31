@@ -21,6 +21,18 @@ def _next_incident_id(ids):
     return f"INC-{(max(nums) + 1) if nums else 1:03d}"
 
 
+def incident_sort_key(inc_id: str):
+    """Order incidents by their number, with anything unnumbered last.
+
+    A document nobody has filed yet stands in as its own incident under its
+    Zotero key (see storage.incident_of). Those keys start with a digit or a
+    capital, so a plain string sort filed every one of them ahead of INC-001 —
+    which put the ungrouped documents at the top of the list instead of the end.
+    Sorting on the number also keeps INC-9 before INC-10 whatever the padding."""
+    m = re.match(r"INC-(\d+)$", inc_id or "")
+    return (0, int(m.group(1)), "") if m else (1, 0, inc_id or "")
+
+
 def coded_by(key, stores) -> list:
     """Which coders have coded this document. Drives the "coded by" badge."""
     return [coder for coder, store in stores.items() if storage.has_coding(store.get(key))]
