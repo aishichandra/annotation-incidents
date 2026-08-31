@@ -656,7 +656,7 @@
   .cb-def-view.empty { color: #b4b4b4; font-style: italic; }
   .cb-def-view p { margin: 0; max-width: 78ch; }
   .cb-def-view p + p { margin-top: 7px; }
-  .cb-def-view strong { font-weight: 600; color: #4a5260; }
+  .cb-def-view em { font-style: italic; color: #4a5260; }
   .cb-name-field, .cb-def-field { width: 100%; font: inherit; border: 1px solid #254c6f;
     border-radius: 4px; padding: 5px 7px; background: #fff; }
   .cb-name-field { font-size: 14px; font-weight: 600; }
