@@ -221,6 +221,8 @@ function cbOptionRow(r, o) {
     cls: 'cb-def',
     multiline: true,
     placeholder: 'Add a definition…',
+    // Read as the codebook page it is; edited as the plain text it is stored as.
+    render: defHtml,
     save: async (next) => {
       const d = await cbPost('/api/vocab/definition',
                              { role: r.role, option: o.name, definition: next });
@@ -299,11 +301,13 @@ function cbAddRow(r) {
   return wrap;
 }
 
-// One click-to-edit cell. Reads as plain text until you click it, the way the
+// One click-to-edit cell. Reads as finished text until you click it, the way the
 // incident title does, so a page of definitions reads as a codebook rather than
-// as a wall of form fields. Enter commits (⌘/Ctrl+Enter in a definition, where
-// Enter is a line break); Escape puts the old text back.
-function cbEditable({ value, placeholder, multiline, cls, save }) {
+// as a wall of form fields — `render` (defHtml, for definitions) is what that
+// finished text looks like, while the field itself always holds the plain text
+// that is stored. Enter commits (⌘/Ctrl+Enter in a definition, where Enter is a
+// line break); Escape puts the old text back.
+function cbEditable({ value, placeholder, multiline, cls, save, render }) {
   const wrap = document.createElement('div');
   wrap.className = 'cb-edit';
 
@@ -311,7 +315,9 @@ function cbEditable({ value, placeholder, multiline, cls, save }) {
     wrap.innerHTML = '';
     const view = document.createElement('div');
     view.className = `${cls}-view${value ? '' : ' empty'}`;
-    view.textContent = value || placeholder;
+    const html = value && render ? render(value) : '';
+    if (html) view.innerHTML = html;
+    else view.textContent = value || placeholder;
     view.title = 'Click to edit';
     view.onclick = edit;
     wrap.appendChild(view);
@@ -322,7 +328,14 @@ function cbEditable({ value, placeholder, multiline, cls, save }) {
     const f = document.createElement(multiline ? 'textarea' : 'input');
     f.className = `${cls}-field`;
     f.value = value;
-    if (multiline) f.rows = Math.min(6, Math.max(2, Math.ceil((value.length || 40) / 60)));
+    // Tall enough to hold what is already there — definitions run to a
+    // paragraph and a coding rule now, and editing one shouldn't be done down a
+    // two-line slot.
+    if (multiline) {
+      const lines = (value || '').split('\n')
+        .reduce((n, l) => n + Math.max(1, Math.ceil(l.length / 70)), 0);
+      f.rows = Math.min(10, Math.max(3, lines));
+    }
     let settled = false;
     const commit = async () => {
       if (settled) return;
