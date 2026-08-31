@@ -1,0 +1,105 @@
+{
+  "fields": [
+    {
+      "key": "incident_id",
+      "label": "Incident ID",
+      "type": "text",
+      "justify": false,
+      "comments": false
+    },
+    {
+      "key": "incident_title",
+      "label": "Incident title",
+      "type": "text",
+      "justify": false,
+      "comments": false
+    },
+    {
+      "key": "incident_aftermath",
+      "label": "Aftermath",
+      "type": "text"
+    }
+  ],
+  "claim_roles": [
+    {
+      "role": "system",
+      "label": "System",
+      "options": []
+    },
+    {
+      "role": "developer",
+      "label": "Developer",
+      "options": []
+    },
+    {
+      "role": "actor",
+      "label": "Actor",
+      "options": [
+        "ChatGPT",
+        "News Orgs",
+        "AI tools"
+      ],
+      "note_label": "Inciting actor(s) name"
+    },
+    {
+      "role": "factor",
+      "label": "Factor",
+      "options": [
+        "AI cited to justify job cuts",
+        "AI substitution for human journalists",
+        "ai-based impersonation of journalists/outlets",
+        "ai-based mimicry of journalists' likeness/style",
+        "automated errors / lack of oversight",
+        "contextually inappropriate application of AI",
+        "deployment of ai with intention to harm or mislead",
+        "inadequate human oversight",
+        "lack of transparency / disclosure about AI use",
+        "lack of transparency about management decisions related to AI",
+        "malicious deployment of AI",
+        "publishers' lack of control over how content is presented by ai tools",
+        "SEO hacking",
+        "inadequate laws"
+      ]
+    },
+    {
+      "role": "harm",
+      "label": "Harm",
+      "options": [
+        "increased workload/burden on journalists",
+        "labor concerns/job displacement",
+        "displacement of human labor",
+        "publication of low quality outputs/AI slop",
+        "plagiarism",
+        "amplification of misinformation",
+        "reputational harm",
+        "citation issues",
+        "inaccurate summaries",
+        "propaganda/disinformation",
+        "undermining of journalistic standards",
+        "psychological/dignity harm to individuals depicted",
+        "displacement of human judgement",
+        "scams",
+        "unauthorized use of journalists' professional identity",
+        "harm to sources",
+        "privacy harm",
+        "economic harm to publisher(s)/journalist(s)",
+        "breach of contract",
+        "legal/regulatory exposure",
+        "disintermediation",
+        "loss of diversity"
+      ]
+    },
+    {
+      "role": "harmed_party",
+      "label": "Harmed party",
+      "options": [
+        "Journalists",
+        "News Outlets",
+        "Google",
+        "The Audience",
+        "General Public",
+        "Story Sources/Subjects/Experts"
+      ]
+    }
+  ]
+}

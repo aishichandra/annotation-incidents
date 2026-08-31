@@ -1,0 +1,602 @@
+{
+  "INC-003": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "Mis/disinformation actor",
+        "systems": [
+          "Synthetic multimedia generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Perpetuation of stereotypes",
+            "harmed_parties": [
+              "News organization/publisher"
+            ],
+            "factors": [
+              "Deployment of AI with intention to harm, mislead, or troll"
+            ]
+          }
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "",
+    "status": "",
+    "completed_at": ""
+  },
+  "INC-022": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "Individual journalist",
+        "systems": [
+          "Quote generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "claims": [
+          {
+            "id": "2",
+            "harm": "Undermining of journalistic standards",
+            "harmed_parties": [
+              "News organization/publisher"
+            ],
+            "factors": [
+              "Contextually inappropriate application of AI"
+            ]
+          }
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "- Do not code elements of story related to lawsuit\n- add claim about how journalist caused PROFESSIONAL CONSEQUENCES to SELF bc of factor\n\nexclude \nfollow-up: https://www.bbc.com/sport/formula1/articles/cd1176240lko?mc_cid=01b05c25b6&mc_eid=2a2757f42b",
+    "status": "complete",
+    "completed_at": "2026-08-20T17:31:59+00:00"
+  },
+  "INC-023": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "Content farm/SEO-manipulation actor",
+        "systems": [
+          "Text generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "claims": [
+          {
+            "id": "2",
+            "harm": "Misrepresentation of individuals depicted",
+            "harmed_parties": [
+              "Sources/subjects of coverage"
+            ],
+            "factors": [
+              "Inadequate human oversight"
+            ]
+          }
+        ],
+        "omit": []
+      },
+      {
+        "id": "2",
+        "actor": "Tech platform",
+        "systems": [],
+        "developers": [],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Amplification of misinformation",
+            "harmed_parties": [
+              "General public"
+            ],
+            "factors": [
+              "Inadequate content moderation by platforms"
+            ]
+          }
+        ],
+        "omit": [
+          "system"
+        ]
+      }
+    ],
+    "comment": "CODING NOTE: add 'publication of erroneous AI outputs' as harm under content farm\n\ni think we need to disambiguate erroneous AI content from poor-quality AI content\nshould we factor code that's something like 'automation error'? or is that covered by 'lack of human oversight'?",
+    "status": "",
+    "completed_at": ""
+  },
+  "INC-024": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "AI developer",
+        "systems": [
+          "News summarization"
+        ],
+        "developers": [],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Plagiarism",
+            "harmed_parties": [
+              "Journalist(s)",
+              "News organization/publisher"
+            ],
+            "factors": [
+              "Publishers' lack of control over AI content presentation"
+            ]
+          },
+          {
+            "id": "2",
+            "harm": "Disintermediation",
+            "harmed_parties": [
+              "Journalist(s)",
+              "News organization/publisher"
+            ],
+            "factors": [
+              "Publishers' lack of control over AI content presentation"
+            ]
+          }
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "not sure what the factor would be?",
+    "status": "complete",
+    "completed_at": "2026-08-21T14:15:14+00:00"
+  },
+  "INC-025": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "Content farm/SEO-manipulation actor",
+        "systems": [
+          "Text generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Displacement of human labor",
+            "harmed_parties": [
+              "Journalist(s)"
+            ],
+            "factors": [
+              "AI substitution for human journalists"
+            ]
+          },
+          {
+            "id": "2",
+            "harm": "Publication of low quality AI outputs/slop",
+            "harmed_parties": [
+              "Audience/readers"
+            ],
+            "factors": [
+              "AI-based hoaxing/counterfeiting of journalists/outlets",
+              "Lack of audience disclosure",
+              "SEO/algorithm gaming"
+            ]
+          },
+          {
+            "id": "3",
+            "harm": "Economic harm to publisher(s)/journalist(s)",
+            "harmed_parties": [
+              "News organization/publisher"
+            ],
+            "factors": [
+              "AI substitution for human journalists"
+            ]
+          }
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "can we have two systems in one claim?",
+    "status": "complete",
+    "completed_at": "2026-08-21T14:27:40+00:00"
+  },
+  "INC-027": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "Content farm/SEO-manipulation actor",
+        "systems": [
+          "Text generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Plagiarism",
+            "harmed_parties": [
+              "Journalist(s)",
+              "News organization/publisher"
+            ],
+            "factors": [
+              "Expired domain abuse",
+              "AI-based mimicry of legitimate journalists/outlets"
+            ]
+          },
+          {
+            "id": "2",
+            "harm": "Publication of low quality AI outputs/slop",
+            "harmed_parties": [
+              "General public"
+            ],
+            "factors": [
+              "SEO/algorithm gaming"
+            ]
+          }
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "is 'expired domain abuse' an appropriate code name if the domain was legally purchased?\nshould we have a code for 'lack of regulatory guardrails'?\ndo the previous owners bear any responsibility? if so how do we indicate that\ndo we need another code to capture harm to journalists/news orgs other than plagiarism?",
+    "status": "",
+    "completed_at": ""
+  },
+  "INC-029": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "PR/marketing agency",
+        "systems": [],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "claims": [
+          {
+            "id": "1",
+            "harm": null,
+            "harmed_parties": [
+              "Audience/readers"
+            ],
+            "factors": [
+              "Contextually inappropriate application of AI"
+            ]
+          }
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "DISCUSSION NOTES: add 'other' category; add 'exposure to offensive content' as harm\n\nis this the right actor?\nshould we add a code for this system like 'advertising' or flag as 'other'?\nwhat would the harm be? 'publication of low-quality outputs'?",
+    "status": "",
+    "completed_at": ""
+  },
+  "INC-031": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "not sure there is a clear harm here? possibly 'displacement of human judgement' but I don't know if that is made explicit",
+    "status": "",
+    "completed_at": ""
+  },
+  "INC-032": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "Wondering if this doesn't qualify under our exclusion criteria",
+    "status": "not_an_incident",
+    "completed_at": "2026-08-21T14:49:39+00:00"
+  },
+  "INC-033": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": null,
+        "systems": [
+          "Deepfake generation"
+        ],
+        "developers": [],
+        "claims": [
+          {
+            "id": "1",
+            "harm": null,
+            "harmed_parties": [],
+            "factors": [
+              "Lack of audience disclosure"
+            ]
+          }
+        ],
+        "omit": []
+      },
+      {
+        "id": "2",
+        "actor": "Tech platform",
+        "systems": [],
+        "developers": [],
+        "claims": [
+          {
+            "id": "1",
+            "harm": null,
+            "harmed_parties": [],
+            "factors": [
+              "Lack of audience disclosure"
+            ]
+          }
+        ],
+        "omit": [
+          "system",
+          "developer"
+        ]
+      },
+      {
+        "id": "3",
+        "actor": null,
+        "systems": [],
+        "developers": [],
+        "claims": [],
+        "omit": [
+          "system",
+          "developer"
+        ]
+      }
+    ],
+    "comment": "RECODE USING MOTHERBOARD COVERAGE INSTEAD https://www.vice.com/en/article/adobe-is-selling-fake-ai-generated-images-of-violence-in-gaza-and-israel/\n\nIs Adobe also a harmed party in this scenario? Should we add 'tech platform' or something similar as a category?\nWhere to assign displacement of human labor? Should it fall under news org even if it was unintentional?\nShould 'lack of audience disclosure' fall into more than one claim?\nSuggested rule - assign harm to closest harmed party?",
+    "status": "",
+    "completed_at": ""
+  },
+  "INC-035": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "NOT AN INCIDENT bc journalists or news organizations do not occupy a substantive role\n- is it appropriate to have linked these two incidents?\n- do we need a different harmed party like 'platform staff'?",
+    "status": "not_an_incident",
+    "completed_at": "2026-08-26T20:07:49+00:00"
+  },
+  "INC-036": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "actor": "AI developer",
+        "claims": [
+          {
+            "factors": [
+              "Publishers' lack of control over AI content presentation"
+            ],
+            "harm": "Plagiarism",
+            "harmed_parties": [
+              "News organization/publisher"
+            ],
+            "id": "1"
+          },
+          {
+            "factors": [
+              "Publishers' lack of control over AI content presentation"
+            ],
+            "harm": "Disintermediation",
+            "harmed_parties": [
+              "News organization/publisher"
+            ],
+            "id": "2"
+          }
+        ],
+        "developers": [
+          "AI vendor"
+        ],
+        "id": "1",
+        "omit": [],
+        "systems": [
+          "News summarization",
+          "Remixing/repurposing"
+        ]
+      }
+    ],
+    "comment": "does this qualify as an incident?",
+    "status": "complete",
+    "completed_at": "2026-08-26T20:06:55+00:00"
+  },
+  "INC-039": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "actor": "Unknown/unspecified",
+        "claims": [
+          {
+            "factors": [
+              "Inadequate human oversight"
+            ],
+            "harm": "Publication of low quality AI outputs/slop",
+            "harmed_parties": [
+              "Audience/readers"
+            ],
+            "id": "1"
+          },
+          {
+            "factors": [
+              "Inadequate human oversight"
+            ],
+            "harm": "Citation fabrication",
+            "harmed_parties": [],
+            "id": "2"
+          },
+          {
+            "factors": [
+              "Inadequate human oversight"
+            ],
+            "harm": "Distorted source representation",
+            "harmed_parties": [],
+            "id": "3"
+          },
+          {
+            "factors": [
+              "Inadequate human oversight"
+            ],
+            "harm": "Publication of erroneous AI outputs",
+            "harmed_parties": [],
+            "id": "4"
+          }
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "id": "1",
+        "omit": [],
+        "systems": [
+          "Text generation"
+        ]
+      }
+    ],
+    "comment": "- is it fair to call this a content farm? is it a news organization if it's just one guy and AI?\n- not sure how to apply factors\n- economic harm to journalists?",
+    "status": "",
+    "completed_at": ""
+  },
+  "INC-040": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "actor": "AI developer",
+        "claims": [
+          {
+            "factors": [
+              "Inadequate content moderation by platforms"
+            ],
+            "harm": "Plagiarism",
+            "harmed_parties": [
+              "News organization/publisher"
+            ],
+            "id": "1"
+          },
+          {
+            "factors": [
+              "Publishers' lack of control over AI content presentation"
+            ],
+            "harm": "Citation fabrication",
+            "harmed_parties": [
+              "News organization/publisher"
+            ],
+            "id": "2"
+          }
+        ],
+        "developers": [
+          "AI vendor"
+        ],
+        "id": "1",
+        "omit": [],
+        "systems": [
+          "News summarization"
+        ]
+      }
+    ],
+    "comment": "NOT AN INCIDENT bc based on experiment",
+    "status": "not_an_incident",
+    "completed_at": "2026-08-26T19:31:56+00:00"
+  },
+  "INC-041": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "Mis/disinformation actor",
+        "system": null,
+        "developer": null,
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Propaganda/disinformation",
+            "harmed_parties": [
+              "Audience/readers"
+            ],
+            "factors": [
+              "Deployment of AI with intention to harm, mislead, or troll",
+              "AI-based hoaxing/counterfeiting of journalists/outlets"
+            ]
+          }
+        ],
+        "omit": [],
+        "systems": [
+          "Synthetic multimedia generation"
+        ],
+        "developers": [
+          "AI vendor"
+        ]
+      },
+      {
+        "id": "2",
+        "actor": "Tech platform",
+        "system": null,
+        "developer": null,
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Propaganda/disinformation",
+            "harmed_parties": [
+              "Audience/readers"
+            ],
+            "factors": [
+              "Inadequate content moderation by platforms"
+            ]
+          }
+        ],
+        "omit": [
+          "system",
+          "developer"
+        ]
+      }
+    ],
+    "comment": "- should we have a factor like 'lack of regulation/enforcement'\n- should AI developer be at responsible for not preventing abuse of their tool?",
+    "status": "not_an_incident",
+    "completed_at": "2026-08-26T19:22:28+00:00"
+  },
+  "INC-042": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "this is a follow-up to a preview set of articles",
+    "status": "",
+    "completed_at": ""
+  },
+  "INC-043": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "I don't think this is in scope",
+    "status": "not_an_incident",
+    "completed_at": "2026-08-26T19:10:21+00:00"
+  },
+  "INC-034": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "not an incident - trend/phenomenon",
+    "status": "not_an_incident",
+    "completed_at": "2026-08-26T19:08:56+00:00"
+  },
+  "INC-037": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "",
+    "status": "not_an_incident",
+    "completed_at": "2026-08-26T20:06:33+00:00"
+  }
+}
