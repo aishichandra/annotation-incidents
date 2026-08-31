@@ -153,6 +153,18 @@ function hideDefTip() {
   if (defTipEl) { defTipEl.remove(); defTipEl = null; }
 }
 
+// A definition is plain text — it is typed into a textarea in the Codebook tab —
+// laid out here as what it was written as: a line break starts a new paragraph,
+// and **bold** is bold. Definitions now run past one sentence (the rule for the
+// edge case usually follows the definition itself), and a paragraph break is the
+// whole of what they need.
+function defHtml(text) {
+  return String(text || '').trim().split(/\n+/)
+    .map(p => p.trim()).filter(Boolean)
+    .map(p => `<p>${escapeHtml(p).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')}</p>`)
+    .join('');
+}
+
 function showDefTip(anchor, name, text, accent) {
   hideDefTip();
   const tip = document.createElement('div');
@@ -161,7 +173,7 @@ function showDefTip(anchor, name, text, accent) {
   // and the tip may sit over it — you should always be able to see which code
   // the definition you're reading belongs to.
   tip.innerHTML = `<div class="deftip-name">${escapeHtml(name)}</div>`
-                + `<div class="deftip-body">${escapeHtml(text)}</div>`;
+                + `<div class="deftip-body">${defHtml(text)}</div>`;
   // Bordered in the characteristic's own colour, so a definition is tied to the
   // same hue as its chips and highlights rather than introducing one of its own.
   if (accent) tip.style.setProperty('--tip-accent', accent);
