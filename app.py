@@ -189,6 +189,31 @@ def _vocab_key(role: str) -> str:
     return ROLE_VOCAB.get(role)
 
 
+@app.route("/api/health")
+def api_health():
+    """What this process is actually attached to.
+
+    `connect_mongo()` runs once, at import, so the database name is fixed when the
+    worker starts. Changing MONGO_DB on the host therefore does nothing until the
+    process restarts — and on a host that keeps serving the old worker there is no
+    way to tell from the UI, since coding read out of the wrong database looks
+    exactly like coding read out of the right one.
+
+    `stale` is that mismatch: the environment names one database, the live handle
+    another. It means restart the service, not change the variable again. No
+    credentials are returned — the URI is never part of this."""
+    live = mongo_sync.mongo_db.name if mongo_sync.mongo_db is not None else None
+    want = os.environ.get("MONGO_DB", "incidents")
+    return jsonify({
+        "mongo_connected": live is not None,
+        "mongo_db_live": live,
+        "mongo_db_env": want,
+        "stale": live is not None and live != want,
+        "documents": len(doc_source.df),
+        "coders": CODERS,
+    })
+
+
 @app.route("/api/vocab")
 def api_vocab():
     """The whole codebook as the editor needs it: every role, its options in
