@@ -75,25 +75,35 @@ let SCHEMA_ROLES = [];      // [{role,label,options,groups?}] from schema.claim_
 // The fallback only matters if the schema fetch failed.
 let RULES = { required_roles: ['actor', 'factor', 'harm', 'harmed_party'],
               optional_roles: ['system', 'developer'] };
-function roleOptions(role) {
-  const r = SCHEMA_ROLES.find(x => x.role === role);
-  return (r && r.options) || [];
-}
-function setRoleOptions(role, opts) {
-  const r = SCHEMA_ROLES.find(x => x.role === role);
-  if (r) r.options = opts;
-}
+// One claim role's schema entry — its options, its grouping, its definitions and
+// its note label are all fields of this, so the lookup happens here rather than
+// once per question asked about a role.
+function roleEntry(role) { return SCHEMA_ROLES.find(x => x.role === role); }
+function roleOptions(role) { return (roleEntry(role) || {}).options || []; }
+function setRoleOptions(role, opts) { const r = roleEntry(role); if (r) r.options = opts; }
 // Optional presentation grouping from vocab.json ("<list>_groups"), e.g. harm and
 // factor. [{label, options}] or undefined.
-function roleGroups(role) {
-  const r = SCHEMA_ROLES.find(x => x.role === role);
-  return (r && r.groups) || null;
-}
+function roleGroups(role) { return (roleEntry(role) || {}).groups || null; }
 // The codebook, from vocab.json ("<list>_definitions"): {option: text} for the
 // options that have been defined. Undefined options are simply absent.
-function roleDefinitions(role) {
-  const r = SCHEMA_ROLES.find(x => x.role === role);
-  return (r && r.definitions) || null;
+function roleDefinitions(role) { return (roleEntry(role) || {}).definitions || null; }
+
+// Everything a menu needs to know about the characteristic it is offering,
+// whichever of the two kinds it is: a claim role or a document field. The two
+// live in different halves of the schema, and the difference was being spelled
+// out again at each question a menu asks — its name, its grouping, its
+// definitions, its colour — which is four chances for the answers to disagree.
+// Both entries carry `groups` and `definitions` under those names, so only the
+// lookup and the colour actually differ.
+function targetVocab(target) {
+  const isRole = target.type === 'role';
+  const src = (isRole ? roleEntry(target.role) : field(target.key)) || {};
+  return {
+    label: (isRole ? (ROLE[target.role] || {}) : src).label || '',
+    groups: src.groups || null,
+    definitions: src.definitions || {},
+    accent: isRole ? (ROLE[target.role] || {}).color : color[target.key],
+  };
 }
 
 // Arrange a flat option list into labelled sections for a menu. Sections follow
