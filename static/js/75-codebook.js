@@ -66,7 +66,14 @@ function cbRoleSection(r) {
       h.textContent = s.label;
       sec.appendChild(h);
     }
-    s.options.forEach(o => sec.appendChild(cbOptionRow(r, o)));
+    // Each section is its own reorder scope. "Other" is the ungrouped tail, which
+    // the server addresses as the flat list rather than as a group.
+    const list = document.createElement('div');
+    list.className = 'cb-list';
+    list.dataset.group = s.label === 'Other' ? '' : s.label;
+    s.options.forEach(o => list.appendChild(cbOptionRow(r, o)));
+    cbWireReorder(list, r.role);
+    sec.appendChild(list);
   });
 
   // Anything the coding names that the vocabulary no longer offers. Normally
@@ -154,6 +161,10 @@ async function cbToggleUses(role, option, row, btn) {
 async function cbGoToIncident(incId) {
   setView('incidents');
   await refreshIncidents();
+  // Cards are built on demand now, so the one being pointed at has to be opened
+  // before there is anything to scroll to. Its own scroll is suppressed here:
+  // this function parks the position itself, below, and the two would fight.
+  openIncident(incId, { scroll: false });
   const card = document.querySelector(`.tow-card[data-card="${CSS.escape(incId)}"]`);
   if (!card) return;
   // setView puts this view back where you left it on the next frame, so park the
@@ -171,6 +182,16 @@ async function cbGoToIncident(incId) {
 function cbOptionRow(r, o) {
   const row = document.createElement('div');
   row.className = 'cb-row';
+  row.dataset.option = o.name;
+
+  // Held to drag. The row is not draggable until the grip is pressed, so a drag
+  // can never start inside the name or definition field and swallow an edit.
+  const grip = document.createElement('span');
+  grip.className = 'cb-grip';
+  grip.title = 'Drag to reorder';
+  grip.setAttribute('aria-hidden', 'true');
+  grip.textContent = '\u2807';
+  row.appendChild(grip);
 
   const main = document.createElement('div');
   main.className = 'cb-main';
@@ -328,6 +349,65 @@ function cbEditable({ value, placeholder, multiline, cls, save }) {
 
   show();
   return wrap;
+}
+
+// ---------- reordering codes ----------
+// Order is presentation: no coding names a position, so a drag rewrites
+// vocab.json and nothing else. It matters because the codebook's order is the
+// order of the menu a coder picks from, and reading the scheme in one order
+// while choosing from it in another is what makes a long list hard to learn.
+function cbWireReorder(list, role) {
+  let dragged = null;
+
+  list.querySelectorAll('.cb-row').forEach(row => {
+    const grip = row.querySelector('.cb-grip');
+    if (!grip) return;
+    grip.addEventListener('mousedown', () => { row.draggable = true; });
+    grip.addEventListener('mouseup', () => { row.draggable = false; });
+
+    row.addEventListener('dragstart', (e) => {
+      dragged = row;
+      row.classList.add('cb-dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', row.dataset.option || '');
+    });
+
+    row.addEventListener('dragend', () => {
+      row.draggable = false;
+      row.classList.remove('cb-dragging');
+      if (dragged) cbCommitOrder(list, role);
+      dragged = null;
+    });
+
+    // Move the dragged row through the list as it passes each neighbour, so the
+    // list itself is the preview — there is no separate drop indicator to keep
+    // in step with it.
+    row.addEventListener('dragover', (e) => {
+      if (!dragged || row === dragged) return;
+      e.preventDefault();
+      const box = row.getBoundingClientRect();
+      const below = (e.clientY - box.top) > box.height / 2;
+      list.insertBefore(dragged, below ? row.nextSibling : row);
+    });
+  });
+
+  list.addEventListener('dragover', (e) => { if (dragged) e.preventDefault(); });
+  list.addEventListener('drop', (e) => { if (dragged) e.preventDefault(); });
+}
+
+// Save whatever order the rows are now in. Called from dragend, so a drag that
+// ends where it started costs one no-op request and nothing else.
+async function cbCommitOrder(list, role) {
+  const order = Array.from(list.querySelectorAll('.cb-row'))
+    .map(x => x.dataset.option).filter(Boolean);
+  const d = await cbPost('/api/vocab/reorder',
+                         { role, group: list.dataset.group || '', order });
+  if (!d.ok) {
+    cbFail(d, 'Could not save that order');
+    return cbReload();          // put the rows back the way the server has them
+  }
+  cbSay('Order saved');
+  await cbApplyToCodingViews();
 }
 
 async function cbPost(path, body) {

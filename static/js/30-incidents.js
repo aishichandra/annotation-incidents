@@ -10,13 +10,36 @@
 // with none of these is free.
 const DIRTY_INCIDENTS = new Set();
 let INCIDENTS_RENDERED = false;
+// The display fields from /api/incidents. Held here because a card is now built
+// on demand, long after the response that carried them has been consumed.
+let FIELDS = [];
+// The one incident expanded right now, or null. Only one is ever open: the point
+// of the collapsed index is that the page stays short enough to scan.
+let OPEN_INCIDENT = null;
 
 function markIncidentDirty(incId) {
   if (incId) DIRTY_INCIDENTS.add(incId);
 }
 
+// ---------- the three sections ----------
+// A coder works top-down: what still needs coding, then what has been settled —
+// signed off, or ruled out. Settled work stays listed and countable rather than
+// hidden, since "what have I finished" and "what did I rule out" are both part
+// of the record.
+const isDone = (inc) => inc.status === 'complete';
+const isOut  = (inc) => inc.status === 'not_an_incident';
+const SECTIONS = [
+  { id: 'todo', label: 'To code',         match: (inc) => !isDone(inc) && !isOut(inc) },
+  { id: 'done', label: 'Complete',        match: isDone },
+  { id: 'out',  label: 'Not an incident', match: isOut },
+];
+const sectionOf = (inc) => (SECTIONS.find(s => s.match(inc)) || SECTIONS[0]).id;
+const sectionLabel = (id) => (SECTIONS.find(s => s.id === id) || SECTIONS[0]).label;
+const tileEl = (incId) =>
+  document.querySelector(`.inc-tile[data-inc="${CSS.escape(incId)}"]`);
+
 // Bring the incidents view up to date with the least disturbance: nothing on the
-// first visit but a full render, and after that only the cards whose data moved.
+// first visit but a full render, and after that only the tiles whose data moved.
 async function refreshIncidents() {
   if (!INCIDENTS_RENDERED) return loadIncidents();
   // A redraw replaces the textarea, so anything still on the debounce goes out
@@ -28,24 +51,29 @@ async function refreshIncidents() {
   catch (e) { return; }
   const fresh = {};
   data.incidents.forEach(inc => { fresh[inc.incident_id] = inc; });
+  FIELDS = data.fields;
   // An incident that appeared or disappeared changes the list itself, not just a
-  // card, so fall back to a full render for that.
+  // tile, so fall back to a full render for that.
   const sameSet = Object.keys(fresh).length === Object.keys(INCIDENTS).length
     && Object.keys(fresh).every(k => k in INCIDENTS);
-  if (!sameSet) {
+  // So does one whose status moved it into a different section — the tile has to
+  // change places, which the index owns rather than the tile.
+  const moved = !sameSet || Array.from(DIRTY_INCIDENTS).some(incId => {
+    const tile = tileEl(incId);
+    return fresh[incId] && tile && sectionOf(fresh[incId]) !== tile.dataset.sec;
+  });
+  if (moved) {
+    Object.assign(INCIDENTS, fresh);
     DIRTY_INCIDENTS.clear();
     return loadIncidents();
   }
   DIRTY_INCIDENTS.forEach(incId => {
     const inc = fresh[incId];
-    const card = document.querySelector(`.tow-card[data-card="${CSS.escape(incId)}"]`);
-    if (!inc || !card) return;
+    if (!inc || !tileEl(incId)) return;
     INCIDENTS[incId] = inc;
-    const holder = document.createElement('div');
-    holder.innerHTML = incidentCard(inc, data.fields);
-    const replacement = holder.firstElementChild;
-    card.replaceWith(replacement);
-    wireIncidentCard(replacement);
+    refreshTile(inc);
+    // Rebuild the open card in place; a collapsed one is rebuilt when it opens.
+    if (OPEN_INCIDENT === incId) openIncident(incId, { scroll: false });
   });
   DIRTY_INCIDENTS.clear();
 }
@@ -69,47 +97,213 @@ function wireIncidentCard(root) {
     buildIncidentComment(el, el.closest('.inc-note').dataset.inc));
   root.querySelectorAll('.inc-complete').forEach(el => wireComplete(el));
   root.querySelectorAll('.json-btn').forEach(btn => btn.onclick = () => toggleJson(btn.dataset.inc));
+  root.querySelectorAll('.card-close').forEach(btn => btn.onclick = () => closeIncident());
 }
 
-async function loadIncidents() {
+// ---------- the collapsed index ----------
+
+// An incident with no title of its own is shown by its first document, so a tile
+// is never just a bare id — twenty-odd incidents here were grouped but never
+// named, and "INC-031" alone tells a coder nothing about what they are opening.
+function tileTitle(inc) {
+  if (inc.title) return escapeHtml(inc.title);
+  const d = inc.documents[0];
+  return `<span class="t-untitled" title="This incident has no title of its own \u2014`
+       + ` showing its first document instead">${escapeHtml(d ? (d.title || '(untitled document)')
+                                                             : '(no documents)')}</span>`;
+}
+
+function incidentTile(inc) {
+  const encId = escapeHtml(inc.incident_id);
+  const sec = sectionOf(inc);
+  const ready = sec === 'todo' && completenessOf(inc).ok ? ' ready' : '';
+  return `<div class="inc-tile" data-inc="${encId}" data-sec="${sec}">
+    <div class="tile-head" role="button" tabindex="0" aria-expanded="false">
+      <div class="t-top"><span class="t-id">${encId}</span>
+        <span class="t-state ${sec}${ready}"></span></div>
+      <div class="t-title">${tileTitle(inc)}</div>
+    </div>
+    <div class="tile-card" hidden></div>
+  </div>`;
+}
+
+// Repaint a collapsed tile from its incident. Cheap enough to call on every edit,
+// so the index's "needs …" hint tracks the card a coder is working in.
+function refreshTile(inc) {
+  const tile = tileEl(inc.incident_id);
+  if (!tile) return;
+  const sec = sectionOf(inc);
+  tile.dataset.sec = sec;
+  const t = tile.querySelector('.t-title');
+  if (t) t.innerHTML = tileTitle(inc);
+  const s = tile.querySelector('.t-state');
+  if (s) s.className = 't-state ' + sec
+    + (sec === 'todo' && completenessOf(inc).ok ? ' ready' : '');
+}
+
+// The three sections are tabs, not one long scroll: only the selected one is on
+// the page, so "Complete" and "Not an incident" cost nothing to carry around and
+// the index stays a single screen of tiles.
+let ACTIVE_TAB = 'todo';
+
+function tocHtml(groups) {
+  const tabs = SECTIONS.map(s =>
+    `<button class="toc-link sec-${s.id}${s.id === ACTIVE_TAB ? ' active' : ''}"`
+    + ` data-tab="${s.id}" role="tab" aria-selected="${s.id === ACTIVE_TAB}">`
+    + `${escapeHtml(s.label)}<span class="toc-n">${groups[s.id].length}</span></button>`).join('');
+  return `<div class="inc-toc">
+    <div class="toc-row"><nav class="toc-links" role="tablist">${tabs}</nav></div>
+  </div>`;
+}
+
+function sectionHtml(sec, list) {
+  const body = list.length
+    ? `<div class="inc-grid">${list.map(incidentTile).join('')}</div>`
+    : `<div class="sec-empty">Nothing ${sec.id === 'todo' ? 'left to code' : 'here'}.</div>`;
+  return `<section class="inc-section" id="sec-${sec.id}" data-sec="${sec.id}"`
+    + `${sec.id === ACTIVE_TAB ? '' : ' hidden'}>${body}</section>`;
+}
+
+// Switch tabs. Collapsing first keeps an open card from being stranded on a
+// section nobody is looking at.
+function showTab(tabId) {
+  if (!SECTIONS.some(s => s.id === tabId)) return;
+  if (OPEN_INCIDENT) {
+    const t = tileEl(OPEN_INCIDENT);
+    if (t && t.dataset.sec !== tabId) closeIncident();
+  }
+  ACTIVE_TAB = tabId;
+  document.querySelectorAll('.inc-section').forEach(el => {
+    el.hidden = el.dataset.sec !== tabId;
+  });
+  document.querySelectorAll('.toc-link').forEach(el => {
+    const on = el.dataset.tab === tabId;
+    el.classList.toggle('active', on);
+    el.setAttribute('aria-selected', String(on));
+  });
+}
+
+// Render the whole index. `open` names the incident to expand afterwards —
+// by default whichever was open before, so a redraw doesn't shut the card a
+// coder is working in.
+async function loadIncidents(opts = {}) {
+  const reopen = ('open' in opts) ? opts.open : OPEN_INCIDENT;
   const wrap = document.getElementById('incidents');
   wrap.innerHTML = '<div class="inc-wrap"><div class="iempty">Loading…</div></div>';
   let data;
   try { data = await (await fetch('/api/incidents')).json(); }
   catch (e) {
-    wrap.innerHTML = '<div class="inc-wrap"><div class="iempty">Failed to load incidents.</div></div>'; return;
+    wrap.innerHTML = '<div class="inc-wrap"><div class="iempty">Failed to load incidents.</div></div>';
+    return;
   }
   INCIDENTS = {};
   data.incidents.forEach(inc => { INCIDENTS[inc.incident_id] = inc; });
-  // Three lists, in the order a coder works through them: what still needs
-  // coding on top, then what has been settled — signed off, or ruled out —
-  // folded away below. Settled work stays visible and countable rather than
-  // hidden, since "what have I finished" and "what did I rule out" are both
-  // part of the record.
-  const done = inc => inc.status === 'complete';
-  const out  = inc => inc.status === 'not_an_incident';
-  const open = data.incidents.filter(inc => !done(inc) && !out(inc));
-  const finished = data.incidents.filter(done);
-  const setAside = data.incidents.filter(out);
+  FIELDS = data.fields;
+  OPEN_INCIDENT = null;                 // the DOM the old id pointed at is gone
 
-  const cards = list => list.map(inc => incidentCard(inc, data.fields)).join('');
-  const fold = (cls, label, list) => list.length
-    ? `<details class="${cls}"><summary>${label} (${list.length})</summary>`
-      + `${cards(list)}</details>`
-    : '';
-
-  const body = open.length
-    ? cards(open)
-    : `<div class="iempty">${data.incidents.length
-         ? 'Nothing left in progress — everything is signed off or set aside.'
-         : 'No incidents coded yet.'}</div>`;
-  wrap.innerHTML = `<div class="inc-wrap">${body}`
-    + fold('inc-done-list', 'Complete', finished)
-    + fold('inc-out-list', 'Not an incident', setAside)
-    + `</div>`;
-  wireIncidentCard(wrap);
+  if (!data.incidents.length) {
+    wrap.innerHTML = '<div class="inc-wrap"><div class="iempty">No incidents coded yet.</div></div>';
+    INCIDENTS_RENDERED = true;
+    DIRTY_INCIDENTS.clear();
+    return;
+  }
+  const groups = {};
+  SECTIONS.forEach(s => { groups[s.id] = data.incidents.filter(s.match); });
+  const secs = SECTIONS.map(s => sectionHtml(s, groups[s.id])).join('');
+  wrap.innerHTML = `<div class="inc-wrap">${tocHtml(groups)}${secs}</div>`;
+  wireIndex(wrap);
   INCIDENTS_RENDERED = true;
   DIRTY_INCIDENTS.clear();
+  if (reopen && INCIDENTS[reopen]) openIncident(reopen, { scroll: false });
+}
+
+function wireIndex(root) {
+  root.querySelectorAll('.inc-tile > .tile-head').forEach(head => {
+    const incId = head.parentElement.dataset.inc;
+    head.onclick = () => toggleIncident(incId);
+    head.onkeydown = (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleIncident(incId); }
+    };
+  });
+  root.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => showTab(b.dataset.tab));
+}
+
+// The top bar is fixed and the table of contents sticks beneath it, so a plain
+// scrollIntoView would park the heading underneath them both.
+function stickyOffset() {
+  const bar = document.querySelector('.bar');
+  const toc = document.querySelector('.inc-toc');
+  return (bar ? bar.offsetHeight : 0) + (toc ? toc.offsetHeight : 0) + 14;
+}
+
+// ---------- opening one incident ----------
+
+function toggleIncident(incId) {
+  if (OPEN_INCIDENT === incId) closeIncident();
+  else openIncident(incId);
+}
+
+// Build the full card only when it is actually looked at. With fifty-odd
+// incidents, rendering every palette and claim board up front was most of both
+// the cost of this view and its height.
+function openIncident(incId, opts = {}) {
+  const inc = INCIDENTS[incId];
+  const tile = tileEl(incId);
+  if (!inc || !tile) return;
+  // Reached from the codebook or a sign-off, the incident may sit on a tab that
+  // is not showing; bring that tab up rather than opening it out of sight.
+  if (tile.dataset.sec !== ACTIVE_TAB) showTab(tile.dataset.sec);
+  if (OPEN_INCIDENT && OPEN_INCIDENT !== incId) closeIncident();
+  OPEN_INCIDENT = incId;
+  tile.classList.add('open');
+  const head = tile.querySelector('.tile-head');
+  if (head) head.setAttribute('aria-expanded', 'true');
+  const holder = tile.querySelector('.tile-card');
+  holder.innerHTML = incidentCard(inc, FIELDS);
+  holder.hidden = false;
+  wireIncidentCard(holder);
+  if (opts.scroll !== false) {
+    requestAnimationFrame(() => {
+      const top = tile.getBoundingClientRect().top + window.scrollY - stickyOffset();
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    });
+  }
+}
+
+function closeIncident() {
+  const tile = OPEN_INCIDENT && tileEl(OPEN_INCIDENT);
+  const inc = OPEN_INCIDENT && INCIDENTS[OPEN_INCIDENT];
+  // Throwing the card away takes the comment box with it; saveComment reads the
+  // in-memory incident rather than the textarea, so flushing first loses nothing.
+  flushIncidentComments();
+  OPEN_INCIDENT = null;
+  if (!tile) return;
+  tile.classList.remove('open');
+  const head = tile.querySelector('.tile-head');
+  if (head) head.setAttribute('aria-expanded', 'false');
+  const holder = tile.querySelector('.tile-card');
+  holder.hidden = true;
+  holder.innerHTML = '';
+  if (inc) refreshTile(inc);            // the summary may have moved on while open
+}
+
+// Escape collapses the open incident, but not while a field inside it has focus —
+// there Escape belongs to the box being edited.
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape' || !OPEN_INCIDENT) return;
+  if (!document.body.classList.contains('view-incidents')) return;
+  const t = e.target;
+  if (t && t.closest && t.closest('input, textarea, select, .cb-row')) return;
+  closeIncident();
+});
+
+// The incident that follows `incId` in "To code", or null at the end of it.
+// Used to carry a coder on after a sign-off moves the tile they were in.
+function nextTodoAfter(incId) {
+  const todo = Array.from(document.querySelectorAll('.inc-tile[data-sec="todo"]'))
+    .map(t => t.dataset.inc);
+  const i = todo.indexOf(incId);
+  return (i >= 0 && i + 1 < todo.length) ? todo[i + 1] : null;
 }
 
 const NODATA = '<span class="tow-nodata">No data</span>';
@@ -156,6 +350,7 @@ function incidentCard(inc, fields) {
     <div class="tow-head">
       <span class="tow-id">${encId}</span>
       <div class="tow-headdocs">${docsHtml}</div>
+      <button class="card-close" title="Collapse this incident (Esc)">\u00d7</button>
     </div>
     <div class="tow-body">
       <div class="tow-col c1">
@@ -254,6 +449,8 @@ function refreshComplete(inc) {
     el.innerHTML = completeControl(inc);
     wireComplete(el);
   });
+  // The tile carries the same judgement in one line, so it moves with the card.
+  refreshTile(inc);
 }
 
 function wireComplete(el) {
@@ -312,9 +509,14 @@ async function setStatus(incId, status) {
     if (el) el.innerHTML = '<span class="inc-needs">No response \u2014 is the app running?</span>';
     return;
   }
-  // Every status change moves the card between the in-progress list and one of
-  // the folded ones, which is a change to the list rather than to a single card.
-  if (status !== was) return loadIncidents();
+  // Every status change moves the tile between sections, which is a change to the
+  // index rather than to a single card — so the whole thing is redrawn. Settling
+  // an incident carries you on to the next one still to code; withdrawing a
+  // sign-off leaves you on the incident you just reopened.
+  if (status !== was) {
+    const settled = status === 'complete' || status === 'not_an_incident';
+    return loadIncidents({ open: settled ? nextTodoAfter(incId) : incId });
+  }
   refreshComplete(inc);
 }
 

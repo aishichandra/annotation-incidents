@@ -161,6 +161,49 @@ def add_option(vkey: str, option: str, group: str = "", definition: str = "") ->
     return True
 
 
+def reorder_options(vkey: str, group: str, order: list) -> bool:
+    """Put one section of a vocabulary into `order`.
+
+    `group` names a group in "<vkey>_groups" to reorder inside; "" means the flat
+    list — the whole of it for an ungrouped vocabulary, and the ungrouped tail
+    (what the UI shows as "Other") for a grouped one. `order` has to be a
+    permutation of what that section already holds: a reorder may never add or
+    drop a code, which is what add_option/delete_option are for, and refusing
+    here keeps a half-finished drag from quietly losing one.
+
+    Only the list that actually decides display order is rewritten — a group's
+    own list, or the flat list — so reordering one group leaves the rest of
+    vocab.json byte-for-byte alone.
+    """
+    order = [str(o) for o in (order or [])]
+    vocab = load_vocab()
+    options = list(vocab.get(vkey) or [])
+    if not options:
+        return False
+    groups = vocab.get(vkey + GROUP_SUFFIX)
+    grouped = isinstance(groups, dict)
+
+    if group:
+        if not grouped or group not in groups:
+            return False
+        if sorted(order) != sorted([v for v in (groups[group] or []) if v]):
+            return False
+        groups[group] = order
+    else:
+        placed = {v for vals in groups.values() for v in (vals or [])} if grouped else set()
+        current = [o for o in options if o not in placed]
+        if sorted(order) != sorted(current):
+            return False
+        # Splice the reordered tail back in, leaving grouped entries where they
+        # are: for a grouped vocabulary the flat list is the record of what
+        # exists, and only its ungrouped remainder is on screen.
+        it = iter(order)
+        vocab[vkey] = [o if o in placed else next(it) for o in options]
+
+    save_vocab(vocab)
+    return True
+
+
 def rename_option(vkey: str, old: str, new: str) -> bool:
     """Rename an option in place — same position in the flat list, same group,
     same definition. False if `old` is unknown or `new` is already taken."""
