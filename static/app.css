@@ -466,8 +466,13 @@
   .deftip-name { font-size: 11.5px; font-weight: 700; color: var(--fg); line-height: 1.35;
     margin-bottom: 5px; }
   .deftip-body { font-size: 12px; line-height: 1.55; color: #4b5563; }
-  .deftip-body p { margin: 0; }
-  .deftip-body p + p { margin-top: 7px; }
+  /* A definition reads the same in both places it is read — this tip and the
+     Codebook page — because it is one piece of text: paragraphs, and an italic
+     one for the rule that qualifies them. */
+  .deftip-body p, .cb-def-view p { margin: 0; }
+  .deftip-body p + p, .cb-def-view p + p { margin-top: 7px; }
+  .deftip-body em, .cb-def-view em { font-style: italic; color: #4a5260; }
+  .cb-def-view p { max-width: 78ch; }        /* prose measure; the tip has none */
   @keyframes deftip-in { from { opacity: 0; transform: translateY(2px); }
                          to   { opacity: 1; transform: none; } }
   /* Mark the options that have one, so a coder knows there is something to hover
@@ -654,9 +659,6 @@
     padding: 3px 4px; margin: 1px 0 0 -4px; border-radius: 3px; }
   .cb-def-view:hover { background: #eeeeec; }
   .cb-def-view.empty { color: #b4b4b4; font-style: italic; }
-  .cb-def-view p { margin: 0; max-width: 78ch; }
-  .cb-def-view p + p { margin-top: 7px; }
-  .cb-def-view em { font-style: italic; color: #4a5260; }
   .cb-name-field, .cb-def-field { width: 100%; font: inherit; border: 1px solid #254c6f;
     border-radius: 4px; padding: 5px 7px; background: #fff; }
   .cb-name-field { font-size: 14px; font-weight: 600; }

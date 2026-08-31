@@ -362,11 +362,9 @@ function showValuePicker(pending, target, rect) {
   menu.className = 'cat-menu';
   catMenuEl = menu;
 
-  const label = target.type === 'role'
-    ? `${(ROLE[target.role] || {}).label}`
-    : `${(field(target.key) || {}).label}`;
+  const vocab = targetVocab(target);
   const title = document.createElement('div');
-  title.className = 'cat-title'; title.textContent = `${label} — which value?`;
+  title.className = 'cat-title'; title.textContent = `${vocab.label} — which value?`;
   menu.appendChild(title);
 
   const list = document.createElement('div'); list.className = 'cat-vlist';
@@ -376,19 +374,13 @@ function showValuePicker(pending, target, rect) {
   useText.textContent = `＋ Use “${snip}”`;
   useText.onclick = () => { assignHighlight(pending, target, pending.text); showCategoryMenu(pending, rect); };
 
-  // Same grouping (and same collapsed-by-default behaviour) as the multiselect,
-  // so a value sits in the same place whichever route you reach it by.
-  const groups = target.type === 'role'
-    ? roleGroups(target.role) : ((field(target.key) || {}).groups || null);
-  const defs = (target.type === 'role'
-    ? roleDefinitions(target.role) : ((field(target.key) || {}).definitions || null)) || {};
-  const accent = target.type === 'role'
-    ? (ROLE[target.role] || {}).color : color[target.key];
   const fillList = () => {
     list.innerHTML = '';
     hideDefTip();
     list.appendChild(useText);
-    groupedOptions(valueOptions(target), groups).forEach(section => {
+    // Same grouping (and same collapsed-by-default behaviour) as the multiselect,
+    // so a value sits in the same place whichever route you reach it by.
+    groupedOptions(valueOptions(target), vocab.groups).forEach(section => {
       if (section.label) {
         list.appendChild(groupHeader(section, valueGroupsOpen, fillList, 0));
         if (!valueGroupsOpen.has(section.label)) return;
@@ -398,7 +390,7 @@ function showValuePicker(pending, target, rect) {
         b.className = 'cat-vopt' + (section.label ? ' in-group' : '');
         b.textContent = o;
         b.onclick = () => { assignHighlight(pending, target, o); showCategoryMenu(pending, rect); };
-        attachDefTip(b, o, defs[o], accent);
+        attachDefTip(b, o, vocab.definitions[o], vocab.accent);
         list.appendChild(b);
       });
     });

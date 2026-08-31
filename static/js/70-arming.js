@@ -124,7 +124,7 @@ function buildRoleCard(r) {
   // A role may carry one piece of free text — the inciting actor's name. It sits
   // with its characteristic rather than in a field of its own, because it says
   // *which* actor, and is meaningless apart from the actor codes above it.
-  const noteLabel = (SCHEMA_ROLES.find(x => x.role === r.role) || {}).note_label;
+  const noteLabel = (roleEntry(r.role) || {}).note_label;
   // Set the same way Incident title is: type it, press Enter, and it settles
   // into plain text you click to edit again — so a typed name reads as *entered*
   // rather than as something still sitting in a box.
