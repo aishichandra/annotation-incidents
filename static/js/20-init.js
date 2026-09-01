@@ -1,17 +1,17 @@
 // Bootstrap and view switching.
 // init() loads schema + docs; setView() flips Incidents/Documents and
 // restores each view's scroll position.
-//
-// Loaded as a classic script: everything here shares one global scope with the
-// other static/js files. See templates/index.html for the load order.
 
-async function init() {
+import { initCoders } from './00-coder.js';
+import { applySchema } from './10-state.js';
+import { refreshIncidents } from './30-incidents.js';
+import { pullFromMongo, pushToMongo } from './40-mongo-sync.js';
+import { loadDoc } from './50-reader.js';
+import { loadCodebook } from './75-codebook.js';
+
+export async function init() {
   await initCoders();   // before any /api/ call, so each one is attributed
-  const schema = await (await fetch('/api/schema')).json();
-  SCHEMA = schema.fields;
-  SCHEMA_ROLES = schema.claim_roles || [];
-  if (schema.rules) RULES = schema.rules;
-  SCHEMA.forEach((f, i) => color[f.key] = COLORS[i % COLORS.length]);
+  applySchema(await (await fetch('/api/schema')).json());
   const docs = await (await fetch('/api/docs')).json();
   const sel = document.getElementById('docSelect');
   sel.innerHTML = docs.map(d =>
@@ -42,12 +42,12 @@ async function init() {
 // The two views share the window scrollbar, so hiding a tall one shrinks the
 // page and the browser clamps scrollY. Each view's offset is therefore parked on
 // the way out and put back on the way in, the same way loadDoc(keepScroll) does.
-let CURRENT_VIEW = null;
-const VIEWS = ['incidents', 'docs', 'codebook'];
-const TAB_OF = { incidents: 'tabIncidents', docs: 'tabDocs', codebook: 'tabCodebook' };
-const VIEW_SCROLL = { docs: 0, incidents: 0, codebook: 0 };
+export let CURRENT_VIEW = null;
+export const VIEWS = ['incidents', 'docs', 'codebook'];
+export const TAB_OF = { incidents: 'tabIncidents', docs: 'tabDocs', codebook: 'tabCodebook' };
+export const VIEW_SCROLL = { docs: 0, incidents: 0, codebook: 0 };
 
-function setView(v) {
+export function setView(v) {
   if (CURRENT_VIEW) VIEW_SCROLL[CURRENT_VIEW] = window.scrollY;
   CURRENT_VIEW = v;
   try { localStorage.setItem('towView', v); } catch (_) {}
@@ -62,4 +62,3 @@ function setView(v) {
   else if (v === 'codebook') loadCodebook().then(done);
   else done();
 }
-

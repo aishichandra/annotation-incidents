@@ -1,16 +1,17 @@
 // Shared state and vocabulary.
 // SCHEMA, curDoc, the ROLES table and its colors, role-option lookups,
 // grouped-option rendering, and the 'armed' highlight target.
-//
-// Loaded as a classic script: everything here shares one global scope with the
-// other static/js files. See templates/index.html for the load order.
 
-const COLORS = ['#fde68a','#a5d6b0','#bfdbfe','#f3b7ac','#ddd6fe','#f9c9e0','#a7f3d0',
+import { field } from './50-reader.js';
+import { afterArm } from './70-arming.js';
+import { escapeHtml } from './80-persist.js';
+
+export const COLORS = ['#fde68a','#a5d6b0','#bfdbfe','#f3b7ac','#ddd6fe','#f9c9e0','#a7f3d0',
                 '#fed7aa','#c7d2fe','#fecdd3','#bbf7d0','#e9d5ff'];
-let SCHEMA = [];           // [{key,label,type,options}]
-const color = {};          // field key -> highlight color
-let curDoc = null;         // {index,title,url,markdown,ann:{fields,quotes,claims},_plain}
-let saveTimer = null;
+export let SCHEMA = [];           // [{key,label,type,options}]
+export const color = {};          // field key -> highlight color
+export let curDoc = null;         // {index,title,url,markdown,ann:{fields,quotes,claims},_plain}
+export let saveTimer = null;
 
 // Every controlled-vocabulary characteristic, in the coding scheme's order.
 // System and developer are ordinary roles: coded the same way, tagged the same
@@ -22,7 +23,7 @@ let saveTimer = null;
 // distinct hues, so two role highlights never read as the same color. The order
 // here is the order they appear in the document sidebar, the highlight tag menu
 // (TAG_ORDER) and the incident palette — factor before harm in all three.
-const ROLES = [
+export const ROLES = [
   { role: 'system',       label: 'System',       color: '#c4b5fd' },  // violet
   { role: 'developer',    label: 'Developer',    color: '#fdba74' },  // orange
   { role: 'actor',        label: 'Actor',        color: '#fde047' },  // yellow
@@ -30,66 +31,87 @@ const ROLES = [
   { role: 'harm',         label: 'Harm',         color: '#fca5a5' },  // red
   { role: 'harmed_party', label: 'Harmed party', color: '#7dd3fc' },  // blue
 ];
-const ROLE = Object.fromEntries(ROLES.map(r => [r.role, r]));
+export const ROLE = Object.fromEntries(ROLES.map(r => [r.role, r]));
 
 // Every characteristic is droppable into a claim, so this is just ROLE.
 // Geography and Translated are not here because they are not characteristics:
 // they describe the incident and are answered once on its card (card_only
 // fields in the schema), never highlighted and never dragged.
-const CLAIM_ROLE = ROLE;
+export const CLAIM_ROLE = ROLE;
 // The two clauses a claim reads as complete without. Both are lists: one actor
 // context can involve several systems, and a system can be built by more than
 // one party, so "using A & B" is an ordinary thing to need to say.
-const OPTIONAL_CLAIM_ROLES = [
+export const OPTIONAL_CLAIM_ROLES = [
   { role: 'system',    key: 'systems',    lead: ' using ',        placeholder: 'system' },
   { role: 'developer', key: 'developers', lead: ' developed by ', placeholder: 'developer' },
 ];
 // Which slot a dragged value belongs to. The actor context is shared by every
 // claim in a group, so it lives on the group header; the rest describe a single
 // claim and are dropped onto the claim row itself.
-const GROUP_ROLES = ['actor', 'system', 'developer'];
-const CLAIM_ROLES_DROP = ['harm', 'harmed_party', 'factor'];
+export const GROUP_ROLES = ['actor', 'system', 'developer'];
+export const CLAIM_ROLES_DROP = ['harm', 'harmed_party', 'factor'];
 // Roles a claim holds as a list, and the key each is stored under. Anything not
 // listed here is a single value that a drop replaces. `harm` is deliberately
 // absent: one harm per claim is what keeps a claim one countable proposition.
-const CLAIM_LIST_KEYS = { harmed_party: 'harmed_parties', factor: 'factors' };
+export const CLAIM_LIST_KEYS = { harmed_party: 'harmed_parties', factor: 'factors' };
 // The same, for the slots on the group header. `actor` is deliberately absent:
 // the actor is what makes this context one context, so a second actor is a
 // second group, not a second chip. The systems it used and who built them are
 // descriptions of that one context, and several of each read as a conjunction.
-const GROUP_LIST_KEYS = { system: 'systems', developer: 'developers' };
+export const GROUP_LIST_KEYS = { system: 'systems', developer: 'developers' };
 
 // A group's values for one role, whichever shape they are stored in. Systems and
 // developers went plural after groups had already been saved holding one value
 // each, so the pre-plural `system` / `developer` string is still read and folded
 // in — the same courtesy a claim pays `harmed_party` beside `harmed_parties`.
 // Writers put the list first and blank the singular, so nothing is counted twice.
-function groupValues(grp, role) {
+export function groupValues(grp, role) {
   const key = GROUP_LIST_KEYS[role];
   if (!key) return grp[role] ? [grp[role]] : [];
   const vals = Array.isArray(grp[key]) ? grp[key].slice() : [];
   if (grp[role] && !vals.includes(grp[role])) vals.push(grp[role]);
   return vals;
 }
-let SCHEMA_ROLES = [];      // [{role,label,options,groups?}] from schema.claim_roles
+export let SCHEMA_ROLES = [];      // [{role,label,options,groups?}] from schema.claim_roles
 // The coding rules, served by /api/schema from config.py so they are defined in
 // one place rather than restated here. `required_roles` is what a completion
 // sign-off demands; edit REQUIRED_CLAIM_ROLES in config.py and this follows.
 // The fallback only matters if the schema fetch failed.
-let RULES = { required_roles: ['actor', 'factor', 'harm', 'harmed_party'],
+export let RULES = { required_roles: ['actor', 'factor', 'harm', 'harmed_party'],
               optional_roles: ['system', 'developer'] };
+
+// The scheme, as /api/schema serves it. Everything above is read all over the
+// app but written only here — a module's binding belongs to the module that
+// declares it — so both places that fetch the schema (startup, and a codebook
+// edit) hand it to this instead of assigning the three pieces themselves.
+// Colours are assigned here too, so a field added while the app is running gets
+// one without a reload.
+export function applySchema(schema) {
+  SCHEMA = schema.fields || [];
+  SCHEMA_ROLES = schema.claim_roles || [];
+  if (schema.rules) RULES = schema.rules;
+  SCHEMA.forEach((f, i) => { color[f.key] = COLORS[i % COLORS.length]; });
+}
+
+// The rest of the writable state, each with the one setter its other modules
+// need. Reads stay direct: an import is a live binding, so `curDoc` elsewhere is
+// always this `curDoc`.
+export function setCurDoc(doc) { curDoc = doc; }
+export function setArmed(target) { armed = target; }
+export function setSkipSpanClick(on) { skipSpanClick = on; }
+export function setSaveTimer(t) { saveTimer = t; }
 // One claim role's schema entry — its options, its grouping, its definitions and
 // its note label are all fields of this, so the lookup happens here rather than
 // once per question asked about a role.
-function roleEntry(role) { return SCHEMA_ROLES.find(x => x.role === role); }
-function roleOptions(role) { return (roleEntry(role) || {}).options || []; }
-function setRoleOptions(role, opts) { const r = roleEntry(role); if (r) r.options = opts; }
+export function roleEntry(role) { return SCHEMA_ROLES.find(x => x.role === role); }
+export function roleOptions(role) { return (roleEntry(role) || {}).options || []; }
+export function setRoleOptions(role, opts) { const r = roleEntry(role); if (r) r.options = opts; }
 // Optional presentation grouping from vocab.json ("<list>_groups"), e.g. harm and
 // factor. [{label, options}] or undefined.
-function roleGroups(role) { return (roleEntry(role) || {}).groups || null; }
+export function roleGroups(role) { return (roleEntry(role) || {}).groups || null; }
 // The codebook, from vocab.json ("<list>_definitions"): {option: text} for the
 // options that have been defined. Undefined options are simply absent.
-function roleDefinitions(role) { return (roleEntry(role) || {}).definitions || null; }
+export function roleDefinitions(role) { return (roleEntry(role) || {}).definitions || null; }
 
 // Everything a menu needs to know about the characteristic it is offering,
 // whichever of the two kinds it is: a claim role or a document field. The two
@@ -98,7 +120,7 @@ function roleDefinitions(role) { return (roleEntry(role) || {}).definitions || n
 // definitions, its colour — which is four chances for the answers to disagree.
 // Both entries carry `groups` and `definitions` under those names, so only the
 // lookup and the colour actually differ.
-function targetVocab(target) {
+export function targetVocab(target) {
   const isRole = target.type === 'role';
   const src = (isRole ? roleEntry(target.role) : field(target.key)) || {};
   return {
@@ -114,7 +136,7 @@ function targetVocab(target) {
 // themselves) falls into a trailing "Other" so nothing can be hidden by a group
 // that forgot it. With no groups defined it's one unlabelled section, i.e. the
 // plain flat list this app had before.
-function groupedOptions(options, groups) {
+export function groupedOptions(options, groups) {
   if (!groups || !groups.length) return [{ label: '', options }];
   const placed = new Set(), out = [];
   groups.forEach(g => {
@@ -132,7 +154,7 @@ function groupedOptions(options, groups) {
 // group and asks the caller to rebuild. `nSel` (optional) is how many of the
 // group's options are already chosen — shown as a badge, since a collapsed group
 // would otherwise hide that its contents are in use.
-function groupHeader(section, expanded, rebuild, nSel) {
+export function groupHeader(section, expanded, rebuild, nSel) {
   const open = expanded.has(section.label);
   const head = document.createElement('button');
   head.type = 'button';
@@ -158,10 +180,10 @@ function groupHeader(section, expanded, rebuild, nSel) {
 //
 // One element on <body> rather than a tip inside each row: both menus scroll
 // inside their own box, which would clip anything positioned within them.
-let defTipEl = null;
-let defTipTimer = null;
+export let defTipEl = null;
+export let defTipTimer = null;
 
-function hideDefTip() {
+export function hideDefTip() {
   clearTimeout(defTipTimer);
   if (defTipEl) { defTipEl.remove(); defTipEl = null; }
 }
@@ -176,7 +198,7 @@ function hideDefTip() {
 // nobody should have to go back through it to keep an italic. A single star has
 // to hug the text it marks — otherwise "5 * 3" and a real rule further down the
 // line would pair off and italicise everything between them.
-function defHtml(text) {
+export function defHtml(text) {
   return String(text || '').trim().split(/\n+/)
     .map(p => p.trim()).filter(Boolean)
     .map(p => `<p>${escapeHtml(p).replace(/\*\*([^*]+)\*\*|\*(\S|\S[^*\n]*?\S)\*/g,
@@ -184,7 +206,7 @@ function defHtml(text) {
     .join('');
 }
 
-function showDefTip(anchor, name, text, accent) {
+export function showDefTip(anchor, name, text, accent) {
   hideDefTip();
   const tip = document.createElement('div');
   tip.className = 'deftip';
@@ -213,7 +235,7 @@ function showDefTip(anchor, name, text, accent) {
 // Give one option row its definition tooltip. `text` missing (an option nobody
 // has defined yet) leaves the row exactly as it was — no marker, no tip.
 // The delay keeps running the cursor down a long list from strobing.
-function attachDefTip(el, name, text, accent) {
+export function attachDefTip(el, name, text, accent) {
   if (!text) return el;
   el.classList.add('has-def');
   el.addEventListener('mouseenter', () => {
@@ -232,14 +254,13 @@ document.addEventListener('mousedown', hideDefTip, true);
 // What's currently receiving highlights: a specific selected value in a field or
 // claim-role multiselect (value is undefined for a whole text field).
 // null | {type:'field', key, value} | {type:'role', claim, role, value}
-let armed = null;
+export let armed = null;
 // A just-completed text selection must not also trigger a highlighted mark's
 // span menu (which would replace the tag menu). Set on selection, cleared next tick.
-let skipSpanClick = false;
-function sameArm(t) {
+export let skipSpanClick = false;
+export function sameArm(t) {
   if (!armed || armed.type !== t.type) return false;
   if (t.type === 'field') return armed.key === t.key && armed.value === t.value;
   return armed.role === t.role && armed.value === t.value;
 }
-function setArm(t) { armed = sameArm(t) ? null : t; afterArm(); }
-
+export function setArm(t) { armed = sameArm(t) ? null : t; afterArm(); }

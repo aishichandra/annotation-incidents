@@ -1,13 +1,14 @@
 // Persistence and startup.
 // Debounced save to /api/doc/<i>/annotations, escapeHtml, the
 // click-outside dropdown close, and the init() call that starts the app.
-//
-// Loaded as a classic script: everything here shares one global scope with the
-// other static/js files. See templates/index.html for the load order.
+
+import { curDoc, saveTimer, setSaveTimer } from './10-state.js';
+import { init } from './20-init.js';
+import { markIncidentDirty } from './30-incidents.js';
 
 // ---------- persistence ----------
-function persistSoon() { clearTimeout(saveTimer); saveTimer = setTimeout(persist, 500); }
-async function persist() {
+export function persistSoon() { clearTimeout(saveTimer); setSaveTimer(setTimeout(persist, 500)); }
+export async function persist() {
   clearTimeout(saveTimer);
   const res = await fetch('/api/doc/' + curDoc.index + '/annotations', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -21,7 +22,7 @@ async function persist() {
     `Saved ✓ ${j.n} quote${j.n === 1 ? '' : 's'} → data_annotated.csv`;
 }
 
-function escapeHtml(s) {
+export function escapeHtml(s) {
   return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 }
 
@@ -31,5 +32,3 @@ document.addEventListener('click', (e) => {
     document.querySelectorAll('.select.open').forEach(s => s.classList.remove('open'));
   }
 });
-
-init();

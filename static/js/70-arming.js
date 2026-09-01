@@ -1,16 +1,32 @@
 // Armed-target styling and the roles panel.
 // Which field is armed to receive the next highlight, the hint text,
 // scroll-to helpers, and the flat actor/harm/factor role cards.
-//
-// Loaded as a classic script: everything here shares one global scope with the
-// other static/js files. See templates/index.html for the load order.
 
+import {
+  ROLES,
+  armed,
+  color,
+  curDoc,
+  roleDefinitions,
+  roleEntry,
+  roleGroups,
+  roleOptions,
+  sameArm,
+  setArm,
+  setRoleOptions,
+} from './10-state.js';
+import { renderArticle } from './50-reader.js';
+import { buildSelect, buildText, buildValueEvidence, subLabel } from './60-form.js';
+import { persistSoon } from './80-persist.js';
+import { ROLE } from './10-state.js';
+import { field } from './50-reader.js';
+import { persist } from './80-persist.js';
 
-function armField(key, value) { setArm({ type: 'field', key, value }); }
-function afterArm() { updateArmHint(); refreshArmedStyles(); }
+export function armField(key, value) { setArm({ type: 'field', key, value }); }
+export function afterArm() { updateArmHint(); refreshArmedStyles(); }
 
 // Toggle armed styling on text-field cards and per-selection evidence rows.
-function refreshArmedStyles() {
+export function refreshArmedStyles() {
   document.querySelectorAll('.card').forEach(c => {
     const arm = c.querySelector(':scope > .head > .arm');
     if (!arm) return;   // multi fields justify per selection, not per field
@@ -26,7 +42,7 @@ function refreshArmedStyles() {
   });
 }
 
-function updateArmHint() {
+export function updateArmHint() {
   const h = document.getElementById('armHint');
   if (!armed) { h.textContent = ''; return; }
   const val = armed.value ? ' · ' + armed.value : '';
@@ -34,17 +50,17 @@ function updateArmHint() {
     ? `Highlighting → ${(field(armed.key) || {}).label}${val}`
     : `Highlighting → ${(ROLE[armed.role] || {}).label}${val}`;
 }
-function flashHint() {
+export function flashHint() {
   const h = document.getElementById('armHint');
   h.style.color = '#dc2626'; h.textContent = 'Arm a field or a characteristic first ↗';
   setTimeout(() => { h.style.color = ''; updateArmHint(); }, 1500);
 }
 
-function scrollToCard(key) {
+export function scrollToCard(key) {
   const c = document.querySelector(`.card[data-key="${key}"]`);
   if (c) c.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
-function scrollToMark(gi) {
+export function scrollToMark(gi) {
   const m = document.querySelector(`mark[data-q="${gi}"]`);
   if (m) {
     m.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -55,12 +71,12 @@ function scrollToMark(gi) {
 // ---------- characteristics: flat actor / harm / factor / harmed party ----------
 // No linking here — each role is just a multiselect of values, each value
 // justified by highlights. Grouping into claims happens in the card view.
-function renderRoles() {
+export function renderRoles() {
   const old = document.querySelector('.roles-section');
   if (old) old.replaceWith(buildRolesPanel());
 }
 
-function buildRolesPanel() {
+export function buildRolesPanel() {
   const section = document.createElement('div');
   section.className = 'roles-section';
   const head = document.createElement('div');
@@ -71,7 +87,7 @@ function buildRolesPanel() {
   return section;
 }
 
-function buildRoleCard(r) {
+export function buildRoleCard(r) {
   if (!Array.isArray(curDoc.ann.roles[r.role])) curDoc.ann.roles[r.role] = [];
   const arr = curDoc.ann.roles[r.role];
 
@@ -142,4 +158,3 @@ function buildRoleCard(r) {
   card.appendChild(body);
   return card;
 }
-
