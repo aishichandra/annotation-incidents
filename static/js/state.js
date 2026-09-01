@@ -2,9 +2,9 @@
 // SCHEMA, curDoc, the ROLES table and its colors, role-option lookups,
 // grouped-option rendering, and the 'armed' highlight target.
 
-import { field } from './50-reader.js';
-import { afterArm } from './70-arming.js';
-import { escapeHtml } from './80-persist.js';
+import { afterArm } from './arming.js';
+import { escapeHtml } from './persist.js';
+import { field } from './reader.js';
 
 export const COLORS = ['#fde68a','#a5d6b0','#bfdbfe','#f3b7ac','#ddd6fe','#f9c9e0','#a7f3d0',
                 '#fed7aa','#c7d2fe','#fecdd3','#bbf7d0','#e9d5ff'];

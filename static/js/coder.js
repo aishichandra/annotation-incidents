@@ -1,7 +1,7 @@
 // Who is coding.
 // Coder picker + the fetch wrapper that stamps every /api/ call with ?coder=.
 
-import { init } from './20-init.js';
+import { init } from './boot.js';
 
 // ---------- who is coding ----------
 // Several coders code the same documents and incidents independently, so every

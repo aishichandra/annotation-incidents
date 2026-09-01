@@ -2,7 +2,11 @@
 // Which field is armed to receive the next highlight, the hint text,
 // scroll-to helpers, and the flat actor/harm/factor role cards.
 
+import { buildSelect, buildText, buildValueEvidence, subLabel } from './form.js';
+import { persistSoon } from './persist.js';
+import { field, renderArticle } from './reader.js';
 import {
+  ROLE,
   ROLES,
   armed,
   color,
@@ -14,13 +18,7 @@ import {
   sameArm,
   setArm,
   setRoleOptions,
-} from './10-state.js';
-import { renderArticle } from './50-reader.js';
-import { buildSelect, buildText, buildValueEvidence, subLabel } from './60-form.js';
-import { persistSoon } from './80-persist.js';
-import { ROLE } from './10-state.js';
-import { field } from './50-reader.js';
-import { persist } from './80-persist.js';
+} from './state.js';
 
 export function armField(key, value) { setArm({ type: 'field', key, value }); }
 export function afterArm() { updateArmHint(); refreshArmedStyles(); }

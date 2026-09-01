@@ -2,6 +2,9 @@
 // The right-hand sidebar: one card per schema field, selects, text inputs,
 // incident id lookup, and the evidence/quote lists under each value.
 
+import { armField, buildRolesPanel, scrollToMark } from './arming.js';
+import { escapeHtml, persist, persistSoon } from './persist.js';
+import { field, fieldAnn, removeQuote, renderArticle } from './reader.js';
 import {
   SCHEMA,
   attachDefTip,
@@ -12,16 +15,8 @@ import {
   hideDefTip,
   sameArm,
   setArm,
-} from './10-state.js';
-import {
-  INCIDENT_IDS,
-  fillTitleForIncident,
-  refreshIncidentIds,
-} from './40-mongo-sync.js';
-import { field, fieldAnn, removeQuote, renderArticle } from './50-reader.js';
-import { armField, buildRolesPanel, scrollToMark } from './70-arming.js';
-import { persist, persistSoon } from './80-persist.js';
-import { escapeHtml } from './80-persist.js';
+} from './state.js';
+import { INCIDENT_IDS, fillTitleForIncident, refreshIncidentIds } from './sync.js';
 
 // ---------- coding form ----------
 export function renderForm() {

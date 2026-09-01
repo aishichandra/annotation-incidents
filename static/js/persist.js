@@ -2,9 +2,8 @@
 // Debounced save to /api/doc/<i>/annotations, escapeHtml, the
 // click-outside dropdown close, and the init() call that starts the app.
 
-import { curDoc, saveTimer, setSaveTimer } from './10-state.js';
-import { init } from './20-init.js';
-import { markIncidentDirty } from './30-incidents.js';
+import { markIncidentDirty } from './incidents/index.js';
+import { curDoc, saveTimer, setSaveTimer } from './state.js';
 
 // ---------- persistence ----------
 export function persistSoon() { clearTimeout(saveTimer); setSaveTimer(setTimeout(persist, 500)); }
