@@ -12,6 +12,7 @@ from config import (
 )
 from doc_source import cell
 import doc_source
+import mongo_sync
 import storage
 
 
@@ -260,3 +261,33 @@ def _jsonable(v):
     if isinstance(v, (str, int, float, bool)) or v is None:
         return v
     return str(v)          # ObjectId and anything else exotic
+
+
+def clear_signoff(coder: str, inc_id: str) -> None:
+    """Withdraw a sign-off when the coding no longer supports it.
+
+    A sign-off says "my reading of this incident is finished". An edit that
+    leaves the incident complete doesn't contradict that, so the flag stands —
+    withdrawing on *any* edit would mean every autosave while coding a member
+    document silently un-signed the incident, including edits the check never
+    reads, like aftermath text. An edit that breaks completeness does contradict
+    it, so that one withdraws and the coder has to look again.
+
+    The `status` check comes first because it makes the common case free: with no
+    sign-off to protect there is nothing to do, and the aggregate below — which
+    walks every document — never runs."""
+    store = storage.load_incident_coding(coder)
+    entry = store.get(inc_id)
+    # Only a sign-off is a claim about the coding being finished, so only it can
+    # be falsified by an edit. "not_an_incident" is a judgement about the
+    # material — coding more of it doesn't make the thing an incident.
+    if not entry or entry.get("status") != "complete":
+        return
+    incidents, _, _ = aggregate_incidents(coder)
+    inc = incidents.get(inc_id)
+    if inc is not None and incident_completeness(inc)["ok"]:
+        return
+    entry["status"] = ""
+    entry["completed_at"] = ""
+    storage.save_incident_coding(store, coder)
+    mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
