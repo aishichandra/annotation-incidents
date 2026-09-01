@@ -11,7 +11,11 @@ function renderForm() {
   root.innerHTML = '';
   // Characteristics panel (flat actor/harm/factor/harmed-party) sits just above
   // the Incident aftermath card.
-  SCHEMA.forEach(f => {
+  //
+  // `card_only` fields are skipped: Geography and Translated are answered once
+  // for the incident, on its card. This sidebar codes a document, and offering
+  // them here would ask the same question of every article in an incident.
+  SCHEMA.filter(f => !f.card_only).forEach(f => {
     if (f.key === 'incident_aftermath') root.appendChild(buildRolesPanel());
     root.appendChild(buildCard(f));
   });

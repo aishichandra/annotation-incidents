@@ -31,7 +31,11 @@ PY=~/.pyenv/versions/3.10.3/bin/python
 
 Reads the Zotero SQLite DB (read-only) for HTML snapshots in the collection
 `Incidents Dashboard Articles`, extracts article markdown with trafilatura, and
-writes one row per document to `zotero_docs.csv`.
+writes one row per document to `zotero_docs.csv`: `zotero_key, title, url, date,
+markdown, snapshot`. `date` is the item's publication date, normalised to
+`YYYY-MM-DD` and left empty when Zotero has none — Zotero stores it as its own
+normalised prefix followed by whatever was typed, so only the first token is
+kept, and a partial date (a bare year) is dropped rather than half-recorded.
 
 ```
 $PY zotero_import.py
@@ -117,6 +121,21 @@ Each incident card lists its source documents with a small badge showing **which
 coders have coded it** — progress only, never their codes, so coders stay blind to
 each other's judgements while coding.
 
+Two of a card's characteristics are read off the documents rather than coded:
+**Published** (the date, or the range across the incident's articles, from
+`zotero_docs.csv`) and **Domain** (from each article's URL). Nobody types them, so
+they cannot drift from the documents they describe; an incident whose articles
+Zotero has no date for says so — "2025-11-25 · 1 undated" — instead of showing a
+range narrower than the incident.
+
+**Geography/location** and **Translated** are answered on the card itself, from
+the codebook, and nowhere else. They describe the incident rather than any one of
+its documents — there is no passage to highlight for "this happened in Kenya" and
+no claim to drag it into — so they are controlled *fields* (`card_only` in the
+schema), not characteristics: absent from the document sidebar and the highlight
+tag menu, present in the Codebook tab like every other vocabulary, and saved per
+coder to `by_coder.<coder>.fields` as you pick them.
+
 Push / Pull act on the current coder alone: pushing as alice never touches bob's
 work in Atlas, and pulling as bob never rewrites alice's local file.
 
@@ -136,6 +155,15 @@ pairs, not references: `aggregate_incidents` drops any value no longer coded on 
 member document, and a claim left with nothing disappears. An incident whose
 documents have all moved away is deleted once nothing is coded on it.
 
+Any incident can also be **flagged as one you are not sure about** — the `⚑ Not
+sure` button on the card, and a `⚑` on its tile in the index so flagged readings
+are findable without opening them. It is deliberately not a fourth status:
+uncertainty cuts across all three, and the readings most worth a second pair of
+eyes are often the ones a coder has finished and still doubts. It gates nothing,
+can be raised and cleared at any point, and is per coder like every other
+judgement. *What* is uncertain goes in the card's comment box — the flag says
+"look at this", the comment says why.
+
 ## 2c. Judging an incident: complete, or not an incident
 
 Every save already reaches Mongo on its own, so nothing needs uploading by hand.
@@ -153,6 +181,8 @@ value** — actor, factor, harm and harmed party, with system and developer stay
 optional (`REQUIRED_CLAIM_ROLES` in `config.py`, derived from the scheme so a new
 role is required unless it is listed as optional) — **and at least one claim group
 names an actor and holds a complete claim** (harm + harmed party + factor).
+Geography and Translated are fields rather than characteristics, so they never
+enter this: they describe the incident and assert nothing.
 
 The second bar is the one that matters: an incident can have a full palette and
 still assert nothing. Linking is what turns a pile of characteristics into a claim
@@ -238,10 +268,12 @@ another coder's work. The validator and indexes are provisioned by
 incidents {
   _id,                                    # "INC-001" — the incident id
   title,
-  documents: [ { doc_id, url, title }, ... ],     # source articles (shared by all coders)
+  documents: [ { doc_id, url, title, date }, ... ],  # source articles (shared by all coders)
   by_coder: {
     <coder>: {
       fields:    { <field_key>: { answer, comments? }, ... },   # the INCIDENT's answers
+                                          # incident_geography / incident_translated
+                                          # hold a list picked from the codebook
       notes:     { <role>: "…" },         # free text naming one characteristic
       groups:    [ { id, actor, system, developer, omit[],
                      claims: [ { id, harm, harmed_parties[], factors[] } ] }, ... ],

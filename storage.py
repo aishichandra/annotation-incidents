@@ -128,7 +128,7 @@ def blank_incident_coding() -> dict:
     here for the reason in load_incident_coding: a part left out of this dict is
     read from Mongo and then dropped on the next write."""
     return {"fields": {}, "notes": {}, "groups": [], "comment": "",
-            "status": "", "completed_at": ""}
+            "status": "", "completed_at": "", "flagged": False}
 
 
 def load_incident_coding(coder: str) -> dict:
@@ -166,7 +166,7 @@ def save_incident_coding(store: dict, coder: str) -> None:
     # a line in the file.
     lean = {k: v for k, v in store.items()
             if v.get("fields") or v.get("groups") or v.get("notes")
-            or v.get("comment") or v.get("status")}
+            or v.get("comment") or v.get("status") or v.get("flagged")}
     _atomic_write(incident_coding_path(coder), json.dumps(lean, indent=2, ensure_ascii=False))
 
 
@@ -374,6 +374,95 @@ def _role_uses_by_incident(store, inc_store, role: str, assignments) -> dict:
         if vals:
             per_inc.setdefault(inc_id, set()).update(vals)
     return per_inc
+
+
+# ---------------------------------- fields that carry controlled values
+# An incident field answered from a vocabulary (geography, translated) keeps its
+# codes in one place: the incident's own `fields` map, under {answer: [...]}. No
+# document names them and no claim holds them, so counting and renaming are a
+# single walk rather than the six slots a role spreads across.
+
+
+def _field_answer(entry, key) -> list:
+    """One incident's answers for a controlled field, always as a list.
+
+    `answer` is a list for a multi field, but a field that used to be single —
+    or was written by hand — can hold a bare string, and a count that skipped
+    those would under-report exactly the codings most in need of renaming."""
+    ans = (((entry or {}).get("fields") or {}).get(key) or {}).get("answer")
+    if isinstance(ans, list):
+        return [v for v in ans if v]
+    return [ans] if ans else []
+
+
+def _walk_field_values(inc_store, key: str, fn) -> int:
+    """Pass every stored answer of `key` through `fn`, replacing it with what fn
+    returns. Mutates `inc_store`; returns how many answers actually changed."""
+    changed = 0
+    for entry in (inc_store or {}).values():
+        fa = ((entry or {}).get("fields") or {}).get(key)
+        if not isinstance(fa, dict):
+            continue
+        ans = fa.get("answer")
+        if isinstance(ans, list):
+            for i, v in enumerate(ans):
+                new = fn(v)
+                if new != v:
+                    ans[i] = new
+                    changed += 1
+        elif ans:
+            new = fn(ans)
+            if new != ans:
+                fa["answer"] = new
+                changed += 1
+    return changed
+
+
+def field_value_usage(keys) -> dict:
+    """How many incidents use each code of each controlled field, per coder:
+    {field_key: {value: {coder: n}}}. The role-side counterpart is
+    role_value_usage; the Codebook reads them the same way."""
+    out = {k: {} for k in keys}
+    for coder in CODERS:
+        inc_store = _read_json(incident_coding_path(coder))
+        for key in keys:
+            counts = Counter()
+            for entry in inc_store.values():
+                # One incident answering a field counts once for this coder,
+                # however the answer is stored.
+                counts.update(set(_field_answer(entry, key)))
+            for value, n in counts.items():
+                out[key].setdefault(value, {})[coder] = n
+    return out
+
+
+def field_value_incidents(key: str, value: str) -> dict:
+    """Which incidents answer `key` with `value`: {inc_id: {coder: 1}}.
+
+    The same shape role_value_incidents returns, so the Codebook's "N uses"
+    panel reads a field exactly as it reads a characteristic."""
+    out = {}
+    for coder in CODERS:
+        for inc_id, entry in _read_json(incident_coding_path(coder)).items():
+            if value in _field_answer(entry, key):
+                out.setdefault(inc_id, {})[coder] = 1
+    return out
+
+
+def rename_field_value(key: str, old: str, new: str) -> int:
+    """Rewrite every stored answer of `old` to `new`, for every coder. Returns
+    how many answers moved. The vocabulary itself is renamed by the caller — as
+    with a role, both halves happen in one request or the coding would name a
+    code the scheme no longer offers."""
+    total = 0
+    for coder in CODERS:
+        inc_store = _read_json(incident_coding_path(coder))
+        n = _walk_field_values(inc_store, key, lambda v: new if v == old else v)
+        if n:
+            _atomic_write(incident_coding_path(coder),
+                          json.dumps(inc_store, indent=2, ensure_ascii=False))
+            total += n
+    return total
 
 
 def role_value_usage(roles) -> dict:

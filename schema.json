@@ -18,6 +18,21 @@
       "key": "incident_aftermath",
       "label": "Aftermath",
       "type": "text"
+    },
+    {
+      "key": "incident_geography",
+      "label": "Geography/location",
+      "type": "multi",
+      "card_only": true,
+      "options": []
+    },
+    {
+      "key": "incident_translated",
+      "label": "Translated",
+      "type": "single",
+      "card_only": true,
+      "options": [],
+      "control": "toggle"
     }
   ],
   "claim_roles": [

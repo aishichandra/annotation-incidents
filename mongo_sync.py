@@ -104,7 +104,8 @@ def sync_to_mongo(i, key, record, coder, inc_id):
     if mongo_db is None:
         return False
     now = datetime.now(timezone.utc)
-    doc_entry = {"doc_id": key, "url": cell(i, "url"), "title": cell(i, "title")}
+    doc_entry = {"doc_id": key, "url": cell(i, "url"), "title": cell(i, "title"),
+                 "date": cell(i, "date")}
     try:
         # Every coder's evidence for this document, wherever it currently sits, so
         # a move carries all of it rather than just this coder's.
@@ -173,6 +174,10 @@ def sync_incident_coding_to_mongo(inc_id: str, coder: str, entry: dict) -> bool:
                       f"by_coder.{coder}.comment": entry.get("comment") or "",
                       f"by_coder.{coder}.status": entry.get("status") or "",
                       f"by_coder.{coder}.completed_at": entry.get("completed_at") or "",
+                      # "I am not sure about this coding" — a request for a second
+                      # look, separate from the sign-off because a coder can be
+                      # unsure of a reading they have finished.
+                      f"by_coder.{coder}.flagged": bool(entry.get("flagged")),
                       f"by_coder.{coder}.updated_at": now,
                       "title": storage.incident_title_for(inc_id), "updated_at": now}},
             upsert=True)
@@ -211,13 +216,14 @@ def incident_coding_from_mongo(coder: str) -> dict:
     for inc in mongo_db.incidents.find({}, {"by_coder": 1}):
         sub = (inc.get("by_coder") or {}).get(coder) or {}
         if (sub.get("fields") or sub.get("groups") or sub.get("notes")
-                or sub.get("comment") or sub.get("status")):
+                or sub.get("comment") or sub.get("status") or sub.get("flagged")):
             out[str(inc["_id"])] = {"fields": sub.get("fields") or {},
                                     "notes": sub.get("notes") or {},
                                     "groups": sub.get("groups") or [],
                                     "comment": sub.get("comment") or "",
                                     "status": sub.get("status") or "",
-                                    "completed_at": sub.get("completed_at") or ""}
+                                    "completed_at": sub.get("completed_at") or "",
+                                    "flagged": bool(sub.get("flagged"))}
     return out
 
 

@@ -100,11 +100,15 @@ def aggregate_incidents(coder: str):
             "incident_id": inc_id, "title": "", "documents": [],
             "field_values": {}, "field_comments": {},
             "role_values": {r["role"]: [] for r in role_defs}, "groups": [],
-            "role_notes": {}, "value_quotes": {}, "comment": "",
+            "role_notes": {}, "value_quotes": {}, "comment": "", "flagged": False,
         })
         g["documents"].append({
             "index": i, "doc_key": key, "title": cell(i, "title"),
             "url": cell(i, "url"), "quotes": len(rec["quotes"]),
+            # Read off the document rather than coded: when it was published
+            # (from Zotero, via zotero_docs.csv) and who published it (from the
+            # URL). Neither is a judgement, so neither is anybody's to enter.
+            "date": cell(i, "date"), "domain": doc_source.domain(cell(i, "url")),
             "coded_by": coded_by(key, all_stores),
         })
         if not g["title"]:
@@ -128,6 +132,9 @@ def aggregate_incidents(coder: str):
                 if str(note or "").strip():
                     g["role_notes"][role] = str(note).strip()
             g["comment"] = str((inc_store.get(inc_id) or {}).get("comment") or "")
+            # This coder asking for a second look at their own coding. Read here
+            # with the rest of their incident-level judgement; see api_set_flag.
+            g["flagged"] = bool((inc_store.get(inc_id) or {}).get("flagged"))
         for r in role_defs:
             bucket = g["role_values"][r["role"]]
             for v in rec["roles"].get(r["role"], []):
@@ -227,6 +234,13 @@ def aggregate_incidents(coder: str):
         # the coding currently supports, `status` is what the coder has actually
         # attested to, and the two can disagree — signing off then editing is
         # what clears the flag (see api_set_complete).
+        # The incident's own dates and domains: its documents', de-duplicated.
+        # `undated` is carried rather than inferred from the two lengths, so a
+        # card can say "and two we have no date for" instead of quietly showing
+        # a range that covers fewer articles than the incident holds.
+        g["dates"] = sorted({d["date"] for d in g["documents"] if d["date"]})
+        g["domains"] = sorted({d["domain"] for d in g["documents"] if d["domain"]})
+        g["undated"] = sum(1 for d in g["documents"] if not d["date"])
         entry = inc_store.get(inc_id) or {}
         g["completeness"] = incident_completeness(g)
         g["status"] = entry.get("status") or ""

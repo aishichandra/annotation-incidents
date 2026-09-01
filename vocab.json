@@ -78,6 +78,11 @@
     "Audience/readers",
     "General public"
   ],
+  "geography": [],
+  "translated": [
+    "Translated",
+    "Not translated"
+  ],
   "factor_groups": {
     "Process/Governance Failures": [
       "Inadequate human oversight",

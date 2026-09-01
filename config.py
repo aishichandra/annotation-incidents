@@ -88,6 +88,18 @@ DEFAULT_SCHEMA = {
         # below), and free text belonging to one of those — the inciting actor's
         # name — is a note on that role, not a field.
         {"key": "incident_aftermath", "label": "Incident aftermath", "type": "text"},
+        # Answered once for the incident, from a controlled vocabulary, on the
+        # card itself: where it happened, and whether the article reporting it
+        # was published in translation. They are not characteristics — nothing
+        # in a document is highlighted to justify them and no claim is made of
+        # them — so they are fields, and `card_only` keeps them out of the
+        # document sidebar, which codes documents rather than incidents.
+        {"key": "incident_geography", "label": "Geography/location",
+         "type": "multi", "card_only": True},
+        # Two states and no third, so it is a toggle rather than a menu: its
+        # vocabulary is the two, and a coder switches between them or clears it.
+        {"key": "incident_translated", "label": "Translated",
+         "type": "single", "control": "toggle", "card_only": True},
     ],
     # Characteristics coded per document as flat multiselects (no linking here).
     # Linking values into claims happens in the incident card view instead.
@@ -144,7 +156,10 @@ OPTIONAL_CLAIM_ROLES = ("system", "developer")
 
 # What a coder must have coded before they can sign an incident off as complete.
 # Derived from ROLE_KEYS rather than listed, so a role added to the scheme is
-# required by default — the coding scheme decides, not this constant.
+# required by default — the coding scheme decides, not this constant. Geography
+# and Translated are deliberately not roles, so they never enter this: they
+# describe the incident, they assert nothing, and a reading is finished without
+# them.
 REQUIRED_CLAIM_ROLES = tuple(r for r in ROLE_KEYS if r not in OPTIONAL_CLAIM_ROLES)
 
 # What one coder can say about an incident as a whole. "" is the default — still

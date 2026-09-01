@@ -4,13 +4,15 @@
 modules must reach it as `doc_source.df` - never `from doc_source import df`,
 which would freeze a stale copy.
 """
+from urllib.parse import urlparse
+
 import pandas as pd
 
 from config import DATA_CSV
 
 # The document list to code comes entirely from zotero_docs.csv. If it's missing
 # (import not run yet), start empty rather than crash — the UI just shows no docs.
-COLUMNS = ["zotero_key", "title", "url", "markdown", "snapshot"]
+COLUMNS = ["zotero_key", "title", "url", "date", "markdown", "snapshot"]
 df = pd.DataFrame(columns=COLUMNS + ["doc_key"])
 _docs_mtime = False            # False = never loaded; None is a valid "no file yet"
 
@@ -34,7 +36,26 @@ def refresh_docs() -> None:
 
 
 def cell(i, col, default=""):
-    return str(df[col].iloc[i]) if col in df.columns else default
+    """One document's value for a column, as a string.
+
+    An empty cell reads back from the CSV as NaN, which `str()` would turn into
+    the word "nan" — visible in the UI as an article dated "nan". A missing
+    value and a missing column mean the same thing here, so both give the
+    default."""
+    if col not in df.columns:
+        return default
+    v = df[col].iloc[i]
+    return default if pd.isna(v) else str(v)
+
+
+def domain(url):
+    """The site a URL belongs to — "nytimes.com" — or "" if it has no host.
+
+    Derived at read time rather than stored: it is already contained in the URL,
+    and a stored second copy could only ever disagree with it. `www.` is dropped
+    because it distinguishes a host, not a publisher."""
+    host = urlparse(str(url or "").strip()).netloc.lower()
+    return host[4:] if host.startswith("www.") else host
 
 
 def _norm(s):

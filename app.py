@@ -73,9 +73,10 @@ from incidents_vocab import (
     rename_option, reorder_options, save_vocab, set_definition,
 )
 from storage import (
-    blank_incident_coding, doc_ann, has_coding, incident_fields, incident_of,
-    load_annotations, load_assignments, load_incident_coding, record_assignment,
-    incident_title_for, rename_role_value, role_value_incidents,
+    blank_incident_coding, doc_ann, field_value_incidents, field_value_usage,
+    has_coding, incident_fields, incident_of, load_annotations, load_assignments,
+    load_incident_coding, record_assignment, incident_title_for,
+    rename_field_value, rename_role_value, role_value_incidents,
     role_value_usage, save_annotations, save_assignments,
     save_incident_coding, _seed_shared_files,
 )
@@ -184,9 +185,22 @@ def api_add_role_option():
 # request, and a delete is refused while anything still uses the code.
 
 
-def _vocab_key(role: str) -> str:
-    """The vocab.json list behind a claim role, or None if it isn't controlled."""
-    return ROLE_VOCAB.get(role)
+def _vocab_key(name: str) -> str:
+    """The vocab.json list behind a claim role or a controlled field, or None.
+
+    The Codebook tab addresses both by name and both are edited the same way, so
+    every endpoint below reaches its vocabulary through here without having to
+    know which of the two kinds it was handed."""
+    return ROLE_VOCAB.get(name) or FIELD_VOCAB.get(name)
+
+
+def _vocab_usage(name: str) -> dict:
+    """{value: {coder: n}} for one codebook section. The two kinds are counted
+    in different places — a role across documents, quotes and claims; a field in
+    the incident's own answers — but they are counted in the same unit, the
+    incident, so a use means the same thing either way."""
+    return (role_value_usage([name]) if name in ROLE_VOCAB
+            else field_value_usage([name])).get(name, {})
 
 
 @app.route("/api/health")
@@ -214,50 +228,67 @@ def api_health():
     })
 
 
+def _codebook_section(name, label, entry, used):
+    """One section of the codebook: a vocabulary's codes in display order, each
+    with its group, its definition and how many incidents already use it, plus
+    `unknown` — anything the coding names that the vocabulary no longer offers.
+
+    `entry` is the schema entry the vocab overlay has already been applied to,
+    which is the same shape for a claim role and for a controlled field."""
+    group_of = {}
+    for g in entry.get("groups") or []:
+        for o in g["options"]:
+            group_of[o] = g["label"]
+    defs = entry.get("definitions") or {}
+    # In display order — groups in their own order, then anything ungrouped.
+    # The codebook used to read the flat list, which for a grouped vocabulary
+    # is only the record of what exists: `harm`'s flat order diverges from its
+    # groups', so the same group was listed one way here and another way in
+    # the menu a coder picks from.
+    flat = list(entry.get("options") or [])
+    seen, ordered = set(), []
+    for g in entry.get("groups") or []:
+        for o in g["options"]:
+            if o in flat and o not in seen:
+                seen.add(o)
+                ordered.append(o)
+    ordered += [o for o in flat if o not in seen]
+    options = [{"name": o, "definition": defs.get(o, ""), "group": group_of.get(o, ""),
+                "uses": used.get(o, {}), "total": sum((used.get(o) or {}).values())}
+               for o in ordered]
+    known = {o["name"] for o in options}
+    unknown = [{"name": v, "uses": by, "total": sum(by.values())}
+               for v, by in used.items() if v not in known]
+    return {"role": name, "label": label,
+            "groups": [g["label"] for g in entry.get("groups") or []],
+            "options": options,
+            "unknown": sorted(unknown, key=lambda u: -u["total"])}
+
+
 @app.route("/api/vocab")
 def api_vocab():
-    """The whole codebook as the editor needs it: every role, its options in
-    order with their group and definition, and how many times each is already
-    used — an editor should never rename or delete blind. `unknown` is anything
-    the coding names that the vocabulary no longer offers."""
+    """The whole codebook as the editor needs it: every controlled vocabulary,
+    its options in order with their group and definition, and how many times each
+    is already used — an editor should never rename or delete blind.
+
+    Both kinds of vocabulary are here. The characteristics come first, in scheme
+    order; the incident's own controlled fields (geography, translated) follow.
+    They are answered once per incident rather than coded per document, but the
+    codebook is the scheme, and a code you can pick is a code that has to be
+    defined somewhere."""
     schema = load_schema()          # already carries the vocab overlay
-    usage = role_value_usage(list(ROLE_VOCAB))
-    roles = []
-    for r in schema.get("claim_roles", []):
-        role = r["role"]
-        vkey = _vocab_key(role)
-        if not vkey:
-            continue
-        group_of = {}
-        for g in r.get("groups") or []:
-            for o in g["options"]:
-                group_of[o] = g["label"]
-        defs = r.get("definitions") or {}
-        used = usage.get(role, {})
-        # In display order — groups in their own order, then anything ungrouped.
-        # The codebook used to read the flat list, which for a grouped vocabulary
-        # is only the record of what exists: `harm`'s flat order diverges from its
-        # groups', so the same group was listed one way here and another way in
-        # the menu a coder picks from.
-        flat = list(r.get("options") or [])
-        seen, ordered = set(), []
-        for g in r.get("groups") or []:
-            for o in g["options"]:
-                if o in flat and o not in seen:
-                    seen.add(o)
-                    ordered.append(o)
-        ordered += [o for o in flat if o not in seen]
-        options = [{"name": o, "definition": defs.get(o, ""), "group": group_of.get(o, ""),
-                    "uses": used.get(o, {}), "total": sum((used.get(o) or {}).values())}
-                   for o in ordered]
-        known = {o["name"] for o in options}
-        unknown = [{"name": v, "uses": by, "total": sum(by.values())}
-                   for v, by in used.items() if v not in known]
-        roles.append({"role": role, "label": r.get("label", role),
-                      "groups": [g["label"] for g in r.get("groups") or []],
-                      "options": options,
-                      "unknown": sorted(unknown, key=lambda u: -u["total"])})
-    return jsonify({"roles": roles, "coders": CODERS})
+    role_usage = role_value_usage(list(ROLE_VOCAB))
+    field_usage = field_value_usage(list(FIELD_VOCAB))
+    sections = [
+        _codebook_section(r["role"], r.get("label", r["role"]), r,
+                          role_usage.get(r["role"], {}))
+        for r in schema.get("claim_roles", []) if _vocab_key(r["role"])
+    ] + [
+        _codebook_section(f["key"], f.get("label", f["key"]), f,
+                          field_usage.get(f["key"], {}))
+        for f in schema.get("fields", []) if _vocab_key(f["key"])
+    ]
+    return jsonify({"roles": sections, "coders": CODERS})
 
 
 @app.route("/api/vocab/uses")
@@ -267,10 +298,11 @@ def api_vocab_uses():
     on its own doesn't tell you whether a rename is safe, the incidents behind it
     do."""
     role, option = request.args.get("role", ""), request.args.get("option", "")
-    if role not in ROLE_VOCAB:
+    if not _vocab_key(role):
         return jsonify({"error": "unknown role"}), 404
     assignments = load_assignments()
-    by_inc = role_value_incidents(role, option)
+    by_inc = (role_value_incidents(role, option) if role in ROLE_VOCAB
+              else field_value_incidents(role, option))
     incidents = [{"incident_id": inc_id,
                   "title": incident_title_for(inc_id, assignments) if inc_id else "",
                   "uses": by, "total": sum(by.values())}
@@ -339,16 +371,17 @@ def api_vocab_rename():
     old, new = body.get("old", ""), (body.get("new") or "").strip()
     if not rename_option(vkey, old, new):
         return jsonify({"error": "unknown option, or that name is taken"}), 400
-    migrated = rename_role_value(role, old, new)
+    migrated = (sum(rename_role_value(role, old, new).values()) if role in ROLE_VOCAB
+                else rename_field_value(role, old, new))
     mongo_sync.resync_validator()
     mongo_sync.invalidate_mongo_cache()
     # `slots` is what the rewrite physically touched, `total` how many uses that
     # is — a document counts once however many quotes back it. The Codebook shows
     # the use count before a rename, so the report afterwards has to match it or
     # the same rename appears to have grown on the way through.
-    uses = role_value_usage([role]).get(role, {}).get(new, {})
+    uses = _vocab_usage(role).get(new, {})
     return jsonify({"ok": True, "migrated": uses, "total": sum(uses.values()),
-                    "slots": sum(migrated.values())})
+                    "slots": migrated})
 
 
 @app.route("/api/vocab/delete", methods=["POST"])
@@ -362,7 +395,7 @@ def api_vocab_delete():
     if not vkey:
         return jsonify({"error": "unknown role"}), 404
     option = body.get("option", "")
-    uses = role_value_usage([role]).get(role, {}).get(option, {})
+    uses = _vocab_usage(role).get(option, {})
     if uses:
         return jsonify({"error": "in use", "uses": uses,
                         "total": sum(uses.values())}), 409
@@ -386,8 +419,23 @@ def api_incidents():
     the card can render "No data"."""
     coder = current_coder()
     incidents, field_defs, role_defs = aggregate_incidents(coder)
-    display_fields = [{"key": f["key"], "label": f["label"]}
-                      for f in field_defs if f["key"] not in ("incident_id", "incident_title")]
+
+    def display_field(f):
+        """What a card needs for one field. Normally just its name — the answers
+        come with the incident. A card-only field is *answered* on the card, so
+        it also carries the vocabulary its menu offers, the same overlay the
+        document sidebar gets for a characteristic."""
+        out = {"key": f["key"], "label": f["label"]}
+        if f.get("card_only"):
+            out.update({"card_only": True, "type": f.get("type", "multi"),
+                        "control": f.get("control", "menu"),
+                        "options": f.get("options") or [],
+                        "groups": f.get("groups") or None,
+                        "definitions": f.get("definitions") or None})
+        return out
+
+    display_fields = [display_field(f) for f in field_defs
+                      if f["key"] not in ("incident_id", "incident_title")]
     roles_meta = [{"role": r["role"], "label": r["label"]} for r in role_defs]
     ordered = sorted(incidents.values(),
                      key=lambda g: incident_sort_key(g["incident_id"]))
@@ -549,7 +597,8 @@ def api_incident_json(inc_id):
     inc = load_incident_coding(coder).get(inc_id) or {}
     ann = load_annotations(coder)
     local = {"_id": inc_id, "title": g.get("title", ""),
-             "documents": [{"doc_id": d["doc_key"], "url": d["url"], "title": d["title"]}
+             "documents": [{"doc_id": d["doc_key"], "url": d["url"], "title": d["title"],
+                            "date": d["date"]}
                            for d in g.get("documents", [])],
              "by_coder": {coder: {
                  "fields": inc.get("fields") or {},
@@ -717,6 +766,90 @@ def api_save_comment(inc_id):
     save_incident_coding(store, coder)
     synced = mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
     return jsonify({"ok": True, "coder": coder, "comment": comment,
+                    "synced": synced})
+
+
+@app.route("/api/incident/<path:inc_id>/flag", methods=["POST"])
+def api_set_flag(inc_id):
+    """Flag this coder's own reading of an incident as one they are unsure of.
+    Body: {flagged: true|false}.
+
+    Deliberately not a fourth `status`. A status is exclusive — an incident is
+    either being worked on, signed off, or set aside — but uncertainty cuts
+    across all three: the readings most worth a second pair of eyes are often the
+    ones a coder has finished and still doubts. So it is its own flag, it can be
+    raised and cleared at any point, and it gates nothing.
+
+    What is uncertain goes in the card's comment box, which is already the place
+    for a remark about the incident as a whole — a flag says "look at this", the
+    comment says why, and splitting prose across two boxes would only make the
+    reason harder to find.
+
+    Per coder, like every other judgement: one coder's doubt is not the other's,
+    and a disagreement about how solid a reading is is itself worth recording."""
+    coder = current_coder(strict=True)
+    body = request.get_json(force=True) or {}
+    flagged = bool(body.get("flagged"))
+    store = load_incident_coding(coder)
+    entry = store.setdefault(inc_id, blank_incident_coding())
+    entry["flagged"] = flagged
+    save_incident_coding(store, coder)
+    synced = mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
+    return jsonify({"ok": True, "coder": coder, "flagged": flagged, "synced": synced})
+
+
+@app.route("/api/incident/<path:inc_id>/field", methods=["POST"])
+def api_save_incident_field(inc_id):
+    """Answer one of the incident's own controlled fields from its card.
+    Body: {key, answer: [...]}.
+
+    Geography and Translated describe the incident, not any one of its
+    documents: there is no passage to highlight for "this happened in Kenya" and
+    no claim to drag it into, so they are answered once, here, rather than coded
+    per document and pooled. Stored in this coder's `fields` map like any other
+    incident-level answer, and synced to `by_coder.<coder>.fields`.
+
+    Values are checked against the vocabulary rather than trusted. The card is
+    the only place they are set, so a menu built before a code was renamed in the
+    Codebook is the one way an answer could name something the scheme no longer
+    offers. An empty answer removes the field rather than storing a blank — the
+    same rule `clean_fields` applies everywhere else."""
+    coder = current_coder(strict=True)
+    body = request.get_json(force=True) or {}
+    key = body.get("key")
+    vkey = FIELD_VOCAB.get(key)
+    if not vkey:
+        return jsonify({"error": "unknown field"}), 404
+    # A menu sends a list, a toggle sends the one value it was switched to (or
+    # nothing, switched off). Both arrive here as a list and are stored as what
+    # the field is: a single-valued field keeps a string, so nothing downstream
+    # has to unwrap a list of one to ask what an incident was answered.
+    raw = body.get("answer")
+    raw = raw if isinstance(raw, list) else ([raw] if raw else [])
+    answer, seen = [], set()
+    for v in raw:
+        v = str(v).strip()
+        if v and v not in seen:
+            seen.add(v)
+            answer.append(v)
+    allowed = set(load_vocab().get(vkey) or [])
+    stale = [v for v in answer if v not in allowed]
+    if stale:
+        return jsonify({"error": "unknown value", "values": stale}), 400
+    single = next((f.get("type") == "single" for f in load_schema()["fields"]
+                   if f["key"] == key), False)
+    if single:
+        answer = answer[:1]
+    store = load_incident_coding(coder)
+    entry = store.setdefault(inc_id, blank_incident_coding())
+    fields = entry.setdefault("fields", {})
+    if answer:
+        fields.setdefault(key, {})["answer"] = answer[0] if single else answer
+    else:
+        fields.pop(key, None)
+    save_incident_coding(store, coder)
+    synced = mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
+    return jsonify({"ok": True, "coder": coder, "key": key, "answer": answer,
                     "synced": synced})
 
 
