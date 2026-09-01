@@ -8,12 +8,15 @@
 // names the old one (the server does both halves in one request), and deleting a
 // code that is still in use is refused rather than quietly orphaning it.
 
-import { ROLE, applySchema, curDoc, defHtml } from './10-state.js';
-import { VIEW_SCROLL, setView } from './20-init.js';
-import { markIncidentsStale, openIncident, refreshIncidents } from './30-incidents.js';
-import { renderForm } from './60-form.js';
-import { init } from './20-init.js';
-import { escapeHtml } from './80-persist.js';
+import { VIEW_SCROLL, setView } from './boot.js';
+import { renderForm } from './form.js';
+import {
+  markIncidentsStale,
+  openIncident,
+  refreshIncidents,
+} from './incidents/index.js';
+import { escapeHtml } from './persist.js';
+import { ROLE, applySchema, curDoc, defHtml } from './state.js';
 
 export let CODEBOOK = null;
 

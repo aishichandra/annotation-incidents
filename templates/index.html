@@ -53,20 +53,28 @@
 
 <!--
   One module is loaded; the browser follows the imports from there. Each file
-  says at the top what it needs from the others, so load order is no longer
-  something this file has to get right, and nothing shares a global scope.
+  says at the top what it needs from the others, so load order is not something
+  this file has to get right, and nothing shares a global scope.
 
-    main.js         the entry point: side-effect modules, then init()
-    00-coder.js     coder picker; the fetch wrapper that attributes /api/ calls
-    10-state.js     the scheme, the current document, colours, arm state
-    20-init.js      init() bootstrap, tab switching + scroll restore
-    30-incidents.js incidents view: cards, palette, claim groups, quote panels
-    40-mongo-sync.js  push to / pull from Mongo, incident id + title lookups
-    50-reader.js    document view: markdown render, highlight lanes, span menus
-    60-form.js      coding form: cards, selects, text fields, evidence lists
-    70-arming.js    armed-field styling and hints; roles panel
-    75-codebook.js  the Codebook tab: edit the codes and their definitions
-    80-persist.js   debounced save, escapeHtml, outside-click close
+    main.js       the entry point: side-effect modules, then init()
+    coder.js      the coder picker, and the fetch wrapper that attributes calls
+    state.js      the scheme, the current document, colours, definitions, arming
+    boot.js       init() and the three view tabs
+    reader.js     document view: markdown, highlight lanes, span menus
+    form.js       the coding form: cards, selects, text answers, evidence
+    arming.js     which field a highlight will land in; the roles panel
+    codebook.js   the Codebook tab: the codes and what they mean
+    sync.js       Push and Pull
+    persist.js    debounced save, escapeHtml, outside-click close
+
+    incidents/index.js    the tile index, the tabs, opening one incident
+    incidents/card.js     what a card shows
+    incidents/palette.js  pooled characteristics, and the evidence behind them
+    incidents/claims.js   claim groups, and the drops that build them
+    incidents/fields.js   Geography and Translated, answered on the card
+    incidents/signoff.js  complete, not an incident, unsure
+    incidents/comment.js  the per-incident comment box
+    incidents/json.js     the incident as it is stored
 -->
 <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>

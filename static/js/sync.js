@@ -2,8 +2,8 @@
 // Push local coding up / pull remote coding down, plus incident id and
 // title lookups used when coding a document.
 
-import { fieldAnn } from './50-reader.js';
-import { CODER } from './00-coder.js';
+import { CODER } from './coder.js';
+import { fieldAnn } from './reader.js';
 
 // Push everything local (per-document coding + incident groups + pooled lists)
 // up to Mongo. Non-destructive to local data.

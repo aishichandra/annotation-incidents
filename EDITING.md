@@ -62,7 +62,7 @@ Each coder gets their own `annotations.<coder>.json` and
 
 | Change | Edit |
 |---|---|
-| Card layout / what a card shows | `incidentCard()`, `static/js/30-incidents.js` |
+| Card layout / what a card shows | `incidentCard()`, `static/js/incidents/card.js` |
 | The characteristic palette down the left | `buildPalette()`, same file |
 | Claim groups down the right | `buildGroupsUI()`, `claimRow()`, same file |
 | The completion / not-an-incident control | `completeControl()`, same file |
@@ -74,7 +74,7 @@ Each coder gets their own `annotations.<coder>.json` and
 
 | Change | Edit |
 |---|---|
-| How the article renders | `renderArticle()`, `static/js/50-reader.js` |
+| How the article renders | `renderArticle()`, `static/js/reader.js` |
 | Highlight underlines, overlapping lanes | `paintUnderlines()`, `assignLanes()`, same file |
 | Where a selection snaps to (word edges) | `snapSpan()`, same file |
 | The tag menu after selecting text | `showCategoryMenu()`, same file |
@@ -85,14 +85,14 @@ Each coder gets their own `annotations.<coder>.json` and
 | Change | Edit |
 |---|---|
 | Any styling at all | `static/app.css` — one file, no preprocessor |
-| Highlight colours per field | `COLORS`, `static/js/10-state.js` |
-| Role colours and their order in menus | `ROLES`, `static/js/10-state.js` |
+| Highlight colours per field | `COLORS`, `static/js/state.js` |
+| Role colours and their order in menus | `ROLES`, `static/js/state.js` |
 
 ### Behaviour
 
 | Change | Edit |
 |---|---|
-| Autosave delay (currently 500 ms) | `persistSoon()`, `static/js/80-persist.js` |
+| Autosave delay (currently 500 ms) | `persistSoon()`, `static/js/persist.js` |
 | How long a Mongo read is cached (5 s) | `_MONGO_READ_TTL`, `mongo_sync.py` |
 | Port (default 5001) | `PORT` env var, or the bottom of `app.py` |
 
@@ -139,7 +139,7 @@ flagged with a comment in both.
 
 | Change | Both of |
 |---|---|
-| The completeness check itself | `incident_completeness()` in `incidents.py` **and** `completenessOf()` in `static/js/30-incidents.js` |
+| The completeness check itself | `incident_completeness()` in `incidents.py` **and** `completenessOf()` in `static/js/incidents/signoff.js` |
 
 The JS copy exists so the button reacts to a drag without a round trip. It is a
 **convenience only**: the server recomputes the check before recording any

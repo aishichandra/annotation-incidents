@@ -2,6 +2,9 @@
 // Renders the markdown, paints highlight underlines in lanes, and handles
 // text selection: snapping spans, the tag menu, and the value picker.
 
+import { renderRoles, updateArmHint } from './arming.js';
+import { renderCard, renderForm } from './form.js';
+import { escapeHtml, persist } from './persist.js';
 import {
   ROLE,
   ROLES,
@@ -20,11 +23,8 @@ import {
   setSkipSpanClick,
   skipSpanClick,
   targetVocab,
-} from './10-state.js';
-import { fillTitleForIncident, refreshIncidentIds } from './40-mongo-sync.js';
-import { renderCard, renderForm } from './60-form.js';
-import { renderRoles, updateArmHint } from './70-arming.js';
-import { escapeHtml, persist } from './80-persist.js';
+} from './state.js';
+import { fillTitleForIncident, refreshIncidentIds } from './sync.js';
 
 export async function loadDoc(i) {
   const d = await (await fetch('/api/doc/' + i)).json();

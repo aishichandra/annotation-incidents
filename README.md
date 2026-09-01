@@ -337,7 +337,8 @@ Everything in the repo is one of five things: **code**, **config**, **data**,
 |------|------|
 | **Code** | |
 | `zotero_import.py` | Step 1 — Zotero → `zotero_docs.csv` |
-| `app.py` | Step 2 — the Flask routes (HTTP layer only) |
+| `app.py` | Step 2 — builds the app; the routes live in `routes/` |
+| `routes/` | The HTTP layer, one blueprint per area: pages, schema, vocab, docs, incidents, sync |
 | `config.py` | Paths, coders, schema, file helpers — imports nothing local |
 | `doc_source.py` | `zotero_docs.csv` → the `df` of documents to code |
 | `storage.py` | Reads/writes the coding on disk (one file per coder) |

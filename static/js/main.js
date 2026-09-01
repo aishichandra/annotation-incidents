@@ -1,13 +1,13 @@
 // The entry point: the one script the page loads.
 //
-// Everything else is an ES module and says what it needs at the top of its own
-// file, so the browser resolves the graph and load order stops being something
-// the HTML has to get right. Only the modules that do something on their own —
-// the fetch wrapper that stamps a coder onto every API call, and the two
-// document-level click handlers — have to be imported for their side effects.
-import './00-coder.js';
-import './10-state.js';
-import './80-persist.js';
-import { init } from './20-init.js';
+// Every other file is an ES module that says at the top what it needs, so the
+// browser resolves the graph from here and load order is not something the HTML
+// has to get right. The three imports below are the modules that do something on
+// their own rather than being called: the fetch wrapper that stamps the active
+// coder onto every /api/ call, and the two document-level click handlers.
+import './coder.js';
+import './state.js';
+import './persist.js';
+import { init } from './boot.js';
 
 init();

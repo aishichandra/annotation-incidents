@@ -2,12 +2,12 @@
 // init() loads schema + docs; setView() flips Incidents/Documents and
 // restores each view's scroll position.
 
-import { initCoders } from './00-coder.js';
-import { applySchema } from './10-state.js';
-import { refreshIncidents } from './30-incidents.js';
-import { pullFromMongo, pushToMongo } from './40-mongo-sync.js';
-import { loadDoc } from './50-reader.js';
-import { loadCodebook } from './75-codebook.js';
+import { loadCodebook } from './codebook.js';
+import { initCoders } from './coder.js';
+import { refreshIncidents } from './incidents/index.js';
+import { loadDoc } from './reader.js';
+import { applySchema } from './state.js';
+import { pullFromMongo, pushToMongo } from './sync.js';
 
 export async function init() {
   await initCoders();   // before any /api/ call, so each one is attributed
