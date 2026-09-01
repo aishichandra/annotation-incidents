@@ -1,1 +1,68 @@
-{}
+{
+  "GQ7D8VE4": {
+    "quotes": [
+      {
+        "role": "system",
+        "value": "News summarization",
+        "text": "ard of Directors worked with staff a",
+        "start": 119,
+        "end": 155
+      },
+      {
+        "role": "developer",
+        "value": "AI vendor",
+        "text": "ng published by the Searchlight t",
+        "start": 256,
+        "end": 289
+      },
+      {
+        "role": "actor",
+        "value": "Tech platform",
+        "text": "taff-written story in the s",
+        "start": 328,
+        "end": 355
+      },
+      {
+        "role": "factor",
+        "value": "Deployment of AI with intention to harm, mislead, or troll",
+        "text": "eled to reflect that process. ",
+        "start": 455,
+        "end": 485
+      },
+      {
+        "role": "harmed_party",
+        "value": "Sources/subjects of coverage",
+        "text": "very journalist on staff stands firm",
+        "start": 626,
+        "end": 662
+      },
+      {
+        "role": "harm",
+        "value": "Perpetuation of stereotypes",
+        "text": "d the integrity of the journali",
+        "start": 748,
+        "end": 779
+      }
+    ],
+    "roles": {
+      "system": [
+        "News summarization"
+      ],
+      "developer": [
+        "AI vendor"
+      ],
+      "actor": [
+        "Tech platform"
+      ],
+      "factor": [
+        "Deployment of AI with intention to harm, mislead, or troll"
+      ],
+      "harm": [
+        "Perpetuation of stereotypes"
+      ],
+      "harmed_party": [
+        "Sources/subjects of coverage"
+      ]
+    }
+  }
+}

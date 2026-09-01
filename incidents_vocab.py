@@ -15,9 +15,16 @@ VOCAB_JSON = Path(__file__).parent / "vocab.json"
 # roles. System and developer used to sit apart as "fields" with an
 # {answer, comments} wrapper, which made them a second kind of thing to code, to
 # store, to tag a quote with and to drag into a claim — for no difference anyone
-# could point at. `fields` now holds only what is genuinely not a characteristic:
-# free text.
-FIELD_VOCAB = {}
+# could point at. `fields` now holds what is genuinely not a characteristic:
+# free text, and the two incident-level answers below.
+#
+# Those two are the exception: a field whose answer is picked from a
+# vocabulary rather than typed. Geography and Translated describe the incident
+# and are answered once on its card — nothing in a document is highlighted to
+# justify them and no claim is made of them — so they are fields with a
+# controlled list, not characteristics. {field key: vocab.json list}.
+FIELD_VOCAB = {"incident_geography": "geography",
+               "incident_translated": "translated"}
 ROLE_VOCAB = {"system": "systems", "developer": "developers",
               "actor": "actor", "factor": "factor",
               "harm": "harm", "harmed_party": "harmed_party"}
@@ -341,6 +348,10 @@ def build_validator(vocab: dict | None = None) -> dict:
             # when it was set
             "status": {"bsonType": ["string", "null"]},
             "completed_at": {"bsonType": ["string", "null"]},
+            # this coder asking for a second look at their own reading —
+            # independent of `status`, since a finished reading can still be one
+            # its coder is unsure of
+            "flagged": {"bsonType": ["bool", "null"]},
             "documents": {"bsonType": "object", "additionalProperties": evidence},
             "updated_at": {"bsonType": ["date", "null"]},
         },
@@ -357,7 +368,13 @@ def build_validator(vocab: dict | None = None) -> dict:
                 "items": {"bsonType": "object", "required": ["doc_id", "url"], "properties": {
                     "doc_id": {"bsonType": "string"},
                     "url": {"bsonType": ["string", "null"]},
-                    "title": {"bsonType": ["string", "null"]}}},
+                    "title": {"bsonType": ["string", "null"]},
+                    # Publication date, YYYY-MM-DD, from Zotero via
+                    # zotero_docs.csv. A fact about the article rather than
+                    # anyone's reading of it, so it sits on the shared document
+                    # entry and not under by_coder. Absent on documents Zotero
+                    # has no date for, and on those registered before it existed.
+                    "date": {"bsonType": ["string", "null"]}}},
             },
             # Pooled characteristic / field lists are NOT stored — they're
             # derived from by_coder when a card is rendered, so the document

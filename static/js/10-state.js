@@ -33,6 +33,9 @@ const ROLES = [
 const ROLE = Object.fromEntries(ROLES.map(r => [r.role, r]));
 
 // Every characteristic is droppable into a claim, so this is just ROLE.
+// Geography and Translated are not here because they are not characteristics:
+// they describe the incident and are answered once on its card (card_only
+// fields in the schema), never highlighted and never dragged.
 const CLAIM_ROLE = ROLE;
 // The two clauses a claim reads as complete without. Both are lists: one actor
 // context can involve several systems, and a system can be built by more than

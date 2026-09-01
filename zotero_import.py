@@ -25,6 +25,18 @@ def field_value(cur, item_id, field):
     return row[0] if row else None
 
 
+def article_date(cur, item_id):
+    """The item's publication date as YYYY-MM-DD, or "" when Zotero has none.
+
+    Zotero stores a date as its own normalised prefix followed by whatever was
+    actually entered — "2025-12-11 2025-12-11T08:56:03+00:00" — so the first
+    token is the part worth keeping. Anything that isn't a whole date (a bare
+    year, a month with no day) is dropped rather than half-recorded: a column
+    that sometimes holds a year is a column every reader has to parse."""
+    head = (field_value(cur, item_id, "date") or "").strip().split(" ")[0]
+    return head if re.fullmatch(r"\d{4}-\d{2}-\d{2}", head) else ""
+
+
 def to_markdown(html, url):
     """Article markdown for a snapshot.
 
@@ -93,6 +105,7 @@ def main():
 
         title = field_value(cur, parent_id, "title") or fpath.stem
         url = field_value(cur, parent_id, "url") or ""
+        date = article_date(cur, parent_id)
 
         # The same article saved twice is one document to code, not two. The
         # first (oldest) copy wins so its key — and any coding on it — survives.
@@ -109,6 +122,10 @@ def main():
             "zotero_key": parent_key,
             "title": title,
             "url": url,
+            # When the article was published. Kept as a column of its own rather
+            # than derived from the text: it is the one thing about a document
+            # that Zotero knows and the article body often doesn't say.
+            "date": date,
             "markdown": markdown,
             "snapshot": str(fpath),
         })
