@@ -1,13 +1,34 @@
 // Document reader.
 // Renders the markdown, paints highlight underlines in lanes, and handles
 // text selection: snapping spans, the tag menu, and the value picker.
-//
-// Loaded as a classic script: everything here shares one global scope with the
-// other static/js files. See templates/index.html for the load order.
 
-async function loadDoc(i) {
+import {
+  ROLE,
+  ROLES,
+  SCHEMA,
+  armed,
+  attachDefTip,
+  color,
+  curDoc,
+  groupHeader,
+  groupedOptions,
+  hideDefTip,
+  roleOptions,
+  sameArm,
+  setArmed,
+  setCurDoc,
+  setSkipSpanClick,
+  skipSpanClick,
+  targetVocab,
+} from './10-state.js';
+import { fillTitleForIncident, refreshIncidentIds } from './40-mongo-sync.js';
+import { renderCard, renderForm } from './60-form.js';
+import { renderRoles, updateArmHint } from './70-arming.js';
+import { escapeHtml, persist } from './80-persist.js';
+
+export async function loadDoc(i) {
   const d = await (await fetch('/api/doc/' + i)).json();
-  curDoc = { ...d, ann: d.annotation };
+  setCurDoc({ ...d, ann: d.annotation });
   // Characteristics are selected flat now (no claim linking in the doc view);
   // grouping into claims happens in the incident card view.
   if (!curDoc.ann.roles || typeof curDoc.ann.roles !== 'object') curDoc.ann.roles = {};
@@ -23,7 +44,7 @@ async function loadDoc(i) {
   }
   // If this article's incident ID matches an existing incident, adopt its title.
   if (idAnn.answer && fillTitleForIncident(idAnn.answer, false)) persist();
-  armed = null;
+  setArmed(null);
   document.getElementById('docTitle').textContent = curDoc.title;
   const u = document.getElementById('docUrl');
   const hasUrl = curDoc.url && curDoc.url !== 'nan';
@@ -35,22 +56,22 @@ async function loadDoc(i) {
   window.scrollTo(0, 0);
 }
 
-function field(key) { return SCHEMA.find(f => f.key === key); }
-function fieldAnn(key) {
+export function field(key) { return SCHEMA.find(f => f.key === key); }
+export function fieldAnn(key) {
   if (!curDoc.ann.fields[key]) curDoc.ann.fields[key] = { answer: null, comments: '' };
   return curDoc.ann.fields[key];
 }
-function quotesFor(key) { return curDoc.ann.quotes.filter(q => q.category === key); }
+export function quotesFor(key) { return curDoc.ann.quotes.filter(q => q.category === key); }
 
 // ---------- article + highlights ----------
-function getTextNodes() {
+export function getTextNodes() {
   const root = document.getElementById('text');
   const out = []; const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   let n; while ((n = w.nextNode())) out.push(n);
   return out;
 }
 
-function renderArticle(keepScroll) {
+export function renderArticle(keepScroll) {
   const y = window.scrollY;
   const el = document.getElementById('text');
   el.innerHTML = window.marked ? marked.parse(curDoc.markdown) : escapeHtml(curDoc.markdown);
@@ -59,10 +80,10 @@ function renderArticle(keepScroll) {
   if (keepScroll) requestAnimationFrame(() => window.scrollTo(0, y));
 }
 
-function quoteColor(q) {
+export function quoteColor(q) {
   return q.role ? ((ROLE[q.role] || {}).color || '#eee') : (color[q.category] || '#fde68a');
 }
-function quoteLabel(q) {
+export function quoteLabel(q) {
   const base = q.role ? ((ROLE[q.role] || {}).label || q.role)
                       : ((field(q.category) || {}).label || q.category);
   return base + (q.value ? ' · ' + q.value : '');
@@ -72,8 +93,8 @@ function quoteLabel(q) {
 // continuous parallel line at a stable height (lane 0 just under the text,
 // higher lanes stacked below). All marks reserve the same padding so lines from
 // different stretches align. `lines` = [{color, lane}]; totalLanes fixed per doc.
-const UL_THICK = 2, UL_GAP = 2, UL_STEP = UL_THICK + UL_GAP;
-function applyUnderlines(m, lines, totalLanes) {
+export const UL_THICK = 2, UL_GAP = 2, UL_STEP = UL_THICK + UL_GAP;
+export function applyUnderlines(m, lines, totalLanes) {
   m.style.backgroundImage = lines.map(l => `linear-gradient(${l.color}, ${l.color})`).join(', ');
   m.style.backgroundSize = lines.map(() => `100% ${UL_THICK}px`).join(', ');
   m.style.backgroundPosition = lines.map(l => `0 calc(100% - ${(totalLanes - l.lane) * UL_STEP}px)`).join(', ');
@@ -83,7 +104,7 @@ function applyUnderlines(m, lines, totalLanes) {
 
 // Assign a stable lane to each quote (greedy interval colouring): overlapping
 // quotes get different lanes; non-overlapping ones reuse the lowest free lane.
-function assignLanes(quotes) {
+export function assignLanes(quotes) {
   const laneOf = {}, laneEnds = [];
   quotes.map((q, idx) => ({ q, idx }))
     .sort((a, b) => a.q.start - b.q.start || a.q.end - b.q.end)
@@ -100,7 +121,7 @@ function assignLanes(quotes) {
 // boundary, and under each stretch draw one line for EVERY quote covering it.
 // So overlapping/adjacent selections keep their own lines and stack where they
 // overlap — no highlight is ever hidden by another.
-function paintUnderlines() {
+export function paintUnderlines() {
   const quotes = curDoc.ann.quotes;
   if (!quotes.length) return;
   const { laneOf, totalLanes } = assignLanes(quotes);
@@ -115,7 +136,7 @@ function paintUnderlines() {
   intervals.forEach((iv, ii) => wrapInterval(iv, ii, laneOf, totalLanes));
 }
 
-function wrapInterval(iv, ii, laneOf, totalLanes) {
+export function wrapInterval(iv, ii, laneOf, totalLanes) {
   const lines = iv.items.map(it => ({ color: quoteColor(it.q), lane: laneOf[it.idx] }));
   const idxs = iv.items.map(it => it.idx);
   const title = iv.items.map(it => quoteLabel(it.q)).join('  |  ');
@@ -141,7 +162,7 @@ function wrapInterval(iv, ii, laneOf, totalLanes) {
   });
 }
 
-function textOffset(node, offset) {
+export function textOffset(node, offset) {
   let total = 0;
   const w = document.createTreeWalker(document.getElementById('text'), NodeFilter.SHOW_TEXT);
   let n; while ((n = w.nextNode())) { if (n === node) return total + offset; total += n.textContent.length; }
@@ -151,7 +172,7 @@ function textOffset(node, offset) {
 // If this selection is the same text as an already-highlighted quote at the same
 // place, reuse that quote's exact span so a second category stacks its underline
 // (rather than landing on a near-miss span that renders nothing).
-function snapSpan(start, end, text) {
+export function snapSpan(start, end, text) {
   const t = (text || '').trim();
   if (!t) return { start, end, text };
   const hit = curDoc.ann.quotes.find(q =>
@@ -163,8 +184,8 @@ document.getElementById('text').addEventListener('mouseup', () => {
   const sel = window.getSelection();
   if (!curDoc || sel.isCollapsed || !sel.toString().trim()) return;
   // Block the mark's click (which fires right after) from opening the span menu.
-  skipSpanClick = true;
-  setTimeout(() => { skipSpanClick = false; }, 0);
+  setSkipSpanClick(true);
+  setTimeout(() => setSkipSpanClick(false), 0);
   const r = sel.getRangeAt(0);
   const rect = r.getBoundingClientRect();
   let start = textOffset(r.startContainer, r.startOffset);
@@ -189,12 +210,12 @@ document.getElementById('text').addEventListener('mouseup', () => {
 });
 
 // ---------- highlight-first: file a highlight under a category ----------
-let catMenuEl = null;
+export let catMenuEl = null;
 // Groups the coder has opened in the value picker. Module-level, so it survives
 // the menu being torn down and rebuilt after each assignment — otherwise every
 // value would need its group re-opened. Starts empty: collapsed by default.
-const valueGroupsOpen = new Set();
-function closeCategoryMenu() {
+export const valueGroupsOpen = new Set();
+export function closeCategoryMenu() {
   hideDefTip();
   if (catMenuEl) {
     if (catMenuEl._onDown) document.removeEventListener('mousedown', catMenuEl._onDown);
@@ -205,7 +226,7 @@ function closeCategoryMenu() {
 
 // File the highlight under a category. `value` defaults to the highlighted text,
 // but can be an existing option chosen from the value picker.
-function assignHighlight(pending, target, value) {
+export function assignHighlight(pending, target, value) {
   value = (value !== undefined ? value : pending.text).trim();
   if (!value) return;
   if (target.type === 'role') {
@@ -231,22 +252,22 @@ function assignHighlight(pending, target, value) {
 }
 
 // Does a quote sit on this span under this exact category/role?
-function quoteMatchesTarget(q, target) {
+export function quoteMatchesTarget(q, target) {
   if (target.type === 'role') return q.role === target.role;
   return !q.role && q.category === target.key;
 }
-function spanTargetIdx(pending, target) {
+export function spanTargetIdx(pending, target) {
   return curDoc.ann.quotes.findIndex(q =>
     q.start === pending.start && q.end === pending.end && quoteMatchesTarget(q, target));
 }
 // Toggle a category for a span: add it (text as value) if absent, else remove it.
-function toggleTarget(pending, target) {
+export function toggleTarget(pending, target) {
   const i = spanTargetIdx(pending, target);
   if (i >= 0) removeQuote(i);
   else assignHighlight(pending, target, pending.text);
 }
 
-function showCategoryMenu(pending, rect) {
+export function showCategoryMenu(pending, rect) {
   closeCategoryMenu();
   const menu = document.createElement('div');
   menu.className = 'cat-menu';
@@ -322,7 +343,7 @@ function showCategoryMenu(pending, rect) {
   addOutsideClose(menu);
 }
 
-function positionMenu(menu, rect) {
+export function positionMenu(menu, rect) {
   const mw = menu.offsetWidth, mh = menu.offsetHeight;
   let left = rect.left, top = rect.bottom + 6;
   if (left + mw > window.innerWidth - 8) left = window.innerWidth - mw - 8;
@@ -330,7 +351,7 @@ function positionMenu(menu, rect) {
   menu.style.left = Math.max(8, left) + 'px';
   menu.style.top = Math.max(8, top) + 'px';
 }
-function addOutsideClose(menu) {
+export function addOutsideClose(menu) {
   setTimeout(() => {
     const onDown = (e) => { if (!e.target.closest('.cat-menu')) closeCategoryMenu(); };
     document.addEventListener('mousedown', onDown);
@@ -339,7 +360,7 @@ function addOutsideClose(menu) {
 }
 
 // A category's existing values: its schema options plus any already-selected values.
-function valueOptions(target) {
+export function valueOptions(target) {
   let opts = [], selected = [];
   if (target.type === 'role') {
     opts = roleOptions(target.role).slice();
@@ -356,7 +377,7 @@ function valueOptions(target) {
 }
 
 // Second step of the highlight menu: pick which value the highlight pertains to.
-function showValuePicker(pending, target, rect) {
+export function showValuePicker(pending, target, rect) {
   closeCategoryMenu();
   const menu = document.createElement('div');
   menu.className = 'cat-menu';
@@ -411,7 +432,7 @@ function showValuePicker(pending, target, rect) {
 // Click a highlight to see every category covering that stretch of text; remove
 // them one at a time, add more, or clear them all. Takes the clicked interval
 // [a,b) and recomputes covering quotes fresh (robust to index shifts on remove).
-function showSpanMenu(a, b, rect) {
+export function showSpanMenu(a, b, rect) {
   closeCategoryMenu();
   const items = curDoc.ann.quotes
     .map((q, idx) => ({ q, idx }))
@@ -464,7 +485,7 @@ function showSpanMenu(a, b, rect) {
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCategoryMenu(); });
 
 // Drop a selected value from its field answer / claim role.
-function removeValue(q) {
+export function removeValue(q) {
   if (q.role) {
     const arr = curDoc.ann.roles[q.role];
     if (Array.isArray(arr)) {
@@ -480,7 +501,7 @@ function removeValue(q) {
   }
 }
 
-function removeQuote(globalIdx) {
+export function removeQuote(globalIdx) {
   const q = curDoc.ann.quotes[globalIdx];
   curDoc.ann.quotes.splice(globalIdx, 1);
   // If this was the last highlight justifying its selected value, drop the value too.
@@ -493,7 +514,7 @@ function removeQuote(globalIdx) {
       if (armed && sameArm(q.role
         ? { type: 'role', role: q.role, value: q.value }
         : { type: 'field', key: q.category, value: q.value })) {
-        armed = null;
+        setArmed(null);
         updateArmHint();
       }
     }
@@ -502,4 +523,3 @@ function removeQuote(globalIdx) {
   renderArticle(true);
   if (q.role) renderRoles(); else renderCard(q.category);
 }
-

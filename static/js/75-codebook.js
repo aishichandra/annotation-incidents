@@ -7,13 +7,17 @@
 // names its codes as strings, so a rename rewrites every quote and claim that
 // names the old one (the server does both halves in one request), and deleting a
 // code that is still in use is refused rather than quietly orphaning it.
-//
-// Loaded as a classic script: everything here shares one global scope with the
-// other static/js files. See templates/index.html for the load order.
 
-let CODEBOOK = null;
+import { ROLE, applySchema, curDoc, defHtml } from './10-state.js';
+import { VIEW_SCROLL, setView } from './20-init.js';
+import { markIncidentsStale, openIncident, refreshIncidents } from './30-incidents.js';
+import { renderForm } from './60-form.js';
+import { init } from './20-init.js';
+import { escapeHtml } from './80-persist.js';
 
-async function loadCodebook() {
+export let CODEBOOK = null;
+
+export async function loadCodebook() {
   const root = document.getElementById('codebook');
   if (!CODEBOOK) root.innerHTML = '<div class="cb-empty">Loading the codebook…</div>';
   try {
@@ -25,7 +29,7 @@ async function loadCodebook() {
   renderCodebook();
 }
 
-function renderCodebook() {
+export function renderCodebook() {
   const root = document.getElementById('codebook');
   root.innerHTML = '';
 
@@ -39,7 +43,7 @@ function renderCodebook() {
 
 // One characteristic and its codes, in the role's own colour so a section is
 // recognisable as the same thing it is in the sidebar and on the cards.
-function cbRoleSection(r) {
+export function cbRoleSection(r) {
   const sec = document.createElement('section');
   sec.className = 'cb-role';
   sec.style.setProperty('--cb-accent', (ROLE[r.role] || {}).color || '#d4d4d8');
@@ -100,7 +104,7 @@ function cbRoleSection(r) {
   return sec;
 }
 
-function cbUsesText(o) {
+export function cbUsesText(o) {
   if (!o.total) return '<span class="cb-unused">unused</span>';
   const by = Object.entries(o.uses).map(([c, n]) => `${c}: ${n}`).join(', ');
   return `<span class="cb-used" title="${escapeHtml(by)}">${o.total} use${o.total === 1 ? '' : 's'}</span>`;
@@ -109,7 +113,7 @@ function cbUsesText(o) {
 // The incidents behind a use count. A number alone doesn't tell you whether a
 // code is being applied the way you meant it to be — the incidents do — so the
 // count opens the list, and each incident there takes you to its card.
-async function cbToggleUses(role, option, row, btn) {
+export async function cbToggleUses(role, option, row, btn) {
   const open = row.nextElementSibling && row.nextElementSibling.classList.contains('cb-uses-panel');
   if (open) {
     row.nextElementSibling.remove();
@@ -158,7 +162,7 @@ async function cbToggleUses(role, option, row, btn) {
 
 // Leave the scheme and land on the incident itself, highlighted so it is obvious
 // which of the cards you were sent to.
-async function cbGoToIncident(incId) {
+export async function cbGoToIncident(incId) {
   setView('incidents');
   await refreshIncidents();
   // Cards are built on demand now, so the one being pointed at has to be opened
@@ -179,7 +183,7 @@ async function cbGoToIncident(incId) {
 
 // One code: its name, its definition, how much coding already depends on it, and
 // a delete the server refuses while that number is above zero.
-function cbOptionRow(r, o) {
+export function cbOptionRow(r, o) {
   const row = document.createElement('div');
   row.className = 'cb-row';
   row.dataset.option = o.name;
@@ -265,7 +269,7 @@ function cbOptionRow(r, o) {
 }
 
 // Add a code to this characteristic, into one of its groups where it has them.
-function cbAddRow(r) {
+export function cbAddRow(r) {
   const wrap = document.createElement('div');
   wrap.className = 'cb-add';
 
@@ -307,7 +311,7 @@ function cbAddRow(r) {
 // finished text looks like, while the field itself always holds the plain text
 // that is stored. Enter commits (⌘/Ctrl+Enter in a definition, where Enter is a
 // line break); Escape puts the old text back.
-function cbEditable({ value, placeholder, multiline, cls, save, render }) {
+export function cbEditable({ value, placeholder, multiline, cls, save, render }) {
   const wrap = document.createElement('div');
   wrap.className = 'cb-edit';
 
@@ -369,7 +373,7 @@ function cbEditable({ value, placeholder, multiline, cls, save, render }) {
 // vocab.json and nothing else. It matters because the codebook's order is the
 // order of the menu a coder picks from, and reading the scheme in one order
 // while choosing from it in another is what makes a long list hard to learn.
-function cbWireReorder(list, role) {
+export function cbWireReorder(list, role) {
   let dragged = null;
 
   list.querySelectorAll('.cb-row').forEach(row => {
@@ -410,7 +414,7 @@ function cbWireReorder(list, role) {
 
 // Save whatever order the rows are now in. Called from dragend, so a drag that
 // ends where it started costs one no-op request and nothing else.
-async function cbCommitOrder(list, role) {
+export async function cbCommitOrder(list, role) {
   const order = Array.from(list.querySelectorAll('.cb-row'))
     .map(x => x.dataset.option).filter(Boolean);
   const d = await cbPost('/api/vocab/reorder',
@@ -423,7 +427,7 @@ async function cbCommitOrder(list, role) {
   await cbApplyToCodingViews();
 }
 
-async function cbPost(path, body) {
+export async function cbPost(path, body) {
   const res = await fetch(path, {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
@@ -433,7 +437,7 @@ async function cbPost(path, body) {
   return { ok: res.ok, ...data };
 }
 
-function cbFail(d, fallback) {
+export function cbFail(d, fallback) {
   const detail = d.error === 'in use'
     ? `it is used ${d.total} time${d.total === 1 ? '' : 's'} — rename it instead`
     : d.error;
@@ -441,7 +445,7 @@ function cbFail(d, fallback) {
   return false;
 }
 
-function cbSay(msg) {
+export function cbSay(msg) {
   const el = document.getElementById('status');
   el.textContent = msg;
   clearTimeout(cbSay._t);
@@ -450,7 +454,7 @@ function cbSay(msg) {
 
 // Re-read the scheme and redraw the tab. Used after anything that can change the
 // option list, since usage counts and grouping move with it.
-async function cbReload() {
+export async function cbReload() {
   await loadCodebook();
   await cbApplyToCodingViews();
 }
@@ -458,14 +462,12 @@ async function cbReload() {
 // The coding views build their menus once from SCHEMA_ROLES, so an edit here has
 // to be pushed back into them — otherwise the tab you just left would still
 // offer yesterday's wording until a reload.
-async function cbApplyToCodingViews() {
+export async function cbApplyToCodingViews() {
   let schema;
   try { schema = await (await fetch('/api/schema')).json(); }
   catch (e) { return; }
-  SCHEMA = schema.fields;
-  SCHEMA_ROLES = schema.claim_roles || [];
-  if (schema.rules) RULES = schema.rules;
+  applySchema(schema);
   if (curDoc) renderForm();
   // Incident cards show chips of coded values, so a rename changes them too.
-  INCIDENTS_RENDERED = false;
+  markIncidentsStale();
 }

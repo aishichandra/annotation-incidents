@@ -1,12 +1,30 @@
 // Coding form.
 // The right-hand sidebar: one card per schema field, selects, text inputs,
 // incident id lookup, and the evidence/quote lists under each value.
-//
-// Loaded as a classic script: everything here shares one global scope with the
-// other static/js files. See templates/index.html for the load order.
+
+import {
+  SCHEMA,
+  attachDefTip,
+  color,
+  curDoc,
+  groupHeader,
+  groupedOptions,
+  hideDefTip,
+  sameArm,
+  setArm,
+} from './10-state.js';
+import {
+  INCIDENT_IDS,
+  fillTitleForIncident,
+  refreshIncidentIds,
+} from './40-mongo-sync.js';
+import { field, fieldAnn, removeQuote, renderArticle } from './50-reader.js';
+import { armField, buildRolesPanel, scrollToMark } from './70-arming.js';
+import { persist, persistSoon } from './80-persist.js';
+import { escapeHtml } from './80-persist.js';
 
 // ---------- coding form ----------
-function renderForm() {
+export function renderForm() {
   const root = document.getElementById('form');
   root.innerHTML = '';
   // Characteristics panel (flat actor/harm/factor/harmed-party) sits just above
@@ -23,16 +41,16 @@ function renderForm() {
 }
 
 // rebuild a single card in place (keeps the rest of the form untouched)
-function renderCard(key) {
+export function renderCard(key) {
   const old = document.querySelector(`.card[data-key="${key}"]`);
   if (old) old.replaceWith(buildCard(field(key)));
 }
 
-function subLabel(text) {
+export function subLabel(text) {
   const d = document.createElement('div'); d.className = 'sub'; d.textContent = text; return d;
 }
 
-function buildCard(f) {
+export function buildCard(f) {
   const isMulti = f.type === 'multi';
   const canJustify = f.justify !== false;
   const fieldArmed = !isMulti && canJustify && sameArm({ type: 'field', key: f.key, value: undefined });
@@ -115,7 +133,7 @@ function buildCard(f) {
 
 // Per-selection justification: each selected value gets its own arm + highlights,
 // and is flagged "needs evidence" until it has at least one highlight.
-function buildValueEvidence(values, opts) {
+export function buildValueEvidence(values, opts) {
   const wrap = document.createElement('div');
   wrap.className = 'value-ev';
   if (!values.length) {
@@ -165,7 +183,7 @@ function buildValueEvidence(values, opts) {
 
 // settable free text: type + Enter sets it to plain, settled text;
 // click the text to edit, × to clear. For multiline, Shift+Enter adds a newline.
-function buildText(fa, prop, multiline, placeholder) {
+export function buildText(fa, prop, multiline, placeholder) {
   const wrap = document.createElement('div');
 
   function render(focus) {
@@ -212,7 +230,7 @@ function buildText(fa, prop, multiline, placeholder) {
 
 // Incident ID: an editable text box (auto-populated with a fresh ID), plus a
 // dropdown to connect this article to an existing incident, and a "New ID" button.
-function buildIncidentId(fa) {
+export function buildIncidentId(fa) {
   const wrap = document.createElement('div');
   wrap.className = 'incident-id';
 
@@ -264,7 +282,7 @@ function buildIncidentId(fa) {
 // mutated in place; onChange fires after any change; onAdd (optional) persists a
 // new option and returns the updated options list. `definitions` (optional) is
 // the codebook, {option: text}, shown on hover in `accent`'s colour.
-function buildSelect(cfg) {
+export function buildSelect(cfg) {
   const selected = cfg.selected;
   let options = cfg.options || [];
   const sel = document.createElement('div');
@@ -390,7 +408,7 @@ function buildSelect(cfg) {
   return sel;
 }
 
-function buildQuotes(key) {
+export function buildQuotes(key) {
   const wrap = document.createElement('div');
   wrap.className = 'quotes';
   const mine = curDoc.ann.quotes

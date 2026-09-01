@@ -1,23 +1,44 @@
 // Incidents view.
 // One card per incident: field blocks, the role palette, claim groups,
 // drag-and-drop chips, per-incident comments, quote panels, JSON inspector.
-//
-// Loaded as a classic script: everything here shares one global scope with the
-// other static/js files. See templates/index.html for the load order.
+
+import { CODER } from './00-coder.js';
+import {
+  CLAIM_LIST_KEYS,
+  CLAIM_ROLE,
+  CLAIM_ROLES_DROP,
+  GROUP_LIST_KEYS,
+  GROUP_ROLES,
+  OPTIONAL_CLAIM_ROLES,
+  ROLES,
+  RULES,
+  attachDefTip,
+  color,
+  groupValues,
+} from './10-state.js';
+import { setView } from './20-init.js';
+import { field, loadDoc } from './50-reader.js';
+import { buildSelect } from './60-form.js';
+import { escapeHtml } from './80-persist.js';
+import { init } from './20-init.js';
+import { persist } from './80-persist.js';
 
 // Incidents whose data changed since they were rendered. A document save marks
 // the incident it belongs to; nothing else needs a redraw, so switching tabs
 // with none of these is free.
-const DIRTY_INCIDENTS = new Set();
-let INCIDENTS_RENDERED = false;
+export const DIRTY_INCIDENTS = new Set();
+export let INCIDENTS_RENDERED = false;
+// Say that what is on screen no longer matches the coding. Called from the
+// codebook, where a rename changes the chips a card shows.
+export function markIncidentsStale() { INCIDENTS_RENDERED = false; }
 // The display fields from /api/incidents. Held here because a card is now built
 // on demand, long after the response that carried them has been consumed.
-let FIELDS = [];
+export let FIELDS = [];
 // The one incident expanded right now, or null. Only one is ever open: the point
 // of the collapsed index is that the page stays short enough to scan.
-let OPEN_INCIDENT = null;
+export let OPEN_INCIDENT = null;
 
-function markIncidentDirty(incId) {
+export function markIncidentDirty(incId) {
   if (incId) DIRTY_INCIDENTS.add(incId);
 }
 
@@ -26,21 +47,21 @@ function markIncidentDirty(incId) {
 // signed off, or ruled out. Settled work stays listed and countable rather than
 // hidden, since "what have I finished" and "what did I rule out" are both part
 // of the record.
-const isDone = (inc) => inc.status === 'complete';
-const isOut  = (inc) => inc.status === 'not_an_incident';
-const SECTIONS = [
+export const isDone = (inc) => inc.status === 'complete';
+export const isOut  = (inc) => inc.status === 'not_an_incident';
+export const SECTIONS = [
   { id: 'todo', label: 'To code',         match: (inc) => !isDone(inc) && !isOut(inc) },
   { id: 'done', label: 'Complete',        match: isDone },
   { id: 'out',  label: 'Not an incident', match: isOut },
 ];
-const sectionOf = (inc) => (SECTIONS.find(s => s.match(inc)) || SECTIONS[0]).id;
-const sectionLabel = (id) => (SECTIONS.find(s => s.id === id) || SECTIONS[0]).label;
-const tileEl = (incId) =>
+export const sectionOf = (inc) => (SECTIONS.find(s => s.match(inc)) || SECTIONS[0]).id;
+export const sectionLabel = (id) => (SECTIONS.find(s => s.id === id) || SECTIONS[0]).label;
+export const tileEl = (incId) =>
   document.querySelector(`.inc-tile[data-inc="${CSS.escape(incId)}"]`);
 
 // Bring the incidents view up to date with the least disturbance: nothing on the
 // first visit but a full render, and after that only the tiles whose data moved.
-async function refreshIncidents() {
+export async function refreshIncidents() {
   if (!INCIDENTS_RENDERED) return loadIncidents();
   // A redraw replaces the textarea, so anything still on the debounce goes out
   // first — otherwise re-reading the server's copy would undo it.
@@ -81,7 +102,7 @@ async function refreshIncidents() {
 // Post-render wiring for one card: opening its documents, its draggable chips,
 // its claims and its JSON panel. Shared so a single re-rendered card comes back
 // as live as one from a full render.
-function wireIncidentCard(root) {
+export function wireIncidentCard(root) {
   root.querySelectorAll('.tow-doc').forEach(el => {
     el.onclick = (e) => {
       if (e.target.closest('.durl')) return;   // let the external link work
@@ -106,7 +127,7 @@ function wireIncidentCard(root) {
 // An incident with no title of its own is shown by its first document, so a tile
 // is never just a bare id — twenty-odd incidents here were grouped but never
 // named, and "INC-031" alone tells a coder nothing about what they are opening.
-function tileTitle(inc) {
+export function tileTitle(inc) {
   if (inc.title) return escapeHtml(inc.title);
   const d = inc.documents[0];
   return `<span class="t-untitled" title="This incident has no title of its own \u2014`
@@ -114,7 +135,7 @@ function tileTitle(inc) {
                                                              : '(no documents)')}</span>`;
 }
 
-function incidentTile(inc) {
+export function incidentTile(inc) {
   const encId = escapeHtml(inc.incident_id);
   const sec = sectionOf(inc);
   const ready = sec === 'todo' && completenessOf(inc).ok ? ' ready' : '';
@@ -131,7 +152,7 @@ function incidentTile(inc) {
 
 // Repaint a collapsed tile from its incident. Cheap enough to call on every edit,
 // so the index's "needs …" hint tracks the card a coder is working in.
-function refreshTile(inc) {
+export function refreshTile(inc) {
   const tile = tileEl(inc.incident_id);
   if (!tile) return;
   const sec = sectionOf(inc);
@@ -148,9 +169,9 @@ function refreshTile(inc) {
 // The three sections are tabs, not one long scroll: only the selected one is on
 // the page, so "Complete" and "Not an incident" cost nothing to carry around and
 // the index stays a single screen of tiles.
-let ACTIVE_TAB = 'todo';
+export let ACTIVE_TAB = 'todo';
 
-function tocHtml(groups) {
+export function tocHtml(groups) {
   const tabs = SECTIONS.map(s =>
     `<button class="toc-link sec-${s.id}${s.id === ACTIVE_TAB ? ' active' : ''}"`
     + ` data-tab="${s.id}" role="tab" aria-selected="${s.id === ACTIVE_TAB}">`
@@ -160,7 +181,7 @@ function tocHtml(groups) {
   </div>`;
 }
 
-function sectionHtml(sec, list) {
+export function sectionHtml(sec, list) {
   const body = list.length
     ? `<div class="inc-grid">${list.map(incidentTile).join('')}</div>`
     : `<div class="sec-empty">Nothing ${sec.id === 'todo' ? 'left to code' : 'here'}.</div>`;
@@ -170,7 +191,7 @@ function sectionHtml(sec, list) {
 
 // Switch tabs. Collapsing first keeps an open card from being stranded on a
 // section nobody is looking at.
-function showTab(tabId) {
+export function showTab(tabId) {
   if (!SECTIONS.some(s => s.id === tabId)) return;
   if (OPEN_INCIDENT) {
     const t = tileEl(OPEN_INCIDENT);
@@ -190,7 +211,7 @@ function showTab(tabId) {
 // Render the whole index. `open` names the incident to expand afterwards —
 // by default whichever was open before, so a redraw doesn't shut the card a
 // coder is working in.
-async function loadIncidents(opts = {}) {
+export async function loadIncidents(opts = {}) {
   const reopen = ('open' in opts) ? opts.open : OPEN_INCIDENT;
   const wrap = document.getElementById('incidents');
   wrap.innerHTML = '<div class="inc-wrap"><div class="iempty">Loading…</div></div>';
@@ -221,7 +242,7 @@ async function loadIncidents(opts = {}) {
   if (reopen && INCIDENTS[reopen]) openIncident(reopen, { scroll: false });
 }
 
-function wireIndex(root) {
+export function wireIndex(root) {
   root.querySelectorAll('.inc-tile > .tile-head').forEach(head => {
     const incId = head.parentElement.dataset.inc;
     head.onclick = () => toggleIncident(incId);
@@ -234,7 +255,7 @@ function wireIndex(root) {
 
 // The top bar is fixed and the table of contents sticks beneath it, so a plain
 // scrollIntoView would park the heading underneath them both.
-function stickyOffset() {
+export function stickyOffset() {
   const bar = document.querySelector('.bar');
   const toc = document.querySelector('.inc-toc');
   return (bar ? bar.offsetHeight : 0) + (toc ? toc.offsetHeight : 0) + 14;
@@ -242,7 +263,7 @@ function stickyOffset() {
 
 // ---------- opening one incident ----------
 
-function toggleIncident(incId) {
+export function toggleIncident(incId) {
   if (OPEN_INCIDENT === incId) closeIncident();
   else openIncident(incId);
 }
@@ -250,7 +271,7 @@ function toggleIncident(incId) {
 // Build the full card only when it is actually looked at. With fifty-odd
 // incidents, rendering every palette and claim board up front was most of both
 // the cost of this view and its height.
-function openIncident(incId, opts = {}) {
+export function openIncident(incId, opts = {}) {
   const inc = INCIDENTS[incId];
   const tile = tileEl(incId);
   if (!inc || !tile) return;
@@ -274,7 +295,7 @@ function openIncident(incId, opts = {}) {
   }
 }
 
-function closeIncident() {
+export function closeIncident() {
   const tile = OPEN_INCIDENT && tileEl(OPEN_INCIDENT);
   const inc = OPEN_INCIDENT && INCIDENTS[OPEN_INCIDENT];
   // Throwing the card away takes the comment box with it; saveComment reads the
@@ -303,20 +324,20 @@ document.addEventListener('keydown', (e) => {
 
 // The incident that follows `incId` in "To code", or null at the end of it.
 // Used to carry a coder on after a sign-off moves the tile they were in.
-function nextTodoAfter(incId) {
+export function nextTodoAfter(incId) {
   const todo = Array.from(document.querySelectorAll('.inc-tile[data-sec="todo"]'))
     .map(t => t.dataset.inc);
   const i = todo.indexOf(incId);
   return (i >= 0 && i + 1 < todo.length) ? todo[i + 1] : null;
 }
 
-const NODATA = '<span class="tow-nodata">No data</span>';
-let INCIDENTS = {};   // incident_id -> incident object, for post-render handlers
+export const NODATA = '<span class="tow-nodata">No data</span>';
+export let INCIDENTS = {};   // incident_id -> incident object, for post-render handlers
 
 // A Tow/CJR-styled card carrying every detail the JSON holds for one incident.
 // Anything un-coded renders as "No data". The characteristics palette + claim
 // groups are an interactive placeholder filled in by buildGroupsUI after render.
-function incidentCard(inc, fields) {
+export function incidentCard(inc, fields) {
   const chips = arr => arr.map(v => `<span class="tow-chip">${escapeHtml(v)}</span>`).join('');
 
   // One field block — free text about the incident, plus any coder comments.
@@ -406,13 +427,13 @@ function incidentCard(inc, fields) {
   </div>`;
 }
 
-const roleColor = (role) => (CLAIM_ROLE[role] && CLAIM_ROLE[role].color) || '#e5e7eb';
-const roleLabel = (role) => (CLAIM_ROLE[role] && CLAIM_ROLE[role].label) || role;
+export const roleColor = (role) => (CLAIM_ROLE[role] && CLAIM_ROLE[role].color) || '#e5e7eb';
+export const roleLabel = (role) => (CLAIM_ROLE[role] && CLAIM_ROLE[role].label) || role;
 // The palette in ROLES is chip *background* colour — pale by design, and too light
 // to read as text on white (yellow worst of all). Darken it toward black for the
 // sentence placeholders, so an empty slot still shows which role it wants without
 // a second colour list that could drift out of step with the chips.
-function roleInk(role, amount = 0.45) {
+export function roleInk(role, amount = 0.45) {
   const hex = roleColor(role);
   const n = parseInt(hex.slice(1), 16);
   const dim = (c) => Math.round(c * (1 - amount));
@@ -425,13 +446,13 @@ function roleInk(role, amount = 0.45) {
 // to a drag without a round trip. The server re-checks before recording a
 // sign-off and answers 409 if it disagrees, so the two drifting apart costs a
 // confusing button, never a wrong record.
-const MISSING_LABEL = { complete_claim: 'a linked claim' };
+export const MISSING_LABEL = { complete_claim: 'a linked claim' };
 
-function claimIsComplete(cl) {
+export function claimIsComplete(cl) {
   return !!(cl.harm && (cl.harmed_parties || []).length && (cl.factors || []).length);
 }
 
-function completenessOf(inc) {
+export function completenessOf(inc) {
   const missing = (RULES.required_roles || [])
     .filter(r => !(((inc.role_values || {})[r]) || []).length);
   if (!(inc.groups || []).some(g => g.actor && (g.claims || []).some(claimIsComplete))) {
@@ -440,7 +461,7 @@ function completenessOf(inc) {
   return { ok: !missing.length, missing };
 }
 
-function missingText(missing) {
+export function missingText(missing) {
   return missing.map(m => MISSING_LABEL[m] || roleLabel(m).toLowerCase()).join(', ');
 }
 
@@ -448,7 +469,7 @@ function missingText(missing) {
 // a coder can doubt a reading they have already signed off, and doubt about one
 // they have set aside is worth just as much. Raising it changes nothing else: it
 // is a request for a second look, not a status.
-function flagControl(inc) {
+export function flagControl(inc) {
   const encId = escapeHtml(inc.incident_id);
   return inc.flagged
     ? `<button class="inc-flag on" data-inc="${encId}" `
@@ -459,7 +480,7 @@ function flagControl(inc) {
       + `\u2691 Not sure</button>`;
 }
 
-function completeControl(inc) {
+export function completeControl(inc) {
   const encId = escapeHtml(inc.incident_id);
   const when = (inc.completed_at || '').slice(0, 10);
   if (inc.status === 'not_an_incident') {
@@ -488,7 +509,7 @@ function completeControl(inc) {
 
 // Re-render the control wherever this incident is on screen. Called after any
 // edit the completeness check reads, so the button tracks the coding.
-function refreshComplete(inc) {
+export function refreshComplete(inc) {
   document.querySelectorAll('.inc-complete').forEach(el => {
     if (el.dataset.inc !== inc.incident_id) return;
     el.innerHTML = completeControl(inc);
@@ -498,7 +519,7 @@ function refreshComplete(inc) {
   refreshTile(inc);
 }
 
-function wireComplete(el) {
+export function wireComplete(el) {
   const mark = el.querySelector('.inc-mark');
   if (mark) mark.onclick = () => setStatus(mark.dataset.inc, 'complete');
   const undo = el.querySelector('.inc-undo');
@@ -514,7 +535,7 @@ function wireComplete(el) {
 // Raised and cleared with the same button. Nothing else moves — the incident
 // stays in the section its status puts it in — so the only thing to redraw is
 // the control itself and the marker on its tile.
-async function setFlag(incId, flagged) {
+export async function setFlag(incId, flagged) {
   const inc = INCIDENTS[incId];
   if (!inc) return;
   const btn = document.querySelector(`.inc-flag[data-inc="${CSS.escape(incId)}"]`);
@@ -547,7 +568,7 @@ async function setFlag(incId, flagged) {
   refreshComplete(inc);
 }
 
-async function setStatus(incId, status) {
+export async function setStatus(incId, status) {
   const inc = INCIDENTS[incId];
   if (!inc) return;
   const was = inc.status;
@@ -604,7 +625,7 @@ async function setStatus(incId, status) {
 }
 
 
-async function saveGroups(inc) {
+export async function saveGroups(inc) {
   try {
     await fetch('/api/incident/' + encodeURIComponent(inc.incident_id) + '/groups', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -620,9 +641,9 @@ async function saveGroups(inc) {
 // Comments in flight, incident id -> pending debounce timer. Typing shouldn't
 // cost a request per keystroke, but nothing may be lost either, so a pending
 // comment is flushed before anything that could redraw its card.
-const COMMENT_TIMERS = new Map();
+export const COMMENT_TIMERS = new Map();
 
-function flushIncidentComments() {
+export function flushIncidentComments() {
   return Promise.all(Array.from(COMMENT_TIMERS.keys()).map(incId => {
     clearTimeout(COMMENT_TIMERS.get(incId));
     COMMENT_TIMERS.delete(incId);
@@ -636,7 +657,7 @@ window.addEventListener('pagehide', flushIncidentComments);
 
 // Persist one incident's comment. The text comes from the in-memory incident, so
 // this is safe to call after the textarea has gone (a re-render, a view switch).
-async function saveComment(incId) {
+export async function saveComment(incId) {
   const inc = INCIDENTS[incId];
   if (!inc) return;
   const box = document.querySelector(`.inc-note[data-inc="${CSS.escape(incId)}"]`);
@@ -664,7 +685,7 @@ async function saveComment(incId) {
 // edit again — so a written comment reads as *entered* rather than as something
 // still sitting in a box. Shift+Enter is a new line, since a comment is prose.
 // Typing still autosaves on a debounce, so nothing is lost on the way to setting.
-function buildIncidentComment(wrap, incId) {
+export function buildIncidentComment(wrap, incId) {
   const inc = INCIDENTS[incId];
   if (!inc) return;
 
@@ -736,7 +757,7 @@ function buildIncidentComment(wrap, incId) {
 // Actor / system / developer belong to the group, so their mark is the group id
 // ("2"). Harm / harmed party / factor belong to one claim inside a group, so
 // theirs is "group.claim" ("2.1").
-function usedInClaims(inc, role, value) {
+export function usedInClaims(inc, role, value) {
   const marks = [];
   (inc.groups || []).forEach(g => {
     if (GROUP_ROLES.includes(role)) {
@@ -756,7 +777,7 @@ function usedInClaims(inc, role, value) {
 // palette and the System/Developer field chips — so their claim marks match the
 // current claims. Called after every claim change; these live in a sibling
 // column, so they're found by incident id rather than passed around.
-function refreshDraggables(inc) {
+export function refreshDraggables(inc) {
   document.querySelectorAll('.tow-palette').forEach(el => {
     if (el.dataset.inc === inc.incident_id) buildPalette(el, inc);
   });
@@ -771,7 +792,7 @@ function refreshDraggables(inc) {
 // Saved on change to this coder's incident coding, like the comment box. The
 // list held here is the control's own, so a failed save leaves the card showing
 // what the server actually holds rather than what the click implied.
-function buildCardFields(container, inc) {
+export function buildCardFields(container, inc) {
   if (!inc) return;
   container.innerHTML = '';
   FIELDS.filter(f => f.card_only).forEach(f => {
@@ -830,7 +851,7 @@ function buildCardFields(container, inc) {
 // like "no" would put an answer on every incident nobody has looked at. So it
 // sits visibly unset until it is touched — grey, knob centred, "Not answered" —
 // and the × puts it back there, because a stray click must not be permanent.
-function buildFieldToggle(f, inc, current, state) {
+export function buildFieldToggle(f, inc, current, state) {
   const [onValue, offValue] = f.options || [];
   const wrap = document.createElement('div');
   wrap.className = 'tow-switch';
@@ -881,7 +902,7 @@ function buildFieldToggle(f, inc, current, state) {
 // comment box reports — this is the only control on a card that writes an answer
 // rather than a link, so "did that land?" has to be answerable without opening
 // the JSON panel.
-async function saveCardField(inc, key, answer, state) {
+export async function saveCardField(inc, key, answer, state) {
   const say = (msg, ok) => {
     if (!state) return;
     clearTimeout(state._clear);
@@ -922,7 +943,7 @@ async function saveCardField(inc, key, answer, state) {
 
 // The pooled characteristics palette (left column) — draggable chips grouped by
 // role, each marked with the claims it's already used in.
-function buildPalette(container, inc) {
+export function buildPalette(container, inc) {
   if (!inc) return;
   container.innerHTML = '';
   const palette = document.createElement('div');
@@ -969,7 +990,7 @@ function buildPalette(container, inc) {
 
 // The claim groups (right column) — each a fill-in-the-blank sentence + drop zone.
 // Rebuilds itself on every change and persists per incident.
-function buildGroupsUI(container, inc) {
+export function buildGroupsUI(container, inc) {
   if (!inc) return;
   // Always start with one actor context holding one empty claim. Empty groups
   // aren't saved server-side, so this just seeds the template each load.
@@ -995,18 +1016,18 @@ function buildGroupsUI(container, inc) {
 
 // Ids are per-incident counters, unique only within their own scope: group ids
 // across the incident, claim ids within their group.
-function nextId(list) {
+export function nextId(list) {
   return String(list.reduce((mx, x) => Math.max(mx, parseInt(x.id, 10) || 0), 0) + 1);
 }
 
-function newClaim(grp) {
+export function newClaim(grp) {
   // harmed_parties is plural — a single harm can land on several parties. The
   // singular harmed_party is the pre-plural field and must not be seeded here,
   // or every new claim carries a dead null nobody reads.
   return { id: nextId(grp.claims || []), harm: null, harmed_parties: [], factors: [] };
 }
 
-function newGroup(inc) {
+export function newGroup(inc) {
   const g = { id: nextId(inc.groups || []), actor: null, system: null, developer: null,
               claims: [], omit: [] };
   g.claims.push(newClaim(g));
@@ -1017,7 +1038,7 @@ function newGroup(inc) {
 // of claim ids this value is already in — a used chip stays fully draggable,
 // since the same characteristic is expected to appear in several claims; it just
 // carries the claim numbers so you can see what's still unplaced.
-function makeChip(role, value, claims, inc, kind) {
+export function makeChip(role, value, claims, inc, kind) {
   claims = claims || [];
   const chip = document.createElement('span');
   const open = inc && isQuotesOpen(inc, kind, value);
@@ -1075,7 +1096,7 @@ function makeChip(role, value, claims, inc, kind) {
 // Fetched rather than printed from INCIDENTS, because the card's own object is
 // the *aggregated view* (pooled values, pruned claims) while what's usually
 // wanted here is the record as stored. The response says which one it is.
-async function toggleJson(incId) {
+export async function toggleJson(incId) {
   const panel = document.querySelector(`.json-panel[data-inc="${CSS.escape(incId)}"]`);
   const btn = document.querySelector(`.json-btn[data-inc="${CSS.escape(incId)}"]`);
   if (!panel) return;
@@ -1130,14 +1151,14 @@ async function toggleJson(incId) {
 // distinguished from values by colour, every object and array folds away behind
 // its own header, and an indent guide runs down each level so a nested value can
 // be traced back to what contains it.
-function jsonTree(value) {
+export function jsonTree(value) {
   const root = document.createElement('div');
   root.className = 'json-tree';
   root.appendChild(jsonNode(null, value, true));
   return root;
 }
 
-function jsonLeaf(value) {
+export function jsonLeaf(value) {
   if (value === null) return '<span class="jn-null">null</span>';
   const t = typeof value;
   if (t === 'string') return `<span class="jn-str">${escapeHtml(JSON.stringify(value))}</span>`;
@@ -1146,7 +1167,7 @@ function jsonLeaf(value) {
   return escapeHtml(String(value));
 }
 
-function jsonNode(key, value, last) {
+export function jsonNode(key, value, last) {
   const wrap = document.createElement('div');
   wrap.className = 'jn';
   // Array items have no key of their own; their position is the indent.
@@ -1191,28 +1212,28 @@ function jsonNode(key, value, last) {
 // ---------- evidence behind a characteristic ----------
 // Which quotes justify one pooled value. `kind` is the tag the quote carries —
 // the characteristic's role ('harm').
-function evidenceFor(inc, kind, value) {
+export function evidenceFor(inc, kind, value) {
   return ((inc.value_quotes || {})[kind] || {})[value] || [];
 }
 
-function quotesKey(kind, value) { return kind + ' ' + value; }
+export function quotesKey(kind, value) { return kind + ' ' + value; }
 
 // Which evidence panels are open, keyed by incident id. Held here rather than on
 // the incident object because a refreshed card is handed a *new* object from the
 // server — state hanging off the old one would shut every panel on the card you
 // had just been reading. Survives both the palette rebuild after a claim change
 // and a card re-render after a save.
-const OPEN_QUOTES = {};
+export const OPEN_QUOTES = {};
 
-function openSet(inc) {
+export function openSet(inc) {
   return OPEN_QUOTES[inc.incident_id] || (OPEN_QUOTES[inc.incident_id] = new Set());
 }
 
-function isQuotesOpen(inc, kind, value) {
+export function isQuotesOpen(inc, kind, value) {
   return openSet(inc).has(quotesKey(kind, value));
 }
 
-function toggleQuotes(inc, kind, value) {
+export function toggleQuotes(inc, kind, value) {
   const open = openSet(inc);
   const k = quotesKey(kind, value);
   if (!open.delete(k)) open.add(k);
@@ -1220,7 +1241,7 @@ function toggleQuotes(inc, kind, value) {
 
 // The panel itself: every passage this coder highlighted for the value, with the
 // document it came from (incidents can pool several).
-function quotePanel(inc, kind, value) {
+export function quotePanel(inc, kind, value) {
   const panel = document.createElement('div');
   panel.className = 'qt-panel';
   const quotes = evidenceFor(inc, kind, value);
@@ -1263,7 +1284,7 @@ function quotePanel(inc, kind, value) {
 // drop zones, so a dragged chip's destination is never ambiguous: actor / system /
 // developer land in the header, harm / harmed party / factor land in the claim you
 // drop them on.
-function buildGroupBox(inc, grp, container) {
+export function buildGroupBox(inc, grp, container) {
   const box = document.createElement('div');
   box.className = 'grp-box';
 
@@ -1304,7 +1325,7 @@ function buildGroupBox(inc, grp, container) {
 // actor is a second context, so it gets its own group — while the systems it
 // used and who developed them are lists, joined by "&" the way a claim's factors
 // are. Dropping onto the actor replaces; dropping onto the others adds.
-function actorHeader(inc, grp, container) {
+export function actorHeader(inc, grp, container) {
   const h = document.createElement('div');
   h.className = 'grp-sentence grp-head';
   const rebuild = () => { saveGroups(inc); buildGroupsUI(container, inc); };
@@ -1421,7 +1442,7 @@ function actorHeader(inc, grp, container) {
 // <factors>." harm and
 // party are single-valued; factors is a list, since several contributing causes
 // for one harm read unambiguously.
-function claimRow(inc, grp, cl, container) {
+export function claimRow(inc, grp, cl, container) {
   const row = document.createElement('div');
   row.className = 'grp-sentence grp-claim';
 
@@ -1497,7 +1518,7 @@ function claimRow(inc, grp, cl, container) {
 }
 
 // A filled slot: the value plus a × that clears it.
-function valueChip(role, value, onRemove) {
+export function valueChip(role, value, onRemove) {
   const chip = document.createElement('span');
   chip.className = 'sent-v';
   chip.style.background = roleColor(role) + '33';
@@ -1512,7 +1533,7 @@ function valueChip(role, value, onRemove) {
 
 // Wire an element as a drop target for a given set of roles. A chip of the wrong
 // kind is refused rather than silently dropped somewhere it doesn't belong.
-function dropZone(el, roles, apply) {
+export function dropZone(el, roles, apply) {
   el.ondragover = (e) => { e.preventDefault(); el.classList.add('over'); };
   el.ondragleave = () => el.classList.remove('over');
   el.ondrop = (e) => {
@@ -1522,4 +1543,3 @@ function dropZone(el, roles, apply) {
     apply(m);
   };
 }
-
