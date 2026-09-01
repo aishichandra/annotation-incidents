@@ -69,20 +69,201 @@ def incident_completeness(inc: dict) -> dict:
     return {"ok": not missing, "missing": missing}
 
 
+def _blank_incident(inc_id: str, role_defs: list) -> dict:
+    """The shape of one incident before anything is read into it.
+
+    Every key is present from the start, empty. A card renders "No data" for an
+    absent answer, so a missing key and an unanswered one have to look the same
+    to it — and the aggregate below fills these in from several passes that each
+    know about only some of them."""
+    return {
+        "incident_id": inc_id, "title": "", "documents": [],
+        "field_values": {}, "field_comments": {},
+        "role_values": {r["role"]: [] for r in role_defs}, "groups": [],
+        "role_notes": {}, "value_quotes": {}, "comment": "", "flagged": False,
+    }
+
+
+def _document_entry(i: int, key: str, rec: dict, all_stores: dict) -> dict:
+    """One member document as a card lists it.
+
+    `date` and `domain` are read off the document rather than coded — the date
+    from Zotero via zotero_docs.csv, the domain from the URL — so neither is
+    anybody's to enter. `coded_by` is progress across the team, never anyone's
+    codes: coders stay blind to each other's judgements while coding."""
+    return {
+        "index": i, "doc_key": key, "title": cell(i, "title"),
+        "url": cell(i, "url"), "quotes": len(rec["quotes"]),
+        "date": cell(i, "date"), "domain": doc_source.domain(cell(i, "url")),
+        "coded_by": coded_by(key, all_stores),
+    }
+
+
+def _read_incident_answers(g: dict, entry: dict, field_defs: list) -> None:
+    """This coder's answers about the incident itself onto `g`.
+
+    Read once per incident rather than pooled across its documents: the
+    aftermath, the two card answers, the note naming an actor, the comment, and
+    whether the coder has flagged their own reading as one they are unsure of.
+    Identity fields are skipped — the incident owns its id and title, so a copy
+    inside a coder's answers could only drift from them."""
+    answers = entry.get("fields") or {}
+    for f in field_defs:
+        fk = f["key"]
+        if fk in IDENTITY_FIELDS:
+            continue
+        fa = answers.get(fk, {})
+        ans = fa.get("answer")
+        vals = ans if isinstance(ans, list) else ([ans] if ans else [])
+        g["field_values"][fk] = [str(v).strip() for v in vals if str(v).strip()]
+        cmt = str(fa.get("comments") or "").strip()
+        if cmt:
+            g["field_comments"][fk] = [cmt]
+    for role, note in (entry.get("notes") or {}).items():
+        if str(note or "").strip():
+            g["role_notes"][role] = str(note).strip()
+    g["comment"] = str(entry.get("comment") or "")
+    g["flagged"] = bool(entry.get("flagged"))
+
+
+def _pool_role_values(g: dict, rec: dict, role_defs: list) -> None:
+    """Add one document's characteristics to the incident's palette.
+
+    The palette is the union across member documents: a code applied to any of
+    them is a code the incident's claims can be built from. Order is first-seen
+    and duplicates are dropped, so the same code on three documents is one chip."""
+    for r in role_defs:
+        bucket = g["role_values"][r["role"]]
+        for v in rec["roles"].get(r["role"], []):
+            v = str(v).strip()
+            if v and v not in bucket:
+                bucket.append(v)
+
+
+def _collect_value_quotes(g: dict, rec: dict, key: str, i: int) -> None:
+    """The passages justifying each pooled value, keyed by role then value.
+
+    This is what lets a card show the evidence behind a characteristic without
+    leaving for the document view. A quote with no value tags nothing in
+    particular and is skipped; free-text fields keep tagging by category. The
+    same passage can be highlighted once per document, so identical text from
+    one document is one piece of evidence rather than several."""
+    for q in rec["quotes"]:
+        if not isinstance(q, dict):
+            continue
+        value = str(q.get("value") or "").strip()
+        text = str(q.get("text") or "").strip()
+        kind = q.get("role") or q.get("category")
+        if not (value and text and kind):
+            continue
+        bucket = g["value_quotes"].setdefault(str(kind), {}).setdefault(value, [])
+        if not any(b["text"] == text and b["doc_key"] == key for b in bucket):
+            bucket.append({"text": text, "doc_key": key, "title": cell(i, "title")})
+
+
+# ---------------------------------------------------------------- claim groups
+# A saved grouping names its codes as strings, so a code no longer coded on any
+# member document would leave a claim pointing at nothing. Pruning happens on
+# every read rather than on edit: the coding it depends on lives in another file
+# that this one never gets to see change.
+
+
+def _still_coded(g: dict, role: str, value) -> bool:
+    return bool(value) and value in (g["role_values"].get(role) or [])
+
+
+def _keep(g: dict, role: str, value):
+    """The value if it is still coded, else None — a scalar slot empties out
+    rather than dangling."""
+    return value if _still_coded(g, role, value) else None
+
+
+def _keep_list(g: dict, role: str, values, legacy=None) -> list:
+    """The still-coded values of a list slot, in order.
+
+    `legacy` is the pre-plural single value the slot used to hold: groups saved
+    before systems and developers went plural carry one there, and it is folded
+    in so an old grouping renders as a one-item list rather than an empty clause."""
+    out = [v for v in (values or []) if _still_coded(g, role, v)]
+    if legacy and legacy not in out and _still_coded(g, role, legacy):
+        out.append(legacy)
+    return out
+
+
+def _prune_claim(g: dict, cl: dict):
+    """One claim with every dangling value dropped, or None if nothing survives.
+
+    Harm stays single-valued and the parties and factors are lists, for the
+    reason build_validator gives: one harm reaching several parties is a
+    conjunction anyone can read back, whereas plural harms alongside plural
+    parties would leave "which harm hit which party?" unanswerable."""
+    harm = _keep(g, "harm", cl.get("harm"))
+    parties = [p for p in (cl.get("harmed_parties") or [])
+               if _still_coded(g, "harmed_party", p)]
+    factors = [f for f in (cl.get("factors") or []) if _still_coded(g, "factor", f)]
+    if not (harm or parties or factors):
+        return None
+    return {"id": cl.get("id"), "harm": harm, "harmed_parties": parties,
+            "factors": factors}
+
+
+def _prune_group(g: dict, grp: dict):
+    """One actor context with every dangling value dropped, or None if it is
+    left holding nothing at all.
+
+    A group that still names an actor is kept even with no claims, since it is
+    the header a coder is about to hang claims off, and a group holding only an
+    omission still holds a decision. Groups written before the actor-grouped
+    structure carried a flat `members` list; they aren't convertible without a
+    coder deciding how to split them, so they are skipped rather than
+    half-rendered."""
+    if "claims" not in grp:
+        return None
+    claims = [c for c in (_prune_claim(g, cl) for cl in grp.get("claims") or []) if c]
+    actor = _keep(g, "actor", grp.get("actor"))
+    # Plural for the same reason factors are: one actor context can run on
+    # several systems, and a system can have more than one party behind it. The
+    # actor itself stays single — a second actor is a second context, which is a
+    # second group.
+    systems = _keep_list(g, "system", grp.get("systems"), grp.get("system"))
+    developers = _keep_list(g, "developer", grp.get("developers"), grp.get("developer"))
+    # The optional clauses this group has taken out of its sentence: "inapplicable
+    # here" rather than "not answered yet", which is a judgement and so survives a
+    # reload like any other.
+    omit = [r for r in (grp.get("omit") or []) if r in OPTIONAL_CLAIM_ROLES]
+    if not (actor or systems or developers or claims or omit):
+        return None
+    return {"id": grp.get("id"), "actor": actor, "systems": systems,
+            "developers": developers, "claims": claims, "omit": omit}
+
+
+def _derive_from_documents(g: dict) -> None:
+    """The incident's dates and domains: its documents', de-duplicated.
+
+    `undated` is carried rather than inferred from the two lengths, so a card can
+    say "and two we have no date for" instead of quietly showing a range that
+    covers fewer articles than the incident holds."""
+    g["dates"] = sorted({d["date"] for d in g["documents"] if d["date"]})
+    g["domains"] = sorted({d["domain"] for d in g["documents"] if d["domain"]})
+    g["undated"] = sum(1 for d in g["documents"] if not d["date"])
+
+
 def aggregate_incidents(coder: str):
     """Build one coder's per-incident view, shared by the cards and the Mongo push.
 
     An incident is the set of documents sharing an `incident_id` in the shared
     assignment map (a document nobody has filed yet falls back to its own key), so
     the incidents and their documents are identical for every coder. Everything
-    inside a card, though, is this coder's own reading: incident-level fields are
-    aggregated across the member docs (multiselects/text collect distinct non-empty
-    values; title is the first), the four characteristic roles are pooled into
-    `role_values` — the palette the card view drags from — and saved claim
-    groupings come from incident_groups.<coder>.json, pruned to values that still
-    exist so links can't dangle. The coder's comment on the incident as a whole
-    rides along too. Each document also carries `coded_by`, the coders who have
-    touched it, so progress is visible across the team.
+    inside a card, though, is this coder's own reading.
+
+    Two passes. The first walks every document once, filing it under its incident
+    and folding in what that document contributes: the palette of characteristics,
+    the passages justifying them, and — the first time an incident is seen — the
+    answers the coder gave the incident itself. The second walks the incidents,
+    which is where anything that needs the whole incident belongs: pruning the
+    claim groups against the pooled palette, reading the dates and domains off the
+    members, and checking completeness against the groups as pruned.
+
     Returns (incidents_dict, field_defs, role_defs)."""
     store = storage.load_annotations(coder)
     all_stores = {c: storage.load_annotations(c) for c in CODERS}
@@ -97,152 +278,25 @@ def aggregate_incidents(coder: str):
         key = doc_source.df["doc_key"].iloc[i]
         rec = storage.doc_ann(store, key)
         inc_id = storage.incident_of(key, assignments)
-        g = incidents.setdefault(inc_id, {
-            "incident_id": inc_id, "title": "", "documents": [],
-            "field_values": {}, "field_comments": {},
-            "role_values": {r["role"]: [] for r in role_defs}, "groups": [],
-            "role_notes": {}, "value_quotes": {}, "comment": "", "flagged": False,
-        })
-        g["documents"].append({
-            "index": i, "doc_key": key, "title": cell(i, "title"),
-            "url": cell(i, "url"), "quotes": len(rec["quotes"]),
-            # Read off the document rather than coded: when it was published
-            # (from Zotero, via zotero_docs.csv) and who published it (from the
-            # URL). Neither is a judgement, so neither is anybody's to enter.
-            "date": cell(i, "date"), "domain": doc_source.domain(cell(i, "url")),
-            "coded_by": coded_by(key, all_stores),
-        })
+        g = incidents.setdefault(inc_id, _blank_incident(inc_id, role_defs))
+        g["documents"].append(_document_entry(i, key, rec, all_stores))
         if not g["title"]:
             g["title"] = storage.incident_title_for(inc_id, assignments)
-        # The incident's own answers, read once per incident rather than pooled
-        # across its documents — there is only one answer to pool now.
-        if not g["field_values"]:
-            answers = (inc_store.get(inc_id) or {}).get("fields") or {}
-            for f in field_defs:
-                fk = f["key"]
-                if fk in IDENTITY_FIELDS:
-                    continue
-                fa = answers.get(fk, {})
-                ans = fa.get("answer")
-                vals = ans if isinstance(ans, list) else ([ans] if ans else [])
-                g["field_values"][fk] = [str(v).strip() for v in vals if str(v).strip()]
-                cmt = str(fa.get("comments") or "").strip()
-                if cmt:
-                    g["field_comments"][fk] = [cmt]
-            for role, note in ((inc_store.get(inc_id) or {}).get("notes") or {}).items():
-                if str(note or "").strip():
-                    g["role_notes"][role] = str(note).strip()
-            g["comment"] = str((inc_store.get(inc_id) or {}).get("comment") or "")
-            # This coder asking for a second look at their own coding. Read here
-            # with the rest of their incident-level judgement; see api_set_flag.
-            g["flagged"] = bool((inc_store.get(inc_id) or {}).get("flagged"))
-        for r in role_defs:
-            bucket = g["role_values"][r["role"]]
-            for v in rec["roles"].get(r["role"], []):
-                v = str(v).strip()
-                if v and v not in bucket:
-                    bucket.append(v)
-        # The passages justifying each pooled value, so the card can show the
-        # evidence behind a characteristic without leaving for the document view.
-        # Keyed by the role the quote carries. A quote with no value tags nothing
-        # in particular and is skipped; free-text fields keep tagging by category.
-        for q in rec["quotes"]:
-            if not isinstance(q, dict):
-                continue
-            value = str(q.get("value") or "").strip()
-            text = str(q.get("text") or "").strip()
-            kind = q.get("role") or q.get("category")
-            if not (value and text and kind):
-                continue
-            bucket = g["value_quotes"].setdefault(str(kind), {}).setdefault(value, [])
-            # The same passage can be highlighted once per document; identical
-            # text from the same document is one piece of evidence, not several.
-            if not any(b["text"] == text and b["doc_key"] == key for b in bucket):
-                bucket.append({"text": text, "doc_key": key, "title": cell(i, "title")})
-
-    # Attach saved groupings, dropping any value that is no longer coded. A value
-    # is either one of the four characteristic roles (checked against the pooled
-    # role_values) or an optional system/developer (checked against that
-    # incident-level field's values).
-    def still_coded(g, role, value):
-        return bool(value) and value in (g["role_values"].get(role) or [])
-
-    def keep(g, role, value):
-        """The value if it's still coded, else None — scalar slots empty out
-        rather than dangle."""
-        return value if still_coded(g, role, value) else None
-
-    def keep_list(g, role, values, legacy=None):
-        """The still-coded values of a group's list slot, in order.
-
-        `legacy` is the pre-plural single value the slot used to hold: groups
-        saved before systems and developers went plural carry one there, and it
-        is folded in so an old grouping renders as a one-item list rather than
-        as an empty clause."""
-        out = [v for v in (values or []) if still_coded(g, role, v)]
-        if legacy and legacy not in out and still_coded(g, role, legacy):
-            out.append(legacy)
-        return out
+        if not g["field_values"]:          # the first document to name it
+            _read_incident_answers(g, inc_store.get(inc_id) or {}, field_defs)
+        _pool_role_values(g, rec, role_defs)
+        _collect_value_quotes(g, rec, key, i)
 
     for inc_id, g in incidents.items():
-        saved = (inc_store.get(inc_id) or {}).get("groups") or []
-        pruned = []
-        for grp in saved:
-            # Groups written before the actor-grouped structure carried a flat
-            # `members` list. They aren't convertible without a coder deciding how
-            # to split them, so they're skipped rather than half-rendered.
-            if "claims" not in grp:
-                continue
-            claims = []
-            for cl in grp.get("claims") or []:
-                harm = keep(g, "harm", cl.get("harm"))
-                # Plural, like factors: one harm landing on several parties reads
-                # as a conjunction. It's plural harms *times* plural parties that
-                # would leave "which harm hit which party?" unanswerable, and harm
-                # stays single-valued for exactly that reason.
-                parties = [p for p in (cl.get("harmed_parties") or [])
-                           if still_coded(g, "harmed_party", p)]
-                factors = [f for f in (cl.get("factors") or [])
-                           if still_coded(g, "factor", f)]
-                if harm or parties or factors:
-                    claims.append({"id": cl.get("id"), "harm": harm,
-                                   "harmed_parties": parties, "factors": factors})
-            actor = keep(g, "actor", grp.get("actor"))
-            # Plural for the same reason factors are: one actor context can run
-            # on several systems, and a system can have more than one party
-            # behind it. The actor itself stays single — a second actor is a
-            # second context, which is a second group.
-            systems = keep_list(g, "system", grp.get("systems"), grp.get("system"))
-            developers = keep_list(g, "developer", grp.get("developers"),
-                                   grp.get("developer"))
-            # The optional clauses this group has taken out of its sentence. Not
-            # every actor context is about a named system, and saying so is a
-            # judgement — "inapplicable here" rather than "not answered yet" — so
-            # it survives a reload like any other. Filtered to the roles that have
-            # an optional clause; nothing else is omittable.
-            omit = [r for r in (grp.get("omit") or []) if r in OPTIONAL_CLAIM_ROLES]
-            # An actor context with nothing left in it at all is dropped; one that
-            # still names an actor is kept even with no claims, since it's the
-            # header a coder is about to hang claims off. A group that holds only
-            # an omission still holds a decision, so that counts as content too.
-            if actor or systems or developers or claims or omit:
-                pruned.append({"id": grp.get("id"), "actor": actor,
-                               "systems": systems, "developers": developers,
-                               "claims": claims, "omit": omit})
-        g["groups"] = pruned
-        # Computed after pruning, so the check sees the same groups the card
-        # does. The stored sign-off rides alongside it: `completeness` is what
-        # the coding currently supports, `status` is what the coder has actually
-        # attested to, and the two can disagree — signing off then editing is
-        # what clears the flag (see api_set_complete).
-        # The incident's own dates and domains: its documents', de-duplicated.
-        # `undated` is carried rather than inferred from the two lengths, so a
-        # card can say "and two we have no date for" instead of quietly showing
-        # a range that covers fewer articles than the incident holds.
-        g["dates"] = sorted({d["date"] for d in g["documents"] if d["date"]})
-        g["domains"] = sorted({d["domain"] for d in g["documents"] if d["domain"]})
-        g["undated"] = sum(1 for d in g["documents"] if not d["date"])
         entry = inc_store.get(inc_id) or {}
+        saved = entry.get("groups") or []
+        g["groups"] = [grp for grp in (_prune_group(g, x) for x in saved) if grp]
+        _derive_from_documents(g)
+        # Computed after pruning, so the check sees the same groups the card
+        # does. The stored sign-off rides alongside it: `completeness` is what the
+        # coding currently supports, `status` is what the coder has actually
+        # attested to, and the two can disagree — signing off then editing is what
+        # clears the flag (see clear_signoff).
         g["completeness"] = incident_completeness(g)
         g["status"] = entry.get("status") or ""
         g["completed_at"] = entry.get("completed_at") or ""
