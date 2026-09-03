@@ -3,6 +3,7 @@ import re
 import sqlite3
 from pathlib import Path
 
+import fitz
 import pandas as pd
 import trafilatura
 
@@ -37,7 +38,7 @@ def article_date(cur, item_id):
     return head if re.fullmatch(r"\d{4}-\d{2}-\d{2}", head) else ""
 
 
-def to_markdown(html, url):
+def html_to_markdown(html, url):
     """Article markdown for a snapshot.
 
     Some pages (e.g. Substack-style sites) inline megabytes of CSS, which makes
@@ -59,12 +60,25 @@ def to_markdown(html, url):
     return (extract(stripped), True) if len(stripped) < len(html) else ("", False)
 
 
+def pdf_to_text(path):
+    """Article text for a PDF attachment.
+
+    PyMuPDF's plain per-page get_text() occasionally spaces words apart
+    character by character — seen on a machine-translated save, where each
+    glyph carries its own position instead of sitting in a real word run.
+    Collapsing repeated spaces is the one cleanup that needs."""
+    with fitz.open(path) as doc:
+        text = "\n\n".join(page.get_text() for page in doc)
+    return re.sub(r" {2,}", " ", text).strip()
+
+
 def main():
     # read-only, even if Zotero is open
     con = sqlite3.connect(f"file:{DB}?immutable=1", uri=True)
     cur = con.cursor()
 
-    # Snapshot attachments (linkMode 1 = imported_url) inside the collection,
+    # Snapshot (linkMode 1 = imported_url, text/html) and PDF (linkMode 0 =
+    # imported_file, application/pdf) attachments inside the collection,
     # matched via the attachment's parent item being in the collection.
     # Items in Zotero's trash stay in collectionItems until the trash is emptied,
     # so they are excluded explicitly — otherwise deleting an article here, or
@@ -73,7 +87,7 @@ def main():
     # keeps the key any existing coding is already filed under.
     rows = cur.execute(
         """
-        SELECT ai.key AS att_key, ia.path AS att_path,
+        SELECT ai.key AS att_key, ia.path AS att_path, ia.contentType AS att_type,
                pi.itemID AS parent_id, pi.key AS parent_key
         FROM collections c
         JOIN collectionItems cit ON cit.collectionID = c.collectionID
@@ -81,7 +95,8 @@ def main():
         JOIN itemAttachments ia  ON ia.parentItemID = pi.itemID
         JOIN items ai            ON ai.itemID = ia.itemID
         WHERE c.collectionName = ?
-          AND ia.contentType = 'text/html' AND ia.linkMode = 1
+          AND ((ia.contentType = 'text/html' AND ia.linkMode = 1)
+               OR (ia.contentType = 'application/pdf' AND ia.linkMode = 0))
           AND pi.itemID NOT IN (SELECT itemID FROM deletedItems)
           AND ai.itemID NOT IN (SELECT itemID FROM deletedItems)
         ORDER BY pi.dateAdded
@@ -90,12 +105,22 @@ def main():
     ).fetchall()
 
     if not rows:
-        print(f"No snapshots found in collection {COLLECTION!r}.")
+        print(f"No snapshots or PDFs found in collection {COLLECTION!r}.")
         return
+
+    # A parent item can carry both a snapshot and a PDF; the snapshot wins so
+    # coding (keyed by parent item, not attachment) always points at the same
+    # extraction. First attachment seen for a parent stands unless it's a PDF
+    # and a snapshot for that same parent turns up later.
+    by_parent = {}
+    for att_key, att_path, att_type, parent_id, parent_key in rows:
+        current = by_parent.get(parent_id)
+        if current is None or (current[2] != "text/html" and att_type == "text/html"):
+            by_parent[parent_id] = (att_key, att_path, att_type, parent_key)
 
     records = []
     seen_urls = {}
-    for att_key, att_path, parent_id, parent_key in rows:
+    for parent_id, (att_key, att_path, att_type, parent_key) in by_parent.items():
         if not att_path or not att_path.startswith("storage:"):
             continue
         fpath = STORAGE / att_key / att_path[len("storage:"):]
@@ -113,10 +138,16 @@ def main():
             print(f"  dup {parent_key} same URL as {seen_urls[url]}  {title[:50]}")
             continue
 
-        html = fpath.read_text(encoding="utf-8", errors="ignore")
-        markdown, retried = to_markdown(html, url)
-        if not markdown:
-            print(f"  EMPTY extraction — check snapshot: {title[:60]}")
+        if att_type == "text/html":
+            html = fpath.read_text(encoding="utf-8", errors="ignore")
+            text, retried = html_to_markdown(html, url)
+            flag = " (retried)" if retried else ""
+        else:
+            text = pdf_to_text(fpath)
+            flag = " (pdf)"
+        if not text:
+            kind = "snapshot" if att_type == "text/html" else "PDF"
+            print(f"  EMPTY extraction — check {kind}: {title[:60]}")
 
         records.append({
             "zotero_key": parent_key,
@@ -126,13 +157,12 @@ def main():
             # than derived from the text: it is the one thing about a document
             # that Zotero knows and the article body often doesn't say.
             "date": date,
-            "markdown": markdown,
-            "snapshot": str(fpath),
+            "markdown": text,
+            "source_file": str(fpath),
         })
         if url:
             seen_urls[url] = parent_key
-        flag = " (retried)" if retried else ""
-        print(f"  ok  {len(markdown):6d} chars  {title[:60]}{flag}")
+        print(f"  ok  {len(text):6d} chars  {title[:60]}{flag}")
 
     con.close()
     pd.DataFrame(records).to_csv(OUT, index=False)

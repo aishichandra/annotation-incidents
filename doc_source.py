@@ -12,7 +12,7 @@ from config import DATA_CSV
 
 # The document list to code comes entirely from zotero_docs.csv. If it's missing
 # (import not run yet), start empty rather than crash — the UI just shows no docs.
-COLUMNS = ["zotero_key", "title", "url", "date", "markdown", "snapshot"]
+COLUMNS = ["zotero_key", "title", "url", "date", "markdown", "source_file"]
 df = pd.DataFrame(columns=COLUMNS + ["doc_key"])
 _docs_mtime = False            # False = never loaded; None is a valid "no file yet"
 

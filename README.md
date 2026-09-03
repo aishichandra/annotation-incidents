@@ -1,6 +1,6 @@
 # Incident coding pipeline
 
-Code journalism-AI incidents from Zotero snapshots, and sync the structured
+Code journalism-AI incidents from Zotero snapshots and PDFs, and sync the structured
 result to MongoDB Atlas. Three steps:
 
 ```
@@ -21,7 +21,7 @@ not articles. The app re-reads that CSV whenever it changes and fills missing co
 in from Mongo on read, so both sides stay current without a restart.
 
 All commands use the project's interpreter (has flask / pymongo / trafilatura /
-pandas installed):
+PyMuPDF / pandas installed):
 
 ```
 PY=~/.pyenv/versions/3.10.3/bin/python
@@ -29,13 +29,15 @@ PY=~/.pyenv/versions/3.10.3/bin/python
 
 ## 1. Import from Zotero → `zotero_docs.csv`
 
-Reads the Zotero SQLite DB (read-only) for HTML snapshots in the collection
-`Incidents Dashboard Articles`, extracts article markdown with trafilatura, and
-writes one row per document to `zotero_docs.csv`: `zotero_key, title, url, date,
-markdown, snapshot`. `date` is the item's publication date, normalised to
-`YYYY-MM-DD` and left empty when Zotero has none — Zotero stores it as its own
-normalised prefix followed by whatever was typed, so only the first token is
-kept, and a partial date (a bare year) is dropped rather than half-recorded.
+Reads the Zotero SQLite DB (read-only) for HTML snapshots and PDF attachments in
+the collection `Incidents Dashboard Articles`, extracts article text — markdown
+via trafilatura for a snapshot, plain text via PyMuPDF for a PDF — and writes one
+row per document to `zotero_docs.csv`: `zotero_key, title, url, date, markdown,
+source_file`. If an item carries both a snapshot and a PDF, the snapshot is used.
+`date` is the item's publication date, normalised to `YYYY-MM-DD` and left empty
+when Zotero has none — Zotero stores it as its own normalised prefix followed by
+whatever was typed, so only the first token is kept, and a partial date (a bare
+year) is dropped rather than half-recorded.
 
 ```
 $PY zotero_import.py
