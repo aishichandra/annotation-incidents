@@ -37,7 +37,365 @@
     },
     "notes": {},
     "groups": [],
+    "comment": "based on the translation this doesn't seem like an incident (this is one of the ones I pulled from Jindex)",
+    "status": "",
+    "completed_at": "",
+    "flagged": false
+  },
+  "INC-012": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
     "comment": "",
+    "status": "not_an_incident",
+    "completed_at": "2026-09-01T18:59:49+00:00",
+    "flagged": false
+  },
+  "INC-014": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "",
+    "status": "not_an_incident",
+    "completed_at": "2026-09-01T19:00:08+00:00",
+    "flagged": false
+  },
+  "INC-024": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "",
+    "status": "not_an_incident",
+    "completed_at": "2026-09-01T19:09:26+00:00",
+    "flagged": false
+  },
+  "INC-020": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "",
+    "status": "not_an_incident",
+    "completed_at": "2026-09-01T19:08:19+00:00",
+    "flagged": false
+  },
+  "INC-021": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "",
+    "status": "not_an_incident",
+    "completed_at": "2026-09-01T19:08:29+00:00",
+    "flagged": false
+  },
+  "INC-032": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "",
+    "status": "not_an_incident",
+    "completed_at": "2026-09-01T19:11:46+00:00",
+    "flagged": false
+  },
+  "INC-030": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "",
+    "status": "not_an_incident",
+    "completed_at": "2026-09-01T19:10:33+00:00",
+    "flagged": false
+  },
+  "INC-040": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "",
+    "status": "not_an_incident",
+    "completed_at": "2026-09-01T19:16:22+00:00",
+    "flagged": false
+  },
+  "INC-036": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "",
+    "status": "not_an_incident",
+    "completed_at": "2026-09-01T19:13:42+00:00",
+    "flagged": false
+  },
+  "INC-041": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "",
+    "status": "not_an_incident",
+    "completed_at": "2026-09-01T19:16:35+00:00",
+    "flagged": false
+  },
+  "INC-035": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "",
+    "status": "not_an_incident",
+    "completed_at": "2026-09-01T19:13:33+00:00",
+    "flagged": false
+  },
+  "INC-034": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "",
+    "status": "not_an_incident",
+    "completed_at": "2026-09-01T19:13:23+00:00",
+    "flagged": false
+  },
+  "INC-043": {
+    "fields": {},
+    "notes": {},
+    "groups": [],
+    "comment": "",
+    "status": "not_an_incident",
+    "completed_at": "2026-09-01T19:18:00+00:00",
+    "flagged": false
+  },
+  "INC-045": {
+    "fields": {},
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": null,
+        "system": null,
+        "developer": null,
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Citation fabrication",
+            "harmed_parties": [
+              "Audience/readers",
+              "News organization/publisher"
+            ],
+            "factors": []
+          }
+        ],
+        "omit": [],
+        "systems": [
+          "Chatbot (general use)"
+        ],
+        "developers": [
+          "AI vendor"
+        ]
+      }
+    ],
+    "comment": "for factors I was debating between 'Publishers’ lack of control over AI content presentation' (which isn't necessarily expressed in this piece) and 'Inadequate content moderation by platforms' (which is not specific enough to AI systems). Is there another factor we need here?\n\nalso don't know what to do about actor?",
+    "status": "",
+    "completed_at": "",
+    "flagged": false
+  },
+  "INC-049": {
+    "fields": {
+      "incident_geography": {
+        "answer": [
+          "United States"
+        ]
+      }
+    },
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "AI developer",
+        "systems": [
+          "News summarization"
+        ],
+        "developers": [
+          "AI vendor"
+        ],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Distorted source representation",
+            "harmed_parties": [
+              "General public"
+            ],
+            "factors": [
+              "Lack of audience disclosure"
+            ]
+          },
+          {
+            "id": "2",
+            "harm": "Distorted source representation",
+            "harmed_parties": [
+              "News organization/publisher"
+            ],
+            "factors": [
+              "Publishers’ lack of control over AI content presentation"
+            ]
+          }
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "- should we have a code to capture companies' lack of transparency regarding product decisions?",
+    "status": "",
+    "completed_at": "",
+    "flagged": false
+  },
+  "INC-050": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Not translated"
+      },
+      "incident_geography": {
+        "answer": [
+          "Denmark"
+        ]
+      }
+    },
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "Unknown/unspecified",
+        "systems": [
+          "Deepfake generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Litigation burden",
+            "harmed_parties": [
+              "News organization/publisher"
+            ],
+            "factors": [
+              "AI-based mimicry of established journalists/outlets"
+            ]
+          },
+          {
+            "id": "2",
+            "harm": "Scams",
+            "harmed_parties": [
+              "Audience/readers"
+            ],
+            "factors": [
+              "Deployment of AI with intention to harm, mislead, or troll"
+            ]
+          },
+          {
+            "id": "3",
+            "harm": "Misrepresentation of individuals depicted",
+            "harmed_parties": [
+              "Journalist(s)"
+            ],
+            "factors": [
+              "AI-based mimicry of established journalists/outlets"
+            ]
+          },
+          {
+            "id": "4",
+            "harm": "Dignity harm to individuals depicted",
+            "harmed_parties": [
+              "Journalist(s)"
+            ],
+            "factors": [
+              "AI-based mimicry of established journalists/outlets"
+            ]
+          },
+          {
+            "id": "5",
+            "harm": "Privacy harm",
+            "harmed_parties": [
+              "Journalist(s)"
+            ],
+            "factors": [
+              "AI-based mimicry of established journalists/outlets",
+              "Deployment of AI with intention to harm, mislead, or troll"
+            ]
+          }
+        ],
+        "omit": []
+      },
+      {
+        "id": "2",
+        "actor": "Tech platform",
+        "systems": [],
+        "developers": [],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Amplification of misinformation",
+            "harmed_parties": [
+              "Journalist(s)"
+            ],
+            "factors": [
+              "Inadequate content moderation by platforms"
+            ]
+          },
+          {
+            "id": "2",
+            "harm": "Scams",
+            "harmed_parties": [
+              "Audience/readers"
+            ],
+            "factors": [
+              "Inadequate content moderation by platforms"
+            ]
+          }
+        ],
+        "omit": [
+          "system",
+          "developer"
+        ]
+      }
+    ],
+    "comment": "not confident about dignity harm? (do we need to further clarify the distinction bet. misrepresentation, dignity harm and privacy harm?)\n\nactor - should we have a category for 'scammer'?\n\nshould we capture lack of safeguards as a factor?\n\nshould 'scams' be 'promotion of scams' bc we don't know if they actually worked",
+    "status": "",
+    "completed_at": "",
+    "flagged": false
+  },
+  "INC-052": {
+    "fields": {
+      "incident_geography": {
+        "answer": [
+          "United States"
+        ]
+      },
+      "incident_translated": {
+        "answer": "Not translated"
+      }
+    },
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": "Individual journalist",
+        "systems": [
+          "Deepfake generation",
+          "Chatbot (general use)"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "claims": [
+          {
+            "id": "1",
+            "harm": "Exposure to offensive content",
+            "harmed_parties": [
+              "Audience/readers"
+            ],
+            "factors": [
+              "Contextually inappropriate application of AI"
+            ]
+          }
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "I don't know if this case we should focus on the misrepresentation (because the subject/those close to him don't claim that) and it seems like the main harm was that people found it to be offensive and misleading that it was called an interview",
     "status": "",
     "completed_at": "",
     "flagged": false
