@@ -1,1 +1,45 @@
-{}
+{
+  "INC-001": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Not translated"
+      }
+    },
+    "notes": {},
+    "groups": [
+      {
+        "id": "1",
+        "actor": null,
+        "system": null,
+        "developer": null,
+        "claims": [
+          {
+            "id": "1",
+            "harm": null,
+            "harmed_parties": [],
+            "factors": []
+          }
+        ],
+        "omit": [],
+        "systems": []
+      }
+    ],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false
+  },
+  "INC-051": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "groups": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false
+  }
+}
