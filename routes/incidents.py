@@ -225,11 +225,11 @@ def api_set_status(inc_id):
     # actually is.
     if status == "complete":
         ann = load_annotations(coder)
-        for d in inc.get("documents") or []:
-            if not mongo_sync.sync_to_mongo(d["index"], d["doc_key"],
-                                            doc_ann(ann, d["doc_key"]), coder, inc_id):
-                synced = False
-        mongo_sync.invalidate_mongo_cache()
+        docs = inc.get("documents") or []
+        items = [(d["index"], d["doc_key"], doc_ann(ann, d["doc_key"]), coder, inc_id)
+                 for d in docs]
+        if mongo_sync.push_documents(items) < len(items):
+            synced = False
 
     return jsonify({"ok": True, "coder": coder, "incident_id": inc_id,
                     "status": status, "completed_at": entry["completed_at"],
