@@ -64,5 +64,458 @@
         "Sources/subjects of coverage"
       ]
     }
+  },
+  "4DRZXZ6U": {
+    "quotes": [
+      {
+        "role": "system",
+        "value": "Chatbot (general use)",
+        "text": "ChatGPT",
+        "start": 1106,
+        "end": 1113
+      },
+      {
+        "role": "developer",
+        "value": "AI vendor",
+        "text": "ChatGPT",
+        "start": 1106,
+        "end": 1113
+      },
+      {
+        "role": "harm",
+        "value": "Citation fabrication",
+        "text": "invention of sources",
+        "start": 1507,
+        "end": 1527
+      },
+      {
+        "role": "harmed_party",
+        "value": "Audience/readers",
+        "text": "researcher",
+        "start": 67,
+        "end": 77
+      },
+      {
+        "role": "harmed_party",
+        "value": "News organization/publisher",
+        "text": "Guardian",
+        "start": 107,
+        "end": 115
+      },
+      {
+        "role": "harmed_party",
+        "value": "Audience/readers",
+        "text": "student",
+        "start": 2828,
+        "end": 2835
+      },
+      {
+        "role": "developer",
+        "value": "AI vendor",
+        "text": "ChatGPT",
+        "start": 2966,
+        "end": 2973
+      }
+    ],
+    "roles": {
+      "system": [
+        "Chatbot (general use)"
+      ],
+      "developer": [
+        "AI vendor"
+      ],
+      "actor": [],
+      "factor": [],
+      "harm": [
+        "Citation fabrication"
+      ],
+      "harmed_party": [
+        "Audience/readers",
+        "News organization/publisher"
+      ]
+    }
+  },
+  "FE54A2JM": {
+    "quotes": [
+      {
+        "role": "harmed_party",
+        "value": "Sources/subjects of coverage",
+        "text": "deputy director of a liberal project at Yale Law School",
+        "start": 4,
+        "end": 59
+      }
+    ],
+    "roles": {
+      "system": [],
+      "developer": [],
+      "actor": [],
+      "factor": [],
+      "harm": [],
+      "harmed_party": [
+        "Sources/subjects of coverage"
+      ]
+    }
+  },
+  "G66ID52Y": {
+    "quotes": [
+      {
+        "role": "system",
+        "value": "News summarization",
+        "text": "Google is beginning to replace news headlines in its search results with ones that are AI-generated",
+        "start": 393,
+        "end": 492
+      },
+      {
+        "role": "harm",
+        "value": "Distorted source representation",
+        "text": "We’ve found multiple examples where Google replaced headlines we wrote with ones we did not, sometimes changing their meaning in the process.For example, Google reduced our headline “\nI used the ‘cheat on everything’ AI tool and it didn’t help me cheat on anything” to just five words: “‘Cheat on everything’ AI tool.” Italmostsounds like we’re endorsing a product we do not recommend at all.",
+        "start": 637,
+        "end": 1029
+      },
+      {
+        "role": "factor",
+        "value": "Lack of audience disclosure",
+        "text": "without any indication that Google replaced the words we chose.",
+        "start": 1469,
+        "end": 1532
+      },
+      {
+        "role": "actor",
+        "value": "AI developer",
+        "text": "Google AI",
+        "start": 45,
+        "end": 54
+      },
+      {
+        "role": "developer",
+        "value": "AI vendor",
+        "text": "Google AI",
+        "start": 45,
+        "end": 54
+      },
+      {
+        "role": "system",
+        "value": "News summarization",
+        "text": "Google AI",
+        "start": 45,
+        "end": 54
+      },
+      {
+        "role": "harmed_party",
+        "value": "News organization/publisher",
+        "text": "Verge",
+        "start": 16,
+        "end": 21
+      },
+      {
+        "role": "factor",
+        "value": "Publishers’ lack of control over AI content presentation",
+        "text": "We spend a lot of time trying to write headlines that are true, interesting, fun, and worthy of your attention without resorting to clickbait, but Google seems to believe we don’t have an inherent right to market our own work that way.",
+        "start": 1864,
+        "end": 2099
+      },
+      {
+        "role": "harmed_party",
+        "value": "General public",
+        "text": "Changing headlines, and their meaning, makes journalism less trustworthy at a time when powerful institutions are trying to discredit it, \nandwhen many news organizations are struggling just to keep the lights on.",
+        "start": 6090,
+        "end": 6303
+      }
+    ],
+    "roles": {
+      "system": [
+        "News summarization"
+      ],
+      "developer": [
+        "AI vendor"
+      ],
+      "actor": [
+        "AI developer"
+      ],
+      "factor": [
+        "Lack of audience disclosure",
+        "Publishers’ lack of control over AI content presentation"
+      ],
+      "harm": [
+        "Distorted source representation"
+      ],
+      "harmed_party": [
+        "News organization/publisher",
+        "General public"
+      ]
+    }
+  },
+  "HIMKPTNY": {
+    "quotes": [
+      {
+        "role": "harmed_party",
+        "value": "Journalist(s)",
+        "text": "TV 2 presenter Divya Das’s image",
+        "start": 216,
+        "end": 248
+      },
+      {
+        "role": "system",
+        "value": "Deepfake generation",
+        "text": "deepfake technology",
+        "start": 257,
+        "end": 276
+      },
+      {
+        "role": "harm",
+        "value": "Privacy harm",
+        "text": "manipulation of journalists' likenesses",
+        "start": 387,
+        "end": 426
+      },
+      {
+        "role": "harm",
+        "value": "Amplification of misinformation",
+        "text": "promote fake news articles",
+        "start": 1344,
+        "end": 1370
+      },
+      {
+        "role": "harm",
+        "value": "Scams",
+        "text": "fake cryptocurrency schemes",
+        "start": 1426,
+        "end": 1453
+      },
+      {
+        "role": "factor",
+        "value": "Deployment of AI with intention to harm, mislead, or troll",
+        "text": "These articles were tricking people into investing in fake cryptocurrency schemes",
+        "start": 1372,
+        "end": 1453
+      },
+      {
+        "role": "factor",
+        "value": "AI-based mimicry of established journalists/outlets",
+        "text": "exploitation of TV 2 presenter Divya Das’s image through deepfake technology",
+        "start": 200,
+        "end": 276
+      },
+      {
+        "role": "harmed_party",
+        "value": "Journalist(s)",
+        "text": "wrongly implicating Das's husband, DR TV host Kim Bildsøe Lassen",
+        "start": 1834,
+        "end": 1898
+      },
+      {
+        "role": "harm",
+        "value": "Misrepresentation of individuals depicted",
+        "text": "The latest incident involved a fake image showing Das with a black eye or red marks on her face. This manipulated image was accompanied by a false story suggesting domestic abuse, wrongly implicating Das's husband, DR TV host Kim Bildsøe Lassen.",
+        "start": 1654,
+        "end": 1899
+      },
+      {
+        "role": "harm",
+        "value": "Dignity harm to individuals depicted",
+        "text": "The latest incident involved a fake image showing Das with a black eye or red marks on her face. This manipulated image was accompanied by a false story suggesting domestic abuse, wrongly implicating Das's husband, DR TV host Kim Bildsøe Lassen.",
+        "start": 1654,
+        "end": 1899
+      },
+      {
+        "role": "harm",
+        "value": "Scams",
+        "text": "scammers were using her image without permission on Instagram to promote fake campaigns",
+        "start": 2020,
+        "end": 2107
+      },
+      {
+        "role": "actor",
+        "value": "Tech platform",
+        "text": "Meta",
+        "start": 2441,
+        "end": 2445
+      },
+      {
+        "role": "factor",
+        "value": "Inadequate content moderation by platforms",
+        "text": "urging the platform to assume accountability for defamatory and harmful content proliferation",
+        "start": 2470,
+        "end": 2563
+      },
+      {
+        "role": "harm",
+        "value": "Litigation burden",
+        "text": "initiating legal action",
+        "start": 2647,
+        "end": 2670
+      },
+      {
+        "category": "incident_aftermath",
+        "text": "TV 2's managing director, Anne Engdal Stig Christensen, announced the channel was initiating legal action against Meta. TV 2 has filed fraud charges, and media outlet DR is pursuing defamation charges. Law enforcement is investigating the alleged offenses.",
+        "start": 2565,
+        "end": 2821
+      },
+      {
+        "category": "incident_aftermath",
+        "text": "Women Press Freedom denounces attempts to tarnish Divya Das’ reputation through AI-manipulated deepfakes.",
+        "start": 3126,
+        "end": 3231
+      },
+      {
+        "role": "harmed_party",
+        "value": "News organization/publisher",
+        "text": "TV 2, DR, and news portal BT",
+        "start": 2389,
+        "end": 2417
+      },
+      {
+        "role": "harmed_party",
+        "value": "Audience/readers",
+        "text": "he warned her followers to be careful and not to believe any fabricated stories or scams circulating under her name.",
+        "start": 2110,
+        "end": 2226
+      }
+    ],
+    "roles": {
+      "system": [
+        "Deepfake generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "actor": [
+        "Tech platform",
+        "Unknown/unspecified"
+      ],
+      "factor": [
+        "Deployment of AI with intention to harm, mislead, or troll",
+        "AI-based mimicry of established journalists/outlets",
+        "Inadequate content moderation by platforms"
+      ],
+      "harm": [
+        "Privacy harm",
+        "Litigation burden",
+        "Amplification of misinformation",
+        "Scams",
+        "Misrepresentation of individuals depicted",
+        "Dignity harm to individuals depicted"
+      ],
+      "harmed_party": [
+        "Journalist(s)",
+        "News organization/publisher",
+        "Audience/readers"
+      ]
+    }
+  },
+  "LE539PVE": {
+    "quotes": [
+      {
+        "end": 37,
+        "role": "actor",
+        "start": 4,
+        "text": "independent journalist Jim Acosta",
+        "value": "Individual journalist"
+      },
+      {
+        "category": "incident_aftermath",
+        "end": 65,
+        "start": 38,
+        "text": "sparked an intense backlash"
+      },
+      {
+        "end": 265,
+        "role": "system",
+        "start": 156,
+        "text": "AI-generated avatar modeled on Joaquin Oliver, a teenager killed in the Parkland high school shooting in 2018",
+        "value": "Deepfake generation"
+      },
+      {
+        "end": 709,
+        "role": "system",
+        "start": 554,
+        "text": "Trained on an old photo and audio recordings of Oliver, the AI avatar used a chatbot to generate answers and delivered them in what sounded like his voice.",
+        "value": "Chatbot (general use)"
+      },
+      {
+        "end": 1329,
+        "role": "harmed_party",
+        "start": 1102,
+        "text": "The video was panned online as “extremely unsettling” and “ghoulish,” with many people citing concerns that such technology could be used to create beliefs the person may not have supported and to tarnish the memory of the dead",
+        "value": "Audience/readers"
+      },
+      {
+        "role": "harm",
+        "value": "Exposure to offensive content",
+        "text": " “extremely unsettling” and “ghoulish,”",
+        "start": 1132,
+        "end": 1171
+      },
+      {
+        "role": "harm",
+        "value": "Exposure to offensive content",
+        "text": "social media users said this week’s display was distasteful",
+        "start": 2869,
+        "end": 2928
+      },
+      {
+        "role": "harmed_party",
+        "value": "Audience/readers",
+        "text": "social media users",
+        "start": 2869,
+        "end": 2887
+      },
+      {
+        "role": "factor",
+        "value": "Contextually inappropriate application of AI",
+        "text": "particularly because Acosta had portrayed the AI chat as an “interview.”",
+        "start": 2930,
+        "end": 3002
+      },
+      {
+        "category": "incident_aftermath",
+        "text": "Acosta wrote late Monday that the boy’s “father approached me to do the story … to keep the memory of his son alive.”\nAcosta also pointed followers to a video from Oliver’s father, Manuel Oliver, defending Acosta, whom he called a friend.\n“We feel Joaquin has a lot of things to say, and as long as we have an option that allows us to bring that to you and to everyone, we will use it,” Manuel Oliver said. “If the problem you have is with the AI, then you have the wrong problem. The real problem is that my son was shot.”\nIn a statement later to The Washington Post, Acosta said, “I think Joaquin’s father makes a good point.”",
+        "start": 1735,
+        "end": 2363
+      }
+    ],
+    "roles": {
+      "system": [
+        "Deepfake generation",
+        "Chatbot (general use)"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "actor": [
+        "Individual journalist"
+      ],
+      "factor": [
+        "Contextually inappropriate application of AI"
+      ],
+      "harm": [
+        "Exposure to offensive content"
+      ],
+      "harmed_party": [
+        "Audience/readers"
+      ]
+    }
+  },
+  "EP4JBGDF": {
+    "quotes": [],
+    "roles": {
+      "system": [],
+      "developer": [],
+      "actor": [],
+      "factor": [],
+      "harm": [],
+      "harmed_party": []
+    }
+  },
+  "QW3WR9GP": {
+    "quotes": [],
+    "roles": {
+      "system": [],
+      "developer": [],
+      "actor": [],
+      "factor": [],
+      "harm": [],
+      "harmed_party": []
+    }
   }
 }
