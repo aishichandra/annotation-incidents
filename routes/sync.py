@@ -65,15 +65,11 @@ def api_push():
     coder = current_coder(strict=True)
     store = load_annotations(coder)
     assignments = load_assignments()
-    docs_pushed = 0
+    items = []
     for i in range(len(doc_source.df)):
         key = doc_source.df["doc_key"].iloc[i]
-        try:
-            mongo_sync.sync_to_mongo(i, key, doc_ann(store, key), coder,
-                                     incident_of(key, assignments))
-            docs_pushed += 1
-        except Exception as e:
-            print(f"[mongo] push failed for {key} ({e.__class__.__name__}: {e})")
+        items.append((i, key, doc_ann(store, key), coder, incident_of(key, assignments)))
+    docs_pushed = mongo_sync.push_documents(items)
 
     incidents, _, _ = aggregate_incidents(coder)
     inc_store = load_incident_coding(coder)

@@ -101,7 +101,7 @@ def api_save(i):
     entry["notes"] = notes
     save_incident_coding(inc_store, coder)
 
-    mongo_sync.sync_to_mongo(i, key, rec, coder, inc_id)
+    mongo_sync.push_documents([(i, key, rec, coder, inc_id)])
     mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
     clear_signoff(coder, inc_id)
     return jsonify({"ok": True, "coder": coder, "n": len(rec["quotes"])})
