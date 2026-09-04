@@ -8,7 +8,7 @@
 import { escapeHtml } from '../persist.js';
 import { RULES } from '../state.js';
 import { roleLabel } from './card.js';
-import { INCIDENTS, loadIncidents, nextTodoAfter, refreshTile } from './index.js';
+import { INCIDENTS, loadIncidents, nextInSectionAfter, refreshTile } from './index.js';
 
 // Persist an incident's groups (debounced-ish: fire immediately, it's small).
 // ---------- completion sign-off ----------
@@ -189,7 +189,7 @@ export async function setStatus(incId, status) {
   // sign-off leaves you on the incident you just reopened.
   if (status !== was) {
     const settled = status === 'complete' || status === 'not_an_incident';
-    return loadIncidents({ open: settled ? nextTodoAfter(incId) : incId });
+    return loadIncidents({ open: settled ? nextInSectionAfter(incId) : incId });
   }
   refreshComplete(inc);
 }
