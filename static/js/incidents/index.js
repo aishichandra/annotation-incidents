@@ -1,4 +1,4 @@
-// The incidents view: the index of tiles, the three tabs, and opening one.
+// The incidents view: the index of tiles, the four tabs, and opening one.
 //
 // What is on screen and what the server holds are kept in step here and nowhere
 // else: INCIDENTS is this coder's incidents as last fetched, DIRTY_INCIDENTS is
@@ -39,17 +39,24 @@ export function markIncidentDirty(incId) {
   if (incId) DIRTY_INCIDENTS.add(incId);
 }
 
-// ---------- the three sections ----------
-// A coder works top-down: what still needs coding, then what has been settled —
-// signed off, or ruled out. Settled work stays listed and countable rather than
-// hidden, since "what have I finished" and "what did I rule out" are both part
-// of the record.
+// ---------- the four sections ----------
+// A coder works top-down: what still needs coding, what has been started, then
+// what has been settled — signed off, or ruled out. Settled work stays listed
+// and countable rather than hidden, since "what have I finished" and "what did
+// I rule out" are both part of the record.
 export const isDone = (inc) => inc.status === 'complete';
 
 export const isOut  = (inc) => inc.status === 'not_an_incident';
 
+// Any highlighted evidence on a member document, regardless of whether it adds
+// up to a complete claim yet — the same ground-truth `quotes` count a card's
+// document row shows, not the pooled roles a claim reads (those can lag a
+// quote by a save).
+export const isStarted = (inc) => (inc.documents || []).some((d) => d.quotes > 0);
+
 export const SECTIONS = [
-  { id: 'todo', label: 'To code',         match: (inc) => !isDone(inc) && !isOut(inc) },
+  { id: 'todo', label: 'To code',         match: (inc) => !isDone(inc) && !isOut(inc) && !isStarted(inc) },
+  { id: 'wip',  label: 'In progress',     match: (inc) => !isDone(inc) && !isOut(inc) && isStarted(inc) },
   { id: 'done', label: 'Complete',        match: isDone },
   { id: 'out',  label: 'Not an incident', match: isOut },
 ];
@@ -60,6 +67,39 @@ export const sectionLabel = (id) => (SECTIONS.find(s => s.id === id) || SECTIONS
 
 export const tileEl = (incId) =>
   document.querySelector(`.inc-tile[data-inc="${CSS.escape(incId)}"]`);
+
+// ---------- "I'm working on this" ----------
+// A coder's own reminder of which "to code" tiles they have their eye on —
+// purely local, so it lives in this browser only and never reaches the other
+// coder, the server, or Mongo. Keyed by coder so two people sharing a machine
+// don't see each other's marks. Read straight from localStorage rather than
+// importing CODER from coder.js: coder.js -> boot.js -> this module -> coder.js
+// is already a cycle, and this module loads as part of resolving *that* import,
+// before coder.js's own body — the line setting CODER — has run.
+const CLAIM_KEY = 'claimed:' + (localStorage.getItem('coder') || '');
+
+function loadClaims() {
+  try { return new Set(JSON.parse(localStorage.getItem(CLAIM_KEY) || '[]')); }
+  catch (e) { return new Set(); }
+}
+
+const CLAIMED = loadClaims();
+
+function saveClaims() {
+  try { localStorage.setItem(CLAIM_KEY, JSON.stringify(Array.from(CLAIMED))); }
+  catch (e) { /* private browsing, storage full — the mark just won't persist */ }
+}
+
+export const isClaimed = (incId) => CLAIMED.has(incId);
+
+// Only meaningful in "To code": once real evidence lands the tile moves to "In
+// progress" on its own, where the dot already means something else.
+export function toggleClaim(incId) {
+  if (CLAIMED.has(incId)) CLAIMED.delete(incId); else CLAIMED.add(incId);
+  saveClaims();
+  const inc = INCIDENTS[incId];
+  if (inc) refreshTile(inc);
+}
 
 // Bring the incidents view up to date with the least disturbance: nothing on the
 // first visit but a full render, and after that only the tiles whose data moved.
@@ -137,15 +177,28 @@ export function tileTitle(inc) {
                                                              : '(no documents)')}</span>`;
 }
 
+// The status dot's classes and tooltip for one tile. Shared between building a
+// tile fresh and repainting one in place, so the two can never drift apart.
+function stateDot(inc, sec) {
+  const ready = sec === 'wip' && completenessOf(inc).ok;
+  const claimed = sec === 'todo' && isClaimed(inc.incident_id);
+  const cls = 't-state ' + sec + (ready ? ' ready' : '') + (claimed ? ' claimed' : '');
+  const title = sec === 'todo'
+    ? (claimed ? 'You are working on this \u2014 click to clear'
+               : 'Click to mark that you are working on this')
+    : '';
+  return { cls, title };
+}
+
 export function incidentTile(inc) {
   const encId = escapeHtml(inc.incident_id);
   const sec = sectionOf(inc);
-  const ready = sec === 'todo' && completenessOf(inc).ok ? ' ready' : '';
+  const dot = stateDot(inc, sec);
   return `<div class="inc-tile" data-inc="${encId}" data-sec="${sec}">
     <div class="tile-head" role="button" tabindex="0" aria-expanded="false">
       <div class="t-top"><span class="t-id">${encId}</span>
         <span class="t-flag"${inc.flagged ? '' : ' hidden'} title="You are not sure about this one">\u2691</span>
-        <span class="t-state ${sec}${ready}"></span></div>
+        <span class="${dot.cls}" data-claim="${encId}" title="${escapeHtml(dot.title)}"></span></div>
       <div class="t-title">${tileTitle(inc)}</div>
     </div>
     <div class="tile-card" hidden></div>
@@ -162,13 +215,16 @@ export function refreshTile(inc) {
   const t = tile.querySelector('.t-title');
   if (t) t.innerHTML = tileTitle(inc);
   const s = tile.querySelector('.t-state');
-  if (s) s.className = 't-state ' + sec
-    + (sec === 'todo' && completenessOf(inc).ok ? ' ready' : '');
+  if (s) {
+    const dot = stateDot(inc, sec);
+    s.className = dot.cls;
+    s.title = dot.title;
+  }
   const fl = tile.querySelector('.t-flag');
   if (fl) fl.hidden = !inc.flagged;
 }
 
-// The three sections are tabs, not one long scroll: only the selected one is on
+// The four sections are tabs, not one long scroll: only the selected one is on
 // the page, so "Complete" and "Not an incident" cost nothing to carry around and
 // the index stays a single screen of tiles.
 export let ACTIVE_TAB = 'todo';
@@ -183,10 +239,12 @@ export function tocHtml(groups) {
   </div>`;
 }
 
+const SEC_EMPTY = { todo: 'left to code', wip: 'in progress' };
+
 export function sectionHtml(sec, list) {
   const body = list.length
     ? `<div class="inc-grid">${list.map(incidentTile).join('')}</div>`
-    : `<div class="sec-empty">Nothing ${sec.id === 'todo' ? 'left to code' : 'here'}.</div>`;
+    : `<div class="sec-empty">Nothing ${SEC_EMPTY[sec.id] || 'here'}.</div>`;
   return `<section class="inc-section" id="sec-${sec.id}" data-sec="${sec.id}"`
     + `${sec.id === ACTIVE_TAB ? '' : ' hidden'}>${body}</section>`;
 }
@@ -253,6 +311,11 @@ export function wireIndex(root) {
     };
   });
   root.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => showTab(b.dataset.tab));
+  // The dot only means something in "to code" — elsewhere the click would set
+  // a claim nothing ever shows, so it's only wired up there.
+  root.querySelectorAll('.inc-tile[data-sec="todo"] .t-state[data-claim]').forEach(dot => {
+    dot.onclick = (e) => { e.stopPropagation(); toggleClaim(dot.dataset.claim); };
+  });
 }
 
 // The top bar is fixed and the table of contents sticks beneath it, so a plain
@@ -324,13 +387,17 @@ document.addEventListener('keydown', (e) => {
   closeIncident();
 });
 
-// The incident that follows `incId` in "To code", or null at the end of it.
-// Used to carry a coder on after a sign-off moves the tile they were in.
-export function nextTodoAfter(incId) {
-  const todo = Array.from(document.querySelectorAll('.inc-tile[data-sec="todo"]'))
+// The incident that follows `incId` within its own section — "To code" or "In
+// progress" — or null at the end of it. Used to carry a coder on after a
+// sign-off moves the tile they were in; read before that move, so `incId`'s
+// tile is still where it was when the coder clicked.
+export function nextInSectionAfter(incId) {
+  const tile = tileEl(incId);
+  const sec = tile ? tile.dataset.sec : 'todo';
+  const list = Array.from(document.querySelectorAll(`.inc-tile[data-sec="${sec}"]`))
     .map(t => t.dataset.inc);
-  const i = todo.indexOf(incId);
-  return (i >= 0 && i + 1 < todo.length) ? todo[i + 1] : null;
+  const i = list.indexOf(incId);
+  return (i >= 0 && i + 1 < list.length) ? list[i + 1] : null;
 }
 
 export const NODATA = '<span class="tow-nodata">No data</span>';

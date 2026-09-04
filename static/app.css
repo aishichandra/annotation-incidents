@@ -214,6 +214,7 @@
   .toc-n { font-weight: 700; background: #f2f2f0; border-radius: 9px; padding: 1px 7px;
            font-size: 10px; color: #333; }
   .toc-link.sec-todo .toc-n { background: #eaf0f6; color: #254c6f; }
+  .toc-link.sec-wip  .toc-n { background: #fbf1da; color: #92660a; }
   .toc-link.sec-done .toc-n { background: #e8f6ee; color: #1c6b3f; }
   .toc-link.sec-out  .toc-n { background: #f3f4f6; color: #6b7280; }
 
@@ -245,7 +246,11 @@
   /* the status pip: at a glance, which pile a tile belongs to */
   .t-state { width: 8px; height: 8px; border-radius: 50%; flex: none;
              background: #d8d8d4; }
-  .t-state.todo.ready { background: #d8a200; }   /* everything filled in, unsigned */
+  /* only "to code" tiles do anything on click — a personal, browser-only mark */
+  .t-state.todo { cursor: pointer; }
+  .t-state.todo.claimed { background: #e8c468; }  /* you clicked it: working on this */
+  .t-state.wip { background: #e8c468; }          /* started, not yet ready to sign off */
+  .t-state.wip.ready { background: #d8a200; }    /* everything filled in, unsigned */
   .t-state.done { background: #1c6b3f; }
   .t-state.out { background: #cfd2d6; }
   /* The whole title, however long: a tile is chosen from its title, so clipping
