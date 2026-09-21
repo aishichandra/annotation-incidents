@@ -8,7 +8,8 @@ import re
 from datetime import datetime
 
 from config import (
-    CODERS, IDENTITY_FIELDS, OPTIONAL_CLAIM_ROLES, REQUIRED_CLAIM_ROLES, load_schema,
+    CODERS, IDENTITY_FIELDS, OPTIONAL_CLAIM_ROLES, REQUIRED_CLAIM_ROLES, ROLE_GEO_ALL,
+    load_schema,
 )
 from doc_source import cell
 import doc_source
@@ -237,6 +238,49 @@ def _prune_group(g: dict, grp: dict):
             "developers": developers, "claims": claims, "omit": omit}
 
 
+def _prune_role_geo(geo: dict, role_values: dict, incident_places) -> dict:
+    """Where each characteristic is, kept only for values still pooled on the
+    incident (`role_values`) and places still in the incident's own
+    Geography/location (`incident_places`), de-duplicated.
+
+    Pooled once per incident rather than per group or claim: the same
+    "Journalists" cited as a harmed party in two different claims — or the same
+    actor named in two different groups — is one value with one location, not
+    two contexts that happen to share a name. A location dropped on any one
+    appearance of a value tags the value itself, so every other appearance of
+    it reads with the same tag.
+
+    A place isn't a standing global option here the way a role's own options
+    are — the *only* places a coder can drop onto a characteristic are the ones
+    this incident's own Geography/location already names (see
+    static/js/incidents/palette.js's geoPaletteRow), so dropping a country from
+    that field is what removes it from Based in too: any role_geo entry naming
+    it no longer has anywhere to survive. Renaming a place still reaches in
+    here the same way a role rename reaches role_values (see
+    storage.rename_role_geo_value) — that part isn't scope-cut."""
+    allowed = set(incident_places or [])
+    out = {}
+    for role, by_value in (geo or {}).items():
+        survivors = set(role_values.get(role) or [])
+        kept = {}
+        for value, locs in (by_value or {}).items():
+            # ROLE_GEO_ALL is a place for the whole role, not a value in it, so
+            # there is nothing for it to have outlived — it stays as long as the
+            # place is still one the incident names.
+            if value != ROLE_GEO_ALL and value not in survivors:
+                continue
+            seen, deduped = set(), []
+            for l in (str(l or "").strip() for l in (locs or [])):
+                if l and l in allowed and l not in seen:
+                    seen.add(l)
+                    deduped.append(l)
+            if deduped:
+                kept[value] = deduped
+        if kept:
+            out[role] = kept
+    return out
+
+
 def _derive_from_documents(g: dict) -> None:
     """The incident's dates and domains: its documents', de-duplicated.
 
@@ -291,6 +335,11 @@ def aggregate_incidents(coder: str):
         entry = inc_store.get(inc_id) or {}
         saved = entry.get("groups") or []
         g["groups"] = [grp for grp in (_prune_group(g, x) for x in saved) if grp]
+        # Pruned against role_values, which is only fully pooled once every
+        # member document has been walked — hence the second pass, same as
+        # groups just above.
+        g["role_geo"] = _prune_role_geo(entry.get("role_geo") or {}, g["role_values"],
+                                         g["field_values"].get("incident_geography"))
         _derive_from_documents(g)
         # Computed after pruning, so the check sees the same groups the card
         # does. The stored sign-off rides alongside it: `completeness` is what the

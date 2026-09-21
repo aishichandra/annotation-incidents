@@ -341,6 +341,11 @@ def build_validator(vocab: dict | None = None) -> dict:
             # name), keyed by role
             "notes": {"bsonType": ["object", "null"]},
             "groups": groups_array,
+            # Where each characteristic is — {role: {value: [location, ...]}} —
+            # dropped onto its chip and pooled once for the incident, not per
+            # group or claim: the same value named in two different groups (or
+            # claims) is one value with one location.
+            "role_geo": {"bsonType": ["object", "null"]},
             # this coder's remark about the incident as a whole
             "comment": {"bsonType": ["string", "null"]},
             # this coder's judgement about the incident: "" (still working),

@@ -8,7 +8,7 @@ import { buildSelect } from '../form.js';
 import { escapeHtml } from '../persist.js';
 import { field } from '../reader.js';
 import { attachDefTip, color } from '../state.js';
-import { FIELDS, NODATA, refreshIncidents, refreshTile } from './index.js';
+import { FIELDS, NODATA, refreshCardPanels, refreshIncidents, refreshTile } from './index.js';
 
 // The incident's own controlled answers — Geography/location, Translated —
 // picked here and nowhere else. They describe the incident rather than any one
@@ -164,6 +164,16 @@ export async function saveCardField(inc, key, answer, state) {
   inc.field_values[key] = Array.isArray(d.answer) ? d.answer
                         : (d.answer ? [d.answer] : []);
   say(d.synced ? 'Saved ✓' : 'Saved locally ✓', true);
+  if (key === 'incident_geography') {
+    // Based in offers only the places named here, and role_geo is pruned
+    // against them server-side (see incidents._prune_role_geo and the /field
+    // route) — the response already carries the pruned result, so this
+    // updates in place rather than reloading the whole incident for a
+    // one-field edit.
+    inc.role_geo = d.role_geo || {};
+    refreshCardPanels(inc);
+    return true;
+  }
   refreshTile(inc);
   return true;
 }

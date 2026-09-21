@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 
 from flask import Blueprint, abort, jsonify, request
 
-from config import CODERS, INCIDENT_STATUSES, current_coder, load_schema
+from config import CODERS, GEO_ROLES, INCIDENT_STATUSES, current_coder, load_schema
 from incidents import (
     _jsonable, _next_incident_id, aggregate_incidents, clear_signoff,
     incident_completeness, incident_sort_key,
@@ -165,6 +165,43 @@ def api_save_groups(inc_id):
     clear_signoff(coder, inc_id)
     return jsonify({"ok": True, "coder": coder, "groups": len(groups),
                     "synced": synced})
+
+
+@bp.route("/api/incident/<path:inc_id>/geo", methods=["POST"])
+def api_save_geo(inc_id):
+    """Where one characteristic is. Body: {role, value, locations: [...]}.
+
+    Pooled once per incident rather than per group or claim: the same
+    "Journalists" cited as a harmed party in two different claims is one value
+    with one location, not two contexts that happen to share a name — see
+    incidents._prune_role_geo. A geography tag never bears on completeness (it
+    isn't read by incident_completeness), so unlike a groups save this never
+    needs to clear a sign-off."""
+    coder = current_coder(strict=True)
+    body = request.get_json(force=True) or {}
+    role, value = body.get("role"), str(body.get("value") or "").strip()
+    if role not in GEO_ROLES or not value:
+        return jsonify({"error": "unknown role or value"}), 404
+    locations, seen = [], set()
+    for l in body.get("locations") or []:
+        l = str(l or "").strip()
+        if l and l not in seen:
+            seen.add(l)
+            locations.append(l)
+    store = load_incident_coding(coder)
+    entry = store.setdefault(inc_id, blank_incident_coding())
+    geo = entry.setdefault("role_geo", {})
+    if locations:
+        geo.setdefault(role, {})[value] = locations
+    else:
+        by_value = geo.get(role) or {}
+        by_value.pop(value, None)
+        if not by_value:
+            geo.pop(role, None)     # no empty {role: {}} left behind
+    save_incident_coding(store, coder)
+    synced = mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
+    return jsonify({"ok": True, "coder": coder, "role": role, "value": value,
+                    "locations": locations, "synced": synced})
 
 
 @bp.route("/api/incident/<path:inc_id>/status", methods=["POST"])
@@ -347,5 +384,15 @@ def api_save_incident_field(inc_id):
         fields.pop(key, None)
     save_incident_coding(store, coder)
     synced = mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
+    role_geo = None
+    if key == "incident_geography":
+        # Based in offers only the places this field just named, and role_geo
+        # is pruned against them (see incidents._prune_role_geo) — so the
+        # client needs the post-prune result to update in place rather than
+        # reloading the whole incident list for a one-field edit.
+        incidents, _, _ = aggregate_incidents(coder)
+        inc = incidents.get(inc_id)
+        role_geo = inc["role_geo"] if inc else {}
     return jsonify({"ok": True, "coder": coder, "key": key, "answer": answer,
+                    "role_geo": role_geo,
                     "synced": synced})

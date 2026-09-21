@@ -33,6 +33,48 @@ export const ROLES = [
 ];
 export const ROLE = Object.fromEntries(ROLES.map(r => [r.role, r]));
 
+// Where an actor, system, developer or harmed party is — a place, dropped
+// onto that value's own chip rather than assumed to be the same for every
+// value in it. Labelled "Based in" rather than "Location" so it doesn't read
+// as another way to answer the incident-level Geography/location field — the
+// two ask different questions (where the *incident* is about, versus where
+// one of its characteristics is) and happen to share a vocabulary, not a
+// meaning. Deliberately outside ROLES/CLAIM_ROLE: it is never dragged into a
+// claim's own drop zone, and its "characteristics" come from the geography
+// vocabulary, not from role_values, so it has no business in anything driven by
+// that list.
+//
+// In a document the same thing is called `docLabel` — there it is a tag on a
+// highlighted country, one of the choices beside Actor and Harm, and the coder
+// is picking a place, not asking where something is based. That highlight is a
+// quote like any other, tagged `role: GEO.role`: `value` is the place and
+// `for_role` says what it applies to (one of GEO_SCOPES). It is still no
+// characteristic — it never reaches a document's `roles` — and the server
+// carries it onto the incident's role_geo (see storage.sync_doc_geo).
+export const GEO = { role: 'geography', label: 'Based in', docLabel: 'Geography',
+                     color: '#d1d5db' };  // slate
+
+// Which characteristics can take a location — mirrors config.GEO_ROLES. Harm
+// and factor are absent: neither is a thing that is anywhere.
+export const GEO_ROLES = new Set(['actor', 'system', 'developer', 'harmed_party']);
+
+// What a highlighted place can apply to: one characteristic's role, or all of
+// them at once. Mirrors config.GEO_SCOPE_ALL; the roles are GEO_ROLES.
+export const GEO_ALL = 'all';
+export const GEO_SCOPES = [
+  { scope: 'actor',        label: 'Actor' },
+  { scope: 'developer',    label: 'Developer' },
+  { scope: 'harmed_party', label: 'Harmed party' },
+  { scope: 'system',       label: 'System' },
+  { scope: GEO_ALL,        label: 'All' },
+];
+export function geoScopeLabel(scope) {
+  return (GEO_SCOPES.find(s => s.scope === scope) || {}).label || scope || '';
+}
+// The role_geo key a place for a whole role sits under — every actor, say,
+// rather than one value in it. Mirrors config.ROLE_GEO_ALL.
+export const ROLE_GEO_ALL = '*';
+
 // Every characteristic is droppable into a claim, so this is just ROLE.
 // Geography and Translated are not here because they are not characteristics:
 // they describe the incident and are answered once on its card (card_only

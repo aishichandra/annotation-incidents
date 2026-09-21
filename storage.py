@@ -15,7 +15,8 @@ import json
 from collections import Counter
 
 from config import (
-    ASSIGNMENTS_JSON, CODERS, LEGACY_ANNOTATIONS_JSON, LEGACY_CODER, ROLE_KEYS,
+    ASSIGNMENTS_JSON, CODERS, GEO_QUOTE_ROLE, GEO_ROLES, GEO_SCOPE_ALL,
+    LEGACY_ANNOTATIONS_JSON, LEGACY_CODER, ROLE_GEO_ALL, ROLE_KEYS,
     _atomic_write, _read_json, annotated_csv_path, annotations_path,
     incident_coding_path, load_schema,
 )
@@ -128,7 +129,7 @@ def blank_incident_coding() -> dict:
     here for the reason in load_incident_coding: a part left out of this dict is
     read from Mongo and then dropped on the next write."""
     return {"fields": {}, "notes": {}, "groups": [], "comment": "",
-            "status": "", "completed_at": "", "flagged": False}
+            "status": "", "completed_at": "", "flagged": False, "role_geo": {}}
 
 
 def load_incident_coding(coder: str) -> dict:
@@ -166,7 +167,8 @@ def save_incident_coding(store: dict, coder: str) -> None:
     # a line in the file.
     lean = {k: v for k, v in store.items()
             if v.get("fields") or v.get("groups") or v.get("notes")
-            or v.get("comment") or v.get("status") or v.get("flagged")}
+            or v.get("comment") or v.get("status") or v.get("flagged")
+            or v.get("role_geo")}
     _atomic_write(incident_coding_path(coder), json.dumps(lean, indent=2, ensure_ascii=False))
 
 
@@ -462,6 +464,139 @@ def rename_field_value(key: str, old: str, new: str) -> int:
             _atomic_write(incident_coding_path(coder),
                           json.dumps(inc_store, indent=2, ensure_ascii=False))
             total += n
+    return total
+
+
+# ------------------------------------------------------------- geo, "based in"
+# A place dropped onto a characteristic (incidents._prune_role_geo) shares its
+# vocabulary with the Geography/location field but isn't a field answer, so it
+# needs its own usage count and its own rename — the Codebook's rename of a
+# place has to reach both, or a coder renaming "Kenya" to "Kenya (national)"
+# from one side would leave the other still naming the old value.
+
+
+def _geo_quotes(rec):
+    """The Geography highlights on one document: quotes tagged GEO_QUOTE_ROLE,
+    each {value: place, for_role: what it applies to, text, start, end}."""
+    for q in (rec or {}).get("quotes") or []:
+        if isinstance(q, dict) and q.get("role") == GEO_QUOTE_ROLE:
+            yield q
+
+
+def geo_pairs(rec) -> set:
+    """{(role, place)} that one document's Geography highlights say, with
+    "all" spelled out as the roles it stands for — so a document that
+    highlights Kenya for "all" and again for the actor says the same thing about
+    the actor twice, and taking either back leaves the other standing."""
+    out = set()
+    for q in _geo_quotes(rec):
+        place = str(q.get("value") or "").strip()
+        scope = q.get("for_role")
+        roles = GEO_ROLES if scope == GEO_SCOPE_ALL else (scope,)
+        if place:
+            out.update((r, place) for r in roles if r in GEO_ROLES)
+    return out
+
+
+def sync_doc_geo(inc_store, store, assignments, key, old_inc, new_inc, before, after) -> set:
+    """Carry one document's Geography highlights into its incident's role_geo,
+    under ROLE_GEO_ALL. `before` and `after` are geo_pairs of the document as
+    last stored and as just posted; returns the incident ids whose role_geo
+    changed, so the caller can mirror them.
+
+    Only the *difference* is applied — a highlight added puts its place on the
+    incident, one taken back removes it — because role_geo is also written from
+    the incident card, and re-asserting every highlight on every save would undo
+    a place a coder took off there while the highlight was still standing. A
+    place is only taken off if no other document of the incident still
+    highlights it: two articles can both say where the actor is.
+
+    A document moved to another incident (old_inc != new_inc) hands over
+    everything it says: it leaves the old incident and arrives at the new one."""
+    moved = old_inc != new_inc
+    retract = before if moved else before - after
+    add = after if moved else after - before
+    touched = set()
+
+    def held_elsewhere(inc_id, pair):
+        return any(k != key and incident_of(k, assignments) == inc_id and pair in geo_pairs(rec)
+                   for k, rec in store.items())
+
+    for role, place in retract:
+        if held_elsewhere(old_inc, (role, place)):
+            continue
+        geo = ((inc_store.get(old_inc) or {}).get("role_geo") or {})
+        locs = (geo.get(role) or {}).get(ROLE_GEO_ALL)
+        if locs and place in locs:
+            locs.remove(place)
+            if not locs:
+                del geo[role][ROLE_GEO_ALL]
+            if not geo[role]:
+                del geo[role]
+            touched.add(old_inc)
+    for role, place in add:
+        entry = inc_store.setdefault(new_inc, blank_incident_coding())
+        locs = entry.setdefault("role_geo", {}).setdefault(role, {}).setdefault(ROLE_GEO_ALL, [])
+        if place not in locs:
+            locs.append(place)
+            touched.add(new_inc)
+    return touched
+
+
+def role_geo_value_usage() -> dict:
+    """How many incidents tag something with each place, per coder:
+    {place: {coder: n}}. A place is tagged either in the incident's role_geo or
+    by a Geography highlight on one of its documents; one incident counts once
+    per coder however many characteristics, highlights or ways say it."""
+    out = {}
+    assignments = load_assignments()
+    for coder in CODERS:
+        per_inc = {}
+        for inc_id, entry in _read_json(incident_coding_path(coder)).items():
+            for by_value in ((entry or {}).get("role_geo") or {}).values():
+                for locs in (by_value or {}).values():
+                    per_inc.setdefault(inc_id, set()).update(locs or [])
+        for key, rec in _read_json(annotations_path(coder)).items():
+            for q in _geo_quotes(rec):
+                if q.get("value"):
+                    per_inc.setdefault(incident_of(key, assignments), set()).add(q["value"])
+        for places in per_inc.values():
+            for place in places:
+                slot = out.setdefault(place, {})
+                slot[coder] = slot.get(coder, 0) + 1
+    return out
+
+
+def rename_role_geo_value(old: str, new: str) -> int:
+    """Rewrite every place named `old` to `new`, for every coder — in role_geo,
+    and on the Geography highlights that put it there. Returns how many moved."""
+    total = 0
+    for coder in CODERS:
+        inc_store = _read_json(incident_coding_path(coder))
+        changed = 0
+        for entry in inc_store.values():
+            for by_value in (entry.get("role_geo") or {}).values():
+                for v, locs in (by_value or {}).items():
+                    if not isinstance(locs, list):
+                        continue
+                    for i, l in enumerate(locs):
+                        if l == old:
+                            locs[i] = new
+                            changed += 1
+        if changed:
+            _atomic_write(incident_coding_path(coder),
+                          json.dumps(inc_store, indent=2, ensure_ascii=False))
+            total += changed
+        store = _read_json(annotations_path(coder))
+        moved = 0
+        for rec in store.values():
+            for q in _geo_quotes(rec):
+                if q.get("value") == old:
+                    q["value"] = new
+                    moved += 1
+        if moved:
+            save_annotations(store, coder)
+            total += moved
     return total
 
 

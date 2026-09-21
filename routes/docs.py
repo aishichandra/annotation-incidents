@@ -11,9 +11,9 @@ from config import ROLE_KEYS, clean_fields, current_coder
 from doc_source import cell, markdown_no_title
 from incidents import clear_signoff
 from storage import (
-    blank_incident_coding, doc_ann, incident_fields, incident_of,
+    blank_incident_coding, doc_ann, geo_pairs, incident_fields, incident_of,
     load_annotations, load_assignments, load_incident_coding, record_assignment,
-    save_annotations, save_incident_coding,
+    save_annotations, save_incident_coding, sync_doc_geo,
 )
 import doc_source
 import mongo_sync
@@ -70,11 +70,15 @@ def api_save(i):
     body = request.get_json(force=True) or {}
     posted_fields = body.get("fields") or {}
 
+    # Read before the assignment below can move the document to another incident:
+    # its Geography highlights have to leave the one and arrive at the other.
+    old_inc = incident_of(key)
     record_assignment(key, posted_fields)
     assignments = load_assignments()
     inc_id = incident_of(key, assignments)
 
     store = load_annotations(coder)
+    geo_before = geo_pairs(store.get(key))
     store[key] = {"quotes": body.get("quotes", []), "roles": body.get("roles", {})}
     rec = doc_ann(store, key)
     store[key] = rec
@@ -99,9 +103,16 @@ def api_save(i):
         else:
             notes.pop(r, None)
     entry["notes"] = notes
+    # Where a highlighted place applies is said in the document but held on the
+    # incident, beside the places dropped onto a characteristic from its card —
+    # see storage.sync_doc_geo. It can touch an incident other than this one, when
+    # the document has just been moved out of it.
+    geo_touched = sync_doc_geo(inc_store, store, assignments, key, old_inc, inc_id,
+                               geo_before, geo_pairs(rec))
     save_incident_coding(inc_store, coder)
 
     mongo_sync.push_documents([(i, key, rec, coder, inc_id)])
-    mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
+    for touched_id in geo_touched | {inc_id}:
+        mongo_sync.sync_incident_coding_to_mongo(touched_id, coder, inc_store[touched_id])
     clear_signoff(coder, inc_id)
     return jsonify({"ok": True, "coder": coder, "n": len(rec["quotes"])})

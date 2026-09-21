@@ -6,6 +6,9 @@ import { renderRoles, updateArmHint } from './arming.js';
 import { renderCard, renderForm } from './form.js';
 import { escapeHtml, persist } from './persist.js';
 import {
+  GEO,
+  GEO_ALL,
+  GEO_SCOPES,
   ROLE,
   ROLES,
   SCHEMA,
@@ -13,6 +16,7 @@ import {
   attachDefTip,
   color,
   curDoc,
+  geoScopeLabel,
   groupHeader,
   groupedOptions,
   hideDefTip,
@@ -81,9 +85,12 @@ export function renderArticle(keepScroll) {
 }
 
 export function quoteColor(q) {
+  if (q.role === GEO.role) return GEO.color;
   return q.role ? ((ROLE[q.role] || {}).color || '#eee') : (color[q.category] || '#fde68a');
 }
 export function quoteLabel(q) {
+  // A highlighted place: the place, and what it applies to.
+  if (q.role === GEO.role) return `${GEO.docLabel} · ${q.value} → ${geoScopeLabel(q.for_role)}`;
   const base = q.role ? ((ROLE[q.role] || {}).label || q.role)
                       : ((field(q.category) || {}).label || q.category);
   return base + (q.value ? ' · ' + q.value : '');
@@ -319,11 +326,21 @@ export function showCategoryMenu(pending, rect) {
     { type: 'role', role: 'factor' },
     { type: 'role', role: 'harm' },
     { type: 'role', role: 'harmed_party' },
+    { type: 'geo' },
     { type: 'field', key: 'incident_aftermath' },
   ];
   const btns = document.createElement('div'); btns.className = 'cat-btns';
   TAG_ORDER.forEach(t => {
-    if (t.type === 'role') {
+    if (t.type === 'geo') {
+      // Not a toggle like the rest: a place needs two answers — which place, and
+      // what it applies to — so it opens its own menu instead.
+      const on = geoQuotesOn(pending).length > 0;
+      const b = document.createElement('button'); b.className = 'cat-btn' + (on ? ' on' : '');
+      b.innerHTML = `<span class="cat-check">${on ? '✓' : ''}</span>`
+        + `<span class="cat-dot" style="background:${GEO.color}"></span>${GEO.docLabel} ▸`;
+      b.onclick = () => showGeoMenu(pending, rect);
+      btns.appendChild(b);
+    } else if (t.type === 'role') {
       const r = ROLE[t.role];
       if (r) btns.appendChild(catChip({ type: 'role', role: t.role }, r.label, r.color));
     } else {
@@ -429,6 +446,149 @@ export function showValuePicker(pending, target, rect) {
   addOutsideClose(menu);
 }
 
+// ---------- geography: a highlighted country, and what it applies to ----------
+// The Geography highlights sitting on exactly this span.
+export function geoQuotesOn(pending) {
+  return curDoc.ann.quotes.filter(q =>
+    q.role === GEO.role && q.start === pending.start && q.end === pending.end);
+}
+
+// The option a highlighted phrase names, if it names one: "the U.S." is not
+// "United States", but "india" and "The Netherlands" are their options, and
+// picking the obvious one for the coder is the point of the vocabulary.
+function matchPlace(text, options) {
+  const key = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '').replace(/^the/, '');
+  const want = key(text);
+  return want ? (options.find(o => key(o) === want) || null) : null;
+}
+
+// Say that this span is `place` and that it applies to `scope`, or take that back.
+// "All" and a single role overlap — all of them, or just one — so choosing one
+// clears the other on this span rather than leaving a highlight that says both.
+// A place has to be one the incident names to survive on it (the incident card
+// prunes the rest), so putting one on a document also puts it on the incident's
+// Geography/location, here where the save carries it.
+function toggleGeo(pending, place, scope) {
+  const on = (q) => q.role === GEO.role && q.value === place
+    && q.start === pending.start && q.end === pending.end;
+  const at = curDoc.ann.quotes.findIndex(q => on(q) && q.for_role === scope);
+  if (at >= 0) {
+    curDoc.ann.quotes.splice(at, 1);
+  } else {
+    curDoc.ann.quotes = curDoc.ann.quotes.filter(q =>
+      !(on(q) && (scope === GEO_ALL || q.for_role === GEO_ALL)));
+    curDoc.ann.quotes.push({ role: GEO.role, value: place, for_role: scope,
+      text: pending.text, start: pending.start, end: pending.end });
+    const fa = fieldAnn('incident_geography');
+    if (!Array.isArray(fa.answer)) fa.answer = fa.answer ? [fa.answer] : [];
+    if (!fa.answer.includes(place)) fa.answer.push(place);
+  }
+  persist(); renderArticle(true); renderRoles();
+}
+
+// Geography, in two answers: which place, then what it applies to. `chosen` is
+// the place picked so far — the option the text names, or what this span already
+// says — and rides along as the menu is rebuilt after each click.
+export function showGeoMenu(pending, rect, chosen) {
+  closeCategoryMenu();
+  const menu = document.createElement('div');
+  menu.className = 'cat-menu';
+  catMenuEl = menu;
+
+  const options = ((field('incident_geography') || {}).options || []).slice();
+  if (chosen === undefined) {
+    chosen = (geoQuotesOn(pending)[0] || {}).value || matchPlace(pending.text, options);
+  }
+  const snip = pending.text.length > 30 ? pending.text.slice(0, 30) + '…' : pending.text;
+  const again = (place) => showGeoMenu(pending, rect, place);
+
+  const title = document.createElement('div');
+  title.className = 'cat-title';
+  title.textContent = `${GEO.docLabel} — “${snip}”`;
+  menu.appendChild(title);
+
+  // 1. which place
+  const placeLabel = document.createElement('div');
+  placeLabel.className = 'cat-group-label'; placeLabel.textContent = 'Place';
+  menu.appendChild(placeLabel);
+  let filter = null;
+  if (options.length > 8) {
+    filter = document.createElement('input');
+    filter.type = 'text'; filter.className = 'cat-filter'; filter.placeholder = 'Find a place…';
+    menu.appendChild(filter);
+  }
+  const list = document.createElement('div'); list.className = 'cat-vlist';
+  const fillList = () => {
+    list.innerHTML = '';
+    const q = filter ? filter.value.trim().toLowerCase() : '';
+    // Only offered when the phrase isn't already an option, so a coder who
+    // highlights "Kenya" is not invited to add a second Kenya.
+    if (!q && !options.some(o => o.toLowerCase() === pending.text.trim().toLowerCase())) {
+      const add = document.createElement('button');
+      add.className = 'cat-vopt cat-vopt-text';
+      add.textContent = `＋ Add “${snip}” as a new place`;
+      add.onclick = async () => {
+        const place = pending.text.trim();
+        const res = await fetch('/api/schema/option', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ field: 'incident_geography', option: place }),
+        });
+        const updated = await res.json().catch(() => null);
+        if (updated && updated.options) field('incident_geography').options = updated.options;
+        again(place);
+      };
+      list.appendChild(add);
+    }
+    options.filter(o => !q || o.toLowerCase().includes(q)).forEach(o => {
+      const b = document.createElement('button');
+      b.className = 'cat-vopt' + (o === chosen ? ' picked' : '');
+      b.textContent = (o === chosen ? '✓ ' : '') + o;
+      b.onclick = () => again(o);
+      list.appendChild(b);
+    });
+  };
+  if (filter) filter.oninput = fillList;
+  fillList();
+  menu.appendChild(list);
+
+  // 2. what it applies to
+  const scopeLabel = document.createElement('div');
+  scopeLabel.className = 'cat-group-label cat-scope-label'; scopeLabel.textContent = 'Applies to';
+  menu.appendChild(scopeLabel);
+  const btns = document.createElement('div'); btns.className = 'cat-btns';
+  GEO_SCOPES.forEach(({ scope, label }) => {
+    const on = !!chosen && geoQuotesOn(pending).some(q => q.value === chosen && q.for_role === scope);
+    const b = document.createElement('button');
+    b.className = 'cat-btn' + (on ? ' on' : '');
+    b.innerHTML = `<span class="cat-check">${on ? '✓' : ''}</span>${label}`;
+    b.onclick = () => {
+      if (!chosen) {
+        title.textContent = 'Pick a place first ↑';
+        title.style.color = '#dc2626';
+        setTimeout(() => { title.textContent = `${GEO.docLabel} — “${snip}”`; title.style.color = ''; }, 1500);
+        return;
+      }
+      toggleGeo(pending, chosen, scope);
+      again(chosen);
+    };
+    btns.appendChild(b);
+  });
+  menu.appendChild(btns);
+
+  const back = document.createElement('button');
+  back.className = 'cat-back'; back.textContent = '← Back';
+  back.onclick = () => showCategoryMenu(pending, rect);
+  menu.appendChild(back);
+  const done = document.createElement('button');
+  done.className = 'cat-done'; done.textContent = 'Done';
+  done.onclick = () => closeCategoryMenu();
+  menu.appendChild(done);
+
+  document.body.appendChild(menu);
+  positionMenu(menu, rect);
+  addOutsideClose(menu);
+}
+
 // Click a highlight to see every category covering that stretch of text; remove
 // them one at a time, add more, or clear them all. Takes the clicked interval
 // [a,b) and recomputes covering quotes fresh (robust to index shifts on remove).
@@ -504,8 +664,10 @@ export function removeValue(q) {
 export function removeQuote(globalIdx) {
   const q = curDoc.ann.quotes[globalIdx];
   curDoc.ann.quotes.splice(globalIdx, 1);
-  // If this was the last highlight justifying its selected value, drop the value too.
-  if (q && q.value !== undefined) {
+  // If this was the last highlight justifying its selected value, drop the value
+  // too — bar a place, which justifies no selection: it is the highlight itself
+  // that says it, and the server takes it off the incident when it goes.
+  if (q && q.role !== GEO.role && q.value !== undefined) {
     const stillJustified = q.role
       ? curDoc.ann.quotes.some(x => x.role === q.role && x.value === q.value)
       : curDoc.ann.quotes.some(x => x.category === q.category && x.value === q.value);

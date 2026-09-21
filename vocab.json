@@ -78,7 +78,12 @@
     "Audience/readers",
     "General public"
   ],
-  "geography": [],
+  "geography": [
+    "United States",
+    "India",
+    "Israel",
+    "Venezuela"
+  ],
   "translated": [
     "Translated",
     "Not translated"

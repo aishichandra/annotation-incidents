@@ -163,6 +163,26 @@ OPTIONAL_CLAIM_ROLES = ("system", "developer")
 # them.
 REQUIRED_CLAIM_ROLES = tuple(r for r in ROLE_KEYS if r not in OPTIONAL_CLAIM_ROLES)
 
+# Which characteristics can take a geography tag — where that actor, system,
+# developer or harmed party is, dropped onto its chip and optional. Harm and
+# factor are deliberately absent: neither is a thing that is anywhere.
+GEO_ROLES = ("actor", "system", "developer", "harmed_party")
+
+# A place highlighted in a document is a quote like any other, tagged with this
+# role — not a characteristic (it is in neither ROLES nor ROLE_KEYS, so it never
+# reaches a document's `roles`), just evidence for a place. `for_role` on it says
+# what the place applies to: one of GEO_ROLES, or GEO_SCOPE_ALL for every one of
+# them at once.
+GEO_QUOTE_ROLE = "geography"
+GEO_SCOPE_ALL = "all"
+
+# The key under which role_geo holds a place that applies to a whole role —
+# every actor in the incident, say — rather than to one value in it. Coded from
+# a document, where you highlight a country and say what it applies to, so a
+# place can be said before (or without) any particular characteristic being
+# picked out for it. Not a value, so it is never pruned for lack of one.
+ROLE_GEO_ALL = "*"
+
 # What one coder can say about an incident as a whole. "" is the default — still
 # working on it. "complete" is a sign-off, and the completeness check gates it.
 # "not_an_incident" sets the incident aside as out of scope, and nothing gates

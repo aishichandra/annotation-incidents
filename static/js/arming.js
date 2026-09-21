@@ -3,14 +3,16 @@
 // scroll-to helpers, and the flat actor/harm/factor role cards.
 
 import { buildSelect, buildText, buildValueEvidence, subLabel } from './form.js';
-import { persistSoon } from './persist.js';
-import { field, renderArticle } from './reader.js';
+import { escapeHtml, persistSoon } from './persist.js';
+import { field, removeQuote, renderArticle } from './reader.js';
 import {
+  GEO,
   ROLE,
   ROLES,
   armed,
   color,
   curDoc,
+  geoScopeLabel,
   roleDefinitions,
   roleEntry,
   roleGroups,
@@ -59,7 +61,7 @@ export function scrollToCard(key) {
   if (c) c.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 export function scrollToMark(gi) {
-  const m = document.querySelector(`mark[data-q="${gi}"]`);
+  const m = document.querySelector(`mark[data-idxs~="${gi}"]`);
   if (m) {
     m.scrollIntoView({ behavior: 'smooth', block: 'center' });
     m.classList.add('active'); setTimeout(() => m.classList.remove('active'), 1200);
@@ -82,7 +84,74 @@ export function buildRolesPanel() {
   // head.innerHTML = `<span class="label">Characteristics</span>`;
   section.appendChild(head);
   ROLES.forEach(r => section.appendChild(buildRoleCard(r)));
+  section.appendChild(buildGeoCard());
   return section;
+}
+
+// ---------- geography: the places highlighted in this document ----------
+// Not a multiselect like the characteristics above: a place is picked from the
+// highlight menu, where you say which one and what it applies to, so this card
+// only lists what has been said — each place with what it applies to, and the
+// passages behind it — and takes it back one passage at a time.
+export function buildGeoCard() {
+  const card = document.createElement('div');
+  card.className = 'card'; card.dataset.role = GEO.role;
+
+  const head = document.createElement('div');
+  head.className = 'head'; head.style.cursor = 'default';
+  head.innerHTML =
+    `<span class="sq" style="background:${GEO.color}"></span>` +
+    `<span class="label">${GEO.docLabel}</span>`;
+  card.appendChild(head);
+
+  const body = document.createElement('div');
+  body.className = 'body';
+  const mine = curDoc.ann.quotes.map((q, gi) => ({ q, gi })).filter(x => x.q.role === GEO.role);
+  const wrap = document.createElement('div');
+  wrap.className = 'value-ev';
+  if (!mine.length) {
+    const none = document.createElement('div');
+    none.className = 'ev-none';
+    none.textContent = 'Highlight a country in the article and choose Geography.';
+    wrap.appendChild(none);
+  }
+  // One row per place and what it applies to; the same country highlighted twice
+  // for the actor is one statement with two passages behind it.
+  const groups = new Map();
+  mine.forEach(x => {
+    const k = x.q.value + '\u0000' + x.q.for_role;
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(x);
+  });
+  groups.forEach(items => {
+    const first = items[0].q;
+    const row = document.createElement('div');
+    row.className = 'ev-row';
+    const rowHead = document.createElement('div');
+    rowHead.className = 'ev-head';
+    rowHead.innerHTML =
+      `<span class="ev-dot" style="background:${GEO.color}"></span>` +
+      `<span class="ev-val">${escapeHtml(first.value)}</span>` +
+      `<span class="ev-scope">→ ${escapeHtml(geoScopeLabel(first.for_role))}</span>` +
+      `<span class="ev-count">${items.length} quote${items.length === 1 ? '' : 's'}</span>`;
+    row.appendChild(rowHead);
+    const quotes = document.createElement('div');
+    quotes.className = 'quotes';
+    items.forEach(({ q, gi }) => {
+      const el = document.createElement('div');
+      el.className = 'quote';
+      el.style.borderLeftColor = GEO.color;
+      el.innerHTML = `“${escapeHtml(q.text.slice(0, 180))}”<button class="x" title="Remove">×</button>`;
+      el.onclick = (e) => { if (e.target.classList.contains('x')) return; scrollToMark(gi); };
+      el.querySelector('.x').onclick = (e) => { e.stopPropagation(); removeQuote(gi); };
+      quotes.appendChild(el);
+    });
+    row.appendChild(quotes);
+    wrap.appendChild(row);
+  });
+  body.appendChild(wrap);
+  card.appendChild(body);
+  return card;
 }
 
 export function buildRoleCard(r) {

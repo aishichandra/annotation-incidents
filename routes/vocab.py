@@ -22,8 +22,8 @@ from incidents_vocab import (
 )
 from storage import (
     field_value_incidents, field_value_usage, incident_title_for,
-    load_assignments, rename_field_value, rename_role_value,
-    role_value_incidents, role_value_usage,
+    load_assignments, rename_field_value, rename_role_geo_value, rename_role_value,
+    role_geo_value_usage, role_value_incidents, role_value_usage,
 )
 import mongo_sync
 
@@ -55,9 +55,24 @@ def _vocab_usage(name: str) -> dict:
     """{value: {coder: n}} for one codebook section. The two kinds are counted
     in different places — a role across documents, quotes and claims; a field in
     the incident's own answers — but they are counted in the same unit, the
-    incident, so a use means the same thing either way."""
-    return (role_value_usage([name]) if name in ROLE_VOCAB
+    incident, so a use means the same thing either way.
+
+    Geography is the one vocabulary with a third home: a place dropped onto a
+    characteristic via "Based in" (role_geo) never answers the
+    incident_geography field, so it would otherwise count as unused and be
+    deletable out from under whatever it's still tagging. Merged in here rather
+    than kept separate, so a rename or a delete-refusal already sees it without
+    every caller having to know geography is special."""
+    base = (role_value_usage([name]) if name in ROLE_VOCAB
             else field_value_usage([name])).get(name, {})
+    if _vocab_key(name) != "geography":
+        return base
+    merged = {v: dict(counts) for v, counts in base.items()}
+    for value, counts in role_geo_value_usage().items():
+        slot = merged.setdefault(value, {})
+        for coder, n in counts.items():
+            slot[coder] = slot.get(coder, 0) + n
+    return merged
 
 
 def _codebook_section(name, label, entry, used):
@@ -205,6 +220,11 @@ def api_vocab_rename():
         return jsonify({"error": "unknown option, or that name is taken"}), 400
     migrated = (sum(rename_role_value(role, old, new).values()) if role in ROLE_VOCAB
                 else rename_field_value(role, old, new))
+    # Geography's third home (see _vocab_usage) needs its own migration pass —
+    # renaming it from either side has to reach role_geo too, or the side that
+    # didn't trigger the rename keeps naming the old value.
+    if vkey == "geography":
+        migrated += rename_role_geo_value(old, new)
     mongo_sync.resync_validator()
     mongo_sync.invalidate_mongo_cache()
     # `slots` is what the rewrite physically touched, `total` how many uses that

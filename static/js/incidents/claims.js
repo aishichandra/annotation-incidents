@@ -8,9 +8,13 @@ import { escapeHtml } from '../persist.js';
 import {
   CLAIM_LIST_KEYS,
   CLAIM_ROLES_DROP,
+  GEO,
+  GEO_ROLES,
   GROUP_LIST_KEYS,
   GROUP_ROLES,
   OPTIONAL_CLAIM_ROLES,
+  ROLE,
+  ROLE_GEO_ALL,
   color,
   groupValues,
 } from '../state.js';
@@ -149,18 +153,23 @@ export function actorHeader(inc, grp, container) {
     return span;
   };
 
-  // The actor: one value, and a drop replaces it.
+  // The actor: one value, and a drop replaces it. Where it's based is optional
+  // and dropped onto this same chip, so it travels with scalarSlot rather than
+  // needing a slot of its own.
   const scalarSlot = (role, placeholder) => {
     const v = grp[role];
     if (!v) return emptySlot(role, placeholder);
     const span = document.createElement('span');
     span.className = 'sent-slot';
-    span.appendChild(valueChip(role, v, () => { grp[role] = null; rebuild(); }));
+    const geo = GEO_ROLES.has(role) ? valueGeo(inc, role, v, rebuild) : null;
+    span.appendChild(valueChip(role, v, () => { grp[role] = null; rebuild(); }, geo));
     return span;
   };
 
   // Systems and developers: every value dropped in, joined by "&", each with its
-  // own × — the same shape a claim's harmed parties and factors take.
+  // own × — the same shape a claim's harmed parties and factors take. Each also
+  // takes its own geography, since one group's several systems (or developers)
+  // needn't all be based in the same place.
   const listSlot = (role, key, placeholder, onOmit) => {
     const vals = groupValues(grp, role);
     if (!vals.length) return emptySlot(role, placeholder, onOmit);
@@ -168,11 +177,12 @@ export function actorHeader(inc, grp, container) {
     span.className = 'sent-slot';
     vals.forEach((v, i) => {
       if (i) span.appendChild(document.createTextNode(' & '));
+      const geo = GEO_ROLES.has(role) ? valueGeo(inc, role, v, rebuild) : null;
       span.appendChild(valueChip(role, v, () => {
         grp[key] = groupValues(grp, role).filter(x => x !== v);
         grp[role] = null;              // the pre-plural single value is spent
         rebuild();
-      }));
+      }, geo));
     });
     return span;
   };
@@ -264,7 +274,9 @@ export function claimRow(inc, grp, cl, container) {
   };
 
   // A multi-valued slot: every value dropped in, joined by "&". Harmed parties
-  // and factors both read as conjunctions, so they share this.
+  // and factors both read as conjunctions, so they share this — but only harmed
+  // parties take a geography, since a factor ("automated errors") isn't a thing
+  // that is anywhere.
   const listSlot = (role, key, placeholder) => {
     const span = document.createElement('span');
     span.className = 'sent-slot';
@@ -276,10 +288,11 @@ export function claimRow(inc, grp, cl, container) {
     }
     vals.forEach((v, i) => {
       if (i) span.appendChild(document.createTextNode(' & '));
+      const geo = GEO_ROLES.has(role) ? valueGeo(inc, role, v, rebuild) : null;
       span.appendChild(valueChip(role, v, () => {
         cl[key] = cl[key].filter(x => x !== v);
         rebuild();
-      }));
+      }, geo));
     });
     return span;
   };
@@ -315,13 +328,111 @@ export function claimRow(inc, grp, cl, container) {
   return row;
 }
 
-// A filled slot: the value plus a × that clears it.
-export function valueChip(role, value, onRemove) {
+// A characteristic's geography hooks:
+// {locations, inherited, wide, onAdd, onRemove, onRemoveWide}.
+// Read and written on `inc.role_geo[role][value]` — pooled once for the whole
+// incident, not per group or claim — so dropping a location on any appearance
+// of a value tags the value itself: the same "Journalists" cited in two
+// different claims, or the same actor named in two different groups, reads
+// with the same location on both. `rebuild` re-renders every group, which is
+// what carries the change to every other appearance of the same value.
+//
+// A place can also apply to a whole role rather than one value in it — every
+// actor, every harmed party — which is how a document says it: you highlight a
+// country and choose what it applies to. Those sit under ROLE_GEO_ALL, and read
+// on every chip of that role alongside the value's own. `wide` is the ones among
+// `locations` that came that way, since taking one off means taking it off the
+// whole role, and the × says so.
+//
+// A value nobody has dropped a place onto isn't "nowhere" — it defaults to
+// this incident's own Geography/location answer, on the reading that an
+// incident's characteristics are where the incident is unless a coder says
+// otherwise for one of them specifically. `locations` is only ever the
+// explicit tags; `inherited` is true exactly when there aren't any and the
+// incident's own answer is standing in for them.
+function valueGeo(inc, role, value, rebuild) {
+  const held = (key) => (((inc.role_geo || {})[role] || {})[key]) || [];
+  const incidentGeo = () => (inc.field_values || {}).incident_geography || [];
+  // `key` is the value the places are filed under, or ROLE_GEO_ALL for the role.
+  const persist = (key, locations) => {
+    inc.role_geo = inc.role_geo || {};
+    inc.role_geo[role] = inc.role_geo[role] || {};
+    if (locations.length) inc.role_geo[role][key] = locations;
+    else delete inc.role_geo[role][key];
+    fetch('/api/incident/' + encodeURIComponent(inc.incident_id) + '/geo', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ role, value: key, locations }),
+    }).catch(() => { /* non-fatal: local state stays until reload */ });
+    rebuild();
+  };
+  const own = held(value);
+  const wide = held(ROLE_GEO_ALL).filter((l) => !own.includes(l));
+  const tagged = own.concat(wide);
+  return {
+    locations: tagged.length ? tagged : incidentGeo(),
+    inherited: !tagged.length,
+    wide,
+    onAdd: (loc) => {
+      const cur = held(value);
+      if (!cur.includes(loc)) persist(value, cur.concat([loc]));
+    },
+    onRemove: (loc) => persist(value, held(value).filter((l) => l !== loc)),
+    onRemoveWide: (loc) => persist(ROLE_GEO_ALL, held(ROLE_GEO_ALL).filter((l) => l !== loc)),
+  };
+}
+
+// A filled slot: the value, an optional × per attached location, and a × that
+// clears the value itself. `geo` is only passed for actor / system / developer
+// / harmed party — harm and factor don't take one, so their chips render
+// exactly as before and accept no drop.
+export function valueChip(role, value, onRemove, geo) {
+  const roleName = ((ROLE[role] || {}).label || role).toLowerCase();
   const chip = document.createElement('span');
   chip.className = 'sent-v';
   chip.style.background = roleColor(role) + '33';
   chip.style.borderColor = roleColor(role);
   chip.appendChild(document.createTextNode(value));
+  if (geo) {
+    geo.locations.forEach((loc) => {
+      const g = document.createElement('span');
+      g.className = 'sent-geo' + (geo.inherited ? ' sent-geo-inherited' : '');
+      g.style.borderColor = GEO.color;
+      g.appendChild(document.createTextNode(loc));
+      if (geo.inherited) {
+        // Nothing to remove — there's no tag on this value to take off, just
+        // this incident's own Geography/location standing in for one. Dropping
+        // a place here replaces the inheritance with a real tag, same as usual.
+        g.title = 'From this incident’s Geography/location — drop a place '
+                + 'here to say this one is different';
+      } else {
+        // A place that applies to the whole role reads the same on every chip of
+        // it, so its × comes off all of them — said here rather than discovered.
+        const wide = geo.wide.includes(loc);
+        if (wide) g.title = `Applies to every ${roleName}`;
+        const gx = document.createElement('button');
+        gx.className = 'sent-x sent-geo-x'; gx.textContent = '×';
+        gx.title = wide ? `Remove ${loc} from every ${roleName}` : `Remove ${loc}`;
+        gx.onclick = (e) => {
+          e.stopPropagation();
+          if (wide) geo.onRemoveWide(loc); else geo.onRemove(loc);
+        };
+        g.appendChild(gx);
+      }
+      chip.appendChild(g);
+    });
+    // Its own drop target rather than dropZone() — a geography drop adds to
+    // *this value's* locations, which the group/claim-level drop zone (a
+    // different set of roles entirely) has no way to express, and
+    // stopPropagation keeps it from also reaching that outer zone.
+    chip.ondragover = (e) => { e.preventDefault(); e.stopPropagation(); chip.classList.add('geo-over'); };
+    chip.ondragleave = () => chip.classList.remove('geo-over');
+    chip.ondrop = (e) => {
+      e.preventDefault(); e.stopPropagation(); chip.classList.remove('geo-over');
+      let m; try { m = JSON.parse(e.dataTransfer.getData('text/plain')); } catch (_) { return; }
+      if (!m || m.role !== GEO.role || !m.value) return;
+      geo.onAdd(m.value);
+    };
+  }
   const x = document.createElement('button');
   x.className = 'sent-x'; x.textContent = '×'; x.title = 'Remove';
   x.onclick = onRemove;

@@ -209,6 +209,9 @@ def sync_incident_coding_to_mongo(inc_id: str, coder: str, entry: dict) -> bool:
              "$set": {f"by_coder.{coder}.fields": entry.get("fields") or {},
                       f"by_coder.{coder}.notes": entry.get("notes") or {},
                       f"by_coder.{coder}.groups": entry.get("groups") or [],
+                      # Where each characteristic is — {role: {value: [locations]}}
+                      # — pooled once for the incident, not per group or claim.
+                      f"by_coder.{coder}.role_geo": entry.get("role_geo") or {},
                       f"by_coder.{coder}.comment": entry.get("comment") or "",
                       f"by_coder.{coder}.status": entry.get("status") or "",
                       f"by_coder.{coder}.completed_at": entry.get("completed_at") or "",
@@ -254,10 +257,12 @@ def incident_coding_from_mongo(coder: str) -> dict:
     for inc in mongo_db.incidents.find({}, {"by_coder": 1}):
         sub = (inc.get("by_coder") or {}).get(coder) or {}
         if (sub.get("fields") or sub.get("groups") or sub.get("notes")
-                or sub.get("comment") or sub.get("status") or sub.get("flagged")):
+                or sub.get("comment") or sub.get("status") or sub.get("flagged")
+                or sub.get("role_geo")):
             out[str(inc["_id"])] = {"fields": sub.get("fields") or {},
                                     "notes": sub.get("notes") or {},
                                     "groups": sub.get("groups") or [],
+                                    "role_geo": sub.get("role_geo") or {},
                                     "comment": sub.get("comment") or "",
                                     "status": sub.get("status") or "",
                                     "completed_at": sub.get("completed_at") or "",

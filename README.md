@@ -47,8 +47,14 @@ To change the source collection, edit `COLLECTION` at the top of
 [`zotero_import.py`](zotero_import.py).
 
 Items in Zotero's **trash** are skipped, and articles saved twice are de-duplicated
-by URL keeping the oldest copy — so re-adding an article (which leaves the old copy
-trashed under a *different* item key) doesn't import it twice. Because coding is
+by URL — so re-adding an article (which leaves the old copy trashed under a
+*different* item key) doesn't import it twice. The oldest copy keeps the row and its
+key, but if a later copy's snapshot reads differently, its text replaces the row's
+(the import prints a `replaced` line for each). "Differently" is judged on the
+extracted article text, not the raw page, since two saves of one article rarely match
+byte for byte, and a newer copy under 30% of the old text's length is ignored (a
+paywall stub, not a rewrite). Replacing text moves the character offsets that highlights are stored
+against, so re-check the highlights on any document it names. Because coding is
 keyed by Zotero item key, re-adding an already-coded article gives it a new key; the
 existing coding then has to be re-pointed at that key in `annotations.<coder>.json`,
 `incident_assignments.json`, and Mongo.
@@ -137,6 +143,18 @@ no claim to drag it into — so they are controlled *fields* (`card_only` in the
 schema), not characteristics: absent from the document sidebar and the highlight
 tag menu, present in the Codebook tab like every other vocabulary, and saved per
 coder to `by_coder.<coder>.fields` as you pick them.
+
+**Where a characteristic is based** is a place from that same list, and it can be
+said two ways. On the card, drag a place chip onto an actor, system, developer or
+harmed-party chip in a claim — that tags one value. In a document, highlight a
+country, choose **Geography**, pick the place and say what it applies to — Actor,
+Developer, Harmed party, System, or All — which tags the whole role. The highlight
+is a quote tagged `geography` (`value` the place, `for_role` what it applies to),
+underlined in slate and listed in the sidebar's Geography card; saving the document
+copies it onto the incident's `role_geo` under `"*"`, adds the place to the
+incident's Geography/location (a place the incident doesn't name is dropped from
+`role_geo`), and takes it off again when the last highlight for it goes. Renaming a
+place in the Codebook reaches the highlights as well as `role_geo`.
 
 Push / Pull act on the current coder alone: pushing as alice never touches bob's
 work in Atlas, and pulling as bob never rewrites alice's local file.

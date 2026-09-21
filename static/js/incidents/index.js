@@ -141,6 +141,24 @@ export async function refreshIncidents() {
   DIRTY_INCIDENTS.clear();
 }
 
+// Re-render one open card's fields, palette and groups panels in place —
+// no refetch, no reopening, no disturbing the rest of the index. Geography/
+// location editing is the one case where a change in one panel has to be
+// reflected in the other two without a round trip: Based in's options and
+// role_geo's pruning both read the field this changed (see fields.saveCardField
+// and incidents._prune_role_geo), so all three have to agree immediately.
+export function refreshCardPanels(inc) {
+  document.querySelectorAll('.tow-cardfields').forEach(el => {
+    if (el.dataset.inc === inc.incident_id) buildCardFields(el, inc);
+  });
+  document.querySelectorAll('.tow-palette').forEach(el => {
+    if (el.dataset.inc === inc.incident_id) buildPalette(el, inc);
+  });
+  document.querySelectorAll('.tow-groups').forEach(el => {
+    if (el.dataset.inc === inc.incident_id) buildGroupsUI(el, inc);
+  });
+}
+
 // Post-render wiring for one card: opening its documents, its draggable chips,
 // its claims and its JSON panel. Shared so a single re-rendered card comes back
 // as live as one from a full render.
