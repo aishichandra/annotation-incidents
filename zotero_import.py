@@ -13,6 +13,12 @@ DB = ZOTERO / "zotero.sqlite"
 STORAGE = ZOTERO / "storage"
 OUT = Path(__file__).parent / "zotero_docs.csv"
 
+# A newer copy of an article replaces the stored text only if it is at least
+# this fraction of its length. A save that comes out far shorter is almost
+# always a paywall stub or a page that failed to load, not a rewritten article —
+# one such stub ran to 9% of the full text.
+MIN_REPLACEMENT_RATIO = 0.3
+
 
 def field_value(cur, item_id, field):
     """An item's value for a named Zotero field, or None."""
@@ -72,6 +78,49 @@ def pdf_to_text(path):
     return re.sub(r" {2,}", " ", text).strip()
 
 
+def snapshot_text(path, att_type, url):
+    """Article text for one attachment, and a note on how it was got — markdown
+    for an HTML snapshot, plain text for a PDF."""
+    if att_type == "text/html":
+        html = path.read_text(encoding="utf-8", errors="ignore")
+        text, retried = html_to_markdown(html, url)
+        return text, " (retried)" if retried else ""
+    return pdf_to_text(path), " (pdf)"
+
+
+def same_reading(a, b):
+    """Whether two extractions are the same article text, whitespace aside."""
+    return " ".join(a.split()) == " ".join(b.split())
+
+
+def current_reading(row):
+    """A row's text as today's extractor reads the snapshot it came from.
+
+    The stored text can't be held against a fresh extraction of another copy:
+    it was made by whatever trafilatura was installed at the time, and a newer
+    one shifts whitespace, occasionally a line, in the very same page — so an
+    unchanged article would look changed. Re-reading the row's own snapshot puts
+    both sides on one extractor. Falls back to the stored text if that file is
+    gone."""
+    src = Path(row["source_file"])
+    if not src.exists():
+        return row["markdown"]
+    kind = "application/pdf" if src.suffix.lower() == ".pdf" else "text/html"
+    return snapshot_text(src, kind, row.get("url") or None)[0]
+
+
+def load_existing(path):
+    """Already-imported rows, keyed by zotero_key — {} if there's no CSV yet.
+
+    dtype=str + keep_default_na=False round-trips a row exactly as it was
+    written (an empty date stays "", not NaN), so a row copied from here into
+    a fresh output is byte-identical to the one already on disk."""
+    if not path.exists():
+        return {}
+    df = pd.read_csv(path, dtype=str, keep_default_na=False)
+    return {row["zotero_key"]: row.to_dict() for _, row in df.iterrows()}
+
+
 def main():
     # read-only, even if Zotero is open
     con = sqlite3.connect(f"file:{DB}?immutable=1", uri=True)
@@ -118,9 +167,32 @@ def main():
         if current is None or (current[2] != "text/html" and att_type == "text/html"):
             by_parent[parent_id] = (att_key, att_path, att_type, parent_key)
 
-    records = []
-    seen_urls = {}
+    # A document already in zotero_docs.csv is reused as-is rather than
+    # re-extracted. Re-extracting is not reliably byte-identical — a newer
+    # trafilatura/lxml on the machine running the refresh can shift whitespace
+    # in the markdown even though nothing about the source changed — and any
+    # shift moves the character offsets a coder's highlights are stored
+    # against out from under them. Only genuinely new zotero_keys get extracted
+    # — bar one case, a newer copy of the same URL, further down.
+    existing = load_existing(OUT)
+    # Only rows whose item is still live can claim a URL. One whose item has
+    # since been trashed is about to fall out of the CSV, and counting its URL
+    # would make its replacement look like a duplicate of it — a Zotero merge
+    # of duplicates, or a re-add, hands the article a new key on the same URL,
+    # so the article would then vanish from the CSV altogether.
+    live_keys = {v[3] for v in by_parent.values()}
+    seen_urls = {row["url"]: key for key, row in existing.items()
+                 if row.get("url") and key in live_keys}
+
+    records = {}        # zotero_key -> row, in the order they'll be written
+    replaced = set()    # existing rows whose text a newer copy has swapped out
+    kept = new = 0
     for parent_id, (att_key, att_path, att_type, parent_key) in by_parent.items():
+        if parent_key in existing:
+            records[parent_key] = existing[parent_key]
+            kept += 1
+            continue
+
         if not att_path or not att_path.startswith("storage:"):
             continue
         fpath = STORAGE / att_key / att_path[len("storage:"):]
@@ -133,23 +205,46 @@ def main():
         date = article_date(cur, parent_id)
 
         # The same article saved twice is one document to code, not two. The
-        # first (oldest) copy wins so its key — and any coding on it — survives.
+        # first (oldest) copy keeps the key — and any coding on it — but a later
+        # copy is the newer capture, so if its snapshot reads differently its
+        # text replaces the row's. That moves the character offsets the row's
+        # highlights are stored against, which is why "reads differently" is
+        # judged on the article text, not the page: two saves of one article
+        # rarely match byte for byte. Copies are met oldest first, so of several
+        # the newest wins.
         if url and url in seen_urls:
-            print(f"  dup {parent_key} same URL as {seen_urls[url]}  {title[:50]}")
+            claimant = seen_urls[url]
+            row = records.get(claimant)
+            note = f"  dup {parent_key} same URL as {claimant}  {title[:50]}"
+            if row is None:
+                # The claimant's own item is added after this one, so this is
+                # the older copy — nothing here is newer than what it holds.
+                print(note)
+                continue
+            if row["source_file"] == str(fpath):
+                print(note)     # already the snapshot this row was built from
+                continue
+            text, _ = snapshot_text(fpath, att_type, url)
+            reading = current_reading(row)
+            if same_reading(text, reading):
+                print(note)
+            elif len(text) < MIN_REPLACEMENT_RATIO * len(reading):
+                print(f"{note}  (kept the existing text: the newer snapshot "
+                      f"{parent_key} is only {len(text)} chars against {len(reading)})")
+            else:
+                print(f"  replaced {claimant} with the newer snapshot {parent_key}  "
+                      f"{len(row['markdown'])} -> {len(text)} chars  {title[:50]}")
+                row["markdown"], row["source_file"] = text, str(fpath)
+                if existing.get(claimant) is row:
+                    replaced.add(claimant)
             continue
 
-        if att_type == "text/html":
-            html = fpath.read_text(encoding="utf-8", errors="ignore")
-            text, retried = html_to_markdown(html, url)
-            flag = " (retried)" if retried else ""
-        else:
-            text = pdf_to_text(fpath)
-            flag = " (pdf)"
+        text, flag = snapshot_text(fpath, att_type, url)
         if not text:
             kind = "snapshot" if att_type == "text/html" else "PDF"
             print(f"  EMPTY extraction — check {kind}: {title[:60]}")
 
-        records.append({
+        records[parent_key] = {
             "zotero_key": parent_key,
             "title": title,
             "url": url,
@@ -159,14 +254,16 @@ def main():
             "date": date,
             "markdown": text,
             "source_file": str(fpath),
-        })
+        }
         if url:
             seen_urls[url] = parent_key
-        print(f"  ok  {len(text):6d} chars  {title[:60]}{flag}")
+        new += 1
+        print(f"  new {len(text):6d} chars  {title[:60]}{flag}")
 
     con.close()
-    pd.DataFrame(records).to_csv(OUT, index=False)
-    print(f"\nWrote {OUT} ({len(records)} docs)")
+    pd.DataFrame(list(records.values())).to_csv(OUT, index=False)
+    print(f"\nWrote {OUT} ({len(records)} docs: {kept - len(replaced)} unchanged, "
+          f"{len(replaced)} replaced, {new} new)")
 
 
 if __name__ == "__main__":

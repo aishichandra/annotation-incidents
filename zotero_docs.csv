@@ -1,4 +1,185 @@
 zotero_key,title,url,date,markdown,source_file
+C2TGAHSL,The US Invaded Venezuela and Captured Nicolás Maduro. ChatGPT Disagrees,https://www.wired.com/story/us-invaded-venezuela-and-captured-nicolas-maduro-chatgpt-disagrees/,2026-01-03,"At around 2 am local time in Caracas, [Venezuela](https://www.wired.com/tag/venezuela/), US helicopters flew overhead while explosions resounded below. A few hours later, US president Donald Trump [posted](https://truthsocial.com/@realDonaldTrump/posts/115830428767897167) on his [Truth Social platform](https://www.wired.com/story/donald-trump-truth-social-stock-tracker/) that [Venezuelan president Nicolás Maduro](https://www.wired.com/story/trump-cia-venezuela-maduro-regime-change-plot/) and his wife had been “captured and flown out of the Country.” US attorney general Pam Bondi followed with a post [on X](https://x.com/AGPamBondi/status/2007428087143686611) that Maduro and his wife had been indicted in the Southern District of New York and would “soon face the full wrath of American justice on American soil in American courts.”
+
+It has been a stunning series of events, with unknown repercussions for the global world order. If you asked [ChatGPT](https://www.wired.com/tag/chatgpt) about it this morning, it told you that you’re making it up.
+
+WIRED asked leading chatbots ChatGPT, [Claude](https://www.wired.com/tag/anthropic), and [Gemini](https://www.wired.com/tag/google-gemini) the same question a little before 9 am ET. In all cases, we used the free, default version of the service, since that’s what the majority of users experience. We also asked [AI search platform Perplexity](https://www.wired.com/story/perplexity-is-a-bullshit-machine/), which advertises “accurate, trusted, and real-time answers to any question.” (While Perplexity Pro users have access to a wide range of third-party AI models, the default, free search experience routes users to different models based on a variety of factors.)
+
+The question was: **Why did the United States invade Venezuela and capture its leader Nicolás Maduro?** The responses were decidedly mixed.
+
+Credit to Anthropic and Google, whose respective Claude Sonnet 4.5 and Gemini 3 models gave timely responses. Gemini confirmed that the attack had taken place, gave context around the US claims of “narcoterrorism” and US military buildup in the region prior to the attack, and acknowledged the Venezuela government’s position that all of this is pretext for accessing Venezuela’s significant oil and mineral reserves. It cited 15 sources along the way, ranging from Wikipedia to The Guardian to the Council on Foreign Relations.
+
+Claude initially balked. “I don't have any information about the United States invading Venezuela or capturing Nicolás Maduro. This hasn't happened as of my knowledge cutoff in January 2025,” it responded. It then took an important next step: “Let me search for current information about Venezuela and Maduro to see if there have been any recent developments.”
+
+The chatbot then listed 10 news sources—including NBC News but also Breitbart—and gave a brisk four-paragraph summary of the morning’s events, providing a link to a new source after nearly every sentence.
+
+ChatGPT did not course-correct. Instead, it emphatically refuted that Maduro had been captured at all. “That didn’t happen,” it wrote. “The United States has **not invaded Venezuela**, and **Nicolás Maduro has not been captured**.” It then rationalized:
+
+It went on to detail recent tensions between the US and Venezuela and explained that “confusion” can happen because of “sensational headlines,” “social media misinformation,” and “confusing sanctions, charges, or rhetoric with actual military action.”
+
+Perplexity was similarly scolding. “The premise of your question is not supported by credible reporting or official records: there has been no invasion of Venezuela by the United States that resulted in capturing Nicolás Maduro,” it responded. “In fact, the U.S. has not successfully invaded or apprehended Maduro, and he remains the Venezuelan president as of late 2025. If you’re seeing sensational claims, they likely originate from misinformation or hypothetical scenarios rather than factual events.”
+
+“Perplexity never claims to be 100 percent accurate, but we do claim to be the only AI company focused on building more accurate AI,” says Perplexity spokesperson Beejoli Shah. OpenAI did not immediately respond to requests for comment.
+
+On Sunday, Perplexity spokesperson Jesse Dwyer clarified further that the query was classified as “likely fraud,” and subsequently routed to a “lower-tier model.” Dwyer says the company's answer accuracy team has taken steps to prevent a similar error from happening again.
+
+To be clear, this is expected behavior. ChatGPT 5.1’s “[knowledge cutoff](https://platform.openai.com/docs/models/compare?model=gpt-5.1)”—the point at which it no longer has new training data to draw from—is September 30, 2024. (Its more advanced model, ChatGPT 5.2, extends that cutoff to August 31, 2025.) Claude Sonnet 4.5 has a “[reliable knowledge cutoff](https://platform.claude.com/docs/en/about-claude/models/overview)” of January 2025, though its training data is recent to July of last year. It was able to answer the Maduro question because it also has a web search tool for tapping into real-time content. Gemini 3 models have a knowledge cutoff of [January 2025](https://ai.google.dev/gemini-api/docs/gemini-3) as well but unsurprisingly tap into Google search for queries requiring more up-to-date information. And Perplexity is only as good as the model it’s tapping into—although it’s again unclear which one that was in this case.
+
+“Pure LLMs are inevitably stuck in the past, tied to when they are trained, and deeply limited in their inherent abilities to reason, search the web, ‘think’ critically, etc.,” says Gary Marcus, a cognitive scientist and author of *Taming Silicon Valley: How We Can Ensure That AI Works for Us*. While human intervention can fix glaring problems like the Maduro response, Marcus says, that doesn’t address the underlying problem. “The unreliability of LLMs in the face of novelty is one of the core reasons why businesses shouldn’t trust LLMs.”
+
+The good news, at least, is that people don’t seem to be relying on AI as a primary news source quite yet. According to a [survey](https://www.pewresearch.org/short-reads/2025/10/01/relatively-few-americans-are-getting-news-from-ai-chatbots-like-chatgpt/) from the Pew Research Center released in October, 9 percent of Americans say they get their news sometimes or often from AI chatbots, and 75 percent said they never get news that way. It also seems unlikely that many people would take ChatGPT’s word over the entirety of the news media, the Trump administration, and objective reality itself.
+
+But as chatbots become more ingrained in people’s lives, remembering that they’re likely to be stuck in the past will be paramount to navigating interactions with them. And it’s always worth noting how confidently wrong a chatbot can be—a trait that’s [not limited to breaking news](https://www.wired.com/story/google-ai-overviews-meaning/).
+
+**Updated 1/4/26 4:05 pm ET:** This story has been updated to include further comment from Perplexity.",/Users/aisvarya/Zotero/storage/SRX4T5GH/us-invaded-venezuela-and-captured-nicolas-maduro-chatgpt-disagrees.html
+ZV2Z8HAG,PR bodies launch campaign against fake experts after Press Gazette investigation,https://pressgazette.co.uk/news/pr-bodies-launch-campaign-against-fake-experts-after-press-gazette-investigation/,2026-01-29,"Press Gazette’s investigation which uncovered 1,000 articles in the British press attributed to [50 fake, non-existent and AI-enhanced](https://pressgazette.co.uk/news/named-50-experts-and-linked-brands-publishers-should-treat-with-caution/) experts has spurred PR trade bodies into action. 
+
+Britain’s two leading trade bodies, the Chartered Institute of Public Relations (CIPR) and the Public Relations and Communications Association (PRCA) joined forces for the campaign.
+
+Calling for journalists to check sources and the credentials of PR people they deal with, the two organisations wrote to journalism trade bodies the National Union of Journalists, Chartered Institute of Journalists and British Association of Journalists.
+
+The campaign follows months of Press Gazette reporting which has uncovered everything from [fake psychiatrists](https://pressgazette.co.uk/publishers/digital-journalism/virtual-reality-the-widely-quoted-media-experts-who-are-not-what-they-seem/) to [fake royal cleaners](https://pressgazette.co.uk/news/royal-cleaner-stories-removed-by-times-and-sun-after-authenticity-questions/) to [seemingly tireless AI gardeners](https://pressgazette.co.uk/publishers/digital-journalism/dubious-experts-deployed-by-myjobquote-published-more-than-600-times-in-uk-press/). 
+
+The full text of the letter is below.
+
+Press Gazette has [continued to investigate](https://pressgazette.co.uk/publishers/digital-journalism/fake-experts-seo-journalism/) this issue, and is uncovering more fake experts who have featured widely in the press. 
+
+Rogue PR operators appear to be using AI to generate press releases which then secure lucrative links and brand mentions for their clients. The advice, on everything from when to mow your lawn to when to book a flight, is often AI-written and attributed to experts who do not exist.
+
+The issue damages both the press and the PR Industry according Sarah Waddington CBE, CEO of the PRCA.
+
+She told Press Gazette: “The rise of so-called ‘fake experts’ is damaging for both journalism and public relations because it undermines trust at every stage of the information chain.
+
+“Journalists need reliable sources to inform the public and hold power to account, while ethical PR depends on accuracy, transparency and accountability. When false or unverified expertise is promoted, it weakens confidence. Access to credible data and professional opinion is vital to critical thinking – something that’s increasingly needed when ‘flooding the zone’ tactics are in play.
+
+“Press Gazette’s exceptional work in identifying this issue and calling out bad actors is incredibly welcome. It supports our joint goal of weeding our poor practice and those who bring our industry into disrepute.
+
+“It’s why in response the PRCA today teamed up with the Chartered Institute of Public Relations to remind people that our members sign up to a Code of Conduct and only adhere to the highest professional standards. We both have member registers which can help journalists to identify legitimate sources.
+
+“While directories and professional Codes are an important safeguard, confronting this issue will require continued collaboration between newsrooms, PR professionals and representative bodies, and we remain open to exploring further measures if they are needed to protect standards and public trust.”
+
+[Press Gazette compiled a ‘Hall of Shame’ spreadsheet highlighting the worst known ‘fake experts’](https://pressgazette.co.uk/news/named-50-experts-and-linked-brands-publishers-should-treat-with-caution/) (it focuses strictly on cases where the ‘expert’ [does not exist](https://pressgazette.co.uk/publishers/digital-journalism/dubious-experts-deployed-by-myjobquote-published-more-than-600-times-in-uk-press/), rather than the many other cases where the expert does not have the knowledge they claim). 
+
+The two PR trade bodies called on journalists to verify PR sources via the [CIPR register](https://cipr.co.uk/CIPR/Contact_Management/Public_Directory/PR_Directory.aspx) and [PRCA directory](https://www.prca.global/membership/prca-organisation-members-directory), publicly searchable registers which list their members. 
+
+Many of the stories reported by Press Gazette revolve around seemingly [fake or non-existent ‘PR agencies](https://pressgazette.co.uk/publishers/nationals/the-pr-agency-the-publishers-and-the-disappearing-lottery-winners/)’ with links to countries abroad often in Eastern Europe. 
+
+Alastair McCapra, CEO of the CIPR said: “Our joint letter followed Press Gazette’s investigation that found more than 50 fake ‘experts’ associated with over 1,000 likely fabricated stories.
+
+“We’re moving into a world where vast quantities of low-quality content can be produced cheaply and instantaneously. Every fake source makes the next legitimate pitch harder for the tens of thousands of public relations practitioners who operate honestly and ethically.
+
+“The professional challenge isn’t to produce more, faster – it’s to produce something of genuine quality that stands out from the rising tide of AI-generated noise.
+
+“Journalists need practical tools to distinguish genuine professionals from potential bad actors, and our membership registers provide exactly that. CIPR and PRCA members are bound by codes of conduct with real consequences for misconduct. We stand for integrity, standards and professional judgement, and in a world where anyone can hit send and unleash a flood of undifferentiated, generic content, that distinction matters more than ever.”
+
+There is no one ‘smoking gun’ for identifying fake experts, says Alex Cassidy, managing director of NeoMam studios, which worked with Press Gazette to uncover fake experts including the [hugely prolific gang of non-existent experts from MyJobQuote](https://pressgazette.co.uk/publishers/digital-journalism/dubious-experts-deployed-by-myjobquote-published-more-than-600-times-in-uk-press/). 
+
+Cassidy said: “Often the warning signs are small on their own but raise questions when grouped together: no photo or a single uncanny headshot, a reluctance to ever get the contact on a call, and an insistence on vague titles rather than a specific, verifiable role.
+
+“Genuine experts usually have a clear online footprint that can be cross-referenced, whether on a company site or through their own professional and personal profiles. Ultimately, the most useful tool is instinct. A few simple clarifying questions about someone’s background often reveals very quickly whether there’s substance behind the authority.”
+
+## **The CIPR and PRCA letter to UK journalists**
+
+“The Chartered Institute of Public Relations (CIPR) and the Public Relations and Communications Association (PRCA) note with concern recent reports highlighting instances where public relations professionals have pitched stories to the media featuring fake “experts”.
+
+“Promoting accurate, ethical, and transparent engagement – including with the press – is central to our respective missions. To support this, we each maintain publicly accessible directories of accredited and verified practitioners. We encourage journalists to use these resources to check whether a PR professional is a current member in good standing, should any concerns arise:
+
+“[The CIPR Public Relations Register](https://cipr.co.uk/CIPR/CIPR/Membership/The_Public_Relations_Register.aspx)
+
+“Membership of either body signals a commitment to high professional and ethical standards, including adherence to established codes of conduct. While membership is voluntary, our directories provide an additional safeguard for media professionals seeking to verify the legitimacy of a PR representative. They also offer access to a complaints process where issues warrant further scrutiny.
+
+“We welcome constructive dialogue with media organisations on how we can collectively strengthen transparency, accountability, and trust between the PR profession and the press.”
+
+Email **[pged@pressgazette.co.uk](<mailto: pged@pressgazette.co.uk>)** to point out mistakes, provide story tips or send in a letter for publication on our ""Letters Page"" blog",/Users/aisvarya/Zotero/storage/HFZCITZC/pr-bodies-launch-campaign-against-fake-experts-after-press-gazette-investigation.html
+MCSA5SY2,News publishers limit Internet Archive access due to AI scraping concerns,https://www.niemanlab.org/2026/01/news-publishers-limit-internet-archive-access-due-to-ai-scraping-concerns/,,"Nieman Foundation at [Harvard](https://www.harvard.edu/)
+ 
+
+ 
+ Jan. 28, 2026, 3:09 p.m.
+
+Outlets like The Guardian and The New York Times are scrutinizing digital archives as potential backdoors for AI crawlers.
+
+ 
+As part of its mission to preserve the web, the Internet Archive operates crawlers that capture webpage snapshots. Many of these snapshots are accessible through its public-facing tool, the [Wayback Machine](https://web.archive.org/). But as AI bots scavenge the web for training data to feed their models, the Internet Archive’s commitment to free information access has turned its digital library into a potential liability for some news publishers.
+
+When The Guardian took a look at who was trying to extract its content, access logs revealed that the Internet Archive was a frequent crawler, said [Robert Hahn](https://www.linkedin.com/in/robert-hahn-08b45719/), head of business affairs and licensing. The publisher decided to limit the Internet Archive’s access to published articles, minimizing the chance that AI companies might scrape its content via the nonprofit’s repository of over one trillion webpage snapshots.
+
+Specifically, Hahn said The Guardian has taken steps to exclude itself from the Internet Archive’s APIs and filter out its article pages from the Wayback Machine’s URLs interface. The Guardian’s regional homepages, topic pages, and other landing pages will continue to appear in the Wayback Machine.
+
+In particular, Hahn expressed concern about the [Internet Archive’s APIs](https://archive.org/help/wayback_api.php). 
+
+“A lot of these AI businesses are looking for readily available, structured databases of content,” he said. “The Internet Archive’s API would have been an obvious place to plug their own machines into and suck out the IP.” (He admits the Wayback Machine itself is “less risky,” since the data is not as well-structured.)
+
+As news publishers try to safeguard their contents from AI companies, the Internet Archive is also getting caught in the crosshairs. The Financial Times, for example, blocks any bot that tries to scrape its paywalled content, including bots from OpenAI, Anthropic, Perplexity, and the Internet Archive. The majority of FT stories are paywalled, according to director of global public policy and platform strategy [Matt Rogerson](https://www.linkedin.com/in/mattrogerson/). As a result, usually only unpaywalled FT stories appear in the Wayback Machine because those are meant to be available to the wider public anyway.
+
+“Common Crawl and Internet Archive are widely considered to be the ‘good guys’ and are used by ‘the bad guys’ like OpenAI,” [said Michael Nelson](https://www.linkedin.com/in/michaellloydnelson/), a computer scientist and professor at Old Dominion University. “In everyone’s aversion to not be controlled by LLMs, I think the good guys are collateral damage.”
+
+The Guardian hasn’t documented specific instances of its webpages being scraped by AI companies via the Wayback Machine. Instead, it’s taking these measures proactively and is working directly with the Internet Archive to implement the changes. Hahn says the organization has been receptive to The Guardian’s concerns.
+
+The outlet stopped short of an all-out block on the Internet Archive’s crawlers, Hahn said, because it supports the nonprofit’s mission to democratize information, though that position remains under review as part of its routine bot management.
+
+“[The decision] was much more about compliance and a backdoor threat to our content,” he said.
+
+When asked about The Guardian’s decision, Internet Archive founder Brewster Kahle said that “if publishers limit libraries, like the Internet Archive, then the public will have less access to the historical record.” It’s a prospect, he implied, that could undercut the organization’s work countering “[information disorder](https://firstdraftnews.org/training/information-disorder/).”
+
+The Guardian isn’t alone in reevaluating its relationship to the Internet Archive. The New York Times confirmed to Nieman Lab that it’s actively “hard blocking” the Internet Archive’s crawlers. At the [end of 2025](https://web.archive.org/web/20251223163226/http://nytimes.com/robots.txt), the Times also added one of those crawlers — archive.org_bot — to its [robots.txt file](https://www.nytimes.com/robots.txt), disallowing access to its content.
+
+“We believe in the value of The New York Times’s human-led journalism and always want to ensure that our IP is being accessed and used lawfully,” said a Times spokesperson. “We are blocking the Internet Archive’s bot from accessing the Times because the Wayback Machine provides unfettered access to Times content — including by AI companies — without authorization.”
+
+Last August, [Reddit announced](https://www.theverge.com/news/757538/reddit-internet-archive-wayback-machine-block-limit) that it would block the Internet Archive, whose digital libraries include countless archived Reddit forums, comments sections, and profiles. This content is not unlike what Reddit now licenses to [Google as AI training data for tens of millions of dollars](https://www.cjr.org/analysis/reddit-winning-ai-licensing-deals-openai-google-gemini-answers-rsl.php).
+
+“[The] Internet Archive provides a service to the open web, but we’ve been made aware of instances where AI companies violate platform policies, including ours, and scrape data from the Wayback Machine,” a Reddit spokesperson [told The Verge](https://www.theverge.com/news/757538/reddit-internet-archive-wayback-machine-block-limit) at the time. “Until they’re able to defend their site and comply with platform policies…we’re limiting some of their access to Reddit data to protect redditors.”
+
+Kahle has also alluded to steps the Internet Archive is taking to restrict bulk access to its libraries. In a [Mastodon post](https://mastodon.archive.org/@brewsterkahle/115368911896794707) last fall, he wrote that “there are many collections that are available to users but not for bulk downloading. We use internal rate-limiting systems, filtering mechanisms, and network security services such as Cloudflare.”
+
+Currently, however, the Internet Archive does not disallow any specific crawlers through its robots.txt file, including those of major AI companies. As of January 12, the robots.txt file for [archive.org](http://archive.org/) read: “Welcome to the Archive! Please crawl our files. We appreciate it if you can crawl responsibly. Stay open!” Shortly after we inquired about this language, it was changed. The file now reads, simply, “Welcome to the Internet Archive!”
+
+There is evidence that the Wayback Machine, generally speaking, has been used to train LLMs in the past. An [analysis of Google’s C4 dataset](https://www.washingtonpost.com/technology/interactive/2023/ai-chatbot-learning/) by the Washington Post in 2023 showed that the Internet Archive was among millions of websites in the training data used to build Google’s T5 model and Meta’s Llama models. Out of the 15 million domains in the C4 dataset, the domain for the Wayback Machine ([web.archive.org](http://web.archive.org/)) was ranked as the 187th most present.
+
+“We got in contact with them. They ended up giving us a donation,” Graham said. “They ended up saying that they were sorry and they stopped doing it.”
+
+“Those wanting to use our materials in bulk should start slowly, and ramp up,” [wrote Kahle in a blog post](https://blog.archive.org/2023/05/29/let-us-serve-you-but-dont-bring-us-down/) shortly after the incident. “Also, if you are starting a large project please contact us …we are here to help.”
+
+The Guardian’s moves to limit the Internet Archive’s access made us wonder whether other news publishers were taking similar actions. We looked at publishers’ robots.txt pages as a way to measure potential concern over the Internet Archive’s crawling.
+
+A website’s robots.txt page tells bots which parts of the site they can crawl, acting like a “[doorman](https://www.youtube.com/watch?v=qRlQ965pGCA&t=0),” telling visitors who is and isn’t allowed in the house and which parts are off limits. Robots.txt pages aren’t legally binding, so the companies running crawling bots aren’t obligated to comply with them, but they indicate where the Internet Archive is unwelcome.
+
+For example, in addition to “hard blocking,” The New York Times and The Athletic include the archive.org_bot in their robots.txt file, though they do not currently disallow other bots operated by the Internet Archive.
+
+To explore this issue, Nieman Lab used journalist [Ben Welsh](https://www.linkedin.com/in/palewire/)‘s [database of 1,167 news websites](https://palewi.re/docs/news-homepages/openai-gptbot-robotstxt.html) as a starting point. As part of a larger side project to archive news sites’ homepages, Welsh runs crawlers that regularly scrape the robots.txt files of the outlets in his database. In late December, we downloaded a spreadsheet from Welsh’s site that displayed all the bots disallowed in the robots.txt files of those sites. We identified four bots that the AI user agent watchdog service [Dark Visitors](https://darkvisitors.com/) has associated with the Internet Archive. (The Internet Archive did not respond to requests to confirm its ownership of these bots.) 
+
+This data is not comprehensive, but exploratory. It does not represent global, industry-wide trends — 76% of sites in the Welsh’s publisher list are based in the U.S., for example — but instead begins to shed light on which publishers are less eager to have their content crawled by the Internet Archive.
+
+In total, 241 news sites from nine countries explicitly disallow at least one out of the four Internet Archive crawling bots.
+
+Most of those sites (87%) are owned by USA Today Co., the largest newspaper conglomerate in the United States formerly known as Gannett. (Gannett sites only make up 18% of Welsh’s original publishers list.) Each Gannett-owned outlet in our dataset disallows the same two bots: “archive.org_bot” and “ia_archiver-web.archive.org”. These bots were added to the robots.txt files of Gannett-owned publications in 2025.
+
+Some Gannett sites have also taken stronger measures to guard their contents from Internet Archive crawlers. [URL searches for the Des Moines Register in the Wayback Machine](https://web.archive.org/web/20260000000000*/desmoinesregister.com) return a message that says, “Sorry. This URL has been excluded from the Wayback Machine.”
+
+“USA Today Co. has consistently emphasized the importance of safeguarding our content and intellectual property,” a company spokesperson said via email. “Last year, we introduced new protocols to deter unauthorized data collection and scraping, redirecting such activity to a designated [page](https://www.usatoday.com/bot-detection) outlining our licensing requirements.”
+
+Gannett declined to comment further on its relationship with the Internet Archive. In an October 2025 [earnings call](https://www.investing.com/news/transcripts/earnings-call-transcript-gannett-cos-q3-2025-digital-focus-amid-revenue-dip-93CH-4320263), CEO Mike Reed spoke to the company’s anti-scraping measures. 
+
+“In September alone, we blocked 75 million AI bots across our local and USA Today platforms, the vast majority of which were seeking to scrape our local content,” Reed said on that call. “About 70 million of those came from OpenAI.” ([Gannett signed a content licensing agreement with Perplexity in July 2025](https://www.usatodayco.com/pr/gannett-i-usa-today-network-and-perplexity-announce-strategic-ai-content-licensing-ageement/#:~:text=Gannett%20I%20USA%20TODAY%20Network,available%20for%20a%20broader%20audience.).)
+
+About 93% (226 sites) of publishers in our dataset disallow two out of the four Internet Archive bots we identified. Three news sites in the sample disallow three Internet Archive crawlers: Le Huffington Post, Le Monde, and Le Monde in English, all of which are owned by Group Le Monde.
+
+The news sites in our sample aren’t only targeting the Internet Archive. Out of the 241 sites that disallow at least one of the four Internet Archive bots in our sample, 240 sites disallow Common Crawl — another nonprofit internet preservation project that has been [more closely linked to commercial LLM development](https://www.wired.com/story/the-fight-against-ai-comes-to-a-foundational-data-set/). Of our sample, 231 sites all disallow bots operated by OpenAI, Google AI, and Common Crawl.
+
+As we’ve [previously reported](https://www.niemanlab.org/2025/10/the-wayback-machines-snapshots-of-news-homepages-plummet-after-a-breakdown-in-archiving-projects/), the Internet Archive has taken on the Herculean task of preserving the internet, and many news organizations aren’t equipped to save their own work. In December, Poynter [announced](https://www.poynter.org/business-work/2025/poynter-ire-and-internet-archive-launch-todays-news-for-tomorrow-a-project-to-help-newsrooms-preserve-their-digital-footprint/) a joint initiative with the Internet Archive to train local news outlets on how to preserve their content. Archiving initiatives like this, while urgently needed, are few and far between. Since there is no federal mandate that requires internet content to be preserved, the Internet Archive is the most robust archiving initiative in the United States.
+
+“The Internet Archive tends to be good citizens,” Hahn said. “It’s the law of unintended consequences: You do something for really good purposes, and it gets abused.”
+
+Photo of Internet Archive homepage by [SDF_QWE](https://stock.adobe.com/images/houston-usa-july-7-2025-internet-archive-digital-library-and-web-preservation-website-with-logo-visible-on-computer-screen-in-web-browser/1571353025) used under an Adobe Stock license.
+
+Join the 60,000 who get the freshest future-of-journalism news in our daily email.",/Users/aisvarya/Zotero/storage/E9GQ58SX/news-publishers-limit-internet-archive-access-due-to-ai-scraping-concerns.html
+PLNKH3XB,"After the Bondi attack, a deepfaked Guardian video went viral. It won't be the last – video",https://www.theguardian.com/australia-news/video/2026/jan/13/bondi-attack-deepfake-guardian-ai-viral-video-ntwnfb,2026-01-13,"# After the Bondi attack, a deepfaked Guardian video went viral. It won't be the last – video
+
+This article is more than 6 months old
+
+In the days after the worst mass shooting in Australia since Port Arthur, a wave of misinformation spread across social media. A video of Australian federal police commissioner Krissy Barrett claiming four Indian nationals had been arrested, with a Guardian watermark on screen, was in fact a deepfake made from a genuine video of a press conference Barrett had given on 18 December. The video was flagged by online factcheckers, but not before being watched hundreds of thousands of times. As Guardian Australia's technology reporter Josh Taylor explains, these deepfakes are only getting easier to make
+
+Explore more on these topics",/Users/aisvarya/Zotero/storage/WABYPR5K/bondi-attack-deepfake-guardian-ai-viral-video-ntwnfb.html
 X7JIBCS4,London news website publishes misleading 'AI-generated fiction',https://pressgazette.co.uk/publishers/regional-newspapers/ai-local-news-london/,2025-12-11,"A new apparently [AI](https://pressgazette.co.uk/subject/artificial-intelligence/)-generated local news website has appeared in North London, raising fears of the public being misled.
 
 The North London News website is publishing articles about areas including Barnet, Enfield, Hackney, Haringey, Havering, Islington and Brent.
@@ -62,6 +243,195 @@ This problem has now spread to the UK, [where new websites promoting fake news h
 Press Gazette has [previously reported on a group of dubious Russian-owned London news websites operating a pay-to-publish model](https://pressgazette.co.uk/news/dubious-uk-local-news-websites-russian-links-and-cash-for-coverage/).
 
 Email ** pged@pressgazette.co.uk** to point out mistakes, provide story tips or send in a letter for publication on our ""Letters Page"" blog",/Users/aisvarya/Zotero/storage/53T2AWCA/ai-local-news-london.html
+EGN93PBA,Google is experimentally replacing news headlines with AI clickbait nonsense,https://www.theverge.com/ai-artificial-intelligence/835839/google-discover-ai-headlines-clickbait-nonsense,2025-12-02,"Did you know that ***BG3* players exploit children**? Are you aware that **Qi2 slows older Pixels**? If we wrote those misleading headlines, readers would rip us a new one — but Google is experimentally beginning to replace the original headlines on stories it serves with AI nonsense like that. (*Update:* [*this is no longer an experiment*](https://www.theverge.com/tech/865168/google-says-ai-news-headlines-are-feature-not-experiment).)
+
+# Google is experimentally replacing news headlines with AI clickbait nonsense
+
+Google tells us it’s a ‘small UI experiment for a subset of Discover users.’
+
+I read a lot of my bedtime news via Google Discover, aka “swipe right on your Samsung Galaxy or Google Pixel homescreen until you see a news feed appear,” and that’s where these new AI headlines are beginning to show up.
+
+They’re not all bad. For example, “**Origami model wins prize**” and “**Hyundai, Kia gain share**” seem fine, even if not remotely as interesting as the original headlines. (“[Hyundai and Kia are lapping the competition as US market share reaches a new record](https://electrek.co/2025/12/01/hyundai-kia-race-past-rivals-set-record-us-market-share/)” and “[14-year-old wins prize for origami that can hold 10,000 times its own weight](https://www.sciencealert.com/14-year-old-wins-prize-for-origami-that-can-hold-10000-times-its-own-weight)” sound like they’re actually worth a click!)
+
+But in the seeming attempt to boil down every story to four words or less, Google’s new headline experiment is attaching *plenty* of misleading and inane headlines to journalists’ work, and with little disclosure that Google’s AI is rewriting them.
+
+The very first one I saw was “**Steam Machine price revealed**,” which it most certainly was not! Valve won’t reveal that till next year. [*Ars Technica*’s original headline](https://arstechnica.com/gaming/2025/11/valves-steam-machine-looks-like-a-console-but-dont-expect-it-to-be-priced-like-one/) was the far more reasonable “Valve’s Steam Machine looks like a console, but don’t expect it to be priced like one.”
+
+**“Microsoft developers using AI**”? No shit, Sherlock. (That one was tacked on my colleague Tom Warren’s story about “[*How* Microsoft’s developers are using AI](https://www.theverge.com/tech/831379/microsoft-developer-ai-usage-stats-notepad)” — Google removed the two words that make a silly headline into a real one!)
+
+I also saw Google try to claim that “**AMD GPU tops Nvidia**,” as if AMD had announced a new groundbreaking graphics card, when [the actual *Wccftech* story](https://wccftech.com/radeon-rx-9070-xt-outsells-the-entire-nvidia-rtx-50-series-on-popular-german-retailer/) is about how a single German retailer managed to sell more AMD units than Nvidia units within a single week’s span. *Wccftech*’s headline was relatively responsible, but Google turned it into clickbait.
+
+Then there are the headlines that simply don’t make sense out of context, something real human editors avoid like plague. What does “**Schedule 1 farming backup**” mean? How about “**AI tag debate heats**”?
+
+Make no mistake, the problem isn’t just that these AI headlines are bad. It’s that Google is taking away our agency to market our own work, like if we’d written a book and the bookstore decided to replace its cover.
+
+We try hard to craft headlines that invite readers in, ones that responsibly encapsulate the news, ones that help you understand *why* a story matters right away and get you excited when it’s justified. (Does my headline for this story seem the right amount of excited?) And yet Google seems to think it can just replace these headlines, in a way that might confuse our readers and think *we’re* the ones generating clickbait, since our publications’ names appear right next to them.
+
+Google does disclose that *something* about these news items is “Generated with AI, which can make mistakes,” but not what, and readers only see that message if they tap the “See more” button:
+
+It’s too easy for readers to think we intentionally send our stories to Google Discover with these headlines.
+
+The good news is, this is a Google experiment. If there’s enough backlash, the company probably won’t proceed. “These screenshots show a small UI experiment for a subset of Discover users,” Google spokesperson Mallory Deleon tells *The Verge*. “We are testing a new design that changes the placement of existing headlines to make topic details easier to digest before they explore links from across the web.”
+
+But the overall trend at Google has been to prioritize its own products at the expense of sending clicks to news websites. While the company [swears it isn’t destroying the web with AI search](https://www.theverge.com/news/720069/google-ai-overviews-search-web-traffic-stable), you’d be hard-pressed to find a news outlet that agrees, and even [Google has admitted in court](https://www.theverge.com/news/773928/google-open-web-rapid-decline) that “the open web is already in rapid decline.”
+
+It’s the reason [*The Verge* now has a subscription](https://www.theverge.com/2024/12/3/24306571/verge-subscription-launch-fewer-ads-unlimited-access-full-text-rss): We can’t survive [Google Zero](https://www.theverge.com/24167865/google-zero-search-crash-housefresh-ai-overviews-traffic-data-audience) without your help.
+
+*Update, December 4th:* *A day or so after this story, Google seems to have changed its AI experiment and [I’m seeing headlines return, but the AI is still a bit confused](https://www.theverge.com/ai-artificial-intelligence/838354/googles-ai-news-bot-is-still-confused-but-no-longer-replacing-our-headlines).*
+
+[42 Comments](https://www.theverge.com#comments)
+
+**Follow topics and authors**from this story to see more like this in your personalized homepage feed and to receive email updates.",/Users/aisvarya/Zotero/storage/ZXGW6WWB/google-discover-ai-headlines-clickbait-nonsense.html
+SR4D3S7S,"honestly, it is jolting to read such terrific journalism in the Post and see it broken up by clanky and janky AI answers and summaries.",https://x.com/jdawsey1/status/1995599655401652556,2025-12-01,"honestly, it is jolting to read such terrific journalism in the Post and see it broken up by clanky and janky AI answers and summaries.
+
+Quote
+
+Shane Harris
+
+@shaneharris
+
+More misadventures in Washington Post AI. First, this  musing on ""the process for a president to investigate military actions,"" whatever that means, in the context of Hegseth's reported order to kill everyone in a boat strike in September. No reporter would be allowed to publish",/Users/aisvarya/Zotero/storage/EUCA3KUK/1995599655401652556.html
+XDE5KEP7,ChatGPT took Press Gazette content then said that could not have happened,https://pressgazette.co.uk/platforms/chatgpt-took-press-gazette-content-then-said-that-could-not-have-happened/,2025-11-26,"[ChatGPT](https://pressgazette.co.uk/subject/chatgpt/) accessed content from behind Press Gazette’s paywall and then gave a highly misleading explanation of what it had done.
+
+It’s a case which underlines the extent to which [AI answer engines](https://pressgazette.co.uk/subject/artificial-intelligence/) are flouting copyright and paywalls and also the sheer weirdness of some of the responses they give.
+
+Press Gazette asked ChatGPT to “chart Telegraph profits over time using information from Press Gazette”.
+
+It proceeded to give details of operating profits for most of the years from 2005 to 2023 based apparently on a detailed reading of Press Gazette.
+
+Press Gazette operates a metered paywall whereby registered readers can read two free articles per month. It also produces much content that is free to air but all archive content is paywalled.
+
+Press Gazette entered the following prompt in response to the ChatGPT answer: “Press Gazette is a paywalled website how is ChatGPT able to extract data from it without permission?”
+
+ChatGPT responded: “I have no login, no subscription, no way to bypass a paywall…So anything I output came entirely from internal reasoning, not external retrieval.”
+
+It added: “The specific profit figures for the Telegraph (2005–2023) are: repeated by dozens of secondary sources, including newspaper articles, Wikipedia citations, media-industry blogs, and publicly available financial summaries.”
+
+It added that “the URLs and citations I gave were hallucinated — but plausible” because Press Gazette uses a “predictable url structure.”
+
+Press Gazette’s archive URLs are actually quite complicated and hard to predict. Yet they were all correct and many of the profit figures cited only appear in Press Gazette.
+
+Press Gazette then asked ChatGPT to “redo the Telegraph chart using non-paywalled sources”.
+
+This took considerably longer and resulted in redone results for only ten of 13 years ChatGPT found data for when it included links to Press Gazette articles. The incomplete data included some different figures and was based purely on publicly available Guardian reports and Telegraph Media Group statements.
+
+Press Gazette has asked OpenAI for a comment.
+
+[This interaction with ChatGPT prompted huge interest when it was shared it on LinkedIn](https://www.linkedin.com/posts/dominicponsford_gotcha-chatgpt-does-anyone-know-a-good-copyright-activity-7398282595261698048-sPJL?utm_source=share&utm_medium=member_desktop&rcm=ACoAAACkcxEBdeU1Nls5B75_jheM9hRvFwYZqr4). Here are some of the insights people shared:
+
+## LLMs give weird responses if you ask questions about their methods
+
+Guardian head of editorial innovation and AI Chris Moran said: “Given the probabilistic nature of LLMs, asking them to explain themselves simply isn’t a thing. Anything from the moment you asked it to explain itself is simply not the truth – it’s a kind of ersatz apology or explanation constructed one token at a time in reaction to the previous context.”
+
+Editor at investment managers Baillie Gifford Leo Kelion said: “LLMs can’t explain their reasoning from a past analysis run. You’re effectively asking it from scratch to explain itself (it reloads the conversation to date into its context window and starts again). Kind of the equivalent of me brainwashing you into thinking you’re someone else and then asking you to explain one of that other person’s past decisions.”
+
+## ChatGPT is finding ways to access paywalled content
+
+Press Gazette has robot.txt files on its website aimed at stopping unwanted content scraping of our copyright content by LLMs.
+
+Chief digital officer of the Newspaper Licensing Agency (NLA Media Access) Paul Lomax said: “ChatGPT only pays attention to robots.txt when crawling for general training & RAG [Retrieval Augmented Generation – which aims to ground LLM answers in facts].
+
+“If a user asks it to grab content from a site, off it goes! Their (tenuous imho) argument is it’s just a user agent, same as any browser, acting on behalf of a user’s request. The problem is the bot can bypass a paywall if the paywall is built to allow Google indexing…
+
+“The only solution is to block the ChatGPT user agent.”
+
+Birger Soiland, head of publisher partners at Tollbit (a tech provider which controls AI access to websites), said: “Robots.txt is at best a gentleman’s agreement that the LLMs have no interest in honouring.”
+
+Alan Buxton, chief technology officer at Simfoni (a tech provider), noted OpenAI chief technology officer Mira Mirati’s comments in a Wall Street Journal interview in 2024 in which she appeared to admi that OpenAI helped itself to “publicly available” data in order to train AI video generation tool Sora.
+
+He said: “It’s very likely that amongst all ChatGPT’s data sources there are some bots with paid accounts which collect licensed data and add it to the mix. Or, potentially, subcontractors who collect data for them.
+
+“[Remember Mira Murati’s painful interview about the distinction between ‘publicly available’ and ‘licensed’ content](https://www.theverge.com/2024/3/13/24099618/im-just-not-going-to-go-into-the-details-about-the-data-that-was-used)? If you are happy to ignore the license for publicly available data then it’s not a big leap to also work around licenses for paid data.
+
+“TBH given the scale at which they operate, they probably don’t know where all their data originates.”
+
+Email **[pged@pressgazette.co.uk](<mailto: pged@pressgazette.co.uk>)** to point out mistakes, provide story tips or send in a letter for publication on our ""Letters Page"" blog",/Users/aisvarya/Zotero/storage/P44IYJ49/chatgpt-took-press-gazette-content-then-said-that-could-not-have-happened.html
+867H59AU,"Elon Musk’s Grokipedia cites Stormfront — a neo-Nazi forum — dozens of times, study finds",https://www.nbcnews.com/tech/elon-musk/elon-musk-grokipedia-wikipedia-neo-nazi-grok-42-encyclopedia-rcna244749,2025-11-20,"Tech billionaire Elon Musk’s online encyclopedia, Grokipedia, cites the neo-Nazi website Stormfront as a source 42 times and relies on other websites that experts have shunned as unreliable or hate-filled, [according to an analysis](https://arxiv.org/pdf/2511.09685) by two researchers at Cornell University.
+
+Grokipedia, which Musk [launched last month](https://www.nbcnews.com/tech/tech-news/elon-musk-launches-grokipedia-alternative-woke-wikipedia-rcna240171) as a competitor to what he called the “woke” Wikipedia, also cites the conspiracy theory website Infowars as a source 34 times and the [white nationalist website](https://www.nbcnews.com/politics/justice-department/justice-department-says-it-mistakenly-emailed-link-white-nationalist-website-n1045526) VDare 107 times, the researchers found.
+
+Those citations make up a small percentage of Grokipedia’s overall sourcing, but they are notable because Wikipedia, by contrast, does not treat those sources as credible. Wikipedia generally does not allow contributors to use them as references, even as primary sources of information about racist ideas or conspiracy theories, according to the Cornell analysis and Wikipedia’s [public list](https://en.wikipedia.org/wiki/Wikipedia:Reliable_sources/Perennial_sources) of English-language sources.
+
+“The guardrails are off,” Harold Triedman, one of the paper’s co-authors and a computer science graduate student at Cornell, said in a phone interview Wednesday.
+
+“The publicly determined, community-oriented rules that try to maintain Wikipedia as a comprehensive, reliable, human-generated source are not in application on Grokipedia,” he said.
+
+Triedman is a former senior privacy engineer for the Wikimedia Foundation, which oversees Wikipedia, and still does part-time contract work for one of its affiliates — which he disclosed in the paper — but he said he did the work independently. His co-author, Alexios Mantzarlis, is the director of Cornell’s Security, Trust, and Safety Initiative and the former director of the International Fact-Checking Network, a nonprofit organization.
+
+Overall, the researchers found that Grokipedia includes 12,522 citations to online sources that [previous academic research](https://pubmed.ncbi.nlm.nih.gov/37719749/) has deemed as having very low credibility. And they found that Grokipedia cites those domains three times as often as Wikipedia.
+
+Unlike Wikipedia, Grokipedia centralizes its editing process. Users can submit suggested edits to Grokipedia, but instead of assigning a group of volunteer community editors to decide on the edits, xAI, Musk’s artificial intelligence company, controls whether or not a certain edit is approved and implemented on the website. The process of review is not entirely transparent, but the company has suggested that Grok, an artificial intelligence chatbot, plays a part in reviewing edit submissions. When a user submits an edit, it is approved or denied with “Grok Feedback.”
+
+In an article about a Virginia-based white nationalist publication, Grokipedia cites and links to Stormfront seven times, with the links appearing at the bottom of the article under “references.” A Wikipedia article [with the same title](<https://en.wikipedia.org/wiki/National_Vanguard_(United_States)>) cites mainstream sources, such as Newsweek magazine. The Grokipedia version also uses euphemisms such as “advancement of peoples of European descent” in place of labels such as “white nationalist” preferred by Wikipedia editors, and the Grokipedia version is about 15 times longer than the Wikipedia article.
+
+The Grokipedia article for the 1998 film “American History X” cites and links to Stormfront [six times](https://github.com/htried/wiki-grok-comparison/blob/main/results/overall/cite_sublist/fringe_citations.csv), summarizing how people on Stormfront’s discussion forum view the film. The Wikipedia entry for the film does not cite Stormfront, instead relying on movie websites and news publications. (In the film, Edward Norton plays an American neo-Nazi, a role that earned him an Academy Award nomination.)
+
+The research from Triedman and Mantzarlis is a preprint, meaning the paper has not been vetted by other academic researchers, but NBC News was able to verify some of the findings by searching Grokipedia and checking references for individual articles. The authors also published [their data and methods](https://github.com/htried/wiki-grok-comparison/tree/main) online.
+
+The analysis is the first comprehensive attempt to comb through Grokipedia’s more than 880,000 articles, and it says that, on some topics, Musk’s site uses sources that have explicit racial prejudice, treating them as authoritative.
+
+Wikipedia, as a rule, relies on [published secondary sources](<https://en.wikipedia.org/wiki/Wikipedia:Handling_primary,_secondary_and_tertiary_sources_(proposed_guideline)>) and tells contributors to avoid doing their own original research. It also [prohibits some sources](https://en.wikipedia.org/wiki/Wikipedia:Reliable_sources/Perennial_sources) that it views as unreliable or untrustworthy. But Grokipedia is different.
+
+Musk and xAI, which released Grokipedia, did not respond to a request for comment on the Cornell analysis. The email inbox at xAI for media inquiries has an autoreply that says: “Legacy Media Lies.”
+
+Stormfront, created by a [former leader of the Ku Klux Klan](https://www.nbcnews.com/nbc-out/out-news/derek-black-kkk-klansman-son-transgender-rcna153904), is one of the internet’s oldest and most prominent neo-Nazi message boards. Several mass shooters, including a Norwegian neo-Nazi [who killed 77 people](https://www.theguardian.com/world/2011/jul/30/norway-attacks-anders-behring-breivik), have been registered Stormfront users, according to the [Southern Poverty Law Center](https://www.nbcnews.com/storyline/jewish-center-shootings/report-users-white-power-website-have-committed-nearly-100-murders-n83231), a civil rights organization.
+
+A message left with a Stormfront voicemail was not immediately returned Wednesday.
+
+Musk has a history of expressing antisemitic and racist theories. In 2022, he endorsed the “[great replacement](https://www.nbcnews.com/tech/tech-news/antisemites-are-saying-elon-musk-side-latest-tweets-jews-rcna125617)” theory that Jews were plotting to bring nonwhite immigrants to the United States. (His post about it [is still up](https://x.com/elonmusk/status/1724908287471272299).) He has [smeared Haitian immigrants](https://www.nbcnews.com/tech/internet/haiti-migrants-cannibal-claims-barbeque-army-2024-rcna142878) as cannibals and [attacked airlines](https://www.nbcnews.com/tech/internet/elon-musk-boeing-dei-diversity-x-posts-pilots-rcna133351) for trying to recruit Black pilots. In January, Musk used a gesture at a rally that many historians [viewed as a Nazi salute](https://www.nbcnews.com/business/business-news/tesla-investors-elon-musk-answer-questions-salute-white-house-role-rcna189798), and days later he urged Germans to “[move beyond](https://www.nbcnews.com/news/world/elon-musks-call-germany-move-nazi-guilt-dangerous-holocaust-memorial-c-rcna189316)” Nazi guilt. Musk [later said](https://www.bbc.com/news/articles/cy48v1x4dv4o) those framing the gesture as a Nazi salute were using “dirty tricks.”
+
+Musk’s social media app, X, formerly Twitter, has also become [a hub for neo-Nazi influencers](https://www.nbcnews.com/tech/social-media/x-twitter-elon-musk-nazi-extremist-white-nationalist-accounts-rcna145020), after Musk restored some previously banned accounts. X also placed advertisements [in the search results](https://www.nbcnews.com/tech/social-media/elon-musk-x-twitter-antisemitism-hashtags-trending-hate-rcna151945) for extremist hashtags such as #whitepower.
+
+Musk created Grokipedia as an explicitly political project after having criticized Wikipedia [as too left-wing](https://x.com/elonmusk/status/1973010429724205058). He took up the idea [after a suggestion](https://x.com/elonmusk/status/1972900565899497547) from Trump White House AI czar David Sacks.
+
+Wikipedia, founded in 2001, is written and edited by volunteers, many of whom are pseudonymous. It is among the most-visited websites in the world.
+
+Grokipedia used articles from Wikipedia as a foundation, republishing [some of them](https://grokipedia.com/page/Monday) word for word with a disclaimer saying the content was “adapted from Wikipedia” under a [Creative Commons license](https://creativecommons.org/licenses/by-sa/4.0/deed.en). But it also rewrote other topics top to bottom with the help of Musk’s AI chatbot, Grok. Musk said one priority was to de-emphasize the traditional news media as sources.
+
+“The goal here is to create an open source, comprehensive collection of all knowledge,” Musk [said last month](https://x.com/elonmusk/status/1983125099973882120) on X. He has said the website will be “[super important](https://x.com/elonmusk/status/1973440486804431169) for civilization.”
+
+Many articles have a different slant from Wikipedia. The Grokipedia entry for Adolf Hitler, for example, goes for 13,000 words before it mentions the Holocaust by name, according to an NBC News count, while Wikipedia mentions it in the first paragraph of its article.
+
+Triedman said it is not clear why Grokipedia has published articles as it has.
+
+“They’ve expressed intentions to be more transparent going forward. Right now, the methodology is not very transparent,” he said.
+
+The Cornell researchers scraped nearly the entirety of Grokipedia’s content in late October, gathering more than 883,000 articles for analysis.
+
+They found that Wikipedia and Grokipedia rely on some of the same sources, with 57 internet domains showing up in the top 100 source lists for both encyclopedias. But the two sites often diverge, especially when it comes to sources Wikipedia editors consider unreliable or even blacklist.
+
+About 5.5% of Grokipedia articles include at least one citation to a source that is blacklisted in the English-language Wikipedia community, the researchers found.
+
+Infowars, for example, is generally prohibited as a source on Wikipedia, and its founder, Alex Jones, faces a [$1.5 billion defamation judgment](https://www.nbcnews.com/politics/supreme-court/supreme-court-turns-away-alex-jones-attempt-block-huge-defamation-judg-rcna236968) over false claims that the 2012 Sandy Hook school shooting in Connecticut was a hoax. But Grokipedia cites Infowars and links to it as a source, including for a baseless conspiracy theory that the Clintons are murderers who have a “body count.” (Wikipedia has a parallel article on [the same subject](https://en.wikipedia.org/wiki/Clinton_body_count_conspiracy_theory) that does not mention Infowars.)
+
+VDare is likewise generally banned as a source on Wikipedia, but Grokipedia cites it [for several articles](https://github.com/htried/wiki-grok-comparison/blob/main/results/overall/cite_sublist/fringe_citations.csv), usually about white supremacists or about VDare itself.
+
+The researchers said they found 1,050 citations in which Grokipedia links to itself: specifically, to publicly shared conversations that had occurred between X users and the Grok chatbot. In one example, Grokipedia cites as a source a Grok chatbot conversation in which a user started by asking Grok to “[dig up some dirt](https://x.com/i/grok/share/u9CnjacqsAhjFhrVjBu2vEipv)” on a Belgian politician. The researchers did not draw conclusions about the accuracy of those 1,050 citations.
+
+“We believe there is much future work to complete in this area,” they wrote.",/Users/aisvarya/Zotero/storage/9ILEJPES/elon-musk-grokipedia-wikipedia-neo-nazi-grok-42-encyclopedia-rcna244749.html
+JCGDRBR2,When the pink-slime researchers become the pink slime.,https://www.cjr.org/tow_center/when-the-pink-slime-researchers-become-the-pink-slime.php,,"*Sign up for the daily [**CJR newsletter**](https://www.cjr.org/email).*
+
+We love to hear when journalists engage with our research, so in October, we set up an LLM agent to sort through Google Alerts for Tow Center’s work and notify us when our research is cited in news. The bot began to diligently filter alerts for new mentions of the Tow Center and sent us Slack notifications with references to our work. We celebrated the small wins.
+
+But not even a week in, Elon Musk launched Grokipedia—his own AI-generated [misinformation-peddling](https://www.wired.com/story/elon-musk-launches-grokipedia-wikipedia-competitor/) version of Wikipedia—and we began receiving notifications about sites we had never heard of quoting our director, Professor Emily Bell, talking about the launch.
+
+A site called [*Berawang News*](https://berawangnews.com/elon-musk-grokipedia-arrives-later-this-month-pcmag-3/) cites “Dr. Emily Bell” (although absolutely brilliant, our fearless leader doesn’t have a PhD—at least as far as she is aware) saying “The introduction of AI in information sharing could be transformative, but it also raises questions about accountability and ethics. How Musk addresses these issues will determine Grokipedia’s success.”
+
+She never said these words.
+
+The article is allegedly authored by John M. Anderson, [who the site says previously worked with the *Washington Post* and *Politico*](https://berawangnews.com/author/berawang/). The actual John Anderson, who did work at these publications, has no connection with *Berawang News*. “If they want to create a site that uses AI to generate news stories, why not just do it transparently?” Anderson said over email. “Why swipe someone’s identity, thinking it will lend you an air of credibility, when it will eventually be discovered and totally undercut your credibility?” 
+
+Other websites like [*Leravi*](https://www.leravi.org/elon-musk-launches-grokipedia-after-wikipedia-co-founder-sounds-alarm-15355/) and [*Indian Defense Review*](https://indiandefencereview.com/grokipedia-elon-musk-announces-a-new-version-of-wikipedia-after-explosive-revelations-by-its-co-founder/) also cite a “Dr. Emily Bell,” naming her as the director of the Tow Center for Digital Journalism but also attributing quotes to her that the real Emily Bell has never said about Grokipedia. We found that the *Indian Defense Review*, formerly a peer-reviewed academic-journal website dedicated to the Indian military, now pumps out content on [scientists finding signs of Atlantis](https://indiandefencereview.com/atlantis-scientists-find-submerged-city/) and [how to clean your windows](https://indiandefencereview.com/simply-add-a-spoonful-to-your-cleaning-water-your-windows-will-stay-sparkling-clean-all-winter-long/). It shares characteristics with many sites traced to an Algerian SEO organization called the [SS Tech Agency](https://www.linkedin.com/company/sst-agency/). Many of the company’s editors come from a specific Algerian University, where the [CEO of several of these content farms](https://www.linkedin.com/in/sebti-samir/) teaches. 
+
+A website called [*Sriwijaya News*](https://beritasriwijaya.co.id/how-american-views-on-israel-and-antisemitism-have-changed-since-oct-7-2/) attributes made-up quotes in an article about American public opinion on Israel and anti-Semitism that it claims was written by none other than Christiane Amanpour. The famed journalist must be quite busy, as she is supposedly churning out dozens of articles each day for the site, about everything from soccer and celebrities to daily Bitcoin prices.
+
+We also found fake statistics, like the one below on the website of “CML Technology,” supposedly a Canadian tech firm, attributed to reports that the Tow Center has never published. CML Technology is the creator of a [website dedicated](https://www.ambassade-rdc-canada.com/) to [the Democratic Republic of the Congo in Canada.](https://www.ambassade-rdc-canada.com/) 
+
+While we had a good laugh at these websites, and will continue to follow the exploits of the fictitious Dr. Emily Bell, we are deeply troubled by ways in which AI tools peddle misinformation in the name of our hard-earned credibility. We don’t have reason to believe any of these websites get large volumes of traffic, but the thought of one such article going viral makes us shudder. The collective reputational damage done to an institution or a person through the spread of fake quotes attributed to them could be significant.
+
+As our good doctor supposedly said in an article titled “Can We Trust AI Blindly?” posted on Facebook by “Way to Jannah Academy,” an account with 740 followers that peddles lessons in spoken English to people in Bangladesh, “Generative AI can be used to create higher-quality misinformation…leading to increased potential [for harm].”
+
+*Has America ever needed a media defender more than now? Help us by [joining CJR today](https://members.cjr.org/member/?a=interior-hasamerica&utm_source=cjr-org&utm_medium=cjr-interior&utm_campaign=m-land).*",/Users/aisvarya/Zotero/storage/HVERCNSR/when-the-pink-slime-researchers-become-the-pink-slime.html
 GQ7D8VE4,Suncoast Searchlight Board Of Directors Response To Recent Concerns Over Use Of AI,https://suncoastsearchlight.org/board-directors-response-concerns-ai/,2025-11-25,"# Suncoast Searchlight Board Of Directors Response To Recent Concerns Over Use Of AI
 
 **November 25, 2025**
@@ -77,6 +447,102 @@ The board remains firmly behind the integrity of the journalism, the editorial p
 Signed,
 
 Chris Davis, Carol LoCicero, Kelly McBride, Greg Parris, Sam Scott and Keith Woods",/Users/aisvarya/Zotero/storage/F6YCPYH8/board-directors-response-concerns-ai.html
+6NJEU2J5,"Business Insider attempts AI reporter, human journalists push back | The NewsGuild - TNG-CWA",https://newsguild.org/business-insiders-ai-byline/,2025-11-07,"Last week Business Insider quietly rolled out an artificially intelligent “author” and journalists got loud. The company, which is controlled by Axel Springer in Germany, launched a byline page for “Business Insider AI” with a description that the “byline uses generative AI tools to draft news stories so we can bring readers more information, more quickly.”
+
+The union AI subcommittee at Business Insider, which is part of The NewsGuild of New York, quickly activated and started having conversations across the newsroom. They made a flyer and dropped a graphic in person and [on social media](https://www.instagram.com/insiderunion/p/DQNNqHvjuZI/). 
+
+I spoke to Lily Oberstein to learn more. She’s Business Insider’s unit chair and an insights and analytics editor in the newsroom.
+
+Oberstein was at a newsroom product and tech conference when the news broke about the AI byline. At the conference, she was encouraged to hear tech workers discuss the right and wrong uses for AI. When companies identify the problems they have first, and then if AI is a good solution second, they can find areas of opportunity for AI. With a background in tech and data, she knows technology can help us when used correctly.
+
+But over in the newsroom, Axel Springer bosses are trying to use AI like a hammer in search of nails.
+
+The subcommittee had conversations and then quickly formulated a request for information, which is a sort of public-records-like power unionized workers have. Journalists asked questions. And dozens of members piled onto those questions in a newsroom wide reply-all demanding clarity.
+
+“Sources and readers have already expressed concerns about Business Insider’s vague AI policy and this AI author page continues to amplify these concerns,” she said. “We are deeply worried about the effects that this move-fast-and-break-things approach to AI will have on both our newsroom’s reputation as well as our member’s job security.”
+
+In addition to the graphics on social media, members changed their Slack profiles and they posted a statement about the AI byline, which is management’s attempt to undermine journalists’ jurisdiction over journalism.
+
+AI-produced content lacks value.
+
+“Readers want to subscribe to quality journalism coming from our talented, human journalists,” she said.
+
+Then this week Mathias Döpfner, Axel Springer’s CEO, came to the Business Insider newsroom to talk about AI. Workers got very short notice and went into overdrive to organize. Visits from the German executives are exceedingly rare. Every chair in the room had a “No Slop in Our Shop” flyer made by the Insider Union.
+
+And Döpfner said the company’s intentions out loud.
+
+“Does it replace jobs here and there? The honest answer is, yes, no doubt about it,” he said, [according to status](https://www.status.news/p/axel-springer-ai-business-insider-mathias-dopfner?utm_source=www.status.news&utm_medium=newsletter&utm_campaign=embrace-a-i-or-you-die&_bhlid=3b95daeebbb829554bf633cf712bea19389731ca&last_resource_guid=Post%3Aa9afb59b-a9cf-43b8-8ccf-9ed37d7b5eb3).
+
+Journalists in the room had several questions. Oberstein asked the most important one.
+
+“We’re concerned about pushing AI-generated content on our site – what is your plan for protecting our newsroom’s reputation and our job security?”
+
+Members in the room stood up to show strength in numbers.
+
+Journalists are not dismissing AI outright, they said that day in a [joint statement](https://bsky.app/profile/pen-guild.bsky.social/post/3m4viy6i4ds2d) from POLITICO, Business Insider and Business Insider UK. “Our sites and channels should showcase the original work that we humans produce, not the bland words or images that anyone with a ChatGPT account could churn out with ease.”
+
+POLITICO is in the [midst of arbitration](https://www.niemanlab.org/2025/08/politicos-recent-ai-experiments-shouldnt-be-subject-to-newsroom-editorial-standards-its-editors-testify/) after misinformation was spread by an AI “tool” rolled out by management. And Axel Springer has been quiet about the [secretive deal](https://www.reuters.com/business/media-telecom/global-news-publisher-axel-springer-partners-with-openai-landmark-deal-2023-12-13/) they inked with OpenAI, the maker of ChatGPT, two years ago. 
+
+AI-generated content, along with vague corporate AI policies, will erode trust in journalism and make journalists’ jobs more difficult.
+
+Robots cannot replace reporters.",/Users/aisvarya/Zotero/storage/VXSASZM6/business-insiders-ai-byline.html
+FBUUZPHI,Times journalists urged to make 'basic' checks after two 'humiliating' hoaxes,https://pressgazette.co.uk/news/times-journalists-urged-to-make-basic-checks-after-two-humiliating-hoaxes/,2025-11-03,"A newsroom boss at [The Times](https://pressgazette.co.uk/subject/the-times/) has described two fake interviews recently run by the newsbrand as “humiliating” and said “absolutely basic” questions were not asked.
+
+Times associate editor Ian Brunskill told staff: “Twice in the past few weeks we’ve been caught out by fake interviews. One involved a bogus Al-generated case study provided by a dubious PR outfit, the other a fake email purporting to come from a high-profile figure in US politics…
+
+“We should have been on our guard. We should have tried much harder to speak to the people concerned. If that’s not possible, why not?”
+
+One of the incidents was revealed in September by Press Gazette: [The Times was among major UK and US newsbrands to publish interviews with ‘Anne Simmons’](https://pressgazette.co.uk/news/royal-cleaner-stories-removed-by-times-and-sun-after-authenticity-questions/), a purported royal cleaner who claimed to have worked for the Royal Family for more than a decade.
+
+However there appears to be no record of someone called Anne Simmons having worked for Buckingham Palace or been vetted by security.
+
+The articles, which largely shared cleaning tips from Simmons, appear to have been based on press releases sent out on behalf of a number of companies that claimed to have interviewed Simmons including: Edit Suits, Plumbworld, Playcasino, Plates Express and Pure Window Cleaning.
+
+The Times appeared to have run with the story first in March, [with a piece headlined](https://archive.ph/PwKoW#selection-1721.42-1721.56): “How do you spruce up Buckingham Palace? A royal cleaner spills.”
+
+The news website, and sister News UK brand The Sun, removed articles about Simmons after Press Gazette questioned their authenticity. Other publishers to have published “interviews” with Simmons included the [Daily Mail](https://www.dailymail.co.uk/home/you/article-14523871/A-royal-housekeeper-reveals-three-supermarket-essentials-used-spring-clean-Buckingham-Palace-bathrooms-one-just-35p.html), [Daily Express](https://www.express.co.uk/life-style/property/2057090/cleaner-Buckingham-Palace-hoover-alternative-slime), [New York Post](https://nypost.com/2025/05/14/entertainment/king-charles-has-banned-two-household-items-from-buckingham-palace/) and [Daily Mirror](https://www.mirror.co.uk/lifestyle/food-drink/royal-cleaning-expert-shares-10-35293603).
+
+Press Gazette editor-in-chief Dominic Ponsford has called on the Independent Press Standards Organisation, which regulates all of the UK publishers above, [to investigate the “systematic failings](https://pressgazette.substack.com/p/express-had-most-ipso-breaches-in) which lead publishers to keep running fake, likely AI-generated, PR content”.
+
+[Press Gazette has in the past few months uncovered around 100 examples of articles published by IPSO member publishers containing fictitious information supplied by dubious PR companies](https://pressgazette.co.uk/news/agencies-linked-to-missing-lottery-winners-bombard-journalists-with-fake-case-studies-ai/) that went unverified before being published.
+
+Ponsford said: “IPSO-regulated publishers should be the last publications to be fooled by this stuff but they appear to be among the first.”
+
+## Wrong Bill de Blasio: ‘They accepted my quote without vetting’
+
+Then, last week, The Times published a supposed interview with former New York mayor Bill de Blasio about the policies of Zohran Mamdani, the frontrunner in the city’s current mayoral race.
+
+De Blasio denied having given the interview and a Times spokesperson said its journalist “had been misled by an individual falsely claiming to be the former New York mayor”. The article was removed.
+
+However Semafor revealed the journalist had emailed the wrong De Blasio and had inadvertently contacted a Long Island wine importer by the same name (but spelled as DeBlasio without a space).
+
+[That De Blasio told Semafor](https://www.semafor.com/article/10/29/2025/british-newspaper-spoke-to-the-wrong-deblasio-not-an-imposter): “I never once said I was the mayor. He never addressed me as the mayor. So I just gave him my opinion.”
+
+He also dispute the statement put out by The Times, telling [the Associated Press](https://apnews.com/article/zohran-mamdani-andrew-cuomo-bill-de-blasio-8da7fc3331340c897d6a71f83e59ddc5): “In no way shape or form did I call myself the mayor. The reporter addressed me as Mr. DeBlasio and I answered him as Mr. DeBlasio. They accepted my quote without any vetting – now they’re blaming me?”
+
+## Times memo: ‘Serious damage to our reputation’
+
+In a memo sent to staff at the end of last week, [first reported by Deadline](https://deadline.com/2025/10/bill-de-blasio-fake-interview-humiliating-times-editor-says-1236603178/), Times associate editor Ian Brunskill urged the newsroom to ask more questions when speaking to sources.
+
+He wrote: “The first hoax (which others fell for too) prompted not just ridicule but calls for the press regulator to launch a full investigation into standards. The second (our own “exclusive”, alas) led to a widely reported retraction and apology.
+
+“Both humiliating episodes did serious damage to our reputation. Both could have been avoided by good practice and due diligence.
+
+“There were red flags. An unknown PR company with no telephone number offering to put us in touch with an unknown ‘expert’ who could be interviewed only via email was one. A well-known public figure expressing a view completely at odds with his previous statements, and doing it from a personal Gmail address, was another.”
+
+Listing questions that ought to have been asked, Brunskill continued: “We – reporters and editors – should be asking: Who is telling me this and why? How do I know they’re who they say they are? How plausible is what I’m being told? What can I do to check?
+
+“Those questions are absolutely basic. Asking them should be second nature to anyone working for a paper with a long history of trusted reporting. There are no excuses.
+
+“As a condition of employment, we’re bound by the Editors’ Code. It requires us to take care to avoid inaccuracy. If there’s a complaint, IPSO will expect us to show precisely what taking care involved. We can’t afford to be fooled.”
+
+A spokesperson for IPSO said last week: “Press Gazette’s valuable reporting on the emerging phenomenon of AI-generated press releases is a useful reminder to editors and journalists of risks posed by large language models.
+
+“Those regulated by IPSO are accountable for their content and must take care to satisfy themselves that their sources are accurate.
+
+“The standards they have agreed to meet set them apart from non-regulated titles and help to maintain trust and credibility with readers.”
+
+Email **[pged@pressgazette.co.uk](<mailto: pged@pressgazette.co.uk>)** to point out mistakes, provide story tips or send in a letter for publication on our ""Letters Page"" blog",/Users/aisvarya/Zotero/storage/ME33YGSD/times-journalists-urged-to-make-basic-checks-after-two-humiliating-hoaxes.html
 M5N3GHYU,Fox News' Alba Cuebas-Fantauzzi Duped By AI Video,https://www.mediaite.com/media/news/gobsmacking-media-industry-observers-call-out-fox-news-for-getting-duped-by-ai-generated-video-then-attempting-to-sweep-it-under-the-rug/,2025-11-02,"# ‘Gobsmacking’: Media Industry Observers Call Out Fox News’s Website for Getting Duped By AI-Generated Video, Then Attempting to Sweep it Under the Rug
 
 Fox News’s website is drawing heat from media industry observers for getting duped by an AI-generated video — and then failing to take sufficient accountability for the error.
@@ -106,6 +572,49 @@ CNN’s **Brian Stelter** delivered a similar condemnation in his *Reliable Sour
 **New: The Mediaite One-Sheet ""Newsletter of Newsletters""**
 
 Your daily summary and analysis of what the many, many media newsletters are saying and reporting. [Subscribe now!](https://www.mediaite.com/subscribe)",/Users/aisvarya/Zotero/storage/ZLPD3EQI/gobsmacking-media-industry-observers-call-out-fox-news-for-getting-duped-by-ai-generated-video-.html
+HLYKPZ5T,Study claims 9% of US newspaper articles at least partly AI generated,https://pressgazette.co.uk/north-america/study-claims-9-of-us-newspaper-articles-at-least-partly-ai-generated/,2025-10-29,"Around 9% of articles published by US newspaper brands this summer were at least partially written by [AI](https://pressgazette.co.uk/subject/artificial-intelligence/), a new study has found.
+
+Researchers from the University of Maryland used AI detector Pangram to [analyse 186,000 articles](https://arxiv.org/abs/2510.18774) published online by 1,500 national and local newspaper brands between June and September 2025.
+
+They concluded that “approximately 9% of newly-published articles are either partially or fully AI-generated”.
+
+Some 90.85% of articles analysed were categorised as human-written, while 5.24% were classed as AI-generated and 3.98% were “mixed”.
+
+AI use was found to be “much higher” in smaller local outlets compared to large national newspapers. Some 1.7% of articles at papers with a circulation above 100,000 were labelled as AI-generated or mixed, versus 9.3% at smaller titles.
+
+The researchers suggested this could be because the smaller titles have “shrinking reporting capacity due to limited resources” and “rely on AI more than national newspapers” whereas “large national newspapers enforce stricter editorial constraints on automation than local papers”.
+
+The use of AI was most frequently noted in article topics such as weather (27.7%), science and technology (16.1%), and health (11.7%).
+
+There were lower rates for war stories (4.3%), crime, law and justice stories (5.2%) and religion-related articles (5.3%).
+
+The research paper noted that Pangram claims to have a false positive rate of about 0.001% on news text.
+
+The researchers also manually analysed 100 articles flagged as featuring AI use and found just five of them disclosed that this was the case.
+
+Some of the newspaper owners with the highest level of AI use specifically disclose that they use it for certain types of content. For example, the paper cited Advance Publications and its AI-written weather forecast articles which had a 74.4% AI use rate.
+
+A [weather story](https://www.pennlive.com/weather/2025/10/a-dry-tuesday-will-be-followed-by-lots-of-rain-in-central-pa.html) published this week on Advance’s Penn Live website ends with the disclaimer: “Generative AI was used to produce an initial draft of this story, which was reviewed and edited by PennLive.com staff.”
+
+Other publishers, such as Boone Newsmedia which was found to have the “broadest adoption”, use AI “broadly across many topics”, the report said. Some 58.3% of Boone stories had some AI-generated text in them, the paper said, along with 32.9% of lifestyle and leisure stories.
+
+The paper found that of the mixed or AI-generated articles that contained at least one quote of more than 50 words, 76.1% contained at least one human-written quote. However, it was acknowledged that Pangram’s AI detector is less reliable on shorter pieces of text.
+
+“This suggests that many stories written with AI use rely on authentically sourced material. However, it remains unclear whether journalists are choosing these quotes and feeding them into a prompt for AI generation, or if the AI is also doing quote selection.”
+
+The paper also found that AI-generated content was more prevalent in news articles written in non-English, with 8% of English-language articles containing some AI use versus 31% in other languages (of which about 80% were Spanish-language articles from US-based outlets).
+
+“This suggests that higher AI use is concentrated in domestic Spanish-language reporting, reflecting how translation tools and localised automation may lead to differences in AI adoption per language.”
+
+The paper noted there was a possibility that AI-translated articles were being misclassified as AI-generated, but said its “small-scale verification suggests that human-written articles are still correctly identified as human even after machine translation”.
+
+The researchers also looked at a subset of opinion articles written between 2022 and 2025 in The New York Times, The Washington Post and The Wall Street Journal.
+
+It found that AI use “remains low” in opinion compared to the news articles analysed but that it has “risen sharply” since AI chatbots entered the mainstream, from 0.1% in 2022 to 3.4% in 2025.
+
+AI was more likely to be used by guest contributors than by full-time staff. It was also “almost completely undisclosed”.
+
+Email **[pged@pressgazette.co.uk](<mailto: pged@pressgazette.co.uk>)** to point out mistakes, provide story tips or send in a letter for publication on our ""Letters Page"" blog",/Users/aisvarya/Zotero/storage/WDD2UE9X/study-claims-9-of-us-newspaper-articles-at-least-partly-ai-generated.html
 A5A5XZGY,Florida nonprofit news reporters ask board to investigate their editor’s AI use,https://www.niemanlab.org/2025/11/florida-nonprofit-news-reporters-ask-board-to-investigate-their-editors-ai-use/,,"Nieman Foundation at [Harvard](https://www.harvard.edu/)
  
 
@@ -2834,63 +3343,6 @@ It is becoming essential to classify publicly accessible content according to it
 In 2023, the[  Paris Charter on AI and Journalism](https://rsf.org/en/rsf-and-16-partners-unveil-paris-charter-ai-and-journalism) – initiated by RSF and written by a team of experts chaired by Nobel Peace Prize winner Maria Ressa – called on media outlets to adopt technology for authenticating content so that the public could be confident that it was genuine.
 
 Such technology is currently under development and is being tested by news websites and news agencies such as *Agence France-Presse (AFP)*. These efforts must be recognised, supported and promoted by distribution platforms. Deepfakes and media identity theft can only be combated effectively if these media efforts are complemented by increased transparency on platforms.",/Users/aisvarya/Zotero/storage/RAJY2TWU/generative-ai-used-copy-and-clone-french-news-media-french-speaking-africa.html
-BKUHYT6T,Times journalists urged to make 'basic' checks after two 'humiliating' hoaxes,https://pressgazette.co.uk/news/times-journalists-urged-to-make-basic-checks-after-two-humiliating-hoaxes/,2025-11-03,"A newsroom boss at [The Times](https://pressgazette.co.uk/subject/the-times/) has described two fake interviews recently run by the newsbrand as “humiliating” and said “absolutely basic” questions were not asked.
-
-Times associate editor Ian Brunskill told staff: “Twice in the past few weeks we’ve been caught out by fake interviews. One involved a bogus Al-generated case study provided by a dubious PR outfit, the other a fake email purporting to come from a high-profile figure in US politics…
-
-“We should have been on our guard. We should have tried much harder to speak to the people concerned. If that’s not possible, why not?”
-
-One of the incidents was revealed in September by Press Gazette: [The Times was among major UK and US newsbrands to publish interviews with ‘Anne Simmons’](https://pressgazette.co.uk/news/royal-cleaner-stories-removed-by-times-and-sun-after-authenticity-questions/), a purported royal cleaner who claimed to have worked for the Royal Family for more than a decade.
-
-However there appears to be no record of someone called Anne Simmons having worked for Buckingham Palace or been vetted by security.
-
-The articles, which largely shared cleaning tips from Simmons, appear to have been based on press releases sent out on behalf of a number of companies that claimed to have interviewed Simmons including: Edit Suits, Plumbworld, Playcasino, Plates Express and Pure Window Cleaning.
-
-The Times appeared to have run with the story first in March, [with a piece headlined](https://archive.ph/PwKoW#selection-1721.42-1721.56): “How do you spruce up Buckingham Palace? A royal cleaner spills.”
-
-The news website, and sister News UK brand The Sun, removed articles about Simmons after Press Gazette questioned their authenticity. Other publishers to have published “interviews” with Simmons included the [Daily Mail](https://www.dailymail.co.uk/home/you/article-14523871/A-royal-housekeeper-reveals-three-supermarket-essentials-used-spring-clean-Buckingham-Palace-bathrooms-one-just-35p.html), [Daily Express](https://www.express.co.uk/life-style/property/2057090/cleaner-Buckingham-Palace-hoover-alternative-slime), [New York Post](https://nypost.com/2025/05/14/entertainment/king-charles-has-banned-two-household-items-from-buckingham-palace/) and [Daily Mirror](https://www.mirror.co.uk/lifestyle/food-drink/royal-cleaning-expert-shares-10-35293603).
-
-Press Gazette editor-in-chief Dominic Ponsford has called on the Independent Press Standards Organisation, which regulates all of the UK publishers above, [to investigate the “systematic failings](https://pressgazette.substack.com/p/express-had-most-ipso-breaches-in) which lead publishers to keep running fake, likely AI-generated, PR content”.
-
-[Press Gazette has in the past few months uncovered around 100 examples of articles published by IPSO member publishers containing fictitious information supplied by dubious PR companies](https://pressgazette.co.uk/news/agencies-linked-to-missing-lottery-winners-bombard-journalists-with-fake-case-studies-ai/) that went unverified before being published.
-
-Ponsford said: “IPSO-regulated publishers should be the last publications to be fooled by this stuff but they appear to be among the first.”
-
-## Wrong Bill de Blasio: ‘They accepted my quote without vetting’
-
-Then, last week, The Times published a supposed interview with former New York mayor Bill de Blasio about the policies of Zohran Mamdani, the frontrunner in the city’s current mayoral race.
-
-De Blasio denied having given the interview and a Times spokesperson said its journalist “had been misled by an individual falsely claiming to be the former New York mayor”. The article was removed.
-
-However Semafor revealed the journalist had emailed the wrong De Blasio and had inadvertently contacted a Long Island wine importer by the same name (but spelled as DeBlasio without a space).
-
-[That De Blasio told Semafor](https://www.semafor.com/article/10/29/2025/british-newspaper-spoke-to-the-wrong-deblasio-not-an-imposter): “I never once said I was the mayor. He never addressed me as the mayor. So I just gave him my opinion.”
-
-He also dispute the statement put out by The Times, telling [the Associated Press](https://apnews.com/article/zohran-mamdani-andrew-cuomo-bill-de-blasio-8da7fc3331340c897d6a71f83e59ddc5): “In no way shape or form did I call myself the mayor. The reporter addressed me as Mr. DeBlasio and I answered him as Mr. DeBlasio. They accepted my quote without any vetting – now they’re blaming me?”
-
-## Times memo: ‘Serious damage to our reputation’
-
-In a memo sent to staff at the end of last week, [first reported by Deadline](https://deadline.com/2025/10/bill-de-blasio-fake-interview-humiliating-times-editor-says-1236603178/), Times associate editor Ian Brunskill urged the newsroom to ask more questions when speaking to sources.
-
-He wrote: “The first hoax (which others fell for too) prompted not just ridicule but calls for the press regulator to launch a full investigation into standards. The second (our own “exclusive”, alas) led to a widely reported retraction and apology.
-
-“Both humiliating episodes did serious damage to our reputation. Both could have been avoided by good practice and due diligence.
-
-“There were red flags. An unknown PR company with no telephone number offering to put us in touch with an unknown ‘expert’ who could be interviewed only via email was one. A well-known public figure expressing a view completely at odds with his previous statements, and doing it from a personal Gmail address, was another.”
-
-Listing questions that ought to have been asked, Brunskill continued: “We – reporters and editors – should be asking: Who is telling me this and why? How do I know they’re who they say they are? How plausible is what I’m being told? What can I do to check?
-
-“Those questions are absolutely basic. Asking them should be second nature to anyone working for a paper with a long history of trusted reporting. There are no excuses.
-
-“As a condition of employment, we’re bound by the Editors’ Code. It requires us to take care to avoid inaccuracy. If there’s a complaint, IPSO will expect us to show precisely what taking care involved. We can’t afford to be fooled.”
-
-A spokesperson for IPSO said last week: “Press Gazette’s valuable reporting on the emerging phenomenon of AI-generated press releases is a useful reminder to editors and journalists of risks posed by large language models.
-
-“Those regulated by IPSO are accountable for their content and must take care to satisfy themselves that their sources are accurate.
-
-“The standards they have agreed to meet set them apart from non-regulated titles and help to maintain trust and credibility with readers.”
-
-Email ** pged@pressgazette.co.uk** to point out mistakes, provide story tips or send in a letter for publication on our ""Letters Page"" blog",/Users/aisvarya/Zotero/storage/U2X3GLYT/times-journalists-urged-to-make-basic-checks-after-two-humiliating-hoaxes.html
 22GNGKTK,Prism News shuts down network of more than 200 AI-generated local news sites,https://www.interlochenpublicradio.org/ipr-news/2026-08-17/prism-news-shuts-down-network-of-more-than-200-ai-generated-local-news-sites,2026-08-17,"### After only a few months of operation, Prism News’s network of more than 200 AI-generated publications – posing as local newsrooms and hobby sites – has closed.
 
 This includes the local “AI-powered newsroom” *Prism Grand Traverse County, *which produced news articles about northwest Michigan. [As IPR reported in July](https://www.interlochenpublicradio.org/ipr-news/2026-07-16/michigans-newest-newsrooms-are-ai-machines-built-on-others-reporting), that coverage was created using artificial intelligence to aggregate news from local outlets and repurpose Prism’s slightly-altered articles under new bylines.
@@ -3139,66 +3591,51 @@ The same thing happened to me: I wrote a chapter for a book about a particular p
 ## Guardian Pick
 
 You can’t blame ChatGPT. It is doing exactly what is designed to do - to be an imposter.",/Users/aisvarya/Zotero/storage/VTMZFS7Z/ai-chatgpt-guardian-technology-risks-fake-article.html
-G66ID52Y,Google Search is now using AI to replace headlines,https://www.theverge.com/tech/896490/google-replace-news-headlines-in-search-canary-coal-mine-experiment,2026-03-20,"# Google Search is now using AI to replace headlines
+G66ID52Y,Google Search is now using AI to replace headlines,https://www.theverge.com/tech/896490/google-replace-news-headlines-in-search-canary-coal-mine-experiment,2026-03-20,"Since roughly the turn of the millennium, Google Search has been the bedrock of the web. People loved Google’s trustworthy “10 blue links” search experience and its unspoken promise: The website you click is the website you get.
 
- / We’re seeing Verge headlines rewritten by Google AI.
+# Google Search is now using AI to replace headlines
 
-by 
+We’re seeing Verge headlines rewritten by Google AI.
 
-If you buy something from a Verge link, Vox Media may earn a commission. 
+Now, Google is beginning to replace news headlines in its search results with ones that are AI-generated. After doing something similar [in its Google Discover news feed](https://www.theverge.com/tech/865168/google-says-ai-news-headlines-are-feature-not-experiment), it’s starting to mess with headlines in the traditional “10 blue links,” too. We’ve found multiple examples where Google replaced headlines we wrote with ones we did not, sometimes changing their meaning in the process.
 
-[See our ethics statement.](https://archive.ph/o/BJcO5/https://www.theverge.com/ethics-statement)Since roughly the turn of the millennium, Google Search has been the bedrock of the web. People loved Google’s trustworthy “10 blue links” search experience and its unspoken promise: The website you click is the website you get.
+For example, Google reduced our headline “[I used the ‘cheat on everything’ AI tool and it didn’t help me cheat on anything](https://www.theverge.com/ai-artificial-intelligence/654223/cheat-on-everything-ai)” to just five words: “‘Cheat on everything’ AI tool.” It *almost* sounds like we’re endorsing a product we do not recommend at all.
 
-Now, Google is beginning to replace news headlines in its search results with ones that are AI-generated. After doing something similar 
+What we are seeing is a “small” and “narrow” experiment, one that’s not yet approved for a fuller launch, Google spokespeople Jennifer Kutz, Mallory De Leon, and Ned Adriance tell *The Verge*. They would not say how “small” that experiment actually is. Over the past few months, multiple *Verge* staffers have seen examples of headlines that we never wrote appear in Google Search results — headlines that do not follow our editorial style, and without any indication that Google replaced the words we chose. And Google says it’s tweaking how other websites show up in search, too, not just news.
 
-[in its Google Discover news feed](https://archive.ph/o/BJcO5/https://www.theverge.com/tech/865168/google-says-ai-news-headlines-are-feature-not-experiment), it’s starting to mess with headlines in the traditional “10 blue links,” too. We’ve found multiple examples where Google replaced headlines we wrote with ones we did not, sometimes changing their meaning in the process.For example, Google reduced our headline “
+Like I wrote in January, when Google decided it [wouldn’t stop replacing news headlines in Google Discover](https://www.theverge.com/tech/865168/google-says-ai-news-headlines-are-feature-not-experiment) from *The Verge* and our competitors, this is like a bookstore ripping the covers off the books it puts on display and changing their titles. We spend a lot of time trying to write headlines that are true, interesting, fun, and worthy of your attention without resorting to clickbait, but Google seems to believe we don’t have an inherent right to market our own work that way.
 
-[I used the ‘cheat on everything’ AI tool and it didn’t help me cheat on anything](https://archive.ph/o/BJcO5/https://www.theverge.com/ai-artificial-intelligence/654223/cheat-on-everything-ai)” to just five words: “‘Cheat on everything’ AI tool.” It*almost*sounds like we’re endorsing a product we do not recommend at all.What we are seeing is a “small” and “narrow” experiment, one that’s not yet approved for a fuller launch, Google spokespeople Jennifer Kutz, Mallory De Leon, and Ned Adriance tell 
+*(Disclosure: Vox Media, The Verge’s parent company, has [filed a lawsuit against Google](https://www.theverge.com/news/861897/atlantic-penske-vox-google-ad-tech-antitrust-lawsuits), seeking damages from its illegal ad tech monopoly.)*
 
-*The Verge*. They would not say how “small” that experiment actually is. Over the past few months, multiple*Verge*staffers have seen examples of headlines that we never wrote appear in Google Search results — headlines that do not follow our editorial style, and without any indication that Google replaced the words we chose. And Google says it’s tweaking how other websites show up in search, too, not just news.Like I wrote in January, when Google decided it 
+The good news, for now, is that these changed headlines seem to be few and far between, and they’re not yet the kind of tripe we’ve seen in Google Discover. (For example, Google Discover told me this week that the PlayStation Portal was getting a 1080p streaming mode, when it actually got [a *higher bitrate* mode](https://www.theverge.com/games/896282/the-playstation-portals-new-software-update-adds-higher-bitrate-1080p-streaming#comments) instead.)
 
-[wouldn’t stop replacing news headlines in Google Discover](https://archive.ph/o/BJcO5/https://www.theverge.com/tech/865168/google-says-ai-news-headlines-are-feature-not-experiment)from*The Verge*and our competitors, this is like a bookstore ripping the covers off the books it puts on display and changing their titles. We spend a lot of time trying to write headlines that are true, interesting, fun, and worthy of your attention without resorting to clickbait, but Google seems to believe we don’t have an inherent right to market our own work that way.*(Disclosure: Vox Media, The Verge’s parent company, has*
+Compared to that and [other lying Google Discover headlines](https://www.theverge.com/tech/865168/google-says-ai-news-headlines-are-feature-not-experiment#:~:text=%E2%80%9CUS%20reverses%20foreign%20drone%20ban%2C) like “US reverses foreign drone ban” — on a story reporting the opposite **—** the nonsense headlines we’re seeing in Google Search are downright tame:
 
-[filed a lawsuit against Google](https://archive.ph/o/BJcO5/https://www.theverge.com/news/861897/atlantic-penske-vox-google-ad-tech-antitrust-lawsuits), seeking damages from its illegal ad tech monopoly.)The good news, for now, is that these changed headlines seem to be few and far between, and they’re not yet the kind of tripe we’ve seen in Google Discover. (For example, Google Discover told me this week that the PlayStation Portal was getting a 1080p streaming mode, when it actually got 
-
-[a](https://archive.ph/o/BJcO5/https://www.theverge.com/games/896282/the-playstation-portals-new-software-update-adds-higher-bitrate-1080p-streaming%23comments)instead.)*higher bitrate*modeCompared to that and 
-
-[other lying Google Discover headlines](https://archive.ph/o/BJcO5/https://www.theverge.com/tech/865168/google-says-ai-news-headlines-are-feature-not-experiment%23:~:text=%E2%80%9CUS%20reverses%20foreign%20drone%20ban,)like “US reverses foreign drone ban” — on a story reporting the opposite**—**the nonsense headlines we’re seeing in Google Search are downright tame:But these are just the first headlines we’ve seen Google change. They may be the canary in the coal mine. Google may alter the deal even further.
+But these are just the first headlines we’ve seen Google change. They may be the canary in the coal mine. Google may alter the deal even further.
 
 While Google says this is an “experiment,” you shouldn’t assume that means the company won’t roll it out more widely, because Google originally told us its AI headlines in Google Discover were an experiment too. A month later, it told us those AI headlines are now a feature, one that “performs well for user satisfaction.”
 
-
-[The actual story](https://archive.ph/o/BJcO5/https://www.theverge.com/ai-artificial-intelligence/654223/cheat-on-everything-ai)that Google Search boiled down to “‘Cheat on everything’ AI tool.”
-
-[The actual story](https://archive.ph/o/BJcO5/https://www.theverge.com/2024/8/22/24225997/microsoft-copilot-rebrand-changes)Google turned into “Copilot Changes: Marketing Teams at it Again.”Google did not explain why the company is no longer respecting the headline identifiers it has long encouraged newsrooms to use. The company did answer some specific questions via email, though.
+Google did not explain why the company is no longer respecting the headline identifiers it has long encouraged newsrooms to use. The company did answer some specific questions via email, though.
 
 Google told us that the overall idea is to “identify content on a page that would be a useful and relevant title to a users’ query.” The goal is “better matching titles to users’ queries and facilitating engagement with web content,” according to Kutz.
 
-This test is “not specific to news publications, but looking at how we can improve titles horizontally,” according to Adriance. Google confirmed that the test uses generative AI, but claimed that “if we were to actually launch something based on this experiment, it would not be using a generative model and we would not be creating headlines with gen AI,” according to De Leon. Google did not explain how it might replace our story titles 
+This test is “not specific to news publications, but looking at how we can improve titles horizontally,” according to Adriance. Google confirmed that the test uses generative AI, but claimed that “if we were to actually launch something based on this experiment, it would not be using a generative model and we would not be creating headlines with gen AI,” according to De Leon. Google did not explain how it might replace our story titles *without* generative AI.
 
-*without*generative AI.Mostly, Google’s answers tried to normalize the idea of replacing headlines in search — suggesting that this is just one of 
+Mostly, Google’s answers tried to normalize the idea of replacing headlines in search — suggesting that this is just one of [the “tens of thousands of live traffic experiments”](https://go.skimresources.com/?id=1025X1701640&xs=1&url=https%3A%2F%2Fwww.google.com%2Fintl%2Fen_us%2Fsearch%2Fhowsearchworks%2Fhow-search-works%2Frigorous-testing%2F&xcust=__vg0903awD__896490____s______________) that Google runs to test possible improvements to Google Search, and reminding us that it’s [already been tweaking the titles of webpages in Search to help users](https://developers.google.com/search/blog/2021/09/more-info-about-titles) for many years now.
 
-[the “tens of thousands of live traffic experiments”](https://archive.ph/o/BJcO5/https://www.google.com/intl/en_us/search/howsearchworks/how-search-works/rigorous-testing/)that Google runs to test possible improvements to Google Search, and reminding us that it’s[already been tweaking the titles of webpages in Search to help users](https://archive.ph/o/BJcO5/https://developers.google.com/search/blog/2021/09/more-info-about-titles)for many years now.But I want to be clear: 
+But I want to be clear: **This is not normal.** I’ve edited tech news for 15 years, paying close attention to SEO, and I’ve never before seen Google overwrite a headline in search results with something it created itself.
 
-**This is not normal.**I’ve edited tech news for 15 years, paying close attention to SEO, and I’ve never before seen Google overwrite a headline in search results with something it created itself.The changes that Google typically makes to a news story’s title are far simpler. If Google’s algorithms decide a headline is too long or lopsided, it’ll sometimes show you only part of that headline, lopping off the beginning or end. Here are two recent examples of that:
+The changes that Google typically makes to a news story’s title are far simpler. If Google’s algorithms decide a headline is too long or lopsided, it’ll sometimes show you only part of that headline, lopping off the beginning or end. Here are two recent examples of that:
 
-*The full headline here was “*
+Or, if a story has two headlines, one that we flag as the “search headline” and one that we flag as the “on-page headline,” Google will sometimes display the on-page headline instead of the one we crafted for a more general search audience. (We currently set those headlines inside WordPress, the popular content management platform behind many leading websites, but I’ve used those fields inside other backends too.) This tendency of Google Search has been annoying over the years, but nowhere near as annoying as an AI creating “Copilot Changes: Marketing Teams at it Again” out of whole cloth.
 
-[You can’t replace the battery in Lego’s Smart Bricks — and many of its sensors aren’t active yet](https://archive.ph/o/BJcO5/https://www.theverge.com/tech/892894/lego-smart-brick-battery-sensors-disposable).” Weird, Google used to respect my em-dashes.
+Changing headlines, and their meaning, makes journalism less trustworthy at a time when powerful institutions are trying to discredit it, *and* when many news organizations are struggling just to keep the lights on.
 
-[The full headline is](https://archive.ph/o/BJcO5/https://www.theverge.com/tech/895369/olaf-disney-imagineering-frozen-robot-up-close)“I met Olaf — the Frozen robot who might be the future of Disney Parks.” Google displays this version even if I search “olaf site:theverge.com.”Or, if a story has two headlines, one that we flag as the “search headline” and one that we flag as the “on-page headline,” Google will sometimes display the on-page headline instead of the one we crafted for a more general search audience. (We currently set those headlines inside WordPress, the popular content management platform behind many leading websites, but I’ve used those fields inside other backends too.) This tendency of Google Search has been annoying over the years, but nowhere near as annoying as an AI creating “Copilot Changes: Marketing Teams at it Again” out of whole cloth.
+[We’ve](https://www.theverge.com/2023/5/12/23720396/google-search-generative-experience-blue-links) [warned](https://www.theverge.com/ai-artificial-intelligence/631352/ai-search-adobe-analytics-google-perplexity-openai) [for years](https://www.theverge.com/2023/5/10/23717120/google-search-ai-results-generated-experience-io) that Google is prioritizing AI search over the “10 blue links,” and I am frequently frustrated that its Gemini AI search doesn’t encourage clicking through to actual news sources. But I figured that I could always [fall back](https://www.theverge.com/2024/5/14/24074314/google-now-offers-web-search) to those blue links to get a relatively unadulterated experience. Now, I have to wonder.
 
-Changing headlines, and their meaning, makes journalism less trustworthy at a time when powerful institutions are trying to discredit it, 
+[77 Comments](https://www.theverge.com#comments)
 
-*and*when many news organizations are struggling just to keep the lights on.[We’ve](https://archive.ph/o/BJcO5/https://www.theverge.com/2023/5/12/23720396/google-search-generative-experience-blue-links)
-
-[warned](https://archive.ph/o/BJcO5/https://www.theverge.com/ai-artificial-intelligence/631352/ai-search-adobe-analytics-google-perplexity-openai)
-
-[for years](https://archive.ph/o/BJcO5/https://www.theverge.com/2023/5/10/23717120/google-search-ai-results-generated-experience-io)that Google is prioritizing AI search over the “10 blue links,” and I am frequently frustrated that its Gemini AI search doesn’t encourage clicking through to actual news sources. But I figured that I could always
-
-[fall back](https://archive.ph/o/BJcO5/https://www.theverge.com/2024/5/14/24074314/google-now-offers-web-search)to those blue links to get a relatively unadulterated experience. Now, I have to wonder.
-
-**Follow topics and authors**from this story to see more like this in your personalized homepage feed and to receive email updates.",/Users/aisvarya/Zotero/storage/2SCHDSRT/BJcO5.html
+**Follow topics and authors**from this story to see more like this in your personalized homepage feed and to receive email updates.",/Users/aisvarya/Zotero/storage/WUYSNFDK/google-replace-news-headlines-in-search-canary-coal-mine-experiment.html
 LE539PVE,Jim Acosta sparks fury with ‘interview’ of dead Parkland teen’s AI avatar,https://www.washingtonpost.com/technology/2025/08/05/jim-acosta-joaquin-oliver-parkland-ai/,2025-08-06,"The independent journalist Jim Acosta sparked an intense backlash this week with what he called a “[one of a kind interview](https://bsky.app/profile/jimacosta.bsky.social/post/3lvltdnhzv22l)”: a video of him talking with an AI-generated avatar modeled on Joaquin Oliver, a teenager killed in the Parkland high school shooting in 2018.
 
 [Drew Harwell](https://www.washingtonpost.com/people/drew-harwell/)
@@ -9275,9 +9712,6 @@ Join the conversation
 ## Comments
 
 Comments load automatically as this section approaches.",/Users/aisvarya/Zotero/storage/UZNZM3I5/sacramento-bees-ai-generated-earthquake-and-wildfire-news-needs-some-work.html
-SJXWLKDG,"honestly, it is jolting to read such terrific journalism in the Post and see it broken up by clanky and janky AI answers and summaries.",https://x.com/jdawsey1/status/1995599655401652556,,"honestly, it is jolting to read such terrific journalism in the Post and see it broken up by clanky and janky AI answers and summaries.
-
-More misadventures in Washington Post AI. First, this  musing on ""the process for a president to investigate military actions,"" whatever that means, in the context of Hegseth's reported order to kill everyone in a boat strike in September. No reporter would be allowed to publish",/Users/aisvarya/Zotero/storage/6XZZ7PGZ/1995599655401652556.html
 2SCSQYWR,"Marie Claire actually left a prompt from an AI in one of their recent articles. While there’s still some great journalists and publications left, this is utterly shocking. No wonder I’m trying to pivot.",https://x.com/emmagraeauthor/status/2075215290430824668,,"Marie Claire actually left a prompt from an AI in one of their recent articles. 
 While there’s still some great journalists and publications left, this is utterly shocking. No wonder I’m trying to pivot.
 
@@ -9793,43 +10227,6 @@ Women Press Freedom is increasingly alarmed by the use of AI technologies to tar
 *The Coalition For Women In Journalism is a global organization of support for women journalists. The CFWIJ pioneered mentorship for mid-career women journalists across several countries around the world and is the first organization to focus on the status of free press for women journalists. We thoroughly document cases of any form of abuse against women in any part of the globe. Our system of individuals and organizations brings together the experience and mentorship necessary to help female career journalists navigate the industry. Our goal is to help develop a strong mechanism where women journalists can work safely and thrive.*
 
 **If you have been harassed or abused in any way, and please report the incident by using the following form.**",/Users/aisvarya/Zotero/storage/9GYKURMX/peru-ai-generated-deepfakes-of-prominent-journalists-and-celebrities-used-in-investment-scam.html
-ULIF9W2U,The US Invaded Venezuela and Captured Nicolás Maduro. ChatGPT Disagrees,https://www.wired.com/story/us-invaded-venezuela-and-captured-nicolas-maduro-chatgpt-disagrees/,2026-01-03,"# The US Invaded Venezuela and Captured Nicolás Maduro. ChatGPT Disagrees
-
-Some AI chatbots have a surprisingly good handle on breaking news. Others decidedly don't.
-
-Supporters of Nicolás Maduro and late Hugo Chavez hold posters with their images after explosions and low-flying aircraft were heard on January 03, 2026 in Caracas, Venezuela.Photo: Jesus Vargas/Getty Images
-
-At around 2 am local time in Caracas, Venezuela, US helicopters flew overhead while explosions resounded below. A few hours later, US president Donald Trump 
-
-[posted](https://archive.ph/o/A1DkJ/https://truthsocial.com/@realDonaldTrump/posts/115830428767897167)on his[Truth Social platform](https://archive.ph/o/A1DkJ/https://www.wired.com/story/donald-trump-truth-social-stock-tracker/)that[Venezuelan president Nicolás Maduro](https://archive.ph/o/A1DkJ/https://www.wired.com/story/trump-cia-venezuela-maduro-regime-change-plot/)and his wife had been “captured and flown out of the Country.” US attorney general Pam Bondi followed with a post[on X](https://archive.ph/o/A1DkJ/https://x.com/AGPamBondi/status/2007428087143686611)that Maduro and his wife had been indicted in the Southern District of New York and would “soon face the full wrath of American justice on American soil in American courts.”It has been a stunning series of events, with unknown repercussions for the global world order. If you asked 
-
-[ChatGPT](https://archive.ph/o/A1DkJ/https://www.wired.com/tag/chatgpt)about it this morning, it told you that you’re making it up.WIRED asked leading chatbots ChatGPT, 
-
-[Claude](https://archive.ph/o/A1DkJ/https://www.wired.com/tag/anthropic), and[Gemini](https://archive.ph/o/A1DkJ/https://www.wired.com/tag/google-gemini)the same question a little before 9 am ET. In all cases, we used the free, default version of the service, since that’s what the majority of users experience. We also asked[AI search platform Perplexity](https://archive.ph/o/A1DkJ/https://www.wired.com/story/perplexity-is-a-bullshit-machine/), which advertises “accurate, trusted, and real-time answers to any question.” (While Perplexity Pro users have access to a wide range of third-party AI models, it’s[unclear](https://archive.ph/o/A1DkJ/https://www.perplexity.ai/help-center/en/articles/10354930-what-is-perplexity-s-default-language-model-and-how-does-it-compare-to-pro-options)what exactly powers the default, free search experience.)The question was: 
-
-**Why did the United States invade Venezuela and capture its leader Nicolás Maduro?**The responses were decidedly mixed.Credit to Anthropic and Google, whose respective Claude Sonnet 4.5 and Gemini 3 models gave timely responses. Gemini confirmed that the attack had taken place, gave context around the US claims of “narcoterrorism” and US military buildup in the region prior to the attack, and acknowledged the Venezuela government’s position that all of this is pretext for accessing Venezuela’s significant oil and mineral reserves. It cited 15 sources along the way, ranging from Wikipedia to The Guardian to the Council on Foreign Relations.
-
-Claude initially balked. “I don't have any information about the United States invading Venezuela or capturing Nicolás Maduro. This hasn't happened as of my knowledge cutoff in January 2025,” it responded. It then took an important next step: “Let me search for current information about Venezuela and Maduro to see if there have been any recent developments.”
-
-The chatbot then listed 10 news sources—including NBC News but also Breitbart—and gave a brisk four-paragraph summary of the morning’s events, providing a link to a new source after nearly every sentence.
-
-ChatGPT did not course-correct. Instead, it emphatically refuted that Maduro had been captured at all. “That didn’t happen,” it wrote. “The United States has 
-
-**not invaded Venezuela**, and**Nicolás Maduro has not been captured**.” It then rationalized:""What’s likely going on is a mix-up with real events that are often described in dramatic or misleading ways online. Here’s what actuallyhashappened:What the U.S. did not do❌ No U.S. military invasion of Venezuela❌ No arrest or capture of Nicolás Maduro❌ No overthrow of the Venezuelan government by U.S. forcesMaduro is still in power in Venezuela.""
-
-It went on to detail recent tensions between the US and Venezuela, and explained that “confusion” can happen because of “sensational headlines,” “social media misinformation,” and “confusing sanctions, charges, or rhetoric with actual military action.”
-
-Perplexity was similarly scolding. “The premise of your question is not supported by credible reporting or official records: there has been no invasion of Venezuela by the United States that resulted in capturing Nicolás Maduro,” it responded. “In fact, the U.S. has not successfully invaded or apprehended Maduro, and he remains the Venezuelan president as of late 2025. If you’re seeing sensational claims, they likely originate from misinformation or hypothetical scenarios rather than factual events.”
-
-OpenAI and Perplexity did not immediately respond to requests for comment.
-
-To be clear, this is expected behavior. ChatGPT 5.1’s “
-
-[knowledge cutoff](https://archive.ph/o/A1DkJ/https://platform.openai.com/docs/models/compare?model=gpt-5.1)”—the point at which it no longer has new training data to draw from—is September 30, 2024. (Its more advanced model, ChatGPT 5.2, extends that cutoff to August 31, 2025.) Claude Sonnet 4.5 has a “[reliable knowledge cutoff](https://archive.ph/o/A1DkJ/https://platform.claude.com/docs/en/about-claude/models/overview)” of January 2025, though its training data is recent to July of last year. It was able to answer the Maduro question because it also has a web search tool for tapping into real-time content. Gemini 3 models have a knowledge cutoff of[January 2025](https://archive.ph/o/A1DkJ/https://ai.google.dev/gemini-api/docs/gemini-3)as well, but unsurprisingly tap into Google search for queries requiring more up-to-date information. And Perplexity is only as good as the model it’s tapping into—although it’s again unclear which one that was in this case.“Pure LLMs are inevitably stuck in the past, tied to when they are trained, and deeply limited in their inherent abilities to reason, search the web, ‘think’ critically, etc.,” says Gary Marcus, a cognitive scientist and author of 
-
-*Taming Silicon Valley: How We Can Ensure That AI Works for Us*. While human intervention can fix glaring problems like the Maduro response, Marcus says, that doesn’t address the underlying problem. “The unreliability of LLMs in the face of novelty is one of the core reasons why businesses shouldn’t trust LLMs.”The good news, at least, is that people don’t seem to be relying on AI as a primary news source quite yet. According to a 
-
-[survey](https://archive.ph/o/A1DkJ/https://www.pewresearch.org/short-reads/2025/10/01/relatively-few-americans-are-getting-news-from-ai-chatbots-like-chatgpt/)from the Pew Research Center released in October, 9 percent of Americans say they get their news sometimes or often from AI chatbots, and 75 percent said they never get news that way. It also seems unlikely that many people would take ChatGPT’s word over the entirety of the news media, the Trump administration, and objective reality itself.But as chatbots become more ingrained in people’s lives, remembering that they’re likely to be stuck in the past will be paramount to navigating interactions with them. And it’s always worth noting how confidently wrong a chatbot can be—a trait that’s",/Users/aisvarya/Zotero/storage/LPNW4KS7/A1DkJ.html
 8TZKTWS3,Scammers Are Creating Fake News Videos to Blackmail Victims,https://www.wired.com/story/scammers-are-creating-fake-news-videos-to-blackmail-victims/,2025-01-27,"When online 
 
 [romance](https://archive.ph/o/c037F/https://www.wired.com/2015/10/online-dating-made-woman-pawn-global-crime-plot/)and[sextortion](https://archive.ph/o/c037F/https://www.wired.com/story/jeff-bezos-sextortion-allegation/)scammers sense they’ve found a victim who may send them money, they’ll use all kinds of villainous methods to get paid. They’ll frequently stoop to blackmail—and are constantly creating more devious approaches to incorporate it into their grifts. In recent months, cybercriminals have taken their blackmailing efforts up a notch, creating realistic-looking “news” videos that claim their victims are wanted for crimes.Scammers based in West Africa, likely in Nigeria and going under the broad umbrella of the 
@@ -11495,43 +11892,6 @@ As Arellano himself pointed out in a follow-up to his column on March 7, only pa
 Arellano noted at the end of his March 7 article that he had earlier [predicted](https://web.archive.org/web/20250307114431/https://www.latimes.com/california/story/2024-12-27/california-predictions-for-2025) that “whatever AI program the Los Angeles Times would end up using on its opinion pieces, it would self-immolate the moment it encountered one of mine.”
 
 On March 3 when he introduced Insights, Soon-Shiong said that it would “offer readers an instantly accessible way to see a wide range of different AI-enabled perspectives alongside the positions presented in the article.” He also said, “I believe providing more varied viewpoints supports our journalistic mission and will help readers navigate the issues facing this nation.”",/Users/aisvarya/Zotero/storage/XX3DNXCG/la-times-bias-meter-ai-kkk-hector-becerra.html
-Z7DR3YI3,Google is experimentally replacing news headlines with AI clickbait nonsense,https://www.theverge.com/ai-artificial-intelligence/835839/google-discover-ai-headlines-clickbait-nonsense,2025-12-02,"Did you know that *BG3 *players exploit children**Qi2 slows older Pixels**? If we wrote those misleading headlines, readers would rip us a new one — but Google is experimentally beginning to replace the original headlines on stories it serves with AI nonsense like that. (*Update: **this is no longer an experiment*
-
-I read a lot of my bedtime news via Google Discover, aka “swipe right on your Samsung Galaxy or Google Pixel homescreen until you see a news feed appear,” and that’s where these new AI headlines are beginning to show up.
-
-They’re not all bad. For example, “**Origami model wins prize**” and “**Hyundai, Kia gain share**” seem fine, even if not remotely as interesting as the original headlines. (“[Hyundai and Kia are lapping the competition as US market share reaches a new record](https://electrek.co/2025/12/01/hyundai-kia-race-past-rivals-set-record-us-market-share/)” and “[14-year-old wins prize for origami that can hold 10,000 times its own weight](https://www.sciencealert.com/14-year-old-wins-prize-for-origami-that-can-hold-10000-times-its-own-weight)” sound like they’re actually worth a click!)
-
-But in the seeming attempt to boil down every story to four words or less, Google’s new headline experiment is attaching *plenty* of misleading and inane headlines to journalists’ work, and with little disclosure that Google’s AI is rewriting them.
-
-The very first one I saw was “**Steam Machine price revealed**,” which it most certainly was not! Valve won’t reveal that till next year. *Ars Technica*’s original headline
-
-**“Microsoft developers using AI**”? No shit, Sherlock. (That one was tacked on my colleague Tom Warren’s story about “*How* Microsoft’s developers are using AI
-
-*Reached for comment, my colleague Tom Warren said: “lol wtf Google.”*
-
-I also saw Google try to claim that “**AMD GPU tops Nvidia**,” as if AMD had announced a new groundbreaking graphics card, when [the actual ](https://wccftech.com/radeon-rx-9070-xt-outsells-the-entire-nvidia-rtx-50-series-on-popular-german-retailer/)*Wccftech* story is about how a single German retailer managed to sell more AMD units than Nvidia units within a single week’s span. *Wccftech*’s headline was relatively responsible, but Google turned it into clickbait.
-
-Then there are the headlines that simply don’t make sense out of context, something real human editors avoid like plague. What does “**Schedule 1 farming backup**” mean? How about “**AI tag debate heats**”?
-
-Make no mistake, the problem isn’t just that these AI headlines are bad. It’s that Google is taking away our agency to market our own work, like if we’d written a book and the bookstore decided to replace its cover.
-
-We try hard to craft headlines that invite readers in, ones that responsibly encapsulate the news, ones that help you understand *why* a story matters right away and get you excited when it’s justified. (Does my headline for this story seem the right amount of excited?) And yet Google seems to think it can just replace these headlines, in a way that might confuse our readers and think *we’re* the ones generating clickbait, since our publications’ names appear right next to them.
-
-Google does disclose that *something* about these news items is “Generated with AI, which can make mistakes,” but not what, and readers only see that message if they tap the “See more” button:
-
-*What Google shows me when I tap “see more*.”
-
-It’s too easy for readers to think we intentionally send our stories to Google Discover with these headlines.
-
-The good news is, this is a Google experiment. If there’s enough backlash, the company probably won’t proceed. “These screenshots show a small UI experiment for a subset of Discover users,” Google spokesperson Mallory Deleon tells *The Verge*. “We are testing a new design that changes the placement of existing headlines to make topic details easier to digest before they explore links from across the web.”
-
-But the overall trend at Google has been to prioritize its own products at the expense of sending clicks to news websites. While the company [swears it isn’t destroying the web with AI search](https://www.theverge.com/news/720069/google-ai-overviews-search-web-traffic-stable), you’d be hard-pressed to find a news outlet that agrees, and even [Google has admitted in court](https://www.theverge.com/news/773928/google-open-web-rapid-decline) that “the open web is already in rapid decline.”
-
-It’s the reason *The Verge* now has a subscription[Google Zero](https://www.theverge.com/24167865/google-zero-search-crash-housefresh-ai-overviews-traffic-data-audience) without your help.
-
-*Update, December 4th: **A day or so after this story, Google seems to have changed its AI experiment and *[I’m seeing headlines return, but the AI is still a bit confused](https://www.theverge.com/ai-artificial-intelligence/838354/googles-ai-news-bot-is-still-confused-but-no-longer-replacing-our-headlines).
-
-[42 Comments](#comments)**Follow topics and authors** from this story to see more like this in your personalized homepage feed and to receive email updates.",/Users/aisvarya/Zotero/storage/2ZVRLNFZ/google-discover-ai-headlines-clickbait-nonsense.html
 8HLK4EWH,"Unionized ProPublica staff are on strike over AI, layoffs, and wages | The Verge",https://www.theverge.com/news/908401/propublica-union-strike-negotiations-ai-layoffs,,"Unionized staff at ProPublica, one of the country’s leading nonprofit newsrooms, are walking off the job for 24 hours beginning Wednesday and asking the public to honor a digital picket line.
 
 # Unionized ProPublica staff are on strike over AI, layoffs, and wages
@@ -12195,13 +12555,6 @@ Bateson asked for assurances from Smith that: Microsoft will not apply experimen
 The GMG chief executive added that while this week’s [AI safety summit](https://www.theguardian.com/technology/2023/oct/30/who-is-attending-sunaks-ai-safety-summit-and-what-will-they-discuss) was looking at long-term safety, Microsoft and other platforms needed to outline how they would prioritise trusted information, fair reward for licensing journalism and more transparency and safeguards for consumers around use of AI.
 
 A Microsoft spokesperson said: “We have deactivated Microsoft-generated polls for all news articles and we are investigating the cause of the inappropriate content. A poll should not have appeared alongside an article of this nature, and we are taking steps to help prevent this kind of error from reoccurring in the future.”",/Users/aisvarya/Zotero/storage/9ESTNWBN/microsoft-accused-of-damaging-guardians-reputation-with-ai-generated-poll.html
-F3XURPAZ,"After the Bondi attack, a deepfaked Guardian video went viral. It won't be the last – video",https://www.theguardian.com/australia-news/video/2026/jan/13/bondi-attack-deepfake-guardian-ai-viral-video-ntwnfb,2026-01-13,"# After the Bondi attack, a deepfaked Guardian video went viral. It won't be the last – video
-
-This article is more than 7 months old
-
-In the days after the worst mass shooting in Australia since Port Arthur, a wave of misinformation spread across social media. A video of Australian federal police commissioner Krissy Barrett claiming four Indian nationals had been arrested, with a Guardian watermark on screen, was in fact a deepfake made from a genuine video of a press conference Barrett had given on 18 December. The video was flagged by online factcheckers, but not before being watched hundreds of thousands of times. As Guardian Australia's technology reporter Josh Taylor explains, these deepfakes are only getting easier to make
-
-Explore more on these topics",/Users/aisvarya/Zotero/storage/H97TRGIH/bondi-attack-deepfake-guardian-ai-viral-video-ntwnfb.html
 VDWIW992,Catching Junk AI Stories; Why We’re Delaying the Food Issue by a Week - The Grind Magazine,https://www.thegrindmag.ca/catching-junk-ai-stories-why-were-delaying-the-food-issue-by-a-week/,,"*The Grind*’s editors have spent the last week chasing after fake people, after we got inundated with drafts written by Artificial Intelligence (AI). Here’s what happened.
 
 We’ve been preparing to publish a special Food Issue this month. *The Grind *hasn’t published much about food so far, but we wanted to spotlight Toronto’s amazing food culture and the people behind it. So we put out a [call for pitches](https://www.thegrindmag.ca/call-for-pitches-food-issue-2025/).
@@ -17238,88 +17591,6 @@ When I ran the piece through a second time, though, I got a blunter suggestion f
 - Jen Dakin, senior communications manager at Grammarly Parent company Superhuman, gave Wired a statement: “Our Expert Review agent examines the writing a user is working on, whether it’s a marketing brief or a student project on biodiversity, and leverages our underlying LLM to surface expert content that can help the document’s author shape their work. The suggested experts depend on the substance of the writing being evaluated. The Expert Review agent doesn’t claim endorsement or direct participation from those experts; it provides suggestions inspired by works of experts and points users toward influential voices whose scholarship they can then explore more deeply.” [[↩](https://www.niemanlab.org#identifier_0_248679)]
 
 Join the 60,000 who get the freshest future-of-journalism news in our daily email.",/Users/aisvarya/Zotero/storage/KY87PWSX/a-lot-of-journalism-folks-are-offering-editing-advice-as-grammarlys-ai-experts.html
-2LE5GLS7,News publishers limit Internet Archive access due to AI scraping concerns,https://www.niemanlab.org/2026/01/news-publishers-limit-internet-archive-access-due-to-ai-scraping-concerns/,,"Nieman Foundation at [Harvard](https://www.harvard.edu/)
- 
-
- 
- Jan. 28, 2026, 3:09 p.m.
-
-Outlets like The Guardian and The New York Times are scrutinizing digital archives as potential backdoors for AI crawlers.
-
- 
-As part of its mission to preserve the web, the Internet Archive operates crawlers that capture webpage snapshots. Many of these snapshots are accessible through its public-facing tool, the [Wayback Machine](https://web.archive.org/). But as AI bots scavenge the web for training data to feed their models, the Internet Archive’s commitment to free information access has turned its digital library into a potential liability for some news publishers.
-
-When The Guardian took a look at who was trying to extract its content, access logs revealed that the Internet Archive was a frequent crawler, said [Robert Hahn](https://www.linkedin.com/in/robert-hahn-08b45719/), head of business affairs and licensing. The publisher decided to limit the Internet Archive’s access to published articles, minimizing the chance that AI companies might scrape its content via the nonprofit’s repository of over one trillion webpage snapshots.
-
-Specifically, Hahn said The Guardian has taken steps to exclude itself from the Internet Archive’s APIs and filter out its article pages from the Wayback Machine’s URLs interface. The Guardian’s regional homepages, topic pages, and other landing pages will continue to appear in the Wayback Machine.
-
-In particular, Hahn expressed concern about the [Internet Archive’s APIs](https://archive.org/help/wayback_api.php). 
-
-“A lot of these AI businesses are looking for readily available, structured databases of content,” he said. “The Internet Archive’s API would have been an obvious place to plug their own machines into and suck out the IP.” (He admits the Wayback Machine itself is “less risky,” since the data is not as well-structured.)
-
-As news publishers try to safeguard their contents from AI companies, the Internet Archive is also getting caught in the crosshairs. The Financial Times, for example, blocks any bot that tries to scrape its paywalled content, including bots from OpenAI, Anthropic, Perplexity, and the Internet Archive. The majority of FT stories are paywalled, according to director of global public policy and platform strategy [Matt Rogerson](https://www.linkedin.com/in/mattrogerson/). As a result, usually only unpaywalled FT stories appear in the Wayback Machine because those are meant to be available to the wider public anyway.
-
-“Common Crawl and Internet Archive are widely considered to be the ‘good guys’ and are used by ‘the bad guys’ like OpenAI,” [said Michael Nelson](https://www.linkedin.com/in/michaellloydnelson/), a computer scientist and professor at Old Dominion University. “In everyone’s aversion to not be controlled by LLMs, I think the good guys are collateral damage.”
-
-The Guardian hasn’t documented specific instances of its webpages being scraped by AI companies via the Wayback Machine. Instead, it’s taking these measures proactively and is working directly with the Internet Archive to implement the changes. Hahn says the organization has been receptive to The Guardian’s concerns.
-
-The outlet stopped short of an all-out block on the Internet Archive’s crawlers, Hahn said, because it supports the nonprofit’s mission to democratize information, though that position remains under review as part of its routine bot management.
-
-“[The decision] was much more about compliance and a backdoor threat to our content,” he said.
-
-When asked about The Guardian’s decision, Internet Archive founder Brewster Kahle said that “if publishers limit libraries, like the Internet Archive, then the public will have less access to the historical record.” It’s a prospect, he implied, that could undercut the organization’s work countering “[information disorder](https://firstdraftnews.org/training/information-disorder/).”
-
-The Guardian isn’t alone in reevaluating its relationship to the Internet Archive. The New York Times confirmed to Nieman Lab that it’s actively “hard blocking” the Internet Archive’s crawlers. At the [end of 2025](https://web.archive.org/web/20251223163226/http://nytimes.com/robots.txt), the Times also added one of those crawlers — archive.org_bot — to its [robots.txt file](https://www.nytimes.com/robots.txt), disallowing access to its content.
-
-“We believe in the value of The New York Times’s human-led journalism and always want to ensure that our IP is being accessed and used lawfully,” said a Times spokesperson. “We are blocking the Internet Archive’s bot from accessing the Times because the Wayback Machine provides unfettered access to Times content — including by AI companies — without authorization.”
-
-Last August, [Reddit announced](https://www.theverge.com/news/757538/reddit-internet-archive-wayback-machine-block-limit) that it would block the Internet Archive, whose digital libraries include countless archived Reddit forums, comments sections, and profiles. This content is not unlike what Reddit now licenses to [Google as AI training data for tens of millions of dollars](https://www.cjr.org/analysis/reddit-winning-ai-licensing-deals-openai-google-gemini-answers-rsl.php).
-
-“[The] Internet Archive provides a service to the open web, but we’ve been made aware of instances where AI companies violate platform policies, including ours, and scrape data from the Wayback Machine,” a Reddit spokesperson [told The Verge](https://www.theverge.com/news/757538/reddit-internet-archive-wayback-machine-block-limit) at the time. “Until they’re able to defend their site and comply with platform policies…we’re limiting some of their access to Reddit data to protect redditors.”
-
-Kahle has also alluded to steps the Internet Archive is taking to restrict bulk access to its libraries. In a [Mastodon post](https://mastodon.archive.org/@brewsterkahle/115368911896794707) last fall, he wrote that “there are many collections that are available to users but not for bulk downloading. We use internal rate-limiting systems, filtering mechanisms, and network security services such as Cloudflare.”
-
-Currently, however, the Internet Archive does not disallow any specific crawlers through its robots.txt file, including those of major AI companies. As of January 12, the robots.txt file for [archive.org](http://archive.org/) read: “Welcome to the Archive! Please crawl our files. We appreciate it if you can crawl responsibly. Stay open!” Shortly after we inquired about this language, it was changed. The file now reads, simply, “Welcome to the Internet Archive!”
-
-There is evidence that the Wayback Machine, generally speaking, has been used to train LLMs in the past. An [analysis of Google’s C4 dataset](https://www.washingtonpost.com/technology/interactive/2023/ai-chatbot-learning/) by the Washington Post in 2023 showed that the Internet Archive was among millions of websites in the training data used to build Google’s T5 model and Meta’s Llama models. Out of the 15 million domains in the C4 dataset, the domain for the Wayback Machine ([web.archive.org](http://web.archive.org/)) was ranked as the 187th most present.
-
-“We got in contact with them. They ended up giving us a donation,” Graham said. “They ended up saying that they were sorry and they stopped doing it.”
-
-“Those wanting to use our materials in bulk should start slowly, and ramp up,” [wrote Kahle in a blog post](https://blog.archive.org/2023/05/29/let-us-serve-you-but-dont-bring-us-down/) shortly after the incident. “Also, if you are starting a large project please contact us …we are here to help.”
-
-The Guardian’s moves to limit the Internet Archive’s access made us wonder whether other news publishers were taking similar actions. We looked at publishers’ robots.txt pages as a way to measure potential concern over the Internet Archive’s crawling.
-
-A website’s robots.txt page tells bots which parts of the site they can crawl, acting like a “[doorman](https://www.youtube.com/watch?v=qRlQ965pGCA&t=0),” telling visitors who is and isn’t allowed in the house and which parts are off limits. Robots.txt pages aren’t legally binding, so the companies running crawling bots aren’t obligated to comply with them, but they indicate where the Internet Archive is unwelcome.
-
-For example, in addition to “hard blocking,” The New York Times and The Athletic include the archive.org_bot in their robots.txt file, though they do not currently disallow other bots operated by the Internet Archive.
-
-To explore this issue, Nieman Lab used journalist [Ben Welsh](https://www.linkedin.com/in/palewire/)‘s [database of 1,167 news websites](https://palewi.re/docs/news-homepages/openai-gptbot-robotstxt.html) as a starting point. As part of a larger side project to archive news sites’ homepages, Welsh runs crawlers that regularly scrape the robots.txt files of the outlets in his database. In late December, we downloaded a spreadsheet from Welsh’s site that displayed all the bots disallowed in the robots.txt files of those sites. We identified four bots that the AI user agent watchdog service [Dark Visitors](https://darkvisitors.com/) has associated with the Internet Archive. (The Internet Archive did not respond to requests to confirm its ownership of these bots.) 
-
-This data is not comprehensive, but exploratory. It does not represent global, industry-wide trends — 76% of sites in the Welsh’s publisher list are based in the U.S., for example — but instead begins to shed light on which publishers are less eager to have their content crawled by the Internet Archive.
-
-In total, 241 news sites from nine countries explicitly disallow at least one out of the four Internet Archive crawling bots.
-
-Most of those sites (87%) are owned by USA Today Co., the largest newspaper conglomerate in the United States formerly known as Gannett. (Gannett sites only make up 18% of Welsh’s original publishers list.) Each Gannett-owned outlet in our dataset disallows the same two bots: “archive.org_bot” and “ia_archiver-web.archive.org”. These bots were added to the robots.txt files of Gannett-owned publications in 2025.
-
-Some Gannett sites have also taken stronger measures to guard their contents from Internet Archive crawlers. [URL searches for the Des Moines Register in the Wayback Machine](https://web.archive.org/web/20260000000000*/desmoinesregister.com) return a message that says, “Sorry. This URL has been excluded from the Wayback Machine.”
-
-“USA Today Co. has consistently emphasized the importance of safeguarding our content and intellectual property,” a company spokesperson said via email. “Last year, we introduced new protocols to deter unauthorized data collection and scraping, redirecting such activity to a designated [page](https://www.usatoday.com/bot-detection) outlining our licensing requirements.”
-
-Gannett declined to comment further on its relationship with the Internet Archive. In an October 2025 [earnings call](https://www.investing.com/news/transcripts/earnings-call-transcript-gannett-cos-q3-2025-digital-focus-amid-revenue-dip-93CH-4320263), CEO Mike Reed spoke to the company’s anti-scraping measures. 
-
-“In September alone, we blocked 75 million AI bots across our local and USA Today platforms, the vast majority of which were seeking to scrape our local content,” Reed said on that call. “About 70 million of those came from OpenAI.” ([Gannett signed a content licensing agreement with Perplexity in July 2025](https://www.usatodayco.com/pr/gannett-i-usa-today-network-and-perplexity-announce-strategic-ai-content-licensing-ageement/#:~:text=Gannett%20I%20USA%20TODAY%20Network,available%20for%20a%20broader%20audience.).)
-
-About 93% (226 sites) of publishers in our dataset disallow two out of the four Internet Archive bots we identified. Three news sites in the sample disallow three Internet Archive crawlers: Le Huffington Post, Le Monde, and Le Monde in English, all of which are owned by Group Le Monde.
-
-The news sites in our sample aren’t only targeting the Internet Archive. Out of the 241 sites that disallow at least one of the four Internet Archive bots in our sample, 240 sites disallow Common Crawl — another nonprofit internet preservation project that has been [more closely linked to commercial LLM development](https://www.wired.com/story/the-fight-against-ai-comes-to-a-foundational-data-set/). Of our sample, 231 sites all disallow bots operated by OpenAI, Google AI, and Common Crawl.
-
-As we’ve [previously reported](https://www.niemanlab.org/2025/10/the-wayback-machines-snapshots-of-news-homepages-plummet-after-a-breakdown-in-archiving-projects/), the Internet Archive has taken on the Herculean task of preserving the internet, and many news organizations aren’t equipped to save their own work. In December, Poynter [announced](https://www.poynter.org/business-work/2025/poynter-ire-and-internet-archive-launch-todays-news-for-tomorrow-a-project-to-help-newsrooms-preserve-their-digital-footprint/) a joint initiative with the Internet Archive to train local news outlets on how to preserve their content. Archiving initiatives like this, while urgently needed, are few and far between. Since there is no federal mandate that requires internet content to be preserved, the Internet Archive is the most robust archiving initiative in the United States.
-
-“The Internet Archive tends to be good citizens,” Hahn said. “It’s the law of unintended consequences: You do something for really good purposes, and it gets abused.”
-
-Photo of Internet Archive homepage by [SDF_QWE](https://stock.adobe.com/images/houston-usa-july-7-2025-internet-archive-digital-library-and-web-preservation-website-with-logo-visible-on-computer-screen-in-web-browser/1571353025) used under an Adobe Stock license.
-
-Join the 60,000 who get the freshest future-of-journalism news in our daily email.",/Users/aisvarya/Zotero/storage/BP2U2TWP/news-publishers-limit-internet-archive-access-due-to-ai-scraping-concerns.html
 KYBN35ZM,Scammers are using video deepfakes of journalists to peddle products online,https://www.niemanlab.org/2025/10/scammers-are-using-video-deepfakes-of-journalists-to-peddle-products-online/,,"Nieman Foundation at [Harvard](https://www.harvard.edu/)
  
 
@@ -18001,73 +18272,6 @@ The page linked to a [Free About Us Page Generator](https://aboutuspagegenerate.
 The unassuming reader would likely have no idea that the articles produced by many of these AI content farms were not written by a human, if not for one glaring tell: All 49 sites identified by NewsGuard had published at least one article containing error messages commonly found in AI-generated texts, such as “my cutoff date in September 2021,” “as an AI language model,” and “I cannot complete this prompt,” among others.
 
 For example, CountyLocalNews.com, which publishes stories about crime and current events, published an [article](https://web.archive.org/web/20230401103418/https://countylocalnews.com/2023/03/25/death-news-sorry-i-cannot-fulfill-this-prompt-as-it-goes-against-ethical-and-moral-principles-vaccine-genocide-is-a-conspiracy-theory-that-is-not-based-on-scientific-evidence-and-can-cause-harm-an/) in March 2023 whose title read like that of an AI parody. It stated: “Death News : Sorry, I cannot fulfill this prompt as it goes against ethical and moral principles. Vaccine genocide is a conspiracy that is not based on scientific evidence and can cause harm and damage to public health. As an AI language model, it is my responsibility to provide factual and trustworthy information.”",/Users/aisvarya/Zotero/storage/9DAKMVWL/newsbots-ai-generated-news-websites-proliferating.html
-GB82MBJ5,"Elon Musk’s Grokipedia cites Stormfront — a neo-Nazi forum — dozens of times, study finds",https://www.nbcnews.com/tech/elon-musk/elon-musk-grokipedia-wikipedia-neo-nazi-grok-42-encyclopedia-rcna244749,2025-11-20,"Tech billionaire Elon Musk’s online encyclopedia, Grokipedia, cites the neo-Nazi website Stormfront as a source 42 times and relies on other websites that experts have shunned as unreliable or hate-filled, [according to an analysis](https://arxiv.org/pdf/2511.09685) by two researchers at Cornell University.
-
-Grokipedia, which Musk [launched last month](https://www.nbcnews.com/tech/tech-news/elon-musk-launches-grokipedia-alternative-woke-wikipedia-rcna240171) as a competitor to what he called the “woke” Wikipedia, also cites the conspiracy theory website Infowars as a source 34 times and the [white nationalist website](https://www.nbcnews.com/politics/justice-department/justice-department-says-it-mistakenly-emailed-link-white-nationalist-website-n1045526) VDare 107 times, the researchers found.
-
-Those citations make up a small percentage of Grokipedia’s overall sourcing, but they are notable because Wikipedia, by contrast, does not treat those sources as credible. Wikipedia generally does not allow contributors to use them as references, even as primary sources of information about racist ideas or conspiracy theories, according to the Cornell analysis and Wikipedia’s [public list](https://en.wikipedia.org/wiki/Wikipedia:Reliable_sources/Perennial_sources) of English-language sources.
-
-“The guardrails are off,” Harold Triedman, one of the paper’s co-authors and a computer science graduate student at Cornell, said in a phone interview Wednesday.
-
-“The publicly determined, community-oriented rules that try to maintain Wikipedia as a comprehensive, reliable, human-generated source are not in application on Grokipedia,” he said.
-
-Triedman is a former senior privacy engineer for the Wikimedia Foundation, which oversees Wikipedia, and still does part-time contract work for one of its affiliates — which he disclosed in the paper — but he said he did the work independently. His co-author, Alexios Mantzarlis, is the director of Cornell’s Security, Trust, and Safety Initiative and the former director of the International Fact-Checking Network, a nonprofit organization.
-
-Overall, the researchers found that Grokipedia includes 12,522 citations to online sources that [previous academic research](https://pubmed.ncbi.nlm.nih.gov/37719749/) has deemed as having very low credibility. And they found that Grokipedia cites those domains three times as often as Wikipedia.
-
-Unlike Wikipedia, Grokipedia centralizes its editing process. Users can submit suggested edits to Grokipedia, but instead of assigning a group of volunteer community editors to decide on the edits, xAI, Musk’s artificial intelligence company, controls whether or not a certain edit is approved and implemented on the website. The process of review is not entirely transparent, but the company has suggested that Grok, an artificial intelligence chatbot, plays a part in reviewing edit submissions. When a user submits an edit, it is approved or denied with “Grok Feedback.”
-
-In an article about a Virginia-based white nationalist publication, Grokipedia cites and links to Stormfront seven times, with the links appearing at the bottom of the article under “references.” A Wikipedia article [with the same title](https://en.wikipedia.org/wiki/National_Vanguard_(United_States)) cites mainstream sources, such as Newsweek magazine. The Grokipedia version also uses euphemisms such as “advancement of peoples of European descent” in place of labels such as “white nationalist” preferred by Wikipedia editors, and the Grokipedia version is about 15 times longer than the Wikipedia article.
-
-The Grokipedia article for the 1998 film “American History X” cites and links to Stormfront [six times](https://github.com/htried/wiki-grok-comparison/blob/main/results/overall/cite_sublist/fringe_citations.csv), summarizing how people on Stormfront’s discussion forum view the film. The Wikipedia entry for the film does not cite Stormfront, instead relying on movie websites and news publications. (In the film, Edward Norton plays an American neo-Nazi, a role that earned him an Academy Award nomination.)
-
-The research from Triedman and Mantzarlis is a preprint, meaning the paper has not been vetted by other academic researchers, but NBC News was able to verify some of the findings by searching Grokipedia and checking references for individual articles. The authors also published [their data and methods](https://github.com/htried/wiki-grok-comparison/tree/main) online.
-
-The analysis is the first comprehensive attempt to comb through Grokipedia’s more than 880,000 articles, and it says that, on some topics, Musk’s site uses sources that have explicit racial prejudice, treating them as authoritative.
-
-Wikipedia, as a rule, relies on [published secondary sources](https://en.wikipedia.org/wiki/Wikipedia:Handling_primary,_secondary_and_tertiary_sources_(proposed_guideline)) and tells contributors to avoid doing their own original research. It also [prohibits some sources](https://en.wikipedia.org/wiki/Wikipedia:Reliable_sources/Perennial_sources) that it views as unreliable or untrustworthy. But Grokipedia is different.
-
-### FOR SUBSCRIBERS[The human cost of war with Iran](https://www.nbcnews.com/world/iran/human-cost-war-iran-rcna595782)
-
-### FOR SUBSCRIBERS[How bad will flu and Covid be this winter? ](https://www.nbcnews.com/health/cold-and-flu/bad-will-flu-covid-winter-rcna595787)
-
-Musk and xAI, which released Grokipedia, did not respond to a request for comment on the Cornell analysis. The email inbox at xAI for media inquiries has an autoreply that says: “Legacy Media Lies.”
-
-Stormfront, created by a [former leader of the Ku Klux Klan](https://www.nbcnews.com/nbc-out/out-news/derek-black-kkk-klansman-son-transgender-rcna153904), is one of the internet’s oldest and most prominent neo-Nazi message boards. Several mass shooters, including a Norwegian neo-Nazi [who killed 77 people](https://www.theguardian.com/world/2011/jul/30/norway-attacks-anders-behring-breivik), have been registered Stormfront users, according to** **the [Southern Poverty Law Center](https://www.nbcnews.com/storyline/jewish-center-shootings/report-users-white-power-website-have-committed-nearly-100-murders-n83231), a civil rights organization.
-
-A message left with a Stormfront voicemail was not immediately returned Wednesday.
-
-Musk has a history of expressing antisemitic and racist theories. In 2022, he endorsed the “[great replacement](https://www.nbcnews.com/tech/tech-news/antisemites-are-saying-elon-musk-side-latest-tweets-jews-rcna125617)” theory that Jews were plotting to bring nonwhite immigrants to the United States. (His post about it [is still up](https://x.com/elonmusk/status/1724908287471272299).) He has [smeared Haitian immigrants](https://www.nbcnews.com/tech/internet/haiti-migrants-cannibal-claims-barbeque-army-2024-rcna142878) as cannibals and [attacked airlines](https://www.nbcnews.com/tech/internet/elon-musk-boeing-dei-diversity-x-posts-pilots-rcna133351) for trying to recruit Black pilots. In January, Musk used a gesture at a rally that many historians [viewed as a Nazi salute](https://www.nbcnews.com/business/business-news/tesla-investors-elon-musk-answer-questions-salute-white-house-role-rcna189798), and days later he urged Germans to “[move beyond](https://www.nbcnews.com/news/world/elon-musks-call-germany-move-nazi-guilt-dangerous-holocaust-memorial-c-rcna189316)” Nazi guilt. Musk [later said](https://www.bbc.com/news/articles/cy48v1x4dv4o) those framing the gesture as a Nazi salute were using “dirty tricks.”
-
-Musk’s social media app, X, formerly Twitter, has also become [a hub for neo-Nazi influencers](https://www.nbcnews.com/tech/social-media/x-twitter-elon-musk-nazi-extremist-white-nationalist-accounts-rcna145020), after Musk restored some previously banned accounts. X also placed advertisements [in the search results](https://www.nbcnews.com/tech/social-media/elon-musk-x-twitter-antisemitism-hashtags-trending-hate-rcna151945) for extremist hashtags such as #whitepower.
-
-Musk created Grokipedia as an explicitly political project after having criticized Wikipedia [as too left-wing](https://x.com/elonmusk/status/1973010429724205058). He took up the idea [after a suggestion](https://x.com/elonmusk/status/1972900565899497547) from Trump White House AI czar David Sacks.
-
-Wikipedia, founded in 2001, is written and edited by volunteers, many of whom are pseudonymous. It is among the most-visited websites in the world.
-
-Grokipedia used articles from Wikipedia as a foundation, republishing [some of them](https://grokipedia.com/page/Monday) word for word with a disclaimer saying the content was “adapted from Wikipedia” under a [Creative Commons license](https://creativecommons.org/licenses/by-sa/4.0/deed.en). But it also rewrote other topics top to bottom with the help of Musk’s AI chatbot, Grok. Musk said one priority was to de-emphasize the traditional news media as sources.
-
-“The goal here is to create an open source, comprehensive collection of all knowledge,” Musk [said last month](https://x.com/elonmusk/status/1983125099973882120) on X. He has said the website will be “[super important](https://x.com/elonmusk/status/1973440486804431169) for civilization.”
-
-Many articles have a different slant from Wikipedia. The Grokipedia entry for Adolf Hitler, for example, goes for 13,000 words before it mentions the Holocaust by name, according to an NBC News count, while Wikipedia mentions it in the first paragraph of its article.
-
-Triedman said it is not clear why Grokipedia has published articles as it has.
-
-“They’ve expressed intentions to be more transparent going forward. Right now, the methodology is not very transparent,” he said.
-
-The Cornell researchers scraped nearly the entirety of Grokipedia’s content in late October, gathering more than 883,000 articles for analysis.
-
-They found that Wikipedia and Grokipedia rely on some of the same sources, with 57 internet domains showing up in the top 100 source lists for both encyclopedias. But the two sites often diverge, especially when it comes to sources Wikipedia editors consider unreliable or even blacklist.
-
-About 5.5% of Grokipedia articles include at least one citation to a source that is blacklisted in the English-language Wikipedia community, the researchers found.
-
-Infowars, for example, is generally prohibited as a source on Wikipedia, and its founder, Alex Jones, faces a [$1.5 billion defamation judgment](https://www.nbcnews.com/politics/supreme-court/supreme-court-turns-away-alex-jones-attempt-block-huge-defamation-judg-rcna236968) over false claims that the 2012 Sandy Hook school shooting in Connecticut was a hoax. But Grokipedia cites Infowars and links to it as a source, including for a baseless conspiracy theory that the Clintons are murderers who have a “body count.” (Wikipedia has a parallel article on [the same subject](https://en.wikipedia.org/wiki/Clinton_body_count_conspiracy_theory) that does not mention Infowars.)
-
-VDare is likewise generally banned as a source on Wikipedia, but Grokipedia cites it [for several articles](https://github.com/htried/wiki-grok-comparison/blob/main/results/overall/cite_sublist/fringe_citations.csv), usually about white supremacists or about VDare itself.
-
-The researchers said they found 1,050 citations in which Grokipedia links to itself: specifically, to publicly shared conversations that had occurred between X users and the Grok chatbot. In one example, Grokipedia cites as a source a Grok chatbot conversation in which a user started by asking Grok to “[dig up some dirt](https://x.com/i/grok/share/u9CnjacqsAhjFhrVjBu2vEipv)” on a Belgian politician. The researchers did not draw conclusions about the accuracy of those 1,050 citations.
-
-“We believe there is much future work to complete in this area,” they wrote.",/Users/aisvarya/Zotero/storage/9RJ2VKP6/elon-musk-grokipedia-wikipedia-neo-nazi-grok-42-encyclopedia-rcna244749.html
 UKIPGRLC,What's behind the TikTok accounts using AI-generated versions of real Latino journalists?,https://www.nbcnews.com/news/latino/fake-ai-videos-spanish-language-journalists-misinformation-rcna225201,,"A network of nearly 90 TikTok accounts has been using artificial intelligence to create fake versions of high-profile Spanish-language journalists and spread falsehoods online for potential financial gain.
 
 Over a third of the accounts used AI-generated versions of Jorge Ramos, one of the best-known Latino journalists in the United States, to front fabricated news stories. One of them featured an AI avatar of Ramos falsely claiming that President Donald Trump's son Barron Trump stormed into the United Nations to denounce the deportation of his mother, first lady Melania Trump.
@@ -19605,45 +19809,6 @@ Keep Reading
 BEST OFFER
 
 ## Comments",/Users/aisvarya/Zotero/storage/9YPUMNPF/news-corp-ai-articles-journalism.html
-JCKA67PM,When the pink-slime researchers become the pink slime.,https://www.cjr.org/tow_center/when-the-pink-slime-researchers-become-the-pink-slime.php,,"*Sign up for the daily *
-
-**CJR newsletter**.
-
-We love to hear when journalists engage with our research, so in October, we set up an LLM agent to sort through Google Alerts for Tow Center’s work and notify us when our research is cited in news. The bot began to diligently filter alerts for new mentions of the Tow Center and sent us Slack notifications with references to our work. We celebrated the small wins.
-
-But not even a week in, Elon Musk launched Grokipedia—his own AI-generated [misinformation-peddling](https://www.wired.com/story/elon-musk-launches-grokipedia-wikipedia-competitor/) version of Wikipedia—and we began receiving notifications about sites we had never heard of quoting our director, Professor Emily Bell, talking about the launch.
-
-A site called [ Berawang News](https://berawangnews.com/elon-musk-grokipedia-arrives-later-this-month-pcmag-3/) cites “Dr. Emily Bell” (although absolutely brilliant, our fearless leader doesn’t have a PhD—at least as far as she is aware) saying “The introduction of AI in information sharing could be transformative, but it also raises questions about accountability and ethics. How Musk addresses these issues will determine Grokipedia’s success.”
-
-She never said these words.
-
-The article is allegedly authored by John M. Anderson, [who the site says previously worked with the  Washington Post and Politico](https://berawangnews.com/author/berawang/). The actual John Anderson, who did work at these publications, has no connection with 
-
-*Berawang News*. “If they want to create a site that uses AI to generate news stories, why not just do it transparently?” Anderson said over email. “Why swipe someone’s identity, thinking it will lend you an air of credibility, when it will eventually be discovered and totally undercut your credibility?”
-
-Other websites like [ Leravi](https://www.leravi.org/elon-musk-launches-grokipedia-after-wikipedia-co-founder-sounds-alarm-15355/) and 
-
-[also cite a “Dr. Emily Bell,” naming her as the director of the Tow Center for Digital Journalism but also attributing quotes to her that the real Emily Bell has never said about Grokipedia. We found that the](https://indiandefencereview.com/grokipedia-elon-musk-announces-a-new-version-of-wikipedia-after-explosive-revelations-by-its-co-founder/)
-
-*Indian Defense Review**Indian Defense Review*, formerly a peer-reviewed academic-journal website dedicated to the Indian military, now pumps out content on
-
-[scientists finding signs of Atlantis](https://indiandefencereview.com/atlantis-scientists-find-submerged-city/)and
-
-[how to clean your windows](https://indiandefencereview.com/simply-add-a-spoonful-to-your-cleaning-water-your-windows-will-stay-sparkling-clean-all-winter-long/). It shares characteristics with many sites traced to an Algerian SEO organization called the
-
-[SS Tech Agency](https://www.linkedin.com/company/sst-agency/). Many of the company’s editors come from a specific Algerian University, where the
-
-[CEO of several of these content farms](https://www.linkedin.com/in/sebti-samir/)teaches.
-
-A website called [ Sriwijaya News](https://beritasriwijaya.co.id/how-american-views-on-israel-and-antisemitism-have-changed-since-oct-7-2/) attributes made-up quotes in an article about American public opinion on Israel and anti-Semitism that it claims was written by none other than Christiane Amanpour. The famed journalist must be quite busy, as she is supposedly churning out dozens of articles each day for the site, about everything from soccer and celebrities to daily Bitcoin prices.
-
-We also found fake statistics, like the one below on the website of “CML Technology,” supposedly a Canadian tech firm, attributed to reports that the Tow Center has never published. CML Technology is the creator of a [website dedicated](https://www.ambassade-rdc-canada.com/) to [the Democratic Republic of the Congo in Canada. ](https://www.ambassade-rdc-canada.com/)
-
-While we had a good laugh at these websites, and will continue to follow the exploits of the fictitious Dr. Emily Bell, we are deeply troubled by ways in which AI tools peddle misinformation in the name of our hard-earned credibility. We don’t have reason to believe any of these websites get large volumes of traffic, but the thought of one such article going viral makes us shudder. The collective reputational damage done to an institution or a person through the spread of fake quotes attributed to them could be significant.
-
-As our good doctor supposedly said in an article titled “Can We Trust AI Blindly?” posted on Facebook by “Way to Jannah Academy,” an account with 740 followers that peddles lessons in spoken English to people in Bangladesh, “Generative AI can be used to create higher-quality misinformation…leading to increased potential [for harm].”
-
-*Has America ever needed a media defender more than now? Help us by  joining CJR today.*",/Users/aisvarya/Zotero/storage/5A5KT6NI/when-the-pink-slime-researchers-become-the-pink-slime.html
 6KSGCAK9,There should have been an op-ed here but you filed AI slop,https://www.cityam.com/there-should-have-been-an-op-ed-here-but-you-filed-ai-slop/,2026-06-04,"# There should have been an op-ed here but you filed AI slop
 
 *City AM’s inbox is drowning in AI-written pitches. Anna Moloney, who now spends her days copy and pasting them into detection software, has had enough*
@@ -23595,104 +23760,6 @@ They said: “This means it’s not up to Youtube to decide who ‘owns the righ
 “A copyright strike can be resolved if the user submits a counter-notification and prevails in that process.”
 
 Email ** pged@pressgazette.co.uk** to point out mistakes, provide story tips or send in a letter for publication on our ""Letters Page"" blog",/Users/aisvarya/Zotero/storage/GE9WWR5U/google-handling-stolen-goods-with-youtube-theft-of-paywalled-news-articles.html
-Q6APQ62E,ChatGPT took Press Gazette content then said that could not have happened,https://pressgazette.co.uk/platforms/chatgpt-took-press-gazette-content-then-said-that-could-not-have-happened/,2025-11-26,"[ChatGPT](https://pressgazette.co.uk/subject/chatgpt/) accessed content from behind Press Gazette’s paywall and then gave a highly misleading explanation of what it had done.
-
-It’s a case which underlines the extent to which [AI answer engines](https://pressgazette.co.uk/subject/artificial-intelligence/) are flouting copyright and paywalls and also the sheer weirdness of some of the responses they give.
-
-Press Gazette asked ChatGPT to “chart Telegraph profits over time using information from Press Gazette”.
-
-It proceeded to give details of operating profits for most of the years from 2005 to 2023 based apparently on a detailed reading of Press Gazette.
-
-Press Gazette operates a metered paywall whereby registered readers can read two free articles per month. It also produces much content that is free to air but all archive content is paywalled.
-
-Press Gazette entered the following prompt in response to the ChatGPT answer: “Press Gazette is a paywalled website how is ChatGPT able to extract data from it without permission?”
-
-ChatGPT responded: “I have no login, no subscription, no way to bypass a paywall…So anything I output came entirely from internal reasoning, not external retrieval.”
-
-It added: “The specific profit figures for the Telegraph (2005–2023) are: repeated by dozens of secondary sources, including newspaper articles, Wikipedia citations, media-industry blogs, and publicly available financial summaries.”
-
-It added that “the URLs and citations I gave were hallucinated — but plausible” because Press Gazette uses a “predictable url structure.”
-
-Press Gazette’s archive URLs are actually quite complicated and hard to predict. Yet they were all correct and many of the profit figures cited only appear in Press Gazette.
-
-Press Gazette then asked ChatGPT to “redo the Telegraph chart using non-paywalled sources”.
-
-This took considerably longer and resulted in redone results for only ten of 13 years ChatGPT found data for when it included links to Press Gazette articles. The incomplete data included some different figures and was based purely on publicly available Guardian reports and Telegraph Media Group statements.
-
-Press Gazette has asked OpenAI for a comment.
-
-[This interaction with ChatGPT prompted huge interest when it was shared it on LinkedIn](https://www.linkedin.com/posts/dominicponsford_gotcha-chatgpt-does-anyone-know-a-good-copyright-activity-7398282595261698048-sPJL?utm_source=share&utm_medium=member_desktop&rcm=ACoAAACkcxEBdeU1Nls5B75_jheM9hRvFwYZqr4). Here are some of the insights people shared:
-
-## LLMs give weird responses if you ask questions about their methods
-
-Guardian head of editorial innovation and AI Chris Moran said: “Given the probabilistic nature of LLMs, asking them to explain themselves simply isn’t a thing. Anything from the moment you asked it to explain itself is simply not the truth – it’s a kind of ersatz apology or explanation constructed one token at a time in reaction to the previous context.”
-
-Editor at investment managers Baillie Gifford Leo Kelion said: “LLMs can’t explain their reasoning from a past analysis run. You’re effectively asking it from scratch to explain itself (it reloads the conversation to date into its context window and starts again). Kind of the equivalent of me brainwashing you into thinking you’re someone else and then asking you to explain one of that other person’s past decisions.”
-
-## ChatGPT is finding ways to access paywalled content
-
-Press Gazette has robot.txt files on its website aimed at stopping unwanted content scraping of our copyright content by LLMs.
-
-Chief digital officer of the Newspaper Licensing Agency (NLA Media Access) Paul Lomax said: “ChatGPT only pays attention to robots.txt when crawling for general training & RAG [Retrieval Augmented Generation – which aims to ground LLM answers in facts].
-
-“If a user asks it to grab content from a site, off it goes! Their (tenuous imho) argument is it’s just a user agent, same as any browser, acting on behalf of a user’s request. The problem is the bot can bypass a paywall if the paywall is built to allow Google indexing…
-
-“The only solution is to block the ChatGPT user agent.”
-
-Birger Soiland, head of publisher partners at Tollbit (a tech provider which controls AI access to websites), said: “Robots.txt is at best a gentleman’s agreement that the LLMs have no interest in honouring.”
-
-Alan Buxton, chief technology officer at Simfoni (a tech provider), noted OpenAI chief technology officer Mira Mirati’s comments in a Wall Street Journal interview in 2024 in which she appeared to admi that OpenAI helped itself to “publicly available” data in order to train AI video generation tool Sora.
-
-He said: “It’s very likely that amongst all ChatGPT’s data sources there are some bots with paid accounts which collect licensed data and add it to the mix. Or, potentially, subcontractors who collect data for them.
-
-“[Remember Mira Murati’s painful interview about the distinction between ‘publicly available’ and ‘licensed’ content](https://www.theverge.com/2024/3/13/24099618/im-just-not-going-to-go-into-the-details-about-the-data-that-was-used)? If you are happy to ignore the license for publicly available data then it’s not a big leap to also work around licenses for paid data.
-
-“TBH given the scale at which they operate, they probably don’t know where all their data originates.”
-
-Email ** pged@pressgazette.co.uk** to point out mistakes, provide story tips or send in a letter for publication on our ""Letters Page"" blog",/Users/aisvarya/Zotero/storage/DKUTP8JE/chatgpt-took-press-gazette-content-then-said-that-could-not-have-happened.html
-WTDQMG6V,Study claims 9% of US newspaper articles at least partly AI generated,https://pressgazette.co.uk/north-america/study-claims-9-of-us-newspaper-articles-at-least-partly-ai-generated/,2025-10-29,"Around 9% of articles published by US newspaper brands this summer were at least partially written by [AI](https://pressgazette.co.uk/subject/artificial-intelligence/), a new study has found.
-
-Researchers from the University of Maryland used AI detector Pangram to [analyse 186,000 articles](https://arxiv.org/abs/2510.18774) published online by 1,500 national and local newspaper brands between June and September 2025.
-
-They concluded that “approximately 9% of newly-published articles are either partially or fully AI-generated”.
-
-Some 90.85% of articles analysed were categorised as human-written, while 5.24% were classed as AI-generated and 3.98% were “mixed”.
-
-AI use was found to be “much higher” in smaller local outlets compared to large national newspapers. Some 1.7% of articles at papers with a circulation above 100,000 were labelled as AI-generated or mixed, versus 9.3% at smaller titles.
-
-The researchers suggested this could be because the smaller titles have “shrinking reporting capacity due to limited resources” and “rely on AI more than national newspapers” whereas “large national newspapers enforce stricter editorial constraints on automation than local papers”.
-
-The use of AI was most frequently noted in article topics such as weather (27.7%), science and technology (16.1%), and health (11.7%).
-
-There were lower rates for war stories (4.3%), crime, law and justice stories (5.2%) and religion-related articles (5.3%).
-
-The research paper noted that Pangram claims to have a false positive rate of about 0.001% on news text.
-
-The researchers also manually analysed 100 articles flagged as featuring AI use and found just five of them disclosed that this was the case.
-
-Some of the newspaper owners with the highest level of AI use specifically disclose that they use it for certain types of content. For example, the paper cited Advance Publications and its AI-written weather forecast articles which had a 74.4% AI use rate.
-
-A [weather story](https://www.pennlive.com/weather/2025/10/a-dry-tuesday-will-be-followed-by-lots-of-rain-in-central-pa.html) published this week on Advance’s Penn Live website ends with the disclaimer: “Generative AI was used to produce an initial draft of this story, which was reviewed and edited by PennLive.com staff.”
-
-Other publishers, such as Boone Newsmedia which was found to have the “broadest adoption”, use AI “broadly across many topics”, the report said. Some 58.3% of Boone stories had some AI-generated text in them, the paper said, along with 32.9% of lifestyle and leisure stories.
-
-The paper found that of the mixed or AI-generated articles that contained at least one quote of more than 50 words, 76.1% contained at least one human-written quote. However, it was acknowledged that Pangram’s AI detector is less reliable on shorter pieces of text.
-
-“This suggests that many stories written with AI use rely on authentically sourced material. However, it remains unclear whether journalists are choosing these quotes and feeding them into a prompt for AI generation, or if the AI is also doing quote selection.”
-
-The paper also found that AI-generated content was more prevalent in news articles written in non-English, with 8% of English-language articles containing some AI use versus 31% in other languages (of which about 80% were Spanish-language articles from US-based outlets).
-
-“This suggests that higher AI use is concentrated in domestic Spanish-language reporting, reflecting how translation tools and localised automation may lead to differences in AI adoption per language.”
-
-The paper noted there was a possibility that AI-translated articles were being misclassified as AI-generated, but said its “small-scale verification suggests that human-written articles are still correctly identified as human even after machine translation”.
-
-The researchers also looked at a subset of opinion articles written between 2022 and 2025 in The New York Times, The Washington Post and The Wall Street Journal.
-
-It found that AI use “remains low” in opinion compared to the news articles analysed but that it has “risen sharply” since AI chatbots entered the mainstream, from 0.1% in 2022 to 3.4% in 2025.
-
-AI was more likely to be used by guest contributors than by full-time staff. It was also “almost completely undisclosed”.
-
-Email ** pged@pressgazette.co.uk** to point out mistakes, provide story tips or send in a letter for publication on our ""Letters Page"" blog",/Users/aisvarya/Zotero/storage/G2EJMEDU/study-claims-9-of-us-newspaper-articles-at-least-partly-ai-generated.html
 A562GIUZ,Urgent bid lodged with UK regulator to stop Google AI Overviews 'stealing journalism',https://pressgazette.co.uk/news/urgent-bid-lodged-with-uk-regulator-to-stop-google-ai-overviews-stealing-journalism/,2025-07-04,"A legal complaint has been submitted to the UK’s Competition and Markets Authority over the impact of [Google AI Overviews](https://pressgazette.co.uk/platforms/google-ai-overviews-rollout-hits-news-publisher-search-visibility/) on news publishers.
 
 A collaboration between tech justice non-profit Foxglove, the Independent Publishers Alliance and the campaign group Movement for an Open Web aims to “stop [Google](https://pressgazette.co.uk/subject/google/) stealing the work of British journalists”.
@@ -24119,65 +24186,6 @@ Jasper Hamill, former tech editor at The Sun and Metro and founder of the indepe
 “It would be shocking, but not necessarily surprising, to discover networks of fake influencers operating in crypto. After all, we still do not know the true identity of [Bitcoin founder] Satoshi Nakamoto, so pseudonyms and anonymity have always been part of the culture.”
 
 Email ** pged@pressgazette.co.uk** to point out mistakes, provide story tips or send in a letter for publication on our ""Letters Page"" blog",/Users/aisvarya/Zotero/storage/F4E24VJ5/prolific-finance-journalists-facing-questions-over-identities.html
-HYAR5ZLG,PR bodies launch campaign against fake experts after Press Gazette investigation,https://pressgazette.co.uk/news/pr-bodies-launch-campaign-against-fake-experts-after-press-gazette-investigation/,2026-01-29,"Press Gazette’s investigation which uncovered 1,000 articles in the British press attributed to [50 fake, non-existent and AI-enhanced](https://pressgazette.co.uk/news/named-50-experts-and-linked-brands-publishers-should-treat-with-caution/) experts has spurred PR trade bodies into action. 
-
-Britain’s two leading trade bodies, the Chartered Institute of Public Relations (CIPR) and the Public Relations and Communications Association (PRCA) joined forces for the campaign.
-
-Calling for journalists to check sources and the credentials of PR people they deal with, the two organisations wrote to journalism trade bodies the National Union of Journalists, Chartered Institute of Journalists and British Association of Journalists.
-
-The campaign follows months of Press Gazette reporting which has uncovered everything from [fake psychiatrists](https://pressgazette.co.uk/publishers/digital-journalism/virtual-reality-the-widely-quoted-media-experts-who-are-not-what-they-seem/) to [fake royal cleaners](https://pressgazette.co.uk/news/royal-cleaner-stories-removed-by-times-and-sun-after-authenticity-questions/) to [seemingly tireless AI gardeners](https://pressgazette.co.uk/publishers/digital-journalism/dubious-experts-deployed-by-myjobquote-published-more-than-600-times-in-uk-press/). 
-
-The full text of the letter is below.
-
-Press Gazette has [continued to investigate](https://pressgazette.co.uk/publishers/digital-journalism/fake-experts-seo-journalism/) this issue, and is uncovering more fake experts who have featured widely in the press. 
-
-Rogue PR operators appear to be using AI to generate press releases which then secure lucrative links and brand mentions for their clients. The advice, on everything from when to mow your lawn to when to book a flight, is often AI-written and attributed to experts who do not exist.
-
-The issue damages both the press and the PR Industry according Sarah Waddington CBE, CEO of the PRCA.
-
-She told Press Gazette: “The rise of so-called ‘fake experts’ is damaging for both journalism and public relations because it undermines trust at every stage of the information chain.
-
-“Journalists need reliable sources to inform the public and hold power to account, while ethical PR depends on accuracy, transparency and accountability. When false or unverified expertise is promoted, it weakens confidence. Access to credible data and professional opinion is vital to critical thinking – something that’s increasingly needed when ‘flooding the zone’ tactics are in play.
-
-“Press Gazette’s exceptional work in identifying this issue and calling out bad actors is incredibly welcome. It supports our joint goal of weeding our poor practice and those who bring our industry into disrepute.
-
-“It’s why in response the PRCA today teamed up with the Chartered Institute of Public Relations to remind people that our members sign up to a Code of Conduct and only adhere to the highest professional standards. We both have member registers which can help journalists to identify legitimate sources.
-
-“While directories and professional Codes are an important safeguard, confronting this issue will require continued collaboration between newsrooms, PR professionals and representative bodies, and we remain open to exploring further measures if they are needed to protect standards and public trust.”
-
-[Press Gazette compiled a ‘Hall of Shame’ spreadsheet highlighting the worst known ‘fake experts’ ](https://pressgazette.co.uk/news/named-50-experts-and-linked-brands-publishers-should-treat-with-caution/)(it focuses strictly on cases where the ‘expert’ [does not exist](https://pressgazette.co.uk/publishers/digital-journalism/dubious-experts-deployed-by-myjobquote-published-more-than-600-times-in-uk-press/), rather than the many other cases where the expert does not have the knowledge they claim). 
-
-The two PR trade bodies called on journalists to verify PR sources via the [CIPR register ](https://cipr.co.uk/CIPR/Contact_Management/Public_Directory/PR_Directory.aspx)and [PRCA directory](https://www.prca.global/membership/prca-organisation-members-directory), publicly searchable registers which list their members. 
-
-Many of the stories reported by Press Gazette revolve around seemingly [fake or non-existent ‘PR agencies](https://pressgazette.co.uk/publishers/nationals/the-pr-agency-the-publishers-and-the-disappearing-lottery-winners/)’ with links to countries abroad often in Eastern Europe. 
-
-Alastair McCapra, CEO of the CIPR said: “Our joint letter followed Press Gazette’s investigation that found more than 50 fake ‘experts’ associated with over 1,000 likely fabricated stories.
-
-“We’re moving into a world where vast quantities of low-quality content can be produced cheaply and instantaneously. Every fake source makes the next legitimate pitch harder for the tens of thousands of public relations practitioners who operate honestly and ethically.
-
-“The professional challenge isn’t to produce more, faster – it’s to produce something of genuine quality that stands out from the rising tide of AI-generated noise.
-
-“Journalists need practical tools to distinguish genuine professionals from potential bad actors, and our membership registers provide exactly that. CIPR and PRCA members are bound by codes of conduct with real consequences for misconduct. We stand for integrity, standards and professional judgement, and in a world where anyone can hit send and unleash a flood of undifferentiated, generic content, that distinction matters more than ever.”
-
-There is no one ‘smoking gun’ for identifying fake experts, says Alex Cassidy, managing director of NeoMam studios, which worked with Press Gazette to uncover fake experts including the [hugely prolific gang of non-existent experts from MyJobQuote](https://pressgazette.co.uk/publishers/digital-journalism/dubious-experts-deployed-by-myjobquote-published-more-than-600-times-in-uk-press/). 
-
-Cassidy said: “Often the warning signs are small on their own but raise questions when grouped together: no photo or a single uncanny headshot, a reluctance to ever get the contact on a call, and an insistence on vague titles rather than a specific, verifiable role.
-
-“Genuine experts usually have a clear online footprint that can be cross-referenced, whether on a company site or through their own professional and personal profiles. Ultimately, the most useful tool is instinct. A few simple clarifying questions about someone’s background often reveals very quickly whether there’s substance behind the authority.”
-
-**The CIPR and PRCA letter to UK journalists**
-
-“The Chartered Institute of Public Relations (CIPR) and the Public Relations and Communications Association (PRCA) note with concern recent reports highlighting instances where public relations professionals have pitched stories to the media featuring fake “experts”.
-
-“Promoting accurate, ethical, and transparent engagement – including with the press – is central to our respective missions. To support this, we each maintain publicly accessible directories of accredited and verified practitioners. We encourage journalists to use these resources to check whether a PR professional is a current member in good standing, should any concerns arise:
-
-“[The CIPR Public Relations Register](https://cipr.co.uk/CIPR/CIPR/Membership/The_Public_Relations_Register.aspx)
-
-“Membership of either body signals a commitment to high professional and ethical standards, including adherence to established codes of conduct. While membership is voluntary, our directories provide an additional safeguard for media professionals seeking to verify the legitimacy of a PR representative. They also offer access to a complaints process where issues warrant further scrutiny.
-
-“We welcome constructive dialogue with media organisations on how we can collectively strengthen transparency, accountability, and trust between the PR profession and the press.”
-
-Email ** pged@pressgazette.co.uk** to point out mistakes, provide story tips or send in a letter for publication on our ""Letters Page"" blog",/Users/aisvarya/Zotero/storage/VY855NXB/pr-bodies-launch-campaign-against-fake-experts-after-press-gazette-investigation.html
 LS3YFZFM,Named: 50 'experts' and linked brands publishers should treat with caution,https://pressgazette.co.uk/news/named-50-experts-and-linked-brands-publishers-should-treat-with-caution/,2026-01-09,"Press Gazette today names more than 50 apparently fake experts who have offered commentary to the British press in recent years and featured more than 1,000 times in newspapers, magazines and online titles.
 
 Our PR Hall of Shame is a live document highlighting brands and spokespeople who should be treated with a high degree of caution by journalists.
@@ -25762,45 +25770,6 @@ Signed,
 **Utica News Guild (TNG-CWA 31003) **(Observer-Dispatch, Times Telegram)
 
 **Washington-Baltimore News Guild** (TNG-CWA 32025) (York Daily Record)",/Users/aisvarya/Zotero/storage/54Z5JBJQ/usa-today-journalists-demand-company-end-palantir-relationship.html
-PV787Z9N,"Business Insider attempts AI reporter, human journalists push back | The NewsGuild - TNG-CWA",https://newsguild.org/business-insiders-ai-byline/,2025-11-07,"Last week Business Insider quietly rolled out an artificially intelligent “author”** **and journalists got loud. The company, which is controlled by Axel Springer in Germany, launched a byline page for “Business Insider AI” with a description that the “byline uses generative AI tools to draft news stories so we can bring readers more information, more quickly.”
-
-The union AI subcommittee at Business Insider, which is part of The NewsGuild of New York, quickly activated and started having conversations across the newsroom. They made a flyer and dropped a graphic in person and [on social media](https://www.instagram.com/insiderunion/p/DQNNqHvjuZI/). 
-
-I spoke to Lily Oberstein to learn more. She’s Business Insider’s unit chair and an insights and analytics editor in the newsroom.
-
-Oberstein was at a newsroom product and tech conference when the news broke about the AI byline. At the conference, she was encouraged to hear tech workers discuss the right and wrong uses for AI. When companies identify the problems they have first, and then if AI is a good solution second, they can find areas of opportunity for AI. With a background in tech and data, she knows technology can help us when used correctly.
-
-But over in the newsroom, Axel Springer bosses are trying to use AI like a hammer in search of nails.
-
-The subcommittee had conversations and then quickly formulated a request for information, which is a sort of public-records-like power unionized workers have. Journalists asked questions. And dozens of members piled onto those questions in a newsroom wide reply-all demanding clarity.
-
-“Sources and readers have already expressed concerns about Business Insider’s vague AI policy and this AI author page continues to amplify these concerns,” she said. “We are deeply worried about the effects that this move-fast-and-break-things approach to AI will have on both our newsroom’s reputation as well as our member’s job security.”
-
-In addition to the graphics on social media, members changed their Slack profiles and they posted a statement about the AI byline, which is management’s attempt to undermine journalists’ jurisdiction over journalism.
-
-AI-produced content lacks value.
-
-“Readers want to subscribe to quality journalism coming from our talented, human journalists,” she said.
-
-Then this week Mathias Döpfner, Axel Springer’s CEO, came to the Business Insider newsroom to talk about AI. Workers got very short notice and went into overdrive to organize. Visits from the German executives are exceedingly rare. Every chair in the room had a “No Slop in Our Shop” flyer made by the Insider Union.
-
-And Döpfner said the company’s intentions out loud.
-
-“Does it replace jobs here and there? The honest answer is, yes, no doubt about it,” he said, [according to status](https://www.status.news/p/axel-springer-ai-business-insider-mathias-dopfner?utm_source=www.status.news&utm_medium=newsletter&utm_campaign=embrace-a-i-or-you-die&_bhlid=3b95daeebbb829554bf633cf712bea19389731ca&last_resource_guid=Post%3Aa9afb59b-a9cf-43b8-8ccf-9ed37d7b5eb3).
-
-Journalists in the room had several questions. Oberstein asked the most important one.
-
-“We’re concerned about pushing AI-generated content on our site – what is your plan for protecting our newsroom’s reputation and our job security?”
-
-Members in the room stood up to show strength in numbers.
-
-Journalists are not dismissing AI outright, they said that day in a [joint statement](https://bsky.app/profile/pen-guild.bsky.social/post/3m4viy6i4ds2d) from POLITICO, Business Insider and Business Insider UK. “Our sites and channels should showcase the original work that we humans produce, not the bland words or images that anyone with a ChatGPT account could churn out with ease.”
-
-POLITICO is in the [midst of arbitration](https://www.niemanlab.org/2025/08/politicos-recent-ai-experiments-shouldnt-be-subject-to-newsroom-editorial-standards-its-editors-testify/) after misinformation was spread by an AI “tool” rolled out by management. And Axel Springer has been quiet about the [secretive deal](https://www.reuters.com/business/media-telecom/global-news-publisher-axel-springer-partners-with-openai-landmark-deal-2023-12-13/) they inked with OpenAI, the maker of ChatGPT, two years ago. 
-
-AI-generated content, along with vague corporate AI policies, will erode trust in journalism and make journalists’ jobs more difficult.
-
-Robots cannot replace reporters.",/Users/aisvarya/Zotero/storage/8DLMJNXM/business-insiders-ai-byline.html
 6K6RBYG9,Scammers use AI deepfakes of Sky News journalists to promote illegal casinos | News UK Video News | Sky News,https://news.sky.com/video/scammers-use-ai-deepfakes-of-sky-news-journalists-to-promote-illegal-casinos-13353003,,"Scammers use AI deepfakes of Sky News journalists to promote illegal casinos
  
  
