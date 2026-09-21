@@ -10,6 +10,7 @@ of the app, so anything here is safe to use from any other module.
 """
 import json
 import os
+import threading
 from pathlib import Path
 
 from flask import abort, request
@@ -192,7 +193,18 @@ def _read_json(path: Path) -> dict:
 
 def _atomic_write(path: Path, text: str) -> None:
     """Write via a temp file + rename so a crash/overlap can't leave a
-    half-written (corrupt) file behind."""
-    tmp = path.with_suffix(path.suffix + ".tmp")
-    tmp.write_text(text)
-    os.replace(tmp, path)
+    half-written (corrupt) file behind.
+
+    The temp file is named for the process and thread doing the write. It used
+    to be one fixed name per target, so two saves landing together — the
+    incident card sends /geo and /groups in the same breath, and the dev server
+    is threaded — wrote into the same temp file, and what got renamed into place
+    was a blend: one save's content followed by the leftover tail of the longer
+    other. That reads back as "Extra data" and takes the whole incidents view
+    down with it."""
+    tmp = path.with_suffix(f"{path.suffix}.{os.getpid()}.{threading.get_ident()}.tmp")
+    try:
+        tmp.write_text(text)
+        os.replace(tmp, path)
+    finally:
+        tmp.unlink(missing_ok=True)      # only left behind if the write itself failed

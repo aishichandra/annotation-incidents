@@ -49,8 +49,9 @@ through their module — `doc_source.df` and `mongo_sync.mongo_db` — never bou
 by name, which would capture a stale copy.
 """
 import os
+import threading
 
-from flask import Flask
+from flask import Flask, g, request
 
 import routes
 from doc_source import refresh_docs
@@ -61,12 +62,31 @@ def create_app() -> Flask:
     """Build the app: the blueprints, and the one thing that must happen before
     every request."""
     flask_app = Flask(__name__)
+    write_lock = threading.Lock()
 
     @flask_app.before_request
     def _refresh_before_request() -> None:
         # Re-reads zotero_docs.csv only when it has changed on disk, so a fresh
         # import shows up in a running app for one stat() per request.
         refresh_docs()
+
+    # Every save reads a coder's file, changes part of it and writes it back, so
+    # two saves at once — the incident card sends /geo and /groups together — each
+    # start from the same old file and the later write undoes the earlier one's
+    # change. Saves therefore take turns. Reads don't wait: a write replaces the
+    # file whole, so a reader sees the old one or the new one, never a mix.
+    # (gunicorn's single sync worker already serialises requests; this is what
+    # makes the threaded dev server as safe as that.)
+    @flask_app.before_request
+    def _take_turn_writing() -> None:
+        if request.method not in ("GET", "HEAD", "OPTIONS"):
+            write_lock.acquire()
+            g.holds_write_lock = True
+
+    @flask_app.teardown_request
+    def _release_write_turn(_exc) -> None:
+        if g.pop("holds_write_lock", False):
+            write_lock.release()
 
     routes.register(flask_app)
     return flask_app
