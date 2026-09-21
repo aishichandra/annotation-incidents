@@ -3,66 +3,21 @@
     "quotes": [
       {
         "role": "system",
-        "value": "News summarization",
-        "text": "ard of Directors worked with staff a",
-        "start": 119,
-        "end": 155
-      },
-      {
-        "role": "developer",
-        "value": "AI vendor",
-        "text": "ng published by the Searchlight t",
-        "start": 256,
-        "end": 289
-      },
-      {
-        "role": "actor",
-        "value": "Tech platform",
-        "text": "taff-written story in the s",
-        "start": 328,
-        "end": 355
-      },
-      {
-        "role": "factor",
-        "value": "Deployment of AI with intention to harm, mislead, or troll",
-        "text": "eled to reflect that process. ",
-        "start": 455,
-        "end": 485
-      },
-      {
-        "role": "harmed_party",
-        "value": "Sources/subjects of coverage",
-        "text": "very journalist on staff stands firm",
-        "start": 626,
-        "end": 662
-      },
-      {
-        "role": "harm",
-        "value": "Perpetuation of stereotypes",
-        "text": "d the integrity of the journali",
-        "start": 748,
-        "end": 779
+        "value": "Remixing/repurposing",
+        "text": "In our review, we have found that nothing published by the Searchlight team was created by generative AI",
+        "start": 217,
+        "end": 321
       }
     ],
     "roles": {
       "system": [
-        "News summarization"
+        "Remixing/repurposing"
       ],
-      "developer": [
-        "AI vendor"
-      ],
-      "actor": [
-        "Tech platform"
-      ],
-      "factor": [
-        "Deployment of AI with intention to harm, mislead, or troll"
-      ],
-      "harm": [
-        "Perpetuation of stereotypes"
-      ],
-      "harmed_party": [
-        "Sources/subjects of coverage"
-      ]
+      "developer": [],
+      "actor": [],
+      "factor": [],
+      "harm": [],
+      "harmed_party": []
     }
   },
   "4DRZXZ6U": {
@@ -162,64 +117,64 @@
         "role": "system",
         "value": "News summarization",
         "text": "Google is beginning to replace news headlines in its search results with ones that are AI-generated",
-        "start": 393,
-        "end": 492
+        "start": 338,
+        "end": 437
       },
       {
         "role": "harm",
         "value": "Distorted source representation",
-        "text": "We’ve found multiple examples where Google replaced headlines we wrote with ones we did not, sometimes changing their meaning in the process.For example, Google reduced our headline “\nI used the ‘cheat on everything’ AI tool and it didn’t help me cheat on anything” to just five words: “‘Cheat on everything’ AI tool.” Italmostsounds like we’re endorsing a product we do not recommend at all.",
-        "start": 637,
-        "end": 1029
+        "text": "We’ve found multiple examples where Google replaced headlines we wrote with ones we did not, sometimes changing their meaning in the process.\nFor example, Google reduced our headline “I used the ‘cheat on everything’ AI tool and it didn’t help me cheat on anything” to just five words: “‘Cheat on everything’ AI tool.” It almost sounds like we’re endorsing a product we do not recommend at all.",
+        "start": 581,
+        "end": 975
       },
       {
         "role": "factor",
         "value": "Lack of audience disclosure",
         "text": "without any indication that Google replaced the words we chose.",
-        "start": 1469,
-        "end": 1532
+        "start": 1417,
+        "end": 1480
       },
       {
         "role": "actor",
         "value": "AI developer",
         "text": "Google AI",
-        "start": 45,
-        "end": 54
+        "start": 322,
+        "end": 331
       },
       {
         "role": "developer",
         "value": "AI vendor",
         "text": "Google AI",
-        "start": 45,
-        "end": 54
+        "start": 322,
+        "end": 331
       },
       {
         "role": "system",
         "value": "News summarization",
         "text": "Google AI",
-        "start": 45,
-        "end": 54
+        "start": 322,
+        "end": 331
       },
       {
         "role": "harmed_party",
         "value": "News organization/publisher",
         "text": "Verge",
-        "start": 16,
-        "end": 21
+        "start": 293,
+        "end": 298
       },
       {
         "role": "factor",
         "value": "Publishers’ lack of control over AI content presentation",
         "text": "We spend a lot of time trying to write headlines that are true, interesting, fun, and worthy of your attention without resorting to clickbait, but Google seems to believe we don’t have an inherent right to market our own work that way.",
-        "start": 1864,
-        "end": 2099
+        "start": 1815,
+        "end": 2050
       },
       {
         "role": "harmed_party",
         "value": "General public",
-        "text": "Changing headlines, and their meaning, makes journalism less trustworthy at a time when powerful institutions are trying to discredit it, \nandwhen many news organizations are struggling just to keep the lights on.",
-        "start": 6090,
-        "end": 6303
+        "text": "Changing headlines, and their meaning, makes journalism less trustworthy at a time when powerful institutions are trying to discredit it, and when many news organizations are struggling just to keep the lights on.",
+        "start": 5545,
+        "end": 5758
       }
     ],
     "roles": {
@@ -513,6 +468,691 @@
       "system": [],
       "developer": [],
       "actor": [],
+      "factor": [],
+      "harm": [],
+      "harmed_party": []
+    }
+  },
+  "22GNGKTK": {
+    "quotes": [
+      {
+        "category": "incident_aftermath",
+        "end": 159,
+        "start": 0,
+        "text": "After only a few months of operation, Prism News’s network of more than 200 AI-generated publications – posing as local newsrooms and hobby sites – has closed."
+      },
+      {
+        "role": "system",
+        "value": "Remixing/repurposing",
+        "text": "slightly-altered articles under new bylines.",
+        "start": 432,
+        "end": 476
+      }
+    ],
+    "roles": {
+      "system": [
+        "Remixing/repurposing"
+      ],
+      "developer": [],
+      "actor": [],
+      "factor": [],
+      "harm": [],
+      "harmed_party": []
+    }
+  },
+  "8GEKEU5X": {
+    "quotes": [
+      {
+        "end": 6411,
+        "role": "factor",
+        "start": 6371,
+        "text": "“Dr. Rodriguez,” of course, is not real.",
+        "value": "AI-based hoaxing/counterfeiting of journalists/outlets"
+      },
+      {
+        "end": 2447,
+        "role": "factor",
+        "start": 2407,
+        "text": "though not so much on individual stories",
+        "value": "Lack of audience disclosure"
+      },
+      {
+        "end": 8197,
+        "role": "factor",
+        "start": 8050,
+        "text": " there don’t appear to be any such AI disclosures on Prism’s social media accounts, even though social media is a key driver for local news traffic",
+        "value": "Lack of audience disclosure"
+      },
+      {
+        "end": 8444,
+        "role": "harm",
+        "start": 8359,
+        "text": "the quality of the repurposed news stories Prism pumps out leaves a lot to be desired",
+        "value": "Publication of low-effort AI outputs/slop"
+      },
+      {
+        "end": 8631,
+        "role": "system",
+        "start": 8592,
+        "text": "hallucinated fake images of real people",
+        "value": "Deepfake generation"
+      },
+      {
+        "end": 8631,
+        "role": "harm",
+        "start": 8592,
+        "text": "hallucinated fake images of real people",
+        "value": "Misrepresentation of individuals depicted"
+      },
+      {
+        "end": 8736,
+        "role": "harm",
+        "start": 8671,
+        "text": "Prism also de-contextualizes facts to the point of misinformation",
+        "value": "Amplification of misinformation"
+      },
+      {
+        "end": 8912,
+        "role": "harmed_party",
+        "start": 8891,
+        "text": "underage abuse victim",
+        "value": "Sources/subjects of coverage"
+      },
+      {
+        "end": 9570,
+        "role": "harm",
+        "start": 9468,
+        "text": "the AI-generated Prism article somehow published with the real, unredacted name of the underage victim",
+        "value": "Privacy harm"
+      },
+      {
+        "category": "incident_aftermath",
+        "end": 9717,
+        "start": 9571,
+        "text": " It was only after IPR contacted Prism that the minor’s name was removed from the Prism story, without any further acknowledgement or explanation."
+      },
+      {
+        "end": 14201,
+        "role": "harm",
+        "start": 14158,
+        "text": "frequently distorted his original reporting",
+        "value": "Distorted source representation"
+      },
+      {
+        "end": 16891,
+        "role": "harmed_party",
+        "start": 16884,
+        "text": "KPMG US",
+        "value": "Sources/subjects of coverage"
+      },
+      {
+        "end": 17254,
+        "role": "harm",
+        "start": 17163,
+        "text": "the AI-generated workplace content is an unpleasant and often confusing reading experience.",
+        "value": "Publication of low-effort AI outputs/slop"
+      },
+      {
+        "end": 15858,
+        "role": "harm",
+        "start": 15772,
+        "text": "borrow ideas, words, even wholesale texts from each other without giving proper credit",
+        "value": "Plagiarism"
+      },
+      {
+        "end": 17511,
+        "role": "harm",
+        "start": 17387,
+        "text": " yet truly cannot tell you what it says. Names appear with no explanation of who the person is, or why they are in the story",
+        "value": "Publication of low-effort AI outputs/slop"
+      },
+      {
+        "role": "factor",
+        "value": "Publishers’ lack of control over AI content presentation",
+        "text": "frequently distorted his original reporting.",
+        "start": 14158,
+        "end": 14202
+      }
+    ],
+    "roles": {
+      "system": [
+        "Deepfake generation"
+      ],
+      "developer": [],
+      "actor": [],
+      "factor": [
+        "AI-based hoaxing/counterfeiting of journalists/outlets",
+        "Lack of audience disclosure",
+        "Publishers’ lack of control over AI content presentation"
+      ],
+      "harm": [
+        "Publication of low-effort AI outputs/slop",
+        "Misrepresentation of individuals depicted",
+        "Amplification of misinformation",
+        "Privacy harm",
+        "Distorted source representation",
+        "Plagiarism"
+      ],
+      "harmed_party": [
+        "Sources/subjects of coverage"
+      ]
+    }
+  },
+  "499R57HJ": {
+    "quotes": [
+      {
+        "category": "incident_aftermath",
+        "text": "“We have currently completed our initial experiment. A big thank you to all who participated and gave their feedback. All activity is suspended for the foreseeable future.”",
+        "start": 83,
+        "end": 255
+      },
+      {
+        "role": "harm",
+        "value": "Amplification of misinformation",
+        "text": "spread misinformation",
+        "start": 1566,
+        "end": 1587
+      },
+      {
+        "role": "harmed_party",
+        "value": "Audience/readers",
+        "text": "caused people to believe the recent floods caused her death, he said",
+        "start": 2094,
+        "end": 2162
+      }
+    ],
+    "roles": {
+      "system": [],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "actor": [],
+      "factor": [],
+      "harm": [
+        "Amplification of misinformation"
+      ],
+      "harmed_party": [
+        "Audience/readers"
+      ]
+    }
+  },
+  "FDWWVXAH": {
+    "quotes": [
+      {
+        "end": 676,
+        "role": "actor",
+        "start": 671,
+        "text": "Prism",
+        "value": "Content farm/SEO-manipulation actor"
+      },
+      {
+        "end": 2467,
+        "role": "factor",
+        "start": 2422,
+        "text": "create hundreds of local news and hobby sites",
+        "value": "AI-based hoaxing/counterfeiting of journalists/outlets"
+      },
+      {
+        "end": 2796,
+        "role": "harm",
+        "start": 2754,
+        "text": "factual errors and discrepancies do appear",
+        "value": "Publication of erroneous AI outputs"
+      },
+      {
+        "end": 3205,
+        "role": "factor",
+        "start": 3147,
+        "text": "individual articles are not hand-edited before publication",
+        "value": "Inadequate human oversight"
+      },
+      {
+        "end": 3616,
+        "role": "system",
+        "start": 3600,
+        "text": "“AI-illustrated”",
+        "value": "Deepfake generation"
+      },
+      {
+        "end": 4052,
+        "role": "system",
+        "start": 3964,
+        "text": "The AI-generated image that accompanied Ezell's story appeared realistic at first glance",
+        "value": "Deepfake generation"
+      },
+      {
+        "end": 4097,
+        "role": "harm",
+        "start": 4058,
+        "text": "included details that weren't accurate.",
+        "value": "Misrepresentation of individuals depicted"
+      },
+      {
+        "end": 4380,
+        "role": "harm",
+        "start": 4254,
+        "text": "“It almost passes,” he said. “The problem is, I don't have any structures like that ... That's just not me. It's not my farm.\"",
+        "value": "Misrepresentation of individuals depicted"
+      },
+      {
+        "end": 4011,
+        "role": "harmed_party",
+        "start": 4004,
+        "text": "Ezell's",
+        "value": "Sources/subjects of coverage"
+      },
+      {
+        "end": 4617,
+        "role": "harm",
+        "start": 4504,
+        "text": "on local flooding showed a group of people in a life raft being rescued by sheriff deputies. That did not happen.",
+        "value": "Publication of erroneous AI outputs"
+      },
+      {
+        "category": "incident_aftermath",
+        "end": 7531,
+        "start": 7419,
+        "text": "IPR has since contacted Prism with corrections to several local stories.\nThose corrections have since been made."
+      },
+      {
+        "category": "incident_aftermath",
+        "end": 431,
+        "start": 282,
+        "text": "About a month after we initially published this story, Prism took down its 200 sites, including the local news site focused on Grand Traverse County."
+      },
+      {
+        "end": 2196,
+        "role": "harmed_party",
+        "start": 2184,
+        "text": "UpNorthLive ",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 4502,
+        "role": "harm",
+        "start": 4456,
+        "text": "people are depicted as being a different race.",
+        "value": "Misrepresentation of individuals depicted"
+      }
+    ],
+    "roles": {
+      "system": [
+        "Deepfake generation"
+      ],
+      "developer": [],
+      "actor": [
+        "Content farm/SEO-manipulation actor"
+      ],
+      "factor": [
+        "AI-based hoaxing/counterfeiting of journalists/outlets",
+        "Inadequate human oversight"
+      ],
+      "harm": [
+        "Publication of erroneous AI outputs",
+        "Misrepresentation of individuals depicted"
+      ],
+      "harmed_party": [
+        "Sources/subjects of coverage",
+        "News organization/publisher"
+      ]
+    }
+  },
+  "BKUHYT6T": {
+    "quotes": [
+      {
+        "end": 28,
+        "role": "actor",
+        "start": 19,
+        "text": "The Times",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 92,
+        "role": "harm",
+        "start": 43,
+        "text": "two fake interviews recently run by the newsbrand",
+        "value": "Publication of low-effort AI outputs/slop"
+      },
+      {
+        "end": 162,
+        "role": "factor",
+        "start": 119,
+        "text": "“absolutely basic” questions were not asked",
+        "value": "Publisher’s lack of due diligence"
+      },
+      {
+        "end": 548,
+        "role": "factor",
+        "start": 448,
+        "text": "We should have been on our guard. We should have tried much harder to speak to the people concerned.",
+        "value": "Publisher’s lack of due diligence"
+      },
+      {
+        "category": "incident_aftermath",
+        "end": 1469,
+        "start": 1453,
+        "text": "removed articles"
+      },
+      {
+        "end": 28,
+        "role": "harmed_party",
+        "start": 19,
+        "text": "The Times",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 1667,
+        "role": "harmed_party",
+        "start": 1609,
+        "text": "Daily Mail, Daily Express, New York Post and Daily Mirror.",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 1667,
+        "role": "actor",
+        "start": 1609,
+        "text": "Daily Mail, Daily Express, New York Post and Daily Mirror.",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 328,
+        "role": "system",
+        "start": 304,
+        "text": " Al-generated case study",
+        "value": "Text generation"
+      },
+      {
+        "category": "incident_aftermath",
+        "end": 1940,
+        "start": 1668,
+        "text": "Press Gazette editor-in-chief Dominic Ponsford has called on the Independent Press Standards Organisation, which regulates all of the UK publishers above, to investigate the “systematic failings which lead publishers to keep running fake, likely AI-generated, PR content”."
+      },
+      {
+        "end": 28,
+        "role": "harmed_party",
+        "start": 19,
+        "text": "The Times",
+        "value": "Self"
+      },
+      {
+        "end": 282,
+        "role": "harm",
+        "start": 253,
+        "text": "caught out by fake interviews",
+        "value": "Journalists being duped"
+      },
+      {
+        "end": 328,
+        "role": "factor",
+        "start": 299,
+        "text": "bogus Al-generated case study",
+        "value": "Deployment of AI with intention to harm, mislead, or troll"
+      },
+      {
+        "end": 3915,
+        "role": "harm",
+        "start": 3853,
+        "text": "Both humiliating episodes did serious damage to our reputation",
+        "value": "Direct professional harm"
+      },
+      {
+        "role": "actor",
+        "value": "Mis/disinformation actor",
+        "text": "dubious PR outfit",
+        "start": 343,
+        "end": 360
+      }
+    ],
+    "roles": {
+      "system": [
+        "Text generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "actor": [
+        "News organization/publisher",
+        "Mis/disinformation actor"
+      ],
+      "factor": [
+        "Publisher’s lack of due diligence",
+        "Deployment of AI with intention to harm, mislead, or troll"
+      ],
+      "harm": [
+        "Publication of low-effort AI outputs/slop",
+        "Direct professional harm",
+        "Journalists being duped"
+      ],
+      "harmed_party": [
+        "News organization/publisher",
+        "Self"
+      ]
+    }
+  },
+  "BNP9FRUN": {
+    "quotes": [
+      {
+        "end": 615,
+        "role": "harmed_party",
+        "start": 588,
+        "text": "Radio France Internationale",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 735,
+        "role": "factor",
+        "start": 705,
+        "text": "In a video bearing \nRFI’s logo",
+        "value": "AI-based mimicry of established journalists/outlets"
+      },
+      {
+        "end": 1302,
+        "role": "factor",
+        "start": 1155,
+        "text": " that this is not preventing social media userss from commenting on it and circulating as if it were authentic, or WhatsApp groups from sharing it.",
+        "value": "Inadequate content moderation by platforms"
+      },
+      {
+        "end": 1608,
+        "role": "harmed_party",
+        "start": 1545,
+        "text": "*Arthur Ponchelet **(of RFI) and Aurélie Bazzara (of France 24)",
+        "value": "Journalist(s)"
+      },
+      {
+        "end": 1540,
+        "role": "factor",
+        "start": 1520,
+        "text": "simulated the voices",
+        "value": "AI-based mimicry of established journalists/outlets"
+      },
+      {
+        "end": 1540,
+        "role": "system",
+        "start": 1520,
+        "text": "simulated the voices",
+        "value": "Deepfake generation"
+      },
+      {
+        "end": 1681,
+        "role": "factor",
+        "start": 1609,
+        "text": "to lend credence to a public apology supposedly made by Corneille Nangaa",
+        "value": "Deployment of AI with intention to harm, mislead, or troll"
+      },
+      {
+        "end": 1681,
+        "role": "harm",
+        "start": 1609,
+        "text": "to lend credence to a public apology supposedly made by Corneille Nangaa",
+        "value": "Propaganda/disinformation"
+      },
+      {
+        "end": 1933,
+        "role": "factor",
+        "start": 1843,
+        "text": "was shared on WhatsApp, YouTube, TikTok and Facebook, accumulating more than 100,000 views",
+        "value": "Inadequate content moderation by platforms"
+      },
+      {
+        "end": 2025,
+        "role": "factor",
+        "start": 1948,
+        "text": "f ake synthetic audio content attributed to the same two public media outlets",
+        "value": "AI-based mimicry of established journalists/outlets"
+      },
+      {
+        "end": 2249,
+        "role": "harmed_party",
+        "start": 2228,
+        "text": "poisons public debate",
+        "value": "General public"
+      },
+      {
+        "end": 2758,
+        "role": "factor",
+        "start": 2594,
+        "text": "All stakeholders in the production and distribution chain, and especially content distribution platforms, must accept that they have a duty to suppress this threat.",
+        "value": "Inadequate content moderation by platforms"
+      },
+      {
+        "end": 1895,
+        "role": "actor",
+        "start": 1856,
+        "text": " WhatsApp, YouTube, TikTok and Facebook",
+        "value": "Tech platform"
+      },
+      {
+        "end": 1608,
+        "role": "harm",
+        "start": 1519,
+        "text": " simulated the voices of **Arthur Ponchelet **(of RFI) and Aurélie Bazzara (of France 24)",
+        "value": "Misrepresentation of individuals depicted"
+      },
+      {
+        "role": "system",
+        "value": "Synthetic video/image generation",
+        "text": "synthesised voices",
+        "start": 253,
+        "end": 271
+      },
+      {
+        "role": "actor",
+        "value": "Mis/disinformation actor",
+        "text": "those who disinform",
+        "start": 191,
+        "end": 210
+      }
+    ],
+    "roles": {
+      "system": [
+        "Deepfake generation",
+        "Synthetic video/image generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "actor": [
+        "Tech platform",
+        "Mis/disinformation actor"
+      ],
+      "factor": [
+        "AI-based mimicry of established journalists/outlets",
+        "Inadequate content moderation by platforms",
+        "Deployment of AI with intention to harm, mislead, or troll"
+      ],
+      "harm": [
+        "Propaganda/disinformation",
+        "Misrepresentation of individuals depicted"
+      ],
+      "harmed_party": [
+        "News organization/publisher",
+        "Journalist(s)",
+        "General public"
+      ]
+    }
+  },
+  "M5N3GHYU": {
+    "quotes": [
+      {
+        "role": "system",
+        "value": "Chatbot (general use)",
+        "text": "iaries threatening to loot stores",
+        "start": 425,
+        "end": 458
+      },
+      {
+        "role": "actor",
+        "value": "AI developer",
+        "text": "ck women claiming to be",
+        "start": 605,
+        "end": 628
+      },
+      {
+        "role": "developer",
+        "value": "Hybrid/in-house tool on vendor model",
+        "text": "ernment shutdown.",
+        "start": 471,
+        "end": 488
+      },
+      {
+        "role": "factor",
+        "value": "AI substitution for human journalists",
+        "text": "by daddies and none of ‘em no good for ",
+        "start": 734,
+        "end": 773
+      },
+      {
+        "role": "harmed_party",
+        "value": "Audience/readers",
+        "text": "ony video. In a 7-minute video t",
+        "start": 867,
+        "end": 899
+      }
+    ],
+    "roles": {
+      "system": [
+        "Chatbot (general use)"
+      ],
+      "developer": [
+        "Hybrid/in-house tool on vendor model"
+      ],
+      "actor": [
+        "AI developer"
+      ],
+      "factor": [
+        "AI substitution for human journalists"
+      ],
+      "harm": [],
+      "harmed_party": [
+        "Audience/readers"
+      ]
+    }
+  },
+  "C2TGAHSL": {
+    "quotes": [
+      {
+        "role": "geography",
+        "value": "Venezuela",
+        "for_role": "actor",
+        "text": "Venezuela",
+        "start": 1979,
+        "end": 1988
+      },
+      {
+        "role": "actor",
+        "value": "Individual journalist",
+        "text": "Nicolás Maduro",
+        "start": 2002,
+        "end": 2016
+      }
+    ],
+    "roles": {
+      "system": [],
+      "developer": [],
+      "actor": [
+        "Individual journalist"
+      ],
       "factor": [],
       "harm": [],
       "harmed_party": []
