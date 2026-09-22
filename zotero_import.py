@@ -8,6 +8,11 @@ import pandas as pd
 import trafilatura
 
 COLLECTION = "Incidents Dashboard Articles"
+# The team's shared intake: a Zotero *group* library (not a collection inside
+# "My Library"), mostly items nobody has filed into a sub-collection yet. Every
+# non-trashed item here is in scope — most of what lands in COLLECTION started
+# out here — so this is matched by library, not by one collection within it.
+GROUP_LIBRARY = "AI Incidents Coding"
 ZOTERO = Path.home() / "Zotero"
 DB = ZOTERO / "zotero.sqlite"
 STORAGE = ZOTERO / "storage"
@@ -127,34 +132,43 @@ def main():
     cur = con.cursor()
 
     # Snapshot (linkMode 1 = imported_url, text/html) and PDF (linkMode 0 =
-    # imported_file, application/pdf) attachments inside the collection,
-    # matched via the attachment's parent item being in the collection.
-    # Items in Zotero's trash stay in collectionItems until the trash is emptied,
-    # so they are excluded explicitly — otherwise deleting an article here, or
-    # re-adding one (which leaves the old copy trashed under a different item
-    # key), would import it twice. Oldest first, so the de-duplication below
-    # keeps the key any existing coding is already filed under.
+    # imported_file, application/pdf) attachments belonging to a parent item
+    # that is either in the collection, or anywhere in the group library —
+    # items in Zotero's trash stay in collectionItems until the trash is
+    # emptied, so they are excluded explicitly, otherwise deleting an article
+    # here, or re-adding one (which leaves the old copy trashed under a
+    # different item key), would import it twice. Oldest first, so the
+    # de-duplication below keeps the key any existing coding is already filed
+    # under.
     rows = cur.execute(
         """
         SELECT ai.key AS att_key, ia.path AS att_path, ia.contentType AS att_type,
                pi.itemID AS parent_id, pi.key AS parent_key
-        FROM collections c
-        JOIN collectionItems cit ON cit.collectionID = c.collectionID
-        JOIN items pi            ON pi.itemID = cit.itemID
-        JOIN itemAttachments ia  ON ia.parentItemID = pi.itemID
-        JOIN items ai            ON ai.itemID = ia.itemID
-        WHERE c.collectionName = ?
+        FROM items pi
+        JOIN itemAttachments ia ON ia.parentItemID = pi.itemID
+        JOIN items ai           ON ai.itemID = ia.itemID
+        WHERE (
+            pi.itemID IN (
+              SELECT cit.itemID FROM collections c
+              JOIN collectionItems cit ON cit.collectionID = c.collectionID
+              WHERE c.collectionName = ?
+            )
+            OR pi.libraryID = (
+              SELECT g.libraryID FROM groups g WHERE g.name = ?
+            )
+          )
           AND ((ia.contentType = 'text/html' AND ia.linkMode = 1)
                OR (ia.contentType = 'application/pdf' AND ia.linkMode = 0))
           AND pi.itemID NOT IN (SELECT itemID FROM deletedItems)
           AND ai.itemID NOT IN (SELECT itemID FROM deletedItems)
         ORDER BY pi.dateAdded
         """,
-        (COLLECTION,),
+        (COLLECTION, GROUP_LIBRARY),
     ).fetchall()
 
     if not rows:
-        print(f"No snapshots or PDFs found in collection {COLLECTION!r}.")
+        print(f"No snapshots or PDFs found in collection {COLLECTION!r} "
+              f"or group library {GROUP_LIBRARY!r}.")
         return
 
     # A parent item can carry both a snapshot and a PDF; the snapshot wins so
