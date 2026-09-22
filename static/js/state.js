@@ -163,12 +163,18 @@ export function targetVocab(target) {
 // themselves) falls into a trailing "Other" so nothing can be hidden by a group
 // that forgot it. With no groups defined it's one unlabelled section, i.e. the
 // plain flat list this app had before.
+//
+// A group whose own label is itself one of the flat options (geography's
+// continents, each heading its own country list) counts as placed too, even
+// though it never sits in the group's `options` — it's picked from the heading
+// itself (see groupHeader's `pick`), not listed a second time under "Other".
 export function groupedOptions(options, groups) {
   if (!groups || !groups.length) return [{ label: '', options }];
   const placed = new Set(), out = [];
   groups.forEach(g => {
     const opts = (g.options || []).filter(o => options.includes(o));
     opts.forEach(o => placed.add(o));
+    if (g.label && options.includes(g.label)) placed.add(g.label);
     if (opts.length) out.push({ label: g.label, options: opts });
   });
   const rest = options.filter(o => !placed.has(o));
@@ -177,25 +183,60 @@ export function groupedOptions(options, groups) {
 }
 
 // A collapsible group heading, shared by the multiselect and the highlight value
-// picker. `expanded` is the caller's Set of open labels; clicking toggles this
+// picker. `expanded` is the caller's Set of open labels; clicking it toggles this
 // group and asks the caller to rebuild. `nSel` (optional) is how many of the
 // group's options are already chosen — shown as a badge, since a collapsed group
 // would otherwise hide that its contents are in use.
-export function groupHeader(section, expanded, rebuild, nSel) {
+//
+// `pick` (optional) is passed when the heading itself is also a selectable
+// value — geography's continents, each heading the list of its own countries —
+// so a coder can answer "Africa" broadly without opening the group, or open it
+// and pick specific countries instead, or both. {checked, onToggle(checked)}.
+// A plain `<div>` rather than `<button>` here, since a `<button>` can't
+// validly contain the checkbox `pick` adds.
+export function groupHeader(section, expanded, rebuild, nSel, pick) {
   const open = expanded.has(section.label);
-  const head = document.createElement('button');
-  head.type = 'button';
+  const head = document.createElement('div');
   head.className = 'menu-group' + (open ? ' open' : '');
   head.dataset.group = section.label;
-  head.innerHTML =
-    `<span class="mg-caret">${open ? '▾' : '▸'}</span>` +
-    `<span class="mg-name">${escapeHtml(section.label)}</span>` +
-    (nSel ? `<span class="mg-sel">${nSel}</span>` : '') +
-    `<span class="mg-n">${section.options.length}</span>`;
-  head.onclick = (e) => {
-    e.preventDefault(); e.stopPropagation();   // don't close the menu we're in
+  head.tabIndex = 0;
+  head.setAttribute('role', 'button');
+
+  if (pick) {
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.className = 'mg-check';
+    cb.title = `${section.label}, without picking a specific one below`;
+    cb.checked = pick.checked;
+    cb.onclick = (e) => { e.stopPropagation(); pick.onToggle(cb.checked); };
+    head.appendChild(cb);
+  }
+
+  const caret = document.createElement('span');
+  caret.className = 'mg-caret'; caret.textContent = open ? '▾' : '▸';
+  head.appendChild(caret);
+  const name = document.createElement('span');
+  name.className = 'mg-name'; name.textContent = section.label;
+  head.appendChild(name);
+  if (nSel) {
+    const sel = document.createElement('span');
+    sel.className = 'mg-sel'; sel.textContent = String(nSel);
+    head.appendChild(sel);
+  }
+  const n = document.createElement('span');
+  n.className = 'mg-n'; n.textContent = String(section.options.length);
+  head.appendChild(n);
+
+  const toggle = () => {
     if (open) expanded.delete(section.label); else expanded.add(section.label);
     rebuild();
+  };
+  head.onclick = (e) => {
+    e.preventDefault(); e.stopPropagation();   // don't close the menu we're in
+    toggle();
+  };
+  head.onkeydown = (e) => {
+    if (e.target === head && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); toggle(); }
   };
   return head;
 }

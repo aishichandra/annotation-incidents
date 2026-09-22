@@ -503,7 +503,11 @@
     font-weight: 700; color: #6b7280; border: none; border-radius: 5px;
     padding: 8px; margin: 2px 0; cursor: pointer; }
   .menu-group:hover { background: #f5f5f4; color: #111; }
+  .menu-group:focus-visible { outline: 2px solid #111; outline-offset: -2px; }
   .menu-group.open { color: #111; }
+  /* Present only on a heading that is itself pickable (geography: a continent
+     heading its own countries) — the continent, independent of the caret. */
+  .menu-group .mg-check { flex: none; margin: 0; accent-color: #111; cursor: pointer; }
   .menu-group .mg-caret { font-size: 8px; color: #9ca3af; width: 8px; flex: none; }
   .menu-group.open .mg-caret { color: #111; }
   .menu-group .mg-name { flex: 1; white-space: normal; line-height: 1.35; }

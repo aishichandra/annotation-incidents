@@ -484,6 +484,11 @@ function toggleGeo(pending, place) {
   persist(); renderArticle(true); renderRoles();
 }
 
+// Groups the coder has opened in the geography menu. Module-level, like
+// valueGroupsOpen, so a continent stays open across the rebuild every click in
+// this menu causes (toggleGeo re-renders it) rather than snapping shut again.
+const geoGroupsOpen = new Set();
+
 // Geography, in one click. A span whose text names a place exactly — and
 // which nothing has tagged yet — is applied the moment the menu opens rather
 // than making the coder pick what the highlight already says; anything else
@@ -525,6 +530,14 @@ function renderGeoMenu(pending, rect) {
     menu.appendChild(filter);
   }
   const list = document.createElement('div'); list.className = 'cat-vlist';
+  const renderPlace = (o, inGroup) => {
+    const on = geoQuotesOn(pending).some(g => g.value === o);
+    const b = document.createElement('button');
+    b.className = 'cat-vopt' + (on ? ' picked' : '') + (inGroup ? ' in-group' : '');
+    b.textContent = (on ? '✓ ' : '') + o;
+    b.onclick = () => { toggleGeo(pending, o); again(); };
+    list.appendChild(b);
+  };
   const fillList = () => {
     list.innerHTML = '';
     const q = filter ? filter.value.trim().toLowerCase() : '';
@@ -547,13 +560,25 @@ function renderGeoMenu(pending, rect) {
       };
       list.appendChild(add);
     }
-    options.filter(o => !q || o.toLowerCase().includes(q)).forEach(o => {
-      const on = geoQuotesOn(pending).some(g => g.value === o);
-      const b = document.createElement('button');
-      b.className = 'cat-vopt' + (on ? ' picked' : '');
-      b.textContent = (on ? '✓ ' : '') + o;
-      b.onclick = () => { toggleGeo(pending, o); again(); };
-      list.appendChild(b);
+    // A search in progress flattens past the grouping — a coder typing "keny"
+    // wants to see Kenya, not open Africa first. With nothing typed, continents
+    // collapse their countries (same as the incident card's multiselect): pick
+    // a continent from its own heading, or open it for a specific country.
+    if (q) {
+      options.filter(o => o.toLowerCase().includes(q)).forEach(o => renderPlace(o, false));
+      return;
+    }
+    const groups = ((field('incident_geography') || {}).groups) || null;
+    groupedOptions(options, groups).forEach(section => {
+      if (section.label) {
+        const pick = options.includes(section.label) ? {
+          checked: geoQuotesOn(pending).some(g => g.value === section.label),
+          onToggle: () => { toggleGeo(pending, section.label); again(); },
+        } : null;
+        list.appendChild(groupHeader(section, geoGroupsOpen, fillList, 0, pick));
+        if (!geoGroupsOpen.has(section.label)) return;
+      }
+      section.options.forEach(o => renderPlace(o, !!section.label));
     });
   };
   if (filter) filter.oninput = fillList;

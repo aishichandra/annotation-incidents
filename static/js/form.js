@@ -354,8 +354,23 @@ export function buildSelect(cfg) {
     // options; ungrouped ones render as a plain flat list, always visible.
     groupedOptions(options, cfg.groups).forEach(section => {
       if (section.label) {
+        // A heading that is itself a valid option (geography: "Africa" heads its
+        // own countries and is also a place a coder can pick directly) gets a
+        // checkbox alongside the collapse caret — continent or country, either
+        // or both, without forcing a coder to open the group to answer broadly.
+        const pick = options.includes(section.label) ? {
+          checked: selected.includes(section.label),
+          onToggle: (checked) => {
+            if (checked) { if (!selected.includes(section.label)) selected.push(section.label); }
+            else {
+              const i = selected.indexOf(section.label); if (i >= 0) selected.splice(i, 1);
+              if (cfg.onRemoveValue) cfg.onRemoveValue(section.label);
+            }
+            renderControl(); refreshCounts(); cfg.onChange();
+          },
+        } : null;
         menu.appendChild(groupHeader(section, expanded, () => buildMenu(),
-                                     section.options.filter(o => selected.includes(o)).length));
+                                     section.options.filter(o => selected.includes(o)).length, pick));
         if (!expanded.has(section.label)) return;    // collapsed: skip its options
       }
       section.options.forEach(o => {
