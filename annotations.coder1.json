@@ -1132,30 +1132,527 @@
   "C2TGAHSL": {
     "quotes": [
       {
-        "role": "geography",
-        "value": "Venezuela",
+        "end": 1988,
         "for_role": "actor",
-        "text": "Venezuela",
+        "role": "geography",
         "start": 1979,
-        "end": 1988
-      },
-      {
-        "role": "actor",
-        "value": "Individual journalist",
-        "text": "Nicolás Maduro",
-        "start": 2002,
-        "end": 2016
+        "text": "Venezuela",
+        "value": "Venezuela"
       }
     ],
     "roles": {
       "system": [],
       "developer": [],
-      "actor": [
-        "Individual journalist"
-      ],
+      "actor": [],
       "factor": [],
       "harm": [],
       "harmed_party": []
+    }
+  },
+  "AYLPG78Q": {
+    "quotes": [
+      {
+        "end": 25,
+        "role": "harmed_party",
+        "start": 12,
+        "text": "Reddit users ",
+        "value": "General public"
+      },
+      {
+        "role": "factor",
+        "value": "Deployment of AI with intention to harm, mislead, or troll",
+        "text": "scam ads impersonating major news organizations, including the BBC, the Financial Times, and The Guardian",
+        "start": 75,
+        "end": 180
+      },
+      {
+        "role": "factor",
+        "value": "AI-based mimicry of established journalists/outlets",
+        "text": "scam ads impersonating major news organizations, including the BBC, the Financial Times, and The Guardian",
+        "start": 75,
+        "end": 180
+      },
+      {
+        "role": "harmed_party",
+        "value": "General public",
+        "text": "US and European audiences primarily",
+        "start": 634,
+        "end": 669
+      },
+      {
+        "role": "actor",
+        "value": "Mis/disinformation actor",
+        "text": "Threat actors incorporate geopolitical themes and political imagery to increase credibility",
+        "start": 882,
+        "end": 973
+      },
+      {
+        "role": "factor",
+        "value": "AI-based mimicry of established journalists/outlets",
+        "text": "masquerading as legitimate financial or breaking news stories",
+        "start": 1241,
+        "end": 1302
+      },
+      {
+        "role": "system",
+        "value": "Deepfake generation",
+        "text": "deepfake",
+        "start": 1680,
+        "end": 1688
+      },
+      {
+        "role": "harmed_party",
+        "value": "News organization/publisher",
+        "text": "cloned news websites visually imitating well-known publishers",
+        "start": 2095,
+        "end": 2156
+      },
+      {
+        "role": "factor",
+        "value": "AI-based mimicry of established journalists/outlets",
+        "text": "cloned news websites visually imitating well-known publishers.",
+        "start": 2095,
+        "end": 2157
+      },
+      {
+        "role": "system",
+        "value": "Synthetic video/image generation",
+        "text": "fictional journalists or business editors designed to make the scam look legitimate",
+        "start": 2584,
+        "end": 2667
+      },
+      {
+        "role": "factor",
+        "value": "AI-based mimicry of established journalists/outlets",
+        "text": "fake Guardian-style articles using high-profile political imagery to reinforce an sense of legitimacy and urgency",
+        "start": 2935,
+        "end": 3048
+      },
+      {
+        "role": "factor",
+        "value": "AI-based mimicry of established journalists/outlets",
+        "text": "threat actors sought to exploit the publication’s reputation to reassure potential victims",
+        "start": 5301,
+        "end": 5391
+      },
+      {
+        "role": "harmed_party",
+        "value": "News organization/publisher",
+        "text": "the BBC, the Financial Times, and The Guardian,",
+        "start": 134,
+        "end": 181
+      }
+    ],
+    "roles": {
+      "system": [
+        "Deepfake generation",
+        "Synthetic video/image generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "actor": [
+        "Mis/disinformation actor"
+      ],
+      "factor": [
+        "Deployment of AI with intention to harm, mislead, or troll",
+        "AI-based mimicry of established journalists/outlets"
+      ],
+      "harm": [],
+      "harmed_party": [
+        "General public",
+        "News organization/publisher"
+      ]
+    }
+  },
+  "NGCJG72J": {
+    "quotes": [
+      {
+        "end": 355,
+        "role": "system",
+        "start": 258,
+        "text": "using manipulated audio to show leading public figures claiming to promote fraudulent investments",
+        "value": "Deepfake generation"
+      },
+      {
+        "end": 449,
+        "role": "harmed_party",
+        "start": 429,
+        "text": "Mark Laurence Zammit",
+        "value": "Journalist(s)"
+      },
+      {
+        "end": 1060,
+        "role": "harmed_party",
+        "start": 952,
+        "text": "the latest in a long line of scams that have seen countless people fall victim to fraudsters in recent years",
+        "value": "General public"
+      },
+      {
+        "end": 1192,
+        "role": "factor",
+        "start": 1066,
+        "text": "scam lifts genuine footage from a November 2022 interview published on the *Times of Malta *website and its social media pages",
+        "value": "Publishers’ lack of control over AI content presentation"
+      },
+      {
+        "end": 1534,
+        "role": "actor",
+        "start": 1495,
+        "text": "suspicious investment trading platforms",
+        "value": "Mis/disinformation actor"
+      },
+      {
+        "end": 2305,
+        "role": "harmed_party",
+        "start": 2208,
+        "text": "several people have contacted *Times of Malta *in recent days to ask whether the post is genuine.",
+        "value": "General public"
+      },
+      {
+        "end": 2392,
+        "role": "actor",
+        "start": 2384,
+        "text": "scammers",
+        "value": "Mis/disinformation actor"
+      },
+      {
+        "end": 2112,
+        "role": "factor",
+        "start": 2060,
+        "text": "an attempt to dupe viewers into falling for the scam",
+        "value": "Deployment of AI with intention to harm, mislead, or troll"
+      },
+      {
+        "end": 449,
+        "role": "factor",
+        "start": 429,
+        "text": "Mark Laurence Zammit",
+        "value": "AI-based mimicry of established journalists/outlets"
+      },
+      {
+        "role": "harm",
+        "value": "Scams",
+        "text": "flooded Maltese social media",
+        "start": 2627,
+        "end": 2655
+      },
+      {
+        "role": "harm",
+        "value": "Misrepresentation of individuals depicted",
+        "text": "a post appearing to show *Times of Malta’s *Mark Laurence Zammit and Prime Minister Robert Abela deep in discussion over an AI-driven trading platform which magically transforms a one-time €250 payment into a monthly €30,000 income",
+        "start": 385,
+        "end": 616
+      },
+      {
+        "role": "harm",
+        "value": "Misrepresentation of individuals depicted",
+        "text": "An audio deepfake, mimicking their voices and intonation is superimposed over the footage, to make them appear as though they are saying things they never actually said.",
+        "start": 2859,
+        "end": 3028
+      }
+    ],
+    "roles": {
+      "system": [
+        "Deepfake generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "actor": [
+        "Mis/disinformation actor"
+      ],
+      "factor": [
+        "Publishers’ lack of control over AI content presentation",
+        "Deployment of AI with intention to harm, mislead, or troll",
+        "AI-based mimicry of established journalists/outlets"
+      ],
+      "harm": [
+        "Scams",
+        "Misrepresentation of individuals depicted"
+      ],
+      "harmed_party": [
+        "Journalist(s)",
+        "General public"
+      ]
+    }
+  },
+  "ZSG4UZ67": {
+    "quotes": [
+      {
+        "end": 221,
+        "role": "system",
+        "start": 141,
+        "text": "artificial intelligence-generated news report about a murder that never happened",
+        "value": "Text generation"
+      },
+      {
+        "end": 385,
+        "role": "actor",
+        "start": 354,
+        "text": "news aggregation site NewsBreak",
+        "value": "Content farm/SEO-manipulation actor"
+      },
+      {
+        "end": 732,
+        "role": "system",
+        "start": 703,
+        "text": " content assisted by AI tools",
+        "value": "Text generation"
+      },
+      {
+        "category": "incident_aftermath",
+        "end": 1158,
+        "start": 969,
+        "text": "Futurism was not able to independently verify the contents of the article because it has been summarily deleted from NewsBreak and is not archived anywhere online that we were able to find."
+      },
+      {
+        "end": 848,
+        "role": "factor",
+        "start": 621,
+        "text": "“The article does not have an author and states at the bottom, ‘This post includes content assisted by AI tools. This content was assisted by AI and may contain errors. Please verify critical information with trusted sources.'”",
+        "value": "Inadequate human oversight"
+      },
+      {
+        "end": 848,
+        "role": "harm",
+        "start": 621,
+        "text": "“The article does not have an author and states at the bottom, ‘This post includes content assisted by AI tools. This content was assisted by AI and may contain errors. Please verify critical information with trusted sources.'”",
+        "value": "Publication of erroneous AI outputs"
+      }
+    ],
+    "roles": {
+      "system": [
+        "Text generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "actor": [
+        "Content farm/SEO-manipulation actor"
+      ],
+      "factor": [
+        "Inadequate human oversight"
+      ],
+      "harm": [
+        "Publication of erroneous AI outputs"
+      ],
+      "harmed_party": [
+        "General public"
+      ]
+    }
+  },
+  "XU9BKSYH": {
+    "quotes": [
+      {
+        "role": "system",
+        "value": "Text generation",
+        "text": "AI-generated texts ",
+        "start": 236,
+        "end": 255
+      },
+      {
+        "role": "factor",
+        "value": "Publisher’s lack of due diligence",
+        "text": "published by politicians and major media outlets, including Axel Springer and Tagesspiegel",
+        "start": 314,
+        "end": 404
+      },
+      {
+        "role": "actor",
+        "value": "News organization/publisher",
+        "text": "Axel Springer and Tagesspiegel",
+        "start": 374,
+        "end": 404
+      },
+      {
+        "role": "harmed_party",
+        "value": "News organization/publisher",
+        "text": "Axel Springer and Tagesspiegel",
+        "start": 374,
+        "end": 404
+      },
+      {
+        "role": "harmed_party",
+        "value": "General public",
+        "text": "public outcry",
+        "start": 443,
+        "end": 456
+      },
+      {
+        "role": "harm",
+        "value": "Amplification of misinformation",
+        "text": "misinformation",
+        "start": 427,
+        "end": 441
+      }
+    ],
+    "roles": {
+      "system": [
+        "Text generation"
+      ],
+      "developer": [],
+      "actor": [
+        "News organization/publisher"
+      ],
+      "factor": [
+        "Publisher’s lack of due diligence"
+      ],
+      "harm": [
+        "Amplification of misinformation"
+      ],
+      "harmed_party": [
+        "News organization/publisher",
+        "General public"
+      ]
+    }
+  },
+  "8TZKTWS3": {
+    "quotes": [
+      {
+        "role": "actor",
+        "value": "Mis/disinformation actor",
+        "text": "Scammers",
+        "start": 451,
+        "end": 459
+      },
+      {
+        "role": "actor",
+        "value": "Mis/disinformation actor",
+        "text": "Yahoo Boys",
+        "start": 543,
+        "end": 553
+      },
+      {
+        "role": "harmed_party",
+        "value": "News organization/publisher",
+        "text": "impersonating television stations based in the US",
+        "start": 791,
+        "end": 840
+      },
+      {
+        "role": "factor",
+        "value": "Deployment of AI with intention to harm, mislead, or troll",
+        "text": "impersonating television stations based in the US",
+        "start": 791,
+        "end": 840
+      },
+      {
+        "role": "factor",
+        "value": "AI-based mimicry of established journalists/outlets",
+        "text": "impersonating television stations based in the US",
+        "start": 791,
+        "end": 840
+      },
+      {
+        "role": "harmed_party",
+        "value": "News organization/publisher",
+        "text": "uses CNN’s logo and branding to impersonate the news organization",
+        "start": 992,
+        "end": 1057
+      },
+      {
+        "role": "factor",
+        "value": "AI-based mimicry of established journalists/outlets",
+        "text": "uses CNN’s logo and branding to impersonate the news organization",
+        "start": 992,
+        "end": 1057
+      },
+      {
+        "role": "system",
+        "value": "Synthetic video/image generation",
+        "text": "a likely AI-generated newsreade",
+        "start": 1144,
+        "end": 1175
+      },
+      {
+        "role": "harmed_party",
+        "value": "General public",
+        "text": "In the video, the man, who is the target of the scam, is named and a photograph of him appears onscreen.",
+        "start": 1509,
+        "end": 1613
+      },
+      {
+        "role": "harm",
+        "value": "Scams",
+        "text": "In the video, the man, who is the target of the scam, is named and a photograph of him appears onscreen.",
+        "start": 1509,
+        "end": 1613
+      },
+      {
+        "role": "harm",
+        "value": "Misrepresentation of individuals depicted",
+        "text": "graphic photos of the potential blackmail targets, including nude and explicit images",
+        "start": 1724,
+        "end": 1809
+      },
+      {
+        "role": "harm",
+        "value": "Dignity harm to individuals depicted",
+        "text": "graphic photos of the potential blackmail targets, including nude and explicit images",
+        "start": 1724,
+        "end": 1809
+      },
+      {
+        "role": "actor",
+        "value": "Tech platform",
+        "text": " Last year, Telegram \nremoved more than a dozen Yahoo Boy channelsafter WIRED reported on their public activity; however, the scammers still have a presence on the platform andother social media platforms, including Facebook, WhatsApp, and YouTube.",
+        "start": 4770,
+        "end": 5018
+      },
+      {
+        "role": "system",
+        "value": "Synthetic video/image generation",
+        "text": "mocked-up front pages of newspapers",
+        "start": 5508,
+        "end": 5543
+      },
+      {
+        "role": "harmed_party",
+        "value": "News organization/publisher",
+        "text": "17 news outlets ranging from ABC News and Fox News, to C-Span and Al Jazeera America",
+        "start": 6241,
+        "end": 6325
+      },
+      {
+        "role": "developer",
+        "value": "Unknown/unspecified",
+        "text": "it was not possible to determine which software was being used to create the clips",
+        "start": 6542,
+        "end": 6624
+      },
+      {
+        "role": "system",
+        "value": "Synthetic video/image generation",
+        "text": "In some fabricated news videos, the news anchor appears to be an AI-generated avatar",
+        "start": 6447,
+        "end": 6531
+      }
+    ],
+    "roles": {
+      "system": [
+        "Synthetic video/image generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "actor": [
+        "Mis/disinformation actor",
+        "Tech platform"
+      ],
+      "factor": [
+        "Deployment of AI with intention to harm, mislead, or troll",
+        "AI-based mimicry of established journalists/outlets"
+      ],
+      "harm": [
+        "Scams",
+        "Misrepresentation of individuals depicted",
+        "Dignity harm to individuals depicted"
+      ],
+      "harmed_party": [
+        "News organization/publisher",
+        "General public"
+      ]
     }
   }
 }

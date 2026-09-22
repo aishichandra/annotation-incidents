@@ -57,7 +57,7 @@ def api_push():
     Per document: this coder's evidence is upserted into
     `by_coder.<coder>.documents.<key>` via the same path a save uses, leaving the
     other coders' readings in place. Per incident: this coder's field answers,
-    claim groups and comment go to `by_coder.<coder>`. The pooled characteristic
+    claims and comment go to `by_coder.<coder>`. The pooled characteristic
     and field lists a card shows are intentionally *not* stored — they're derived
     (see aggregate_incidents). Non-fatal per item."""
     if mongo_sync.mongo_db is None:
@@ -73,15 +73,15 @@ def api_push():
 
     incidents, _, _ = aggregate_incidents(coder)
     inc_store = load_incident_coding(coder)
-    incidents_pushed, groups_pushed = 0, 0
+    incidents_pushed, claims_pushed = 0, 0
     for inc_id, g in incidents.items():
         try:
             entry = inc_store.get(inc_id) or blank_incident_coding()
-            mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, {**entry, "groups": g["groups"]})
+            mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, {**entry, "claims": g["claims"]})
             incidents_pushed += 1
-            groups_pushed += len(g["groups"])
+            claims_pushed += len(g["claims"])
         except Exception as e:
             print(f"[mongo] incident push failed for {inc_id} ({e.__class__.__name__}: {e})")
     mongo_sync.invalidate_mongo_cache()
     return jsonify({"ok": True, "coder": coder, "documents": docs_pushed,
-                    "incidents": incidents_pushed, "groups": groups_pushed})
+                    "incidents": incidents_pushed, "claims": claims_pushed})

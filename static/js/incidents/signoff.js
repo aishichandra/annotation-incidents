@@ -10,22 +10,23 @@ import { RULES } from '../state.js';
 import { roleLabel } from './card.js';
 import { INCIDENTS, loadIncidents, nextInSectionAfter, refreshTile } from './index.js';
 
-// Persist an incident's groups (debounced-ish: fire immediately, it's small).
+// Persist an incident's claims (debounced-ish: fire immediately, it's small).
 // ---------- completion sign-off ----------
 // A mirror of incident_completeness() in incidents.py, so the control can react
 // to a drag without a round trip. The server re-checks before recording a
 // sign-off and answers 409 if it disagrees, so the two drifting apart costs a
 // confusing button, never a wrong record.
-export const MISSING_LABEL = { complete_claim: 'a linked claim' };
+export const MISSING_LABEL = { complete_claim: 'a complete claim' };
 
 export function claimIsComplete(cl) {
-  return !!(cl.harm && (cl.harmed_parties || []).length && (cl.factors || []).length);
+  return !!(cl.harm && (cl.harmed_parties || []).length
+            && cl.actor && (cl.factors || []).length);
 }
 
 export function completenessOf(inc) {
   const missing = (RULES.required_roles || [])
     .filter(r => !(((inc.role_values || {})[r]) || []).length);
-  if (!(inc.groups || []).some(g => g.actor && (g.claims || []).some(claimIsComplete))) {
+  if (!(inc.claims || []).some(claimIsComplete)) {
     missing.push('complete_claim');
   }
   return { ok: !missing.length, missing };

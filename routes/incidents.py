@@ -131,7 +131,7 @@ def api_incident_json(inc_id):
                            for d in g.get("documents", [])],
              "by_coder": {coder: {
                  "fields": inc.get("fields") or {},
-                 "groups": inc.get("groups") or [],
+                 "claims": inc.get("claims") or [],
                  "comment": inc.get("comment") or "",
                  "documents": strip_quotes(
                      {d["doc_key"]: doc_ann(ann, d["doc_key"])
@@ -141,29 +141,29 @@ def api_incident_json(inc_id):
                     "incident": _jsonable(local)})
 
 
-@bp.route("/api/incident/<path:inc_id>/groups", methods=["POST"])
-def api_save_groups(inc_id):
-    """Persist the active coder's card-view claim groupings for one incident.
-    Body: {groups:[…]}. A group is one actor context — {id, actor, systems:[],
-    developers:[], claims:[{id, harm, harmed_parties:[], factors:[]}]} — where
-    actor and harm are single values, and systems, developers, harmed_parties
-    and factors are lists. This is the single
-    home for links now that the document view codes characteristics flat; each coder
-    links their own claims, so the groupings are per coder.
+@bp.route("/api/incident/<path:inc_id>/claims", methods=["POST"])
+def api_save_claims(inc_id):
+    """Persist the active coder's card-view claims for one incident.
+    Body: {claims:[…]}. A claim is who did what to whom, in full — {id, harm,
+    harmed_parties:[], actor, systems:[], developers:[], factors:[], omit:[]}
+    — where harm and actor are single values, and harmed_parties, systems,
+    developers and factors are lists. This is the single home for links now
+    that the document view codes characteristics flat; each coder links their
+    own claims, so they are per coder.
 
     Like a document save, this writes both places: the coder's own JSON file and —
-    when Mongo is connected — `groups_by_coder.<coder>` on the incident. Push stays
+    when Mongo is connected — `by_coder.<coder>.claims` on the incident. Push stays
     available for a bulk re-send, but is no longer what claims depend on."""
     coder = current_coder(strict=True)
     body = request.get_json(force=True)
-    groups = body.get("groups", [])
+    claims = body.get("claims", [])
     store = load_incident_coding(coder)
     entry = store.setdefault(inc_id, blank_incident_coding())
-    entry["groups"] = groups
+    entry["claims"] = claims
     save_incident_coding(store, coder)
     synced = mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
     clear_signoff(coder, inc_id)
-    return jsonify({"ok": True, "coder": coder, "groups": len(groups),
+    return jsonify({"ok": True, "coder": coder, "claims": len(claims),
                     "synced": synced})
 
 

@@ -12,7 +12,6 @@ import {
   armed,
   color,
   curDoc,
-  geoScopeLabel,
   roleDefinitions,
   roleEntry,
   roleGroups,
@@ -90,9 +89,8 @@ export function buildRolesPanel() {
 
 // ---------- geography: the places highlighted in this document ----------
 // Not a multiselect like the characteristics above: a place is picked from the
-// highlight menu, where you say which one and what it applies to, so this card
-// only lists what has been said — each place with what it applies to, and the
-// passages behind it — and takes it back one passage at a time.
+// highlight menu, so this card only lists what has been said — each place and
+// the passages behind it — and takes it back one passage at a time.
 export function buildGeoCard() {
   const card = document.createElement('div');
   card.className = 'card'; card.dataset.role = GEO.role;
@@ -115,11 +113,11 @@ export function buildGeoCard() {
     none.textContent = 'Highlight a country in the article and choose Geography.';
     wrap.appendChild(none);
   }
-  // One row per place and what it applies to; the same country highlighted twice
-  // for the actor is one statement with two passages behind it.
+  // One row per place; the same country highlighted twice is one statement
+  // with two passages behind it.
   const groups = new Map();
   mine.forEach(x => {
-    const k = x.q.value + '\u0000' + x.q.for_role;
+    const k = x.q.value;
     if (!groups.has(k)) groups.set(k, []);
     groups.get(k).push(x);
   });
@@ -132,7 +130,6 @@ export function buildGeoCard() {
     rowHead.innerHTML =
       `<span class="ev-dot" style="background:${GEO.color}"></span>` +
       `<span class="ev-val">${escapeHtml(first.value)}</span>` +
-      `<span class="ev-scope">→ ${escapeHtml(geoScopeLabel(first.for_role))}</span>` +
       `<span class="ev-count">${items.length} quote${items.length === 1 ? '' : 's'}</span>`;
     row.appendChild(rowHead);
     const quotes = document.createElement('div');

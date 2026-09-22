@@ -3,30 +3,20 @@
 // Every code any member document carries, as a chip you can drag into a claim,
 // with the passages that justify it one click away.
 
-import { CLAIM_LIST_KEYS, GEO, GROUP_ROLES, ROLES, groupValues } from '../state.js';
+import { CLAIM_LIST_KEYS, GEO, ROLES } from '../state.js';
 import { roleColor, roleLabel } from './card.js';
 import { saveCardField } from './fields.js';
 import { NODATA } from './index.js';
 
 // Where a characteristic has been used. A value can appear in any number of
-// places — dragging copies rather than moves — so this returns every mark that
-// holds it, and the palette shows them on the chip.
-//
-// Actor / system / developer belong to the group, so their mark is the group id
-// ("2"). Harm / harmed party / factor belong to one claim inside a group, so
-// theirs is "group.claim" ("2.1").
+// claims — dragging copies rather than moves — so this returns every claim id
+// that holds it, and the palette shows them on the chip.
 export function usedInClaims(inc, role, value) {
   const marks = [];
-  (inc.groups || []).forEach(g => {
-    if (GROUP_ROLES.includes(role)) {
-      if (groupValues(g, role).includes(value)) marks.push(String(g.id));
-      return;
-    }
-    (g.claims || []).forEach(cl => {
-      const key = CLAIM_LIST_KEYS[role];
-      const hit = key ? (cl[key] || []).includes(value) : cl[role] === value;
-      if (hit) marks.push(g.id + '.' + cl.id);
-    });
+  (inc.claims || []).forEach(cl => {
+    const key = CLAIM_LIST_KEYS[role];
+    const hit = key ? (cl[key] || []).includes(value) : cl[role] === value;
+    if (hit) marks.push(String(cl.id));
   });
   return marks;
 }

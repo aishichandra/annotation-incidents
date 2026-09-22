@@ -5,19 +5,19 @@
 import { CODER } from './coder.js';
 import { fieldAnn } from './reader.js';
 
-// Push everything local (per-document coding + incident groups + pooled lists)
+// Push everything local (per-document coding + incident claims + pooled lists)
 // up to Mongo. Non-destructive to local data.
 export async function pushToMongo() {
   const btn = document.getElementById('pushBtn');
   const status = document.getElementById('status');
-  if (!confirm(`Push ${CODER}'s coding and claim groups up to MongoDB? Other coders' work is left as it is.`)) return;
+  if (!confirm(`Push ${CODER}'s coding and claims up to MongoDB? Other coders' work is left as it is.`)) return;
   btn.disabled = true;
   status.textContent = 'Pushing to Mongo…';
   try {
     const res = await fetch('/api/push', { method: 'POST' });
     const j = await res.json();
     if (!res.ok || !j.ok) throw new Error(j.error || 'push failed');
-    status.textContent = `Pushed ${j.documents} document(s), ${j.incidents} incident(s), ${j.groups} group(s) as ${j.coder} ✓`;
+    status.textContent = `Pushed ${j.documents} document(s), ${j.incidents} incident(s), ${j.claims} claim(s) as ${j.coder} ✓`;
   } catch (e) {
     status.textContent = 'Push failed: ' + e.message;
   } finally {

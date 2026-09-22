@@ -1,7 +1,7 @@
 // One incident card: everything it shows that nobody edits in place.
 //
 // The interactive parts are placeholders filled in after render — the palette,
-// the claim groups, the two answered-here fields, the comment box — so this
+// the claims, the two answered-here fields, the comment box — so this
 // stays the shape of a card rather than its behaviour.
 
 import { CODER } from '../coder.js';
@@ -11,8 +11,8 @@ import { NODATA } from './index.js';
 import { completeControl } from './signoff.js';
 
 // A Tow/CJR-styled card carrying every detail the JSON holds for one incident.
-// Anything un-coded renders as "No data". The characteristics palette + claim
-// groups are an interactive placeholder filled in by buildGroupsUI after render.
+// Anything un-coded renders as "No data". The characteristics palette + claims
+// are an interactive placeholder filled in by buildClaimsUI after render.
 export function incidentCard(inc, fields) {
   const chips = arr => arr.map(v => `<span class="tow-chip">${escapeHtml(v)}</span>`).join('');
 
@@ -84,7 +84,7 @@ export function incidentCard(inc, fields) {
         <div class="tow-palette" data-inc="${encId}"></div>
       </div>
       <div class="tow-col c2">
-        <div class="tow-groups" data-inc="${encId}"></div>
+        <div class="tow-claims" data-inc="${encId}"></div>
         ${aftermathBlock}
       </div>
     </div>

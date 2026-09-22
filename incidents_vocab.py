@@ -292,45 +292,42 @@ def build_validator(vocab: dict | None = None) -> dict:
             "updated_at": {"bsonType": ["date", "null"]},
         },
     }
-    # One element per actor context: who did it, optionally with what systems and
-    # whose models, and the claims made about that context. actor and harm are
-    # single values; `systems`, `developers`, `harmed_parties` and `factors` are
-    # lists. The asymmetry is deliberate — one harm reaching several parties, or
-    # arising from several factors, is a conjunction anyone can read back, whereas
-    # plural harms alongside plural parties would leave "which harm hit which
-    # party?" unanswerable. Holding harm to one value is what keeps a claim a
-    # single countable proposition.
-    claim_obj = {
-        "bsonType": "object",
-        "properties": {
-            "id": {"bsonType": ["string", "null"]},
-            "harm": {"bsonType": ["string", "null"]},
-            "harmed_parties": {"bsonType": "array"},
-            # pre-plural single value, still permitted so older claims validate
-            "harmed_party": {"bsonType": ["string", "null"]},
-            "factors": {"bsonType": "array"},
-        },
-    }
-    groups_array = {
+    # One element per claim — who did what to whom, in full: harm, harmed
+    # parties, actor, and optionally what systems and whose models. Harm and
+    # actor are single values; `harmed_parties`, `factors`, `systems` and
+    # `developers` are lists. The asymmetry is deliberate — one harm reaching
+    # several parties, or one actor running on several systems, is a
+    # conjunction anyone can read back, whereas plural harms alongside plural
+    # parties would leave "which harm hit which party?" unanswerable. Holding
+    # harm and actor each to one value is what keeps a claim a single
+    # countable proposition.
+    claims_array = {
         "bsonType": "array",
         "items": {"bsonType": "object", "properties": {
             "id": {"bsonType": ["string", "null"]},
+            "harm": {"bsonType": ["string", "null"]},
+            "harmed_parties": {"bsonType": "array"},
             "actor": {"bsonType": ["string", "null"]},
             "systems": {"bsonType": "array"},
             "developers": {"bsonType": "array"},
-            # pre-plural single values, still permitted so older groups validate
+            "factors": {"bsonType": "array"},
+            # pre-plural single values, still permitted so older claims validate
+            "harmed_party": {"bsonType": ["string", "null"]},
             "system": {"bsonType": ["string", "null"]},
             "developer": {"bsonType": ["string", "null"]},
-            "claims": {"bsonType": "array", "items": claim_obj},
-            # optional clauses ("using …", "developed by …") this group has taken
-            # out of its sentence as inapplicable
+            # optional clauses ("developed by …", "because of …") this claim
+            # has taken out of its sentence as inapplicable
             "omit": {"bsonType": "array"},
-            # flat links written before the actor-grouped structure; still
-            # permitted so any pre-restructure document keeps validating
+            # claims written before this flat structure nested under a group
+            # (harm-grouped: {harm, harmed_parties, claims: [...]}, or, earlier
+            # still, actor-grouped: {actor, systems, developers, claims: [...]}),
+            # or before either restructure carried a flat `members` list;
+            # still permitted so any pre-restructure document keeps validating
+            "claims": {"bsonType": "array"},
             "members": {"bsonType": "array"}}},
     }
     # Everything one coder judges about this incident, in one subtree: the
-    # incident's own field answers, their claim groups, their comment on the
+    # incident's own field answers, their claims, their comment on the
     # incident as a whole, and their evidence per source document. Keeping it under a single path is what lets a save be one
     # $set that cannot reach another coder's work.
     coder_entry = {
@@ -340,11 +337,11 @@ def build_validator(vocab: dict | None = None) -> dict:
             # free text belonging to one characteristic (the inciting actor's
             # name), keyed by role
             "notes": {"bsonType": ["object", "null"]},
-            "groups": groups_array,
+            "claims": claims_array,
             # Where each characteristic is — {role: {value: [location, ...]}} —
             # dropped onto its chip and pooled once for the incident, not per
-            # group or claim: the same value named in two different groups (or
-            # claims) is one value with one location.
+            # claim: the same value named in two different claims is one value
+            # with one location.
             "role_geo": {"bsonType": ["object", "null"]},
             # this coder's remark about the incident as a whole
             "comment": {"bsonType": ["string", "null"]},

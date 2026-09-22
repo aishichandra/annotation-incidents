@@ -7,8 +7,6 @@ import { renderCard, renderForm } from './form.js';
 import { escapeHtml, persist } from './persist.js';
 import {
   GEO,
-  GEO_ALL,
-  GEO_SCOPES,
   ROLE,
   ROLES,
   SCHEMA,
@@ -16,7 +14,6 @@ import {
   attachDefTip,
   color,
   curDoc,
-  geoScopeLabel,
   groupHeader,
   groupedOptions,
   hideDefTip,
@@ -89,8 +86,8 @@ export function quoteColor(q) {
   return q.role ? ((ROLE[q.role] || {}).color || '#eee') : (color[q.category] || '#fde68a');
 }
 export function quoteLabel(q) {
-  // A highlighted place: the place, and what it applies to.
-  if (q.role === GEO.role) return `${GEO.docLabel} · ${q.value} → ${geoScopeLabel(q.for_role)}`;
+  // A highlighted place.
+  if (q.role === GEO.role) return `${GEO.docLabel} · ${q.value}`;
   const base = q.role ? ((ROLE[q.role] || {}).label || q.role)
                       : ((field(q.category) || {}).label || q.category);
   return base + (q.value ? ' · ' + q.value : '');
@@ -446,8 +443,11 @@ export function showValuePicker(pending, target, rect) {
   addOutsideClose(menu);
 }
 
-// ---------- geography: a highlighted country, and what it applies to ----------
-// The Geography highlights sitting on exactly this span.
+// ---------- geography: a highlighted country ----------
+// The Geography highlight sitting on exactly this span, if any. One place per
+// span — picking a different one replaces it, so this is never more than one
+// long, but stays a filter (rather than [0]) so a span from before this was
+// true still reads sensibly.
 export function geoQuotesOn(pending) {
   return curDoc.ann.quotes.filter(q =>
     q.role === GEO.role && q.start === pending.start && q.end === pending.end);
@@ -462,22 +462,20 @@ function matchPlace(text, options) {
   return want ? (options.find(o => key(o) === want) || null) : null;
 }
 
-// Say that this span is `place` and that it applies to `scope`, or take that back.
-// "All" and a single role overlap — all of them, or just one — so choosing one
-// clears the other on this span rather than leaving a highlight that says both.
-// A place has to be one the incident names to survive on it (the incident card
-// prunes the rest), so putting one on a document also puts it on the incident's
-// Geography/location, here where the save carries it.
-function toggleGeo(pending, place, scope) {
-  const on = (q) => q.role === GEO.role && q.value === place
-    && q.start === pending.start && q.end === pending.end;
-  const at = curDoc.ann.quotes.findIndex(q => on(q) && q.for_role === scope);
-  if (at >= 0) {
-    curDoc.ann.quotes.splice(at, 1);
-  } else {
-    curDoc.ann.quotes = curDoc.ann.quotes.filter(q =>
-      !(on(q) && (scope === GEO_ALL || q.for_role === GEO_ALL)));
-    curDoc.ann.quotes.push({ role: GEO.role, value: place, for_role: scope,
+// Say that this span is `place`, or take that back. A second place picked for
+// the same span replaces the first — one span names one place — and a place
+// has to be one the incident names to survive on it (the incident card prunes
+// the rest), so putting one on a document also puts it on the incident's
+// Geography/location, here where the save carries it. Which characteristic a
+// place is about, if any, is said on the incident card instead (drag the place
+// onto a chip there) — a document highlight only ever says where the incident
+// itself is.
+function toggleGeo(pending, place) {
+  const on = (q) => q.role === GEO.role && q.start === pending.start && q.end === pending.end;
+  const already = curDoc.ann.quotes.some(q => on(q) && q.value === place);
+  curDoc.ann.quotes = curDoc.ann.quotes.filter(q => !on(q));
+  if (!already) {
+    curDoc.ann.quotes.push({ role: GEO.role, value: place,
       text: pending.text, start: pending.start, end: pending.end });
     const fa = fieldAnn('incident_geography');
     if (!Array.isArray(fa.answer)) fa.answer = fa.answer ? [fa.answer] : [];
@@ -486,28 +484,37 @@ function toggleGeo(pending, place, scope) {
   persist(); renderArticle(true); renderRoles();
 }
 
-// Geography, in two answers: which place, then what it applies to. `chosen` is
-// the place picked so far — the option the text names, or what this span already
-// says — and rides along as the menu is rebuilt after each click.
-export function showGeoMenu(pending, rect, chosen) {
+// Geography, in one click. A span whose text names a place exactly — and
+// which nothing has tagged yet — is applied the moment the menu opens rather
+// than making the coder pick what the highlight already says; anything else
+// is picked from the list below, same as ever. That auto-apply is only for
+// the open, never for a re-render after a click — `again` skips straight to
+// rendering, or toggling the one exact-match place off would just toggle it
+// straight back on.
+export function showGeoMenu(pending, rect) {
+  if (!geoQuotesOn(pending).length) {
+    const match = matchPlace(pending.text,
+      ((field('incident_geography') || {}).options || []));
+    if (match) toggleGeo(pending, match);
+  }
+  renderGeoMenu(pending, rect);
+}
+
+function renderGeoMenu(pending, rect) {
   closeCategoryMenu();
   const menu = document.createElement('div');
   menu.className = 'cat-menu';
   catMenuEl = menu;
 
   const options = ((field('incident_geography') || {}).options || []).slice();
-  if (chosen === undefined) {
-    chosen = (geoQuotesOn(pending)[0] || {}).value || matchPlace(pending.text, options);
-  }
   const snip = pending.text.length > 30 ? pending.text.slice(0, 30) + '…' : pending.text;
-  const again = (place) => showGeoMenu(pending, rect, place);
+  const again = () => renderGeoMenu(pending, rect);
 
   const title = document.createElement('div');
   title.className = 'cat-title';
   title.textContent = `${GEO.docLabel} — “${snip}”`;
   menu.appendChild(title);
 
-  // 1. which place
   const placeLabel = document.createElement('div');
   placeLabel.className = 'cat-group-label'; placeLabel.textContent = 'Place';
   menu.appendChild(placeLabel);
@@ -535,45 +542,23 @@ export function showGeoMenu(pending, rect, chosen) {
         });
         const updated = await res.json().catch(() => null);
         if (updated && updated.options) field('incident_geography').options = updated.options;
-        again(place);
+        toggleGeo(pending, place);
+        again();
       };
       list.appendChild(add);
     }
     options.filter(o => !q || o.toLowerCase().includes(q)).forEach(o => {
+      const on = geoQuotesOn(pending).some(g => g.value === o);
       const b = document.createElement('button');
-      b.className = 'cat-vopt' + (o === chosen ? ' picked' : '');
-      b.textContent = (o === chosen ? '✓ ' : '') + o;
-      b.onclick = () => again(o);
+      b.className = 'cat-vopt' + (on ? ' picked' : '');
+      b.textContent = (on ? '✓ ' : '') + o;
+      b.onclick = () => { toggleGeo(pending, o); again(); };
       list.appendChild(b);
     });
   };
   if (filter) filter.oninput = fillList;
   fillList();
   menu.appendChild(list);
-
-  // 2. what it applies to
-  const scopeLabel = document.createElement('div');
-  scopeLabel.className = 'cat-group-label cat-scope-label'; scopeLabel.textContent = 'Applies to';
-  menu.appendChild(scopeLabel);
-  const btns = document.createElement('div'); btns.className = 'cat-btns';
-  GEO_SCOPES.forEach(({ scope, label }) => {
-    const on = !!chosen && geoQuotesOn(pending).some(q => q.value === chosen && q.for_role === scope);
-    const b = document.createElement('button');
-    b.className = 'cat-btn' + (on ? ' on' : '');
-    b.innerHTML = `<span class="cat-check">${on ? '✓' : ''}</span>${label}`;
-    b.onclick = () => {
-      if (!chosen) {
-        title.textContent = 'Pick a place first ↑';
-        title.style.color = '#dc2626';
-        setTimeout(() => { title.textContent = `${GEO.docLabel} — “${snip}”`; title.style.color = ''; }, 1500);
-        return;
-      }
-      toggleGeo(pending, chosen, scope);
-      again(chosen);
-    };
-    btns.appendChild(b);
-  });
-  menu.appendChild(btns);
 
   const back = document.createElement('button');
   back.className = 'cat-back'; back.textContent = '← Back';

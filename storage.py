@@ -128,18 +128,18 @@ def blank_incident_coding() -> dict:
     `completed_at` when they last set it. Both belong
     here for the reason in load_incident_coding: a part left out of this dict is
     read from Mongo and then dropped on the next write."""
-    return {"fields": {}, "notes": {}, "groups": [], "comment": "",
+    return {"fields": {}, "notes": {}, "claims": [], "comment": "",
             "status": "", "completed_at": "", "flagged": False, "role_geo": {}}
 
 
 def load_incident_coding(coder: str) -> dict:
     """One coder's incident-level coding, keyed by incident id:
-    {inc_id: {"fields": {...}, "notes": {...}, "groups": [...], "comment": "..."}}.
+    {inc_id: {"fields": {...}, "notes": {...}, "claims": [...], "comment": "..."}}.
 
     `fields` are the incident's own free-text answers — aftermath — answered once
     for the incident rather than repeated on each of its documents. `notes` is the
     free text belonging to a characteristic (the inciting actor's name), keyed by
-    role. `groups` are the claim groups built in the card view. `comment` is the
+    role. `claims` are the claims built in the card view. `comment` is the
     coder's own remark about the incident as a whole — uncertainty, a question for
     the team, anything that belongs to no single field or characteristic.
 
@@ -166,7 +166,7 @@ def save_incident_coding(store: dict, coder: str) -> None:
     # Incidents a coder has neither answered nor linked anything on aren't worth
     # a line in the file.
     lean = {k: v for k, v in store.items()
-            if v.get("fields") or v.get("groups") or v.get("notes")
+            if v.get("fields") or v.get("claims") or v.get("notes")
             or v.get("comment") or v.get("status") or v.get("flagged")
             or v.get("role_geo")}
     _atomic_write(incident_coding_path(coder), json.dumps(lean, indent=2, ensure_ascii=False))
@@ -253,15 +253,15 @@ def incident_fields(coder, inc_id, assignments=None, inc_store=None) -> dict:
 # justifies it ({role, value}). Both have to move together or a rename would
 # leave a document selected for a code its quotes no longer name.
 #
-# Incident coding spreads them out instead: the actor, the systems it used and
-# who developed them describe the actor context and live on the group; harm is
-# one value on the claim; harmed parties and factors are lists on the claim.
-# `system`, `developer` and `harmed_party` singular are the pre-plural shapes,
-# still read (see build_validator) so old codings migrate too.
-_GROUP_VALUE_ROLES = ("actor", "system", "developer")
-_GROUP_LIST_ROLES = {"system": "systems", "developer": "developers"}
-_CLAIM_LIST_ROLES = {"harmed_party": "harmed_parties", "factor": "factors"}
-_CLAIM_VALUE_ROLES = {"harm": "harm", "harmed_party": "harmed_party"}
+# Incident coding spreads them out instead, flat on the claim: harm and actor
+# are single values; harmed parties, factors, systems and developers are
+# lists. `harmed_party`, `system` and `developer` singular are the pre-plural
+# shapes, still read (see build_validator) so old codings migrate too — `role`
+# itself doubles as that legacy key, so checking it costs nothing for `factor`,
+# which never had one.
+_CLAIM_SCALAR_ROLES = ("harm", "actor")
+_CLAIM_LIST_ROLES = {"harmed_party": "harmed_parties", "factor": "factors",
+                      "system": "systems", "developer": "developers"}
 
 
 def _walk_role_values(store, inc_store, role: str, fn) -> int:
@@ -283,42 +283,28 @@ def _walk_role_values(store, inc_store, role: str, fn) -> int:
                     selected[i] = new
                     changed += 1
     for entry in (inc_store or {}).values():
-        for grp in (entry or {}).get("groups") or []:
-            if role in _GROUP_VALUE_ROLES and grp.get(role):
-                new = fn(grp[role])
-                if new != grp[role]:
-                    grp[role] = new
+        for claim in (entry or {}).get("claims") or []:
+            if (role in _CLAIM_SCALAR_ROLES or role in _CLAIM_LIST_ROLES) and claim.get(role):
+                new = fn(claim[role])
+                if new != claim[role]:
+                    claim[role] = new
                     changed += 1
-            gkey = _GROUP_LIST_ROLES.get(role)
-            if gkey and isinstance(grp.get(gkey), list):
-                for i, v in enumerate(grp[gkey]):
+            lkey = _CLAIM_LIST_ROLES.get(role)
+            if lkey and isinstance(claim.get(lkey), list):
+                for i, v in enumerate(claim[lkey]):
                     new = fn(v)
                     if new != v:
-                        grp[gkey][i] = new
+                        claim[lkey][i] = new
                         changed += 1
-            for claim in grp.get("claims") or []:
-                ckey = _CLAIM_VALUE_ROLES.get(role)
-                if ckey and claim.get(ckey):
-                    new = fn(claim[ckey])
-                    if new != claim[ckey]:
-                        claim[ckey] = new
-                        changed += 1
-                lkey = _CLAIM_LIST_ROLES.get(role)
-                if lkey and isinstance(claim.get(lkey), list):
-                    for i, v in enumerate(claim[lkey]):
-                        new = fn(v)
-                        if new != v:
-                            claim[lkey][i] = new
-                            changed += 1
     return changed
 
 
 def _fold_legacy(single, values):
     """A slot's values with its pre-plural single folded in, deduplicated.
 
-    Counting has to see what the card shows: a group carrying both `system` and
-    `systems`, or a claim carrying both `harmed_party` and `harmed_parties`,
-    names that code once, not twice."""
+    Counting has to see what the card shows: a claim carrying both `system` and
+    `systems`, or both `harmed_party` and `harmed_parties`, names that code
+    once, not twice."""
     out = [v for v in (values or []) if v]
     if single and single not in out:
         out.append(single)
@@ -345,16 +331,11 @@ def _incident_role_values(inc_store, role: str):
     """Every code an incident's own coding names for `role`, slot by slot.
 
     Walks the same slots as _walk_role_values, off the same maps, but folds the
-    pre-plural singles. Callers dedupe — repeats across groups are the same
+    pre-plural singles. Callers dedupe — repeats across claims are the same
     incident saying the same thing twice."""
     for entry in (inc_store or {}).values():
-        for grp in (entry or {}).get("groups") or []:
-            if role in _GROUP_VALUE_ROLES:
-                yield from _fold_legacy(grp.get(role),
-                                        grp.get(_GROUP_LIST_ROLES.get(role, "")))
-            for claim in grp.get("claims") or []:
-                yield from _fold_legacy(claim.get(_CLAIM_VALUE_ROLES.get(role, "")),
-                                        claim.get(_CLAIM_LIST_ROLES.get(role, "")))
+        for claim in (entry or {}).get("claims") or []:
+            yield from _fold_legacy(claim.get(role), claim.get(_CLAIM_LIST_ROLES.get(role, "")))
 
 
 def _role_uses_by_incident(store, inc_store, role: str, assignments) -> dict:
@@ -362,10 +343,10 @@ def _role_uses_by_incident(store, inc_store, role: str, assignments) -> dict:
     counted in.
 
     The incident is what the codebook is really counting: a code applied to three
-    documents of the same incident, and again on two of its claim groups, is that
+    documents of the same incident, and again on two of its claims, is that
     incident using the code, not five uses of it. A document's codes are filed
-    under the incident it belongs to; the incident coding's groups and claims
-    belong to their incident directly; both fold into the one set."""
+    under the incident it belongs to; the incident coding's claims belong to
+    their incident directly; both fold into the one set."""
     per_inc = {}
     for key, rec in (store or {}).items():
         vals = _document_role_values(rec, role)
@@ -477,21 +458,27 @@ def rename_field_value(key: str, old: str, new: str) -> int:
 
 def _geo_quotes(rec):
     """The Geography highlights on one document: quotes tagged GEO_QUOTE_ROLE,
-    each {value: place, for_role: what it applies to, text, start, end}."""
+    each {value: place, text, start, end} — plus, on one saved before a
+    document highlight stopped asking, a legacy `for_role`."""
     for q in (rec or {}).get("quotes") or []:
         if isinstance(q, dict) and q.get("role") == GEO_QUOTE_ROLE:
             yield q
 
 
 def geo_pairs(rec) -> set:
-    """{(role, place)} that one document's Geography highlights say, with
-    "all" spelled out as the roles it stands for — so a document that
-    highlights Kenya for "all" and again for the actor says the same thing about
-    the actor twice, and taking either back leaves the other standing."""
+    """{(role, place)} that one document's Geography highlights still say via a
+    legacy `for_role` (see _geo_quotes), with "all" spelled out as the roles it
+    stands for — so a document that highlighted Kenya for "all" and again for
+    the actor says the same thing about the actor twice, and taking either back
+    leaves the other standing. A highlight with no `for_role` — every one made
+    since a document stopped asking what a place is about — contributes nothing
+    here; it reaches role_geo only if a coder drags it onto a chip on the card."""
     out = set()
     for q in _geo_quotes(rec):
         place = str(q.get("value") or "").strip()
         scope = q.get("for_role")
+        if not scope:
+            continue
         roles = GEO_ROLES if scope == GEO_SCOPE_ALL else (scope,)
         if place:
             out.update((r, place) for r in roles if r in GEO_ROLES)
@@ -604,7 +591,7 @@ def role_value_usage(roles) -> dict:
     """How many incidents use each code, per coder: {role: {value: {coder: n}}}.
 
     What the Codebook needs before it lets anyone rename or delete something. One
-    incident counts once for a coder however many of its documents or claim groups
+    incident counts once for a coder however many of its documents or claims
     name the code; two coders coding the same incident are two uses, since the
     count is what each coder would have to revisit. One pass over each coder's two
     files rather than one per option, and it counts values as they are on disk,

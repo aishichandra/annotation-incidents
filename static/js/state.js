@@ -47,10 +47,12 @@ export const ROLE = Object.fromEntries(ROLES.map(r => [r.role, r]));
 // In a document the same thing is called `docLabel` — there it is a tag on a
 // highlighted country, one of the choices beside Actor and Harm, and the coder
 // is picking a place, not asking where something is based. That highlight is a
-// quote like any other, tagged `role: GEO.role`: `value` is the place and
-// `for_role` says what it applies to (one of GEO_SCOPES). It is still no
-// characteristic — it never reaches a document's `roles` — and the server
-// carries it onto the incident's role_geo (see storage.sync_doc_geo).
+// quote like any other, tagged `role: GEO.role`, `value` the place — it says
+// where the *incident* is, on the reading that a document naming a place
+// asserts nothing about which characteristic it's about. Which characteristic
+// a place is about, if any, is said on the incident card instead (drag it onto
+// a chip there — see role_geo in claims.js and storage.sync_doc_geo). It is
+// still no characteristic itself — it never reaches a document's `roles`.
 export const GEO = { role: 'geography', label: 'Based in', docLabel: 'Geography',
                      color: '#d1d5db' };  // slate
 
@@ -58,19 +60,6 @@ export const GEO = { role: 'geography', label: 'Based in', docLabel: 'Geography'
 // and factor are absent: neither is a thing that is anywhere.
 export const GEO_ROLES = new Set(['actor', 'system', 'developer', 'harmed_party']);
 
-// What a highlighted place can apply to: one characteristic's role, or all of
-// them at once. Mirrors config.GEO_SCOPE_ALL; the roles are GEO_ROLES.
-export const GEO_ALL = 'all';
-export const GEO_SCOPES = [
-  { scope: 'actor',        label: 'Actor' },
-  { scope: 'developer',    label: 'Developer' },
-  { scope: 'harmed_party', label: 'Harmed party' },
-  { scope: 'system',       label: 'System' },
-  { scope: GEO_ALL,        label: 'All' },
-];
-export function geoScopeLabel(scope) {
-  return (GEO_SCOPES.find(s => s.scope === scope) || {}).label || scope || '';
-}
 // The role_geo key a place for a whole role sits under — every actor, say,
 // rather than one value in it. Mirrors config.ROLE_GEO_ALL.
 export const ROLE_GEO_ALL = '*';
@@ -82,36 +71,32 @@ export const ROLE_GEO_ALL = '*';
 export const CLAIM_ROLE = ROLE;
 // The two clauses a claim reads as complete without. Both are lists: one actor
 // context can involve several systems, and a system can be built by more than
-// one party, so "using A & B" is an ordinary thing to need to say.
+// one party, so "A & B" is an ordinary thing to need to say for either.
+// The two clauses a claim reads as complete without.
 export const OPTIONAL_CLAIM_ROLES = [
-  { role: 'system',    key: 'systems',    lead: ' using ',        placeholder: 'system' },
   { role: 'developer', key: 'developers', lead: ' developed by ', placeholder: 'developer' },
+  { role: 'system',    key: 'systems',    lead: ' because of ',   placeholder: 'system' },
 ];
-// Which slot a dragged value belongs to. The actor context is shared by every
-// claim in a group, so it lives on the group header; the rest describe a single
-// claim and are dropped onto the claim row itself.
-export const GROUP_ROLES = ['actor', 'system', 'developer'];
-export const CLAIM_ROLES_DROP = ['harm', 'harmed_party', 'factor'];
+// Every claim is now flat and self-contained — no grouping tier, so every
+// role is dropped straight onto the one claim it describes.
+export const CLAIM_ROLES_DROP = ['harm', 'harmed_party', 'actor', 'factor', 'system', 'developer'];
 // Roles a claim holds as a list, and the key each is stored under. Anything not
-// listed here is a single value that a drop replaces. `harm` is deliberately
-// absent: one harm per claim is what keeps a claim one countable proposition.
-export const CLAIM_LIST_KEYS = { harmed_party: 'harmed_parties', factor: 'factors' };
-// The same, for the slots on the group header. `actor` is deliberately absent:
-// the actor is what makes this context one context, so a second actor is a
-// second group, not a second chip. The systems it used and who built them are
-// descriptions of that one context, and several of each read as a conjunction.
-export const GROUP_LIST_KEYS = { system: 'systems', developer: 'developers' };
+// listed here is a single value that a drop replaces. `harm` and `actor` are
+// deliberately absent: harm is what makes a claim one assertion and actor is
+// who makes it, so a second one of either is a second claim, not a second chip.
+export const CLAIM_LIST_KEYS = { harmed_party: 'harmed_parties', factor: 'factors',
+                                 system: 'systems', developer: 'developers' };
 
-// A group's values for one role, whichever shape they are stored in. Systems and
-// developers went plural after groups had already been saved holding one value
-// each, so the pre-plural `system` / `developer` string is still read and folded
-// in — the same courtesy a claim pays `harmed_party` beside `harmed_parties`.
-// Writers put the list first and blank the singular, so nothing is counted twice.
-export function groupValues(grp, role) {
-  const key = GROUP_LIST_KEYS[role];
-  if (!key) return grp[role] ? [grp[role]] : [];
-  const vals = Array.isArray(grp[key]) ? grp[key].slice() : [];
-  if (grp[role] && !vals.includes(grp[role])) vals.push(grp[role]);
+// A claim's values for one role, whichever shape they are stored in — harmed
+// parties, systems and developers all went plural after claims had already
+// been saved holding one value each, so the pre-plural singular is still
+// read and folded in. Writers put the list first and blank the singular, so
+// nothing is counted twice.
+export function claimValues(cl, role) {
+  const key = CLAIM_LIST_KEYS[role];
+  if (!key) return cl[role] ? [cl[role]] : [];
+  const vals = Array.isArray(cl[key]) ? cl[key].slice() : [];
+  if (cl[role] && !vals.includes(cl[role])) vals.push(cl[role]);
   return vals;
 }
 export let SCHEMA_ROLES = [];      // [{role,label,options,groups?}] from schema.claim_roles

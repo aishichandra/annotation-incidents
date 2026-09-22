@@ -13,23 +13,31 @@
       }
     },
     "notes": {},
-    "groups": [
+    "claims": [
       {
-        "actor": null,
-        "claims": [],
-        "developers": [],
         "id": "1",
-        "omit": [],
+        "harm": null,
+        "harmed_parties": [],
+        "actor": null,
         "systems": [
           "Remixing/repurposing"
-        ]
+        ],
+        "developers": [],
+        "factors": [],
+        "omit": []
       }
     ],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {
+      "system": {
+        "Remixing/repurposing": [
+          "India"
+        ]
+      }
+    }
   },
   "INC-051": {
     "fields": {
@@ -38,170 +46,177 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "based on the translation this doesn't seem like an incident (this is one of the ones I pulled from Jindex)",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-012": {
     "fields": {},
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "not_an_incident",
     "completed_at": "2026-09-01T18:59:49+00:00",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-014": {
     "fields": {},
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "not_an_incident",
     "completed_at": "2026-09-01T19:00:08+00:00",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-024": {
     "fields": {},
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "not_an_incident",
     "completed_at": "2026-09-01T19:09:26+00:00",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-020": {
     "fields": {},
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "not_an_incident",
     "completed_at": "2026-09-01T19:08:19+00:00",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-021": {
     "fields": {},
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "not_an_incident",
     "completed_at": "2026-09-01T19:08:29+00:00",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-032": {
     "fields": {},
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "not_an_incident",
     "completed_at": "2026-09-01T19:11:46+00:00",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-030": {
     "fields": {},
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "not_an_incident",
     "completed_at": "2026-09-01T19:10:33+00:00",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-040": {
     "fields": {},
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "not_an_incident",
     "completed_at": "2026-09-01T19:16:22+00:00",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-036": {
     "fields": {},
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "not_an_incident",
     "completed_at": "2026-09-01T19:13:42+00:00",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-041": {
     "fields": {},
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "not_an_incident",
     "completed_at": "2026-09-01T19:16:35+00:00",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-035": {
     "fields": {},
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "not_an_incident",
     "completed_at": "2026-09-01T19:13:33+00:00",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-034": {
     "fields": {},
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "not_an_incident",
     "completed_at": "2026-09-01T19:13:23+00:00",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-043": {
     "fields": {},
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "not_an_incident",
     "completed_at": "2026-09-01T19:18:00+00:00",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-045": {
     "fields": {},
     "notes": {},
-    "groups": [
+    "claims": [
       {
         "id": "1",
-        "actor": null,
-        "system": null,
-        "developer": null,
-        "claims": [
-          {
-            "id": "1",
-            "harm": "Citation fabrication",
-            "harmed_parties": [
-              "Audience/readers",
-              "News organization/publisher"
-            ],
-            "factors": []
-          }
+        "harm": "Citation fabrication",
+        "harmed_parties": [
+          "Audience/readers",
+          "News organization/publisher"
         ],
-        "omit": [],
+        "actor": null,
         "systems": [
           "Chatbot (general use)"
         ],
         "developers": [
           "AI vendor"
-        ]
+        ],
+        "factors": [],
+        "omit": []
       }
     ],
     "comment": "for factors I was debating between 'Publishers’ lack of control over AI content presentation' (which isn't necessarily expressed in this piece) and 'Inadequate content moderation by platforms' (which is not specific enough to AI systems). Is there another factor we need here?\n\nalso don't know what to do about actor?",
@@ -219,9 +234,13 @@
       }
     },
     "notes": {},
-    "groups": [
+    "claims": [
       {
         "id": "1",
+        "harm": "Distorted source representation",
+        "harmed_parties": [
+          "General public"
+        ],
         "actor": "AI developer",
         "systems": [
           "News summarization"
@@ -229,27 +248,26 @@
         "developers": [
           "AI vendor"
         ],
-        "claims": [
-          {
-            "id": "1",
-            "harm": "Distorted source representation",
-            "harmed_parties": [
-              "General public"
-            ],
-            "factors": [
-              "Lack of audience disclosure"
-            ]
-          },
-          {
-            "id": "2",
-            "harm": "Distorted source representation",
-            "harmed_parties": [
-              "News organization/publisher"
-            ],
-            "factors": [
-              "Publishers’ lack of control over AI content presentation"
-            ]
-          }
+        "factors": [
+          "Lack of audience disclosure"
+        ],
+        "omit": []
+      },
+      {
+        "id": "2",
+        "harm": "Distorted source representation",
+        "harmed_parties": [
+          "News organization/publisher"
+        ],
+        "actor": "AI developer",
+        "systems": [
+          "News summarization"
+        ],
+        "developers": [
+          "AI vendor"
+        ],
+        "factors": [
+          "Publishers’ lack of control over AI content presentation"
         ],
         "omit": []
       }
@@ -272,9 +290,13 @@
       }
     },
     "notes": {},
-    "groups": [
+    "claims": [
       {
         "id": "1",
+        "harm": "Litigation burden",
+        "harmed_parties": [
+          "News organization/publisher"
+        ],
         "actor": "Unknown/unspecified",
         "systems": [
           "Deepfake generation"
@@ -282,87 +304,112 @@
         "developers": [
           "Unknown/unspecified"
         ],
-        "claims": [
-          {
-            "id": "1",
-            "harm": "Litigation burden",
-            "harmed_parties": [
-              "News organization/publisher"
-            ],
-            "factors": [
-              "AI-based mimicry of established journalists/outlets"
-            ]
-          },
-          {
-            "id": "2",
-            "harm": "Scams",
-            "harmed_parties": [
-              "Audience/readers"
-            ],
-            "factors": [
-              "Deployment of AI with intention to harm, mislead, or troll"
-            ]
-          },
-          {
-            "id": "3",
-            "harm": "Misrepresentation of individuals depicted",
-            "harmed_parties": [
-              "Journalist(s)"
-            ],
-            "factors": [
-              "AI-based mimicry of established journalists/outlets"
-            ]
-          },
-          {
-            "id": "4",
-            "harm": "Dignity harm to individuals depicted",
-            "harmed_parties": [
-              "Journalist(s)"
-            ],
-            "factors": [
-              "AI-based mimicry of established journalists/outlets"
-            ]
-          },
-          {
-            "id": "5",
-            "harm": "Privacy harm",
-            "harmed_parties": [
-              "Journalist(s)"
-            ],
-            "factors": [
-              "AI-based mimicry of established journalists/outlets",
-              "Deployment of AI with intention to harm, mislead, or troll"
-            ]
-          }
+        "factors": [
+          "AI-based mimicry of established journalists/outlets"
         ],
         "omit": []
       },
       {
         "id": "2",
+        "harm": "Scams",
+        "harmed_parties": [
+          "Audience/readers"
+        ],
+        "actor": "Unknown/unspecified",
+        "systems": [
+          "Deepfake generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Deployment of AI with intention to harm, mislead, or troll"
+        ],
+        "omit": []
+      },
+      {
+        "id": "3",
+        "harm": "Misrepresentation of individuals depicted",
+        "harmed_parties": [
+          "Journalist(s)"
+        ],
+        "actor": "Unknown/unspecified",
+        "systems": [
+          "Deepfake generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "AI-based mimicry of established journalists/outlets"
+        ],
+        "omit": []
+      },
+      {
+        "id": "4",
+        "harm": "Dignity harm to individuals depicted",
+        "harmed_parties": [
+          "Journalist(s)"
+        ],
+        "actor": "Unknown/unspecified",
+        "systems": [
+          "Deepfake generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "AI-based mimicry of established journalists/outlets"
+        ],
+        "omit": []
+      },
+      {
+        "id": "5",
+        "harm": "Privacy harm",
+        "harmed_parties": [
+          "Journalist(s)"
+        ],
+        "actor": "Unknown/unspecified",
+        "systems": [
+          "Deepfake generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "AI-based mimicry of established journalists/outlets",
+          "Deployment of AI with intention to harm, mislead, or troll"
+        ],
+        "omit": []
+      },
+      {
+        "id": "6",
+        "harm": "Amplification of misinformation",
+        "harmed_parties": [
+          "Journalist(s)"
+        ],
         "actor": "Tech platform",
         "systems": [],
         "developers": [],
-        "claims": [
-          {
-            "id": "1",
-            "harm": "Amplification of misinformation",
-            "harmed_parties": [
-              "Journalist(s)"
-            ],
-            "factors": [
-              "Inadequate content moderation by platforms"
-            ]
-          },
-          {
-            "id": "2",
-            "harm": "Scams",
-            "harmed_parties": [
-              "Audience/readers"
-            ],
-            "factors": [
-              "Inadequate content moderation by platforms"
-            ]
-          }
+        "factors": [
+          "Inadequate content moderation by platforms"
+        ],
+        "omit": [
+          "system",
+          "developer"
+        ]
+      },
+      {
+        "id": "7",
+        "harm": "Scams",
+        "harmed_parties": [
+          "Audience/readers"
+        ],
+        "actor": "Tech platform",
+        "systems": [],
+        "developers": [],
+        "factors": [
+          "Inadequate content moderation by platforms"
         ],
         "omit": [
           "system",
@@ -388,9 +435,13 @@
       }
     },
     "notes": {},
-    "groups": [
+    "claims": [
       {
         "id": "1",
+        "harm": "Exposure to offensive content",
+        "harmed_parties": [
+          "Audience/readers"
+        ],
         "actor": "Individual journalist",
         "systems": [
           "Deepfake generation",
@@ -399,17 +450,8 @@
         "developers": [
           "Unknown/unspecified"
         ],
-        "claims": [
-          {
-            "id": "1",
-            "harm": "Exposure to offensive content",
-            "harmed_parties": [
-              "Audience/readers"
-            ],
-            "factors": [
-              "Contextually inappropriate application of AI"
-            ]
-          }
+        "factors": [
+          "Contextually inappropriate application of AI"
         ],
         "omit": []
       }
@@ -427,12 +469,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-073": {
     "fields": {
@@ -441,12 +484,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-135": {
     "fields": {
@@ -455,12 +499,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-138": {
     "fields": {
@@ -469,12 +514,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-173": {
     "fields": {
@@ -483,12 +529,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-175": {
     "fields": {
@@ -497,12 +544,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-210": {
     "fields": {
@@ -511,12 +559,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-136": {
     "fields": {
@@ -525,12 +574,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-226": {
     "fields": {
@@ -539,12 +589,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-237": {
     "fields": {
@@ -553,12 +604,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-239": {
     "fields": {
@@ -567,12 +619,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-240": {
     "fields": {
@@ -581,12 +634,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-282": {
     "fields": {
@@ -595,12 +649,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-291": {
     "fields": {
@@ -609,12 +664,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-292": {
     "fields": {
@@ -623,12 +679,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-295": {
     "fields": {
@@ -637,12 +694,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-306": {
     "fields": {
@@ -651,12 +709,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-333": {
     "fields": {
@@ -665,12 +724,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-339": {
     "fields": {
@@ -679,12 +739,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-334": {
     "fields": {
@@ -693,12 +754,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-388": {
     "fields": {
@@ -707,12 +769,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-401": {
     "fields": {
@@ -721,12 +784,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-413": {
     "fields": {
@@ -735,12 +799,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-423": {
     "fields": {
@@ -749,12 +814,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-425": {
     "fields": {
@@ -763,12 +829,13 @@
       }
     },
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-044": {
     "fields": {
@@ -783,88 +850,137 @@
       }
     },
     "notes": {},
-    "groups": [
+    "claims": [
       {
         "actor": "Content farm/SEO-manipulation actor",
-        "claims": [
-          {
-            "factors": [
-              "Inadequate human oversight"
-            ],
-            "harm": "Publication of erroneous AI outputs",
-            "harmed_parties": [
-              "Audience/readers"
-            ],
-            "id": "1"
-          },
-          {
-            "factors": [
-              "Inadequate human oversight"
-            ],
-            "harm": "Misrepresentation of individuals depicted",
-            "harmed_parties": [
-              "Sources/subjects of coverage"
-            ],
-            "id": "2"
-          },
-          {
-            "factors": [
-              "Inadequate human oversight",
-              "Lack of audience disclosure"
-            ],
-            "harm": "Publication of low-effort AI outputs/slop",
-            "harmed_parties": [
-              "Audience/readers"
-            ],
-            "id": "3"
-          },
-          {
-            "factors": [
-              "Inadequate human oversight",
-              "AI-based hoaxing/counterfeiting of journalists/outlets"
-            ],
-            "harm": "Amplification of misinformation",
-            "harmed_parties": [
-              "Audience/readers"
-            ],
-            "id": "4"
-          },
-          {
-            "factors": [
-              "Inadequate human oversight"
-            ],
-            "harm": "Privacy harm",
-            "harmed_parties": [
-              "Sources/subjects of coverage"
-            ],
-            "id": "5"
-          },
-          {
-            "factors": [
-              "Inadequate human oversight"
-            ],
-            "harm": "Distorted source representation",
-            "harmed_parties": [
-              "News organization/publisher"
-            ],
-            "id": "6"
-          },
-          {
-            "factors": [
-              "Inadequate human oversight",
-              "Publishers’ lack of control over AI content presentation"
-            ],
-            "harm": "Plagiarism",
-            "harmed_parties": [
-              "News organization/publisher"
-            ],
-            "id": "7"
-          }
-        ],
         "developers": [
           "Unknown/unspecified"
         ],
+        "factors": [
+          "Inadequate human oversight"
+        ],
+        "harm": "Publication of erroneous AI outputs",
+        "harmed_parties": [
+          "Audience/readers"
+        ],
         "id": "1",
+        "omit": [],
+        "systems": [
+          "Deepfake generation",
+          "Remixing/repurposing"
+        ]
+      },
+      {
+        "actor": "Content farm/SEO-manipulation actor",
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Inadequate human oversight"
+        ],
+        "harm": "Misrepresentation of individuals depicted",
+        "harmed_parties": [
+          "Sources/subjects of coverage"
+        ],
+        "id": "2",
+        "omit": [],
+        "systems": [
+          "Deepfake generation",
+          "Remixing/repurposing"
+        ]
+      },
+      {
+        "actor": "Content farm/SEO-manipulation actor",
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Inadequate human oversight",
+          "Lack of audience disclosure"
+        ],
+        "harm": "Publication of low-effort AI outputs/slop",
+        "harmed_parties": [
+          "Audience/readers"
+        ],
+        "id": "3",
+        "omit": [],
+        "systems": [
+          "Deepfake generation",
+          "Remixing/repurposing"
+        ]
+      },
+      {
+        "actor": "Content farm/SEO-manipulation actor",
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Inadequate human oversight",
+          "AI-based hoaxing/counterfeiting of journalists/outlets"
+        ],
+        "harm": "Amplification of misinformation",
+        "harmed_parties": [
+          "Audience/readers"
+        ],
+        "id": "4",
+        "omit": [],
+        "systems": [
+          "Deepfake generation",
+          "Remixing/repurposing"
+        ]
+      },
+      {
+        "actor": "Content farm/SEO-manipulation actor",
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Inadequate human oversight"
+        ],
+        "harm": "Privacy harm",
+        "harmed_parties": [
+          "Sources/subjects of coverage"
+        ],
+        "id": "5",
+        "omit": [],
+        "systems": [
+          "Deepfake generation",
+          "Remixing/repurposing"
+        ]
+      },
+      {
+        "actor": "Content farm/SEO-manipulation actor",
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Inadequate human oversight"
+        ],
+        "harm": "Distorted source representation",
+        "harmed_parties": [
+          "News organization/publisher"
+        ],
+        "id": "6",
+        "omit": [],
+        "systems": [
+          "Deepfake generation",
+          "Remixing/repurposing"
+        ]
+      },
+      {
+        "actor": "Content farm/SEO-manipulation actor",
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Inadequate human oversight",
+          "Publishers’ lack of control over AI content presentation"
+        ],
+        "harm": "Plagiarism",
+        "harmed_parties": [
+          "News organization/publisher"
+        ],
+        "id": "7",
         "omit": [],
         "systems": [
           "Deepfake generation",
@@ -890,63 +1006,60 @@
       }
     },
     "notes": {},
-    "groups": [
+    "claims": [
       {
+        "id": "1",
+        "harm": "Journalists being duped",
+        "harmed_parties": [
+          "News organization/publisher"
+        ],
         "actor": "Mis/disinformation actor",
-        "claims": [
-          {
-            "factors": [
-              "Deployment of AI with intention to harm, mislead, or troll"
-            ],
-            "harm": "Journalists being duped",
-            "harmed_parties": [
-              "News organization/publisher"
-            ],
-            "id": "1"
-          }
+        "systems": [
+          "Text generation"
         ],
         "developers": [
           "Unknown/unspecified"
         ],
-        "id": "1",
-        "omit": [],
-        "systems": [
-          "Text generation"
-        ]
+        "factors": [
+          "Deployment of AI with intention to harm, mislead, or troll"
+        ],
+        "omit": []
       },
       {
-        "actor": "News organization/publisher",
-        "claims": [
-          {
-            "factors": [
-              "Publisher’s lack of due diligence"
-            ],
-            "harm": "Publication of low-effort AI outputs/slop",
-            "harmed_parties": [
-              "Self",
-              "News organization/publisher"
-            ],
-            "id": "1"
-          },
-          {
-            "factors": [
-              "Publisher’s lack of due diligence"
-            ],
-            "harm": "Direct professional harm",
-            "harmed_parties": [
-              "Self",
-              "News organization/publisher"
-            ],
-            "id": "2"
-          }
-        ],
-        "developers": [],
         "id": "2",
+        "harm": "Publication of low-effort AI outputs/slop",
+        "harmed_parties": [
+          "Self",
+          "News organization/publisher"
+        ],
+        "actor": "News organization/publisher",
+        "systems": [],
+        "developers": [],
+        "factors": [
+          "Publisher’s lack of due diligence"
+        ],
         "omit": [
           "system",
           "developer"
+        ]
+      },
+      {
+        "id": "3",
+        "harm": "Direct professional harm",
+        "harmed_parties": [
+          "Self",
+          "News organization/publisher"
         ],
-        "systems": []
+        "actor": "News organization/publisher",
+        "systems": [],
+        "developers": [],
+        "factors": [
+          "Publisher’s lack of due diligence"
+        ],
+        "omit": [
+          "system",
+          "developer"
+        ]
       }
     ],
     "comment": "prior story: https://pressgazette.co.uk/news/royal-cleaner-stories-removed-by-times-and-sun-after-authenticity-questions/",
@@ -958,54 +1071,44 @@
   "INC-047": {
     "fields": {},
     "notes": {},
-    "groups": [
+    "claims": [
       {
+        "id": "1",
+        "harm": "Misrepresentation of individuals depicted",
+        "harmed_parties": [
+          "Journalist(s)",
+          "News organization/publisher"
+        ],
         "actor": "Mis/disinformation actor",
-        "claims": [
-          {
-            "factors": [
-              "AI-based mimicry of established journalists/outlets",
-              "Deployment of AI with intention to harm, mislead, or troll"
-            ],
-            "harm": "Misrepresentation of individuals depicted",
-            "harmed_parties": [
-              "Journalist(s)",
-              "News organization/publisher"
-            ],
-            "id": "1"
-          }
+        "systems": [
+          "Deepfake generation",
+          "Synthetic video/image generation"
         ],
         "developers": [
           "Unknown/unspecified"
         ],
-        "id": "1",
-        "omit": [],
-        "systems": [
-          "Deepfake generation",
-          "Synthetic video/image generation"
-        ]
+        "factors": [
+          "AI-based mimicry of established journalists/outlets",
+          "Deployment of AI with intention to harm, mislead, or troll"
+        ],
+        "omit": []
       },
       {
-        "actor": "Tech platform",
-        "claims": [
-          {
-            "factors": [
-              "Inadequate content moderation by platforms"
-            ],
-            "harm": "Propaganda/disinformation",
-            "harmed_parties": [
-              "General public"
-            ],
-            "id": "1"
-          }
-        ],
-        "developers": [],
         "id": "2",
+        "harm": "Propaganda/disinformation",
+        "harmed_parties": [
+          "General public"
+        ],
+        "actor": "Tech platform",
+        "systems": [],
+        "developers": [],
+        "factors": [
+          "Inadequate content moderation by platforms"
+        ],
         "omit": [
           "system",
           "developer"
-        ],
-        "systems": []
+        ]
       }
     ],
     "comment": "- should we have a factor like 'lack of safeguards by AI vendors'\n- need to have a discussion about building claims",
@@ -1017,12 +1120,13 @@
   "INC-048": {
     "fields": {},
     "notes": {},
-    "groups": [],
+    "claims": [],
     "comment": "I don't think we have enough information here to classify as an incident, would require subjective judgements\n\nshould we have some way of capturing when it's unclear if an outlet is legitimate?\n\nfollow-up: https://yaledailynews.com/articles/yale-law-school-terminates-scholar-amid-terrorist-link-allegations-cites-refusal-to-cooperate",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "INC-003": {
     "fields": {
@@ -1034,79 +1138,18 @@
       }
     },
     "notes": {},
-    "groups": [
-      {
-        "id": "1",
-        "actor": null,
-        "system": null,
-        "developer": null,
-        "claims": [
-          {
-            "id": "1",
-            "harm": null,
-            "harmed_parties": [],
-            "factors": []
-          },
-          {
-            "id": "2",
-            "harm": null,
-            "harmed_parties": [],
-            "factors": []
-          }
-        ],
-        "omit": [],
-        "actor_geo": [],
-        "systems": [],
-        "developers": []
-      },
-      {
-        "id": "2",
-        "actor": null,
-        "system": null,
-        "developer": null,
-        "claims": [
-          {
-            "id": "1",
-            "harm": null,
-            "harmed_parties": [],
-            "factors": []
-          }
-        ],
-        "omit": []
-      }
-    ],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
     "flagged": false,
-    "role_geo": {}
+    "role_geo": {},
+    "groups": []
   },
   "C2TGAHSL": {
-    "fields": {
-      "incident_geography": {
-        "answer": [
-          "Venezuela"
-        ]
-      }
-    },
+    "fields": {},
     "notes": {},
-    "groups": [
-      {
-        "id": "1",
-        "actor": "Individual journalist",
-        "system": null,
-        "developer": null,
-        "claims": [
-          {
-            "id": "1",
-            "harm": null,
-            "harmed_parties": [],
-            "factors": []
-          }
-        ],
-        "omit": []
-      }
-    ],
+    "claims": [],
     "comment": "",
     "status": "",
     "completed_at": "",
@@ -1118,5 +1161,45 @@
         ]
       }
     }
+  },
+  "INC-069": {
+    "fields": {},
+    "notes": {},
+    "claims": [],
+    "comment": "is Reddit a harmed platform?\nshould we have a harm category like 'exploitation of audience trust in news brand'?",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-071": {
+    "fields": {},
+    "notes": {},
+    "claims": [],
+    "comment": "not sure about 'lack of control over AI content presentation'",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-078": {
+    "fields": {},
+    "notes": {},
+    "claims": [],
+    "comment": "is newsbreak a content farm? do we want an 'aggregator' category?\nput 'general public' as a harmed party bc the linked nj.com article said that the article had been circulating on social media (will add nj.com article as source for this incident)",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-142": {
+    "fields": {},
+    "notes": {},
+    "claims": [],
+    "comment": "didn't realize this was a summary from another ai incident tracker - will upload original articles",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
   }
 }

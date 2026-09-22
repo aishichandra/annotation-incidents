@@ -9,7 +9,7 @@ import { setView } from '../boot.js';
 import { escapeHtml } from '../persist.js';
 import { loadDoc } from '../reader.js';
 import { incidentCard } from './card.js';
-import { buildGroupsUI } from './claims.js';
+import { buildClaimsUI } from './claims.js';
 import { buildIncidentComment, flushIncidentComments } from './comment.js';
 import { buildCardFields } from './fields.js';
 import { toggleJson } from './json.js';
@@ -154,8 +154,8 @@ export function refreshCardPanels(inc) {
   document.querySelectorAll('.tow-palette').forEach(el => {
     if (el.dataset.inc === inc.incident_id) buildPalette(el, inc);
   });
-  document.querySelectorAll('.tow-groups').forEach(el => {
-    if (el.dataset.inc === inc.incident_id) buildGroupsUI(el, inc);
+  document.querySelectorAll('.tow-claims').forEach(el => {
+    if (el.dataset.inc === inc.incident_id) buildClaimsUI(el, inc);
   });
 }
 
@@ -174,7 +174,7 @@ export function wireIncidentCard(root) {
   });
   root.querySelectorAll('.tow-cardfields').forEach(el => buildCardFields(el, INCIDENTS[el.dataset.inc]));
   root.querySelectorAll('.tow-palette').forEach(el => buildPalette(el, INCIDENTS[el.dataset.inc]));
-  root.querySelectorAll('.tow-groups').forEach(el => buildGroupsUI(el, INCIDENTS[el.dataset.inc]));
+  root.querySelectorAll('.tow-claims').forEach(el => buildClaimsUI(el, INCIDENTS[el.dataset.inc]));
   root.querySelectorAll('.inc-note-body').forEach(el =>
     buildIncidentComment(el, el.closest('.inc-note').dataset.inc));
   root.querySelectorAll('.inc-complete').forEach(el => wireComplete(el));

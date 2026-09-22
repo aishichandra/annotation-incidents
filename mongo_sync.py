@@ -84,7 +84,7 @@ def prune_empty_incidents() -> None:
     for inc in mongo_db.incidents.find({}, {"documents": 1, "by_coder": 1}):
         if inc.get("documents"):
             continue
-        if any((c or {}).get("fields") or (c or {}).get("groups") or (c or {}).get("documents")
+        if any((c or {}).get("fields") or (c or {}).get("claims") or (c or {}).get("documents")
                for c in (inc.get("by_coder") or {}).values()):
             continue
         mongo_db.incidents.delete_one({"_id": inc["_id"]})
@@ -191,7 +191,7 @@ def push_documents(items) -> int:
 
 
 def sync_incident_coding_to_mongo(inc_id: str, coder: str, entry: dict) -> bool:
-    """Mirror one coder's incident-level coding — field answers, claim groups, the
+    """Mirror one coder's incident-level coding — field answers, claims, the
     sign-off and the coder's comment — onto the incident. Only this coder's slot
     is written.
 
@@ -208,9 +208,9 @@ def sync_incident_coding_to_mongo(inc_id: str, coder: str, entry: dict) -> bool:
             {"$setOnInsert": {"created_at": now},
              "$set": {f"by_coder.{coder}.fields": entry.get("fields") or {},
                       f"by_coder.{coder}.notes": entry.get("notes") or {},
-                      f"by_coder.{coder}.groups": entry.get("groups") or [],
+                      f"by_coder.{coder}.claims": entry.get("claims") or [],
                       # Where each characteristic is — {role: {value: [locations]}}
-                      # — pooled once for the incident, not per group or claim.
+                      # — pooled once for the incident, not per claim.
                       f"by_coder.{coder}.role_geo": entry.get("role_geo") or {},
                       f"by_coder.{coder}.comment": entry.get("comment") or "",
                       f"by_coder.{coder}.status": entry.get("status") or "",
@@ -249,19 +249,19 @@ def store_from_mongo(coder: str) -> dict:
 
 def incident_coding_from_mongo(coder: str) -> dict:
     """One coder's incident-level coding as Mongo has it:
-    {inc_id: {"fields": {...}, "groups": [...], "comment": "..."}}. Empty if Mongo
+    {inc_id: {"fields": {...}, "claims": [...], "comment": "..."}}. Empty if Mongo
     isn't connected."""
     out = {}
     if mongo_db is None:
         return out
     for inc in mongo_db.incidents.find({}, {"by_coder": 1}):
         sub = (inc.get("by_coder") or {}).get(coder) or {}
-        if (sub.get("fields") or sub.get("groups") or sub.get("notes")
+        if (sub.get("fields") or sub.get("claims") or sub.get("notes")
                 or sub.get("comment") or sub.get("status") or sub.get("flagged")
                 or sub.get("role_geo")):
             out[str(inc["_id"])] = {"fields": sub.get("fields") or {},
                                     "notes": sub.get("notes") or {},
-                                    "groups": sub.get("groups") or [],
+                                    "claims": sub.get("claims") or [],
                                     "role_geo": sub.get("role_geo") or {},
                                     "comment": sub.get("comment") or "",
                                     "status": sub.get("status") or "",

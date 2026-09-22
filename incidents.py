@@ -2,7 +2,7 @@
 
 aggregate_incidents() is what the card view reads: it walks every document,
 buckets them by incident, and merges each coder's evidence, field answers and
-claim groups into one object per incident.
+claims into one object per incident.
 """
 import re
 from datetime import datetime
@@ -42,12 +42,12 @@ def coded_by(key, stores) -> list:
 
 
 def claim_is_complete(cl: dict) -> bool:
-    """A claim reads as finished when it says who was harmed, how, and why —
-    harm, at least one harmed party, at least one factor. The optional
-    `using … developed by …` clauses are not part of the sentence's core."""
-    return bool(cl.get("harm")
-                and (cl.get("harmed_parties") or [])
-                and (cl.get("factors") or []))
+    """A claim reads as finished when it says who was harmed by what, who did
+    it, and how — harm, at least one harmed party, actor, at least one factor.
+    The optional `developed by … because of …` clauses are not part of the
+    sentence's core."""
+    return bool(cl.get("harm") and (cl.get("harmed_parties") or [])
+                and cl.get("actor") and (cl.get("factors") or []))
 
 
 def incident_completeness(inc: dict) -> dict:
@@ -55,17 +55,16 @@ def incident_completeness(inc: dict) -> dict:
 
     Two bars, and the second is the one that matters. Every required role must
     have at least one value, which says the coder has read the documents and
-    picked out the characteristics. And at least one claim group must name an
-    actor and carry a complete claim, which says they have gone the further step
-    of asserting who did what to whom — the judgement the flat lists alone never
-    state. An incident can have a full palette and still assert nothing.
+    picked out the characteristics. And at least one claim must be complete,
+    which says they have gone the further step of asserting who did what to
+    whom — the judgement the flat lists alone never state. An incident can
+    have a full palette and still assert nothing.
 
     Returns `{"ok": bool, "missing": [...]}`; `missing` names what is absent so
     the card can say why the button is disabled rather than just disabling it."""
     missing = [role for role in REQUIRED_CLAIM_ROLES
                if not (inc.get("role_values") or {}).get(role)]
-    if not any(g.get("actor") and any(claim_is_complete(c) for c in (g.get("claims") or []))
-               for g in (inc.get("groups") or [])):
+    if not any(claim_is_complete(c) for c in (inc.get("claims") or [])):
         missing.append("complete_claim")
     return {"ok": not missing, "missing": missing}
 
@@ -80,7 +79,7 @@ def _blank_incident(inc_id: str, role_defs: list) -> dict:
     return {
         "incident_id": inc_id, "title": "", "documents": [],
         "field_values": {}, "field_comments": {},
-        "role_values": {r["role"]: [] for r in role_defs}, "groups": [],
+        "role_values": {r["role"]: [] for r in role_defs}, "claims": [],
         "role_notes": {}, "value_quotes": {}, "comment": "", "flagged": False,
     }
 
@@ -162,8 +161,8 @@ def _collect_value_quotes(g: dict, rec: dict, key: str, i: int) -> None:
             bucket.append({"text": text, "doc_key": key, "title": cell(i, "title")})
 
 
-# ---------------------------------------------------------------- claim groups
-# A saved grouping names its codes as strings, so a code no longer coded on any
+# -------------------------------------------------------------------- claims
+# A saved claim names its codes as strings, so a code no longer coded on any
 # member document would leave a claim pointing at nothing. Pruning happens on
 # every read rather than on edit: the coding it depends on lives in another file
 # that this one never gets to see change.
@@ -182,9 +181,9 @@ def _keep(g: dict, role: str, value):
 def _keep_list(g: dict, role: str, values, legacy=None) -> list:
     """The still-coded values of a list slot, in order.
 
-    `legacy` is the pre-plural single value the slot used to hold: groups saved
+    `legacy` is the pre-plural single value the slot used to hold: claims saved
     before systems and developers went plural carry one there, and it is folded
-    in so an old grouping renders as a one-item list rather than an empty clause."""
+    in so an old claim renders as a one-item list rather than an empty clause."""
     out = [v for v in (values or []) if _still_coded(g, role, v)]
     if legacy and legacy not in out and _still_coded(g, role, legacy):
         out.append(legacy)
@@ -192,50 +191,36 @@ def _keep_list(g: dict, role: str, values, legacy=None) -> list:
 
 
 def _prune_claim(g: dict, cl: dict):
-    """One claim with every dangling value dropped, or None if nothing survives.
+    """One claim — who did what to whom — with every dangling value dropped,
+    or None if it is left holding nothing at all.
 
-    Harm stays single-valued and the parties and factors are lists, for the
-    reason build_validator gives: one harm reaching several parties is a
-    conjunction anyone can read back, whereas plural harms alongside plural
-    parties would leave "which harm hit which party?" unanswerable."""
+    A claim that still names anything is kept, since even one value is the
+    beginning of an assertion, and a claim holding only an omission still
+    holds a decision. Harm and actor stay single-valued and harmed parties,
+    factors, systems and developers are lists, for the reason build_validator
+    gives: one harm reaching several parties, or one actor running on several
+    systems, is a conjunction anyone can read back, whereas plural harms
+    alongside plural parties would leave "which harm hit which party?"
+    unanswerable. Claims written before this flat structure carried harm and
+    harmed_parties on an enclosing group instead; they aren't convertible
+    without a coder deciding how to split them, so they are skipped rather
+    than half-rendered."""
     harm = _keep(g, "harm", cl.get("harm"))
     parties = [p for p in (cl.get("harmed_parties") or [])
                if _still_coded(g, "harmed_party", p)]
+    actor = _keep(g, "actor", cl.get("actor"))
     factors = [f for f in (cl.get("factors") or []) if _still_coded(g, "factor", f)]
-    if not (harm or parties or factors):
+    systems = _keep_list(g, "system", cl.get("systems"), cl.get("system"))
+    developers = _keep_list(g, "developer", cl.get("developers"), cl.get("developer"))
+    # The optional clauses this claim has taken out of its sentence:
+    # "inapplicable here" rather than "not answered yet", which is a judgement
+    # and so survives a reload like any other.
+    omit = [r for r in (cl.get("omit") or []) if r in OPTIONAL_CLAIM_ROLES]
+    if not (harm or parties or actor or factors or systems or developers or omit):
         return None
     return {"id": cl.get("id"), "harm": harm, "harmed_parties": parties,
-            "factors": factors}
-
-
-def _prune_group(g: dict, grp: dict):
-    """One actor context with every dangling value dropped, or None if it is
-    left holding nothing at all.
-
-    A group that still names an actor is kept even with no claims, since it is
-    the header a coder is about to hang claims off, and a group holding only an
-    omission still holds a decision. Groups written before the actor-grouped
-    structure carried a flat `members` list; they aren't convertible without a
-    coder deciding how to split them, so they are skipped rather than
-    half-rendered."""
-    if "claims" not in grp:
-        return None
-    claims = [c for c in (_prune_claim(g, cl) for cl in grp.get("claims") or []) if c]
-    actor = _keep(g, "actor", grp.get("actor"))
-    # Plural for the same reason factors are: one actor context can run on
-    # several systems, and a system can have more than one party behind it. The
-    # actor itself stays single — a second actor is a second context, which is a
-    # second group.
-    systems = _keep_list(g, "system", grp.get("systems"), grp.get("system"))
-    developers = _keep_list(g, "developer", grp.get("developers"), grp.get("developer"))
-    # The optional clauses this group has taken out of its sentence: "inapplicable
-    # here" rather than "not answered yet", which is a judgement and so survives a
-    # reload like any other.
-    omit = [r for r in (grp.get("omit") or []) if r in OPTIONAL_CLAIM_ROLES]
-    if not (actor or systems or developers or claims or omit):
-        return None
-    return {"id": grp.get("id"), "actor": actor, "systems": systems,
-            "developers": developers, "claims": claims, "omit": omit}
+            "actor": actor, "factors": factors, "systems": systems,
+            "developers": developers, "omit": omit}
 
 
 def _prune_role_geo(geo: dict, role_values: dict, incident_places) -> dict:
@@ -243,10 +228,10 @@ def _prune_role_geo(geo: dict, role_values: dict, incident_places) -> dict:
     incident (`role_values`) and places still in the incident's own
     Geography/location (`incident_places`), de-duplicated.
 
-    Pooled once per incident rather than per group or claim: the same
-    "Journalists" cited as a harmed party in two different claims — or the same
-    actor named in two different groups — is one value with one location, not
-    two contexts that happen to share a name. A location dropped on any one
+    Pooled once per incident rather than per claim: the same "Journalists"
+    cited as a harmed party in two different claims — or the same actor named
+    in two different claims — is one value with one location, not two
+    contexts that happen to share a name. A location dropped on any one
     appearance of a value tags the value itself, so every other appearance of
     it reads with the same tag.
 
@@ -305,8 +290,8 @@ def aggregate_incidents(coder: str):
     the passages justifying them, and — the first time an incident is seen — the
     answers the coder gave the incident itself. The second walks the incidents,
     which is where anything that needs the whole incident belongs: pruning the
-    claim groups against the pooled palette, reading the dates and domains off the
-    members, and checking completeness against the groups as pruned.
+    claims against the pooled palette, reading the dates and domains off the
+    members, and checking completeness against the claims as pruned.
 
     Returns (incidents_dict, field_defs, role_defs)."""
     store = storage.load_annotations(coder)
@@ -333,15 +318,15 @@ def aggregate_incidents(coder: str):
 
     for inc_id, g in incidents.items():
         entry = inc_store.get(inc_id) or {}
-        saved = entry.get("groups") or []
-        g["groups"] = [grp for grp in (_prune_group(g, x) for x in saved) if grp]
+        saved = entry.get("claims") or []
+        g["claims"] = [c for c in (_prune_claim(g, x) for x in saved) if c]
         # Pruned against role_values, which is only fully pooled once every
         # member document has been walked — hence the second pass, same as
-        # groups just above.
+        # claims just above.
         g["role_geo"] = _prune_role_geo(entry.get("role_geo") or {}, g["role_values"],
                                          g["field_values"].get("incident_geography"))
         _derive_from_documents(g)
-        # Computed after pruning, so the check sees the same groups the card
+        # Computed after pruning, so the check sees the same claims the card
         # does. The stored sign-off rides alongside it: `completeness` is what the
         # coding currently supports, `status` is what the coder has actually
         # attested to, and the two can disagree — signing off then editing is what
