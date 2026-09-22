@@ -1654,5 +1654,108 @@
         "General public"
       ]
     }
+  },
+  "PM3WEYZZ": {
+    "quotes": [
+      {
+        "category": "incident_aftermath",
+        "text": "The Los Angeles Times has “moved on” from the AI-generated “bias meter” that owner Patrick Soon-Shiong wanted to establish, managing editor Hector Becerra said in a recent meeting.",
+        "start": 233,
+        "end": 413
+      },
+      {
+        "role": "actor",
+        "value": "News organization/publisher",
+        "text": "The Los Angeles Times",
+        "start": 233,
+        "end": 254
+      }
+    ],
+    "roles": {
+      "system": [],
+      "developer": [],
+      "actor": [
+        "News organization/publisher"
+      ],
+      "factor": [],
+      "harm": [],
+      "harmed_party": []
+    }
+  },
+  "R95RRQFZ": {
+    "quotes": [
+      {
+        "end": 674,
+        "role": "system",
+        "start": 666,
+        "text": "OpenAI’s",
+        "value": "OpenAI’s"
+      },
+      {
+        "end": 705,
+        "role": "developer",
+        "start": 700,
+        "text": "These",
+        "value": "These"
+      }
+    ],
+    "roles": {
+      "system": [
+        "OpenAI’s"
+      ],
+      "developer": [
+        "These"
+      ],
+      "actor": [],
+      "factor": [],
+      "harm": [],
+      "harmed_party": []
+    }
+  },
+  "PXKLCK9L": {
+    "quotes": [
+      {
+        "role": "actor",
+        "value": "AI developer",
+        "text": "Google",
+        "start": 169,
+        "end": 175
+      },
+      {
+        "role": "system",
+        "value": "News summarization",
+        "text": "AI headlines",
+        "start": 258,
+        "end": 270
+      },
+      {
+        "role": "harm",
+        "value": "Publication of erroneous AI outputs",
+        "text": "I once again see lots of misleading claims every time I check my phone.",
+        "start": 353,
+        "end": 424
+      },
+      {
+        "role": "harm",
+        "value": "Publication of erroneous AI outputs",
+        "text": "That’s not just false — \nPCMagtook pains to explain that it’s false\nin the story that Google links to!",
+        "start": 1186,
+        "end": 1288
+      }
+    ],
+    "roles": {
+      "system": [
+        "News summarization"
+      ],
+      "developer": [],
+      "actor": [
+        "AI developer"
+      ],
+      "factor": [],
+      "harm": [
+        "Publication of erroneous AI outputs"
+      ],
+      "harmed_party": []
+    }
   }
 }

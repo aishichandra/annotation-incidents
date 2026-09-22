@@ -1147,7 +1147,13 @@
     "groups": []
   },
   "C2TGAHSL": {
-    "fields": {},
+    "fields": {
+      "incident_geography": {
+        "answer": [
+          "Venezuela"
+        ]
+      }
+    },
     "notes": {},
     "claims": [],
     "comment": "",
@@ -1197,6 +1203,40 @@
     "notes": {},
     "claims": [],
     "comment": "didn't realize this was a summary from another ai incident tracker - will upload original articles",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-004": {
+    "fields": {},
+    "notes": {},
+    "claims": [
+      {
+        "id": "1",
+        "harm": null,
+        "harmed_parties": [],
+        "actor": null,
+        "systems": [],
+        "developers": [
+          "These"
+        ],
+        "factors": [],
+        "omit": [],
+        "developer": null
+      }
+    ],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-183": {
+    "fields": {},
+    "notes": {},
+    "claims": [],
+    "comment": "should be linked to https://www.theverge.com/ai-artificial-intelligence/835839/google-discover-ai-headlines-clickbait-nonsense\nis this the right system?",
     "status": "",
     "completed_at": "",
     "flagged": false,
