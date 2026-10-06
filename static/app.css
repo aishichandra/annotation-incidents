@@ -918,4 +918,8 @@
   .tow-doc .ddate.edit { cursor: pointer; border-bottom: 1px dashed #c8c8c8; }
   .tow-doc .ddate.edit:hover { color: #254c6f; border-bottom-color: #254c6f; }
   .tow-doc .ddate.edit.none { color: #b45309; border-bottom-color: #e7c9a0; }
-  .tow-doc .ddate-input { font: inherit; font-size: 11.5px; width: 128px; padding: 1px 2px; }
+  /* The date column is a fixed width; while its box is open it takes the room it
+     needs, so the box pushes the title along instead of sitting on top of it. */
+  .tow-doc .ddate.editing { width: auto; border-bottom: 0; }
+  .tow-doc .ddate-input { font: inherit; font-size: 11.5px; width: 128px; padding: 1px 3px; }
+  .tow-doc .ddate-input.bad { outline: 2px solid #dc2626; }

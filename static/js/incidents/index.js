@@ -184,6 +184,28 @@ export function wireIncidentCard(root) {
   root.querySelectorAll('.card-close').forEach(btn => btn.onclick = () => closeIncident());
 }
 
+// Read a typed date as YYYY-MM-DD, or null if it isn't one. The year is the part
+// people stumble on in a date picker, so it is typed here, and the usual ways of
+// writing a date are all accepted: 2025-03-14, 3/14/2025 (month first, unless the
+// first number can only be a day), 14 March 2025, March 14, 2025.
+const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+export function parseDate(text) {
+  const t = text.trim().replace(/\s+/g, ' ');
+  let y, m, d, g;
+  if ((g = t.match(/^(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})$/))) { y = +g[1]; m = +g[2]; d = +g[3]; }
+  else if ((g = t.match(/^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{4})$/))) {
+    y = +g[3]; m = +g[1]; d = +g[2];
+    if (m > 12) [m, d] = [d, m];               // 25/3/2025 can only be day first
+  } else if ((g = t.match(/^([A-Za-z]{3,9})\.? (\d{1,2})(?:st|nd|rd|th)?,? (\d{4})$/))) {
+    m = MONTHS.indexOf(g[1].slice(0, 3).toLowerCase()) + 1; d = +g[2]; y = +g[3];
+  } else if ((g = t.match(/^(\d{1,2})(?:st|nd|rd|th)? ([A-Za-z]{3,9})\.?,? (\d{4})$/))) {
+    d = +g[1]; m = MONTHS.indexOf(g[2].slice(0, 3).toLowerCase()) + 1; y = +g[3];
+  } else return null;
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  if (!m || dt.getUTCFullYear() !== y || dt.getUTCMonth() !== m - 1 || dt.getUTCDate() !== d) return null;
+  return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+}
+
 // A document's date, when Zotero has none: click it to type one in. Saved on its
 // own as soon as it is chosen, shared by every coder, and the documents re-sort so
 // the list stays oldest-first. Clearing the field removes the date again.
@@ -192,14 +214,20 @@ function wireDateEdit(span) {
     e.stopPropagation();
     if (span.querySelector('input')) return;
     const input = document.createElement('input');
-    input.type = 'date'; input.className = 'ddate-input';
+    input.type = 'text'; input.className = 'ddate-input';
+    input.placeholder = 'e.g. 14 Mar 2025';
+    input.title = 'Type the date — 2025-03-14, 3/14/2025 or 14 March 2025';
     input.value = span.dataset.date || '';
-    span.textContent = ''; span.appendChild(input);
-    input.focus();
+    span.textContent = ''; span.classList.add('editing'); span.appendChild(input);
+    input.focus(); input.select();
     let done = false;
     const finish = async (save) => {
       if (done) return; done = true;
-      const date = input.value;
+      const typed = input.value.trim();
+      const date = typed ? parseDate(typed) : '';
+      if (save && date === null) {      // not a date: say so and let them fix it
+        done = false; input.classList.add('bad'); input.focus(); return;
+      }
       if (!save || date === (span.dataset.date || '')) { show(span.dataset.date || ''); return; }
       try {
         const r = await fetch('/api/docdate/' + encodeURIComponent(span.dataset.key), {
@@ -215,14 +243,15 @@ function wireDateEdit(span) {
         reorderDocs(span.closest('.tow-headdocs'));
       } catch (err) { show(span.dataset.date || ''); }
     };
-    input.onblur = () => finish(true);
-    input.onchange = () => finish(true);
+    input.oninput = () => input.classList.remove('bad');
+    input.onblur = () => { if (input.classList.contains('bad')) { done = true; show(span.dataset.date || ''); } else finish(true); };
     input.onkeydown = (ev) => {
       if (ev.key === 'Escape') { ev.stopPropagation(); finish(false); }
       else if (ev.key === 'Enter') finish(true);
     };
   };
   const show = (date) => {
+    span.classList.remove('editing');
     span.textContent = date || 'add date';
     span.classList.toggle('none', !date);
     span.title = date ? 'Edit this date' : 'Zotero has no date for this — click to add one';
