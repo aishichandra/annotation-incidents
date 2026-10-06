@@ -147,7 +147,7 @@ function kappaCell(t, what, unit) {
   const data = escapeHtml(JSON.stringify(
     [t.both, t.only_a, t.only_b, t.neither, what || '', t.items || null, unit || 'items']));
   return `<span class="ag-k ${band.cls}" data-t="${data}" tabindex="0" role="button" ` +
-         `title="${band.label} — click for the formula">${fmt(t.kappa)}</span>`;
+         `title="Click for the formula">${fmt(t.kappa)}</span>`;
 }
 
 // The worked calculation, in a popover under the chip that was clicked.
@@ -241,8 +241,7 @@ function categoryBlock(c) {
       <span class="ag-cat-name">${escapeHtml(c.label)}</span>
       <span class="ag-cat-k">
         ${bySub ? `<span class="ag-lvl">by subcategory</span>${kappaCell(bySub, label + ' · pooled over its subcategories', 'yes/no decisions')}` : ''}
-        <span class="ag-lvl">${bySub ? 'by code' : ''}</span>${kappaCell(p, label + ' · pooled over the codes used', 'yes/no decisions')}
-        <span class="ag-band">${kappaBand(p.kappa).label}</span></span>
+        <span class="ag-lvl">${bySub ? 'by code' : ''}</span>${kappaCell(p, label + ' · pooled over the codes used', 'yes/no decisions')}</span>
     </div>
     ${c.values.length ? `
     <table class="ag-table">
