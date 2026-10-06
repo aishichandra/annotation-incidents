@@ -660,5 +660,906 @@
     "completed_at": "2026-09-30T18:57:37+00:00",
     "flagged": false,
     "role_geo": {}
+  },
+  "C2TGAHSL": {
+    "fields": {
+      "incident_geography": {
+        "answer": [
+          "Venezuela"
+        ]
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {
+      "actor": {
+        "*": [
+          "Venezuela"
+        ]
+      }
+    }
+  },
+  "INC-001": {
+    "fields": {
+      "incident_geography": {
+        "answer": [
+          "India",
+          "Israel",
+          "United States"
+        ]
+      },
+      "incident_translated": {
+        "answer": "Not translated"
+      }
+    },
+    "notes": {},
+    "claims": [
+      {
+        "id": "1",
+        "harm": null,
+        "harmed_parties": [],
+        "actor": null,
+        "systems": [
+          "Remixing/repurposing"
+        ],
+        "developers": [],
+        "factors": [],
+        "omit": []
+      }
+    ],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {
+      "system": {
+        "Remixing/repurposing": [
+          "India"
+        ]
+      }
+    }
+  },
+  "INC-003": {
+    "fields": {
+      "incident_geography": {
+        "answer": [
+          "United States",
+          "India"
+        ]
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-004": {
+    "fields": {},
+    "notes": {},
+    "claims": [
+      {
+        "id": "1",
+        "harm": null,
+        "harmed_parties": [],
+        "actor": null,
+        "systems": [],
+        "developers": [
+          "These"
+        ],
+        "factors": [],
+        "omit": [],
+        "developer": null
+      }
+    ],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-048": {
+    "fields": {},
+    "notes": {},
+    "claims": [],
+    "comment": "I don't think we have enough information here to classify as an incident, would require subjective judgements\n\nshould we have some way of capturing when it's unclear if an outlet is legitimate?\n\nfollow-up: https://yaledailynews.com/articles/yale-law-school-terminates-scholar-amid-terrorist-link-allegations-cites-refusal-to-cooperate",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-049": {
+    "fields": {
+      "incident_geography": {
+        "answer": [
+          "United States"
+        ]
+      }
+    },
+    "notes": {},
+    "claims": [
+      {
+        "id": "1",
+        "harm": "Distorted source representation",
+        "harmed_parties": [
+          "General public"
+        ],
+        "actor": "AI developer",
+        "systems": [
+          "News summarization"
+        ],
+        "developers": [
+          "AI vendor"
+        ],
+        "factors": [
+          "Lack of audience disclosure"
+        ],
+        "omit": []
+      },
+      {
+        "id": "2",
+        "harm": "Distorted source representation",
+        "harmed_parties": [
+          "News organization/publisher"
+        ],
+        "actor": "AI developer",
+        "systems": [
+          "News summarization"
+        ],
+        "developers": [
+          "AI vendor"
+        ],
+        "factors": [
+          "Publishers’ lack of control over AI content presentation"
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "- should we have a code to capture companies' lack of transparency regarding product decisions?",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-051": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "based on the translation this doesn't seem like an incident (this is one of the ones I pulled from Jindex)",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-052": {
+    "fields": {
+      "incident_geography": {
+        "answer": [
+          "United States"
+        ]
+      },
+      "incident_translated": {
+        "answer": "Not translated"
+      }
+    },
+    "notes": {},
+    "claims": [
+      {
+        "id": "1",
+        "harm": "Exposure to offensive content",
+        "harmed_parties": [
+          "Audience/readers"
+        ],
+        "actor": "Individual journalist",
+        "systems": [
+          "Deepfake generation",
+          "Chatbot (general use)"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Contextually inappropriate application of AI"
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "I don't know if this case we should focus on the misrepresentation (because the subject/those close to him don't claim that) and it seems like the main harm was that people found it to be offensive and misleading that it was called an interview",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-061": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-069": {
+    "fields": {
+      "incident_geography": {
+        "answer": [
+          "United States",
+          "Europe"
+        ]
+      }
+    },
+    "notes": {},
+    "claims": [
+      {
+        "id": "1",
+        "harm": "Promotion of scams [observed]",
+        "harmed_parties": [
+          "General public",
+          "News organization/publisher"
+        ],
+        "actor": "Deceptive/fraudulent actor",
+        "factors": [
+          "AI-based mimicry of established journalists/outlets [observed]",
+          "AI-based hoaxing/counterfeiting of journalists/outlets [observed]"
+        ],
+        "systems": [
+          "Deepfake generation",
+          "Synthetic video/image generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "omit": []
+      },
+      {
+        "id": "2",
+        "harm": "Amplification of misinformation [observed]",
+        "harmed_parties": [
+          "General public"
+        ],
+        "actor": null,
+        "factors": [],
+        "systems": [],
+        "developers": [],
+        "omit": []
+      }
+    ],
+    "comment": "is Reddit a harmed platform?\nshould we have a harm category like 'exploitation of audience trust in news brand'?",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {
+      "harmed_party": {
+        "General public": [
+          "United States",
+          "Europe"
+        ]
+      }
+    }
+  },
+  "INC-071": {
+    "fields": {},
+    "notes": {},
+    "claims": [
+      {
+        "id": "1",
+        "harm": "Promotion of scams [observed]",
+        "harmed_parties": [
+          "General public"
+        ],
+        "actor": "Deceptive/fraudulent actor",
+        "factors": [
+          "AI-based mimicry of established journalists/outlets [observed]"
+        ],
+        "systems": [
+          "Deepfake generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "omit": []
+      },
+      {
+        "id": "2",
+        "harm": "Misrepresentation of individuals depicted",
+        "harmed_parties": [
+          "Journalist(s)"
+        ],
+        "actor": "Deceptive/fraudulent actor",
+        "factors": [
+          "AI-based mimicry of established journalists/outlets [observed]"
+        ],
+        "systems": [
+          "Deepfake generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "not sure about 'lack of control over AI content presentation'",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-073": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-078": {
+    "fields": {
+      "incident_geography": {
+        "answer": [
+          "United States"
+        ]
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "is newsbreak a content farm? do we want an 'aggregator' category?\nput 'general public' as a harmed party bc the linked nj.com article said that the article had been circulating on social media (will add nj.com article as source for this incident)",
+    "status": "",
+    "completed_at": "",
+    "flagged": true,
+    "role_geo": {}
+  },
+  "INC-135": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-136": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-138": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-142": {
+    "fields": {},
+    "notes": {},
+    "claims": [],
+    "comment": "didn't realize this was a summary from another ai incident tracker - will upload original articles",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-154": {
+    "fields": {},
+    "notes": {},
+    "claims": [],
+    "comment": "TO DO: add 'publisher's loss of control over brand representation' as harm and possibly 'exploitation of audience trust in news brand'",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-170": {
+    "fields": {
+      "incident_geography": {
+        "answer": [
+          "United States"
+        ]
+      },
+      "incident_translated": {
+        "answer": "Not translated"
+      }
+    },
+    "notes": {},
+    "claims": [
+      {
+        "id": "1",
+        "harm": "Publication of erroneous AI outputs [observed]",
+        "harmed_parties": [],
+        "actor": null,
+        "systems": [],
+        "developers": [],
+        "factors": [],
+        "omit": []
+      },
+      {
+        "id": "2",
+        "harm": "Publication of low-effort AI outputs/slop [inferable]",
+        "harmed_parties": [],
+        "actor": null,
+        "systems": [],
+        "developers": [],
+        "factors": [],
+        "omit": []
+      },
+      {
+        "id": "3",
+        "harm": "Collateral professional harm [observed]",
+        "harmed_parties": [],
+        "actor": null,
+        "systems": [],
+        "developers": [],
+        "factors": [],
+        "omit": []
+      },
+      {
+        "id": "4",
+        "harm": "Increased workload / burden on journalists [observed]",
+        "harmed_parties": [],
+        "actor": null,
+        "systems": [],
+        "developers": [],
+        "factors": [],
+        "omit": []
+      }
+    ],
+    "comment": "unsure about 'undermining of journalistic standards\nshould 'collateral professional harm' affect just journalists or entire outlet?",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-173": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-175": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-183": {
+    "fields": {
+      "incident_geography": {
+        "answer": [
+          "United States"
+        ]
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "should be linked to https://www.theverge.com/ai-artificial-intelligence/835839/google-discover-ai-headlines-clickbait-nonsense\nis this the right system?",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-210": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-215": {
+    "fields": {},
+    "notes": {},
+    "claims": [
+      {
+        "id": "1",
+        "harm": "Breach of contract [observed]",
+        "harmed_parties": [
+          "News organization/publisher"
+        ],
+        "actor": "Individual journalist",
+        "systems": [
+          "Editing"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Lack of audience disclosure [observed]"
+        ],
+        "omit": [],
+        "harmed_party": null,
+        "factor": null,
+        "system": null,
+        "developer": null
+      }
+    ],
+    "comment": "TO DO:\nlack of adherence to publisher guidelines\n\nshould we change to 'individual journalist OR CONTRIBUTOR'?\nshould we have a code like 'lack of adherence to publisher guidelines'?\n\nnot enough information to determine if this was an incident?",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-223": {
+    "fields": {},
+    "notes": {},
+    "claims": [],
+    "comment": "TODO:\nstack claims\n- delete second source bc it's redundant",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-226": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-237": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-239": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-240": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-249": {
+    "fields": {},
+    "notes": {},
+    "claims": [],
+    "comment": "TO DO: read and code NewsGuard",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-253": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-268": {
+    "fields": {},
+    "notes": {},
+    "claims": [],
+    "comment": "is citation fabrication the right harm?\n\nis insufficient AI safeguards the factor?",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-282": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-291": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-292": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-295": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-306": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-328": {
+    "fields": {},
+    "notes": {},
+    "claims": [],
+    "comment": "TODO: add 'lack of adherence to publisher AI policy', lack of audience disclose, inadequate human oversight, \nremove breach of contract, add Distorted source representation, direct professional harm\nharmed party: news organization/publisher",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-333": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-334": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-339": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-388": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-401": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-413": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-423": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
+  },
+  "INC-425": {
+    "fields": {
+      "incident_translated": {
+        "answer": "Translated"
+      }
+    },
+    "notes": {},
+    "claims": [],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {},
+    "groups": []
   }
 }

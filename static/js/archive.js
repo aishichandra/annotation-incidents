@@ -29,8 +29,8 @@ export async function loadArchive() {
       <label>Round <select id="arRound">${list.map(r =>
         `<option value="${escapeHtml(r.name)}"${r.name === CHOSEN ? ' selected' : ''}>${escapeHtml(r.title)} — ${r.incidents} incident${r.incidents === 1 ? '' : 's'}</option>`).join('')}
       </select></label>
-      <p>Read-only. These incidents were set aside when the live coding was reset; each shows
-        what every coder coded.</p>
+      <p>Read-only. These incidents were set aside when the live coding was reset — those signed
+        off as complete, and those coded but never finished. Each shows what every coder coded.</p>
     </div>
     <div id="arBody"><div class="ar-empty">Loading…</div></div>`;
   root.querySelector('#arRound').onchange = (e) => { CHOSEN = e.target.value; showRound(); };
@@ -44,7 +44,16 @@ async function showRound() {
   catch (e) { body.innerHTML = '<div class="ar-empty">Could not load this round.</div>'; return; }
   body.innerHTML = '';
   ROUND = d.name;
-  d.incidents.forEach(inc => body.appendChild(incidentBlock(inc, d.coders)));
+  const heading = { completed: 'Completed', in_progress: 'Not completed' };
+  ['completed', 'in_progress'].forEach(group => {
+    const list = d.incidents.filter(i => i.group === group);
+    if (!list.length) return;
+    const h = document.createElement('div');
+    h.className = 'ar-group';
+    h.innerHTML = `${heading[group]} <span>${list.length}</span>`;
+    body.appendChild(h);
+    list.forEach(inc => body.appendChild(incidentBlock(inc, d.coders)));
+  });
 }
 
 const chip = (role, v) => `<span class="ar-chip" style="border-color:${(ROLE[role] || {}).color || '#d4d4d8'};` +
@@ -101,7 +110,7 @@ function incidentBlock(inc, coders) {
   const who = Object.keys(inc.coders);
   det.innerHTML = `
     <summary><b>${escapeHtml(inc.incident_id)}</b>
-      <span class="ar-inc-title">${escapeHtml(inc.title || '')}</span>
+      <span class="ar-inc-title">${escapeHtml(inc.title || (inc.documents[0] || {}).title || '')}</span>
       <span class="ar-by">${who.map(w => `${escapeHtml(w)}${inc.coders[w].status === 'complete' ? ' ✓' : ''}`).join(' · ')}</span>
     </summary>
     <div class="ar-docs"></div>

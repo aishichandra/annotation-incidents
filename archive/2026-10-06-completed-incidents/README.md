@@ -1,8 +1,14 @@
-# Archive — 2026-10-06, completed incidents
+# Archive — 2026-10-06, completed and not-completed incidents
 
-The incidents a coder had signed off as **complete** when the live coding was reset:
-INC-044, INC-045, INC-046, INC-047, INC-050, INC-176, INC-197 (all signed off by
-Klaudia; Emma had signed off none). `completed_incidents.json` lists them.
+Two groups of incidents, set aside when the live coding was reset. `completed_incidents.json` lists both:
+
+- **Completed** (`completed_incidents`): signed off as complete — INC-044, INC-045, INC-046,
+  INC-047, INC-050, INC-176, INC-197 (all signed off by Klaudia; Emma had signed off none).
+- **Not completed** (`in_progress_incidents`): 49 incidents a coder had coded something on but
+  nobody had signed off. Built from the Atlas dump below plus the local files as committed just
+  before the reset (a coder's local copy wins, Atlas fills what it lacks — the way the app reads them).
+
+Incidents marked "not an incident" were not archived; they stayed in the live app.
 
 Nothing in this folder is read by the app. It is a frozen record.
 

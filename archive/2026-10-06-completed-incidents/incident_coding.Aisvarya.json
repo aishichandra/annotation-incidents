@@ -1,1 +1,27 @@
-{}
+{
+  "INC-001": {
+    "fields": {},
+    "notes": {},
+    "claims": [
+      {
+        "id": "1",
+        "harms": [
+          "Perpetuation of stereotypes",
+          "Loss of diversity"
+        ],
+        "harmed_parties": [],
+        "actor": null,
+        "systems": [],
+        "developers": [],
+        "factors": [],
+        "omit": [],
+        "harm": null
+      }
+    ],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  }
+}

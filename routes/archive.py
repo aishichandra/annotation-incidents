@@ -69,8 +69,10 @@ def api_archives():
     rounds = []
     for d in sorted(ARCHIVE_DIR.iterdir(), reverse=True) if ARCHIVE_DIR.is_dir() else []:
         if (d / "completed_incidents.json").is_file():
-            done = _read(d / "completed_incidents.json", {}).get("completed_incidents", [])
-            rounds.append({"name": d.name, "title": _title(d), "incidents": len(done)})
+            m = _read(d / "completed_incidents.json", {})
+            rounds.append({"name": d.name, "title": _title(d),
+                           "incidents": len(m.get("completed_incidents", []))
+                                        + len(m.get("in_progress_incidents", []))})
     return jsonify({"rounds": rounds})
 
 
@@ -96,10 +98,14 @@ def api_archive_doc(name, key):
 
 @bp.route("/api/archives/<name>")
 def api_archive(name):
-    """One round: each archived incident with every coder's coding of it — status,
+    """One round: each archived incident (completed first, then not completed) with every coder's coding of it — status,
     claims, answers, comment, and the highlighted evidence on its documents."""
     d = _round_dir(name)
-    done = _read(d / "completed_incidents.json", {}).get("completed_incidents", [])
+    manifest = _read(d / "completed_incidents.json", {})
+    # Two groups: signed off as complete, and coded but never finished. A round
+    # made before the second existed simply has none.
+    groups = [("completed", manifest.get("completed_incidents", [])),
+              ("in_progress", manifest.get("in_progress_incidents", []))]
     assign = _read(d / "incident_assignments.json", {})
     coders = sorted(p.name[len("incident_coding."):-len(".json")]
                     for p in d.glob("incident_coding.*.json"))
@@ -112,10 +118,10 @@ def api_archive(name):
     date_of = lambda k: ((texts.get(k) or {}).get("date") or "").strip()
 
     incidents = []
-    for inc_id in done:
+    for group, inc_id in [(g, i) for g, ids in groups for i in ids]:
         keys = [k for k, a in assign.items() if (a or {}).get("incident_id") == inc_id]
         incident = {
-            "incident_id": inc_id,
+            "incident_id": inc_id, "group": group,
             "title": next((a.get("incident_title") for a in assign.values()
                            if (a or {}).get("incident_id") == inc_id
                            and a.get("incident_title")), ""),

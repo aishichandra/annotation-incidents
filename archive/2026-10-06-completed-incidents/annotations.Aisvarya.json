@@ -1,1 +1,40 @@
-{}
+{
+  "GQ7D8VE4": {
+    "quotes": [
+      {
+        "role": "system",
+        "value": "News summarization",
+        "text": "review, we have found that nothing published",
+        "start": 224,
+        "end": 268
+      },
+      {
+        "role": "harm",
+        "value": "Perpetuation of stereotypes",
+        "text": "dited by journali",
+        "start": 420,
+        "end": 437
+      },
+      {
+        "role": "harm",
+        "value": "Loss of diversity",
+        "text": "lic-facing p",
+        "start": 503,
+        "end": 515
+      }
+    ],
+    "roles": {
+      "system": [
+        "News summarization"
+      ],
+      "developer": [],
+      "actor": [],
+      "factor": [],
+      "harm": [
+        "Perpetuation of stereotypes",
+        "Loss of diversity"
+      ],
+      "harmed_party": []
+    }
+  }
+}

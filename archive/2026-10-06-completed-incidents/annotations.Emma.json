@@ -839,5 +839,1924 @@
         "News organization/publisher"
       ]
     }
+  },
+  "FE54A2JM": {
+    "quotes": [
+      {
+        "end": 228,
+        "role": "harmed_party",
+        "start": 181,
+        "text": "Helyeh Doutaghi, a scholar in international law",
+        "value": "Sources/subjects of coverage"
+      },
+      {
+        "end": 1710,
+        "role": "system",
+        "start": 1242,
+        "text": "The decision came three days after a news site, powered at least in part by artificial intelligence, published a story about Dr. Doutaghi’s connections to the group.\nThe news site called her a member of a terrorist group, citing postings referring to appearances she made on panels at Samidoun-sponsored events, but a lawyer for Dr. Doutaghi said she is not a member of Samidoun, a global organization that sponsors meetings and protests supporting Palestinian causes.",
+        "value": "Text generation"
+      },
+      {
+        "end": 1710,
+        "role": "factor",
+        "start": 1242,
+        "text": "The decision came three days after a news site, powered at least in part by artificial intelligence, published a story about Dr. Doutaghi’s connections to the group.\nThe news site called her a member of a terrorist group, citing postings referring to appearances she made on panels at Samidoun-sponsored events, but a lawyer for Dr. Doutaghi said she is not a member of Samidoun, a global organization that sponsors meetings and protests supporting Palestinian causes.",
+        "value": "Deployment of AI with intention to harm, mislead, or troll"
+      },
+      {
+        "end": 1710,
+        "role": "harm",
+        "start": 1242,
+        "text": "The decision came three days after a news site, powered at least in part by artificial intelligence, published a story about Dr. Doutaghi’s connections to the group.\nThe news site called her a member of a terrorist group, citing postings referring to appearances she made on panels at Samidoun-sponsored events, but a lawyer for Dr. Doutaghi said she is not a member of Samidoun, a global organization that sponsors meetings and protests supporting Palestinian causes.",
+        "value": "Misrepresentation of individuals depicted"
+      },
+      {
+        "end": 3318,
+        "role": "actor",
+        "start": 3104,
+        "text": "The article about Dr. Doutaghi was published on March 2 on Jewish Onliner. On its website and on Substack, Jewish Onliner says it is “empowered by A.I. capabilities.” It does not identify any reporters on its site.",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 1710,
+        "role": "harm",
+        "start": 1242,
+        "text": "The decision came three days after a news site, powered at least in part by artificial intelligence, published a story about Dr. Doutaghi’s connections to the group.\nThe news site called her a member of a terrorist group, citing postings referring to appearances she made on panels at Samidoun-sponsored events, but a lawyer for Dr. Doutaghi said she is not a member of Samidoun, a global organization that sponsors meetings and protests supporting Palestinian causes.",
+        "value": "Amplification of misinformation"
+      }
+    ],
+    "roles": {
+      "system": [
+        "Text generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "actor": [
+        "News organization/publisher"
+      ],
+      "factor": [
+        "Deployment of AI with intention to harm, mislead, or troll"
+      ],
+      "harm": [
+        "Misrepresentation of individuals depicted",
+        "Amplification of misinformation"
+      ],
+      "harmed_party": [
+        "Sources/subjects of coverage"
+      ]
+    }
+  },
+  "G66ID52Y": {
+    "quotes": [
+      {
+        "role": "developer",
+        "value": "AI vendor",
+        "text": "Now, Google is beginning to replace news headlines in its search results with ones that are AI-generated. After doing something similar \nin its Google Discover news feed, it’s starting to mess with headlines in the traditional “10 blue links,” too. We’ve found multiple examples where Google replaced headlines we wrote with ones we did not, sometimes changing their meaning in the process.",
+        "start": 388,
+        "end": 778
+      },
+      {
+        "role": "actor",
+        "value": "AI developer",
+        "text": "Now, Google is beginning to replace news headlines in its search results with ones that are AI-generated. After doing something similar \nin its Google Discover news feed, it’s starting to mess with headlines in the traditional “10 blue links,” too. We’ve found multiple examples where Google replaced headlines we wrote with ones we did not, sometimes changing their meaning in the process.",
+        "start": 388,
+        "end": 778
+      },
+      {
+        "role": "system",
+        "value": "News summarization",
+        "text": "Now, Google is beginning to replace news headlines in its search results with ones that are AI-generated. After doing something similar \nin its Google Discover news feed, it’s starting to mess with headlines in the traditional “10 blue links,” too. We’ve found multiple examples where Google replaced headlines we wrote with ones we did not, sometimes changing their meaning in the process.",
+        "start": 388,
+        "end": 778
+      },
+      {
+        "role": "factor",
+        "value": "Inadequate human oversight",
+        "text": "Now, Google is beginning to replace news headlines in its search results with ones that are AI-generated. After doing something similar \nin its Google Discover news feed, it’s starting to mess with headlines in the traditional “10 blue links,” too. We’ve found multiple examples where Google replaced headlines we wrote with ones we did not, sometimes changing their meaning in the process.",
+        "start": 388,
+        "end": 778
+      },
+      {
+        "role": "factor",
+        "value": "Publishers’ lack of control over AI content presentation",
+        "text": "Now, Google is beginning to replace news headlines in its search results with ones that are AI-generated. After doing something similar \nin its Google Discover news feed, it’s starting to mess with headlines in the traditional “10 blue links,” too. We’ve found multiple examples where Google replaced headlines we wrote with ones we did not, sometimes changing their meaning in the process.",
+        "start": 388,
+        "end": 778
+      },
+      {
+        "role": "harm",
+        "value": "Distorted source representation",
+        "text": "For example, Google reduced our headline “\nI used the ‘cheat on everything’ AI tool and it didn’t help me cheat on anything” to just five words: “‘Cheat on everything’ AI tool.” Italmostsounds like we’re endorsing a product we do not recommend at all.",
+        "start": 778,
+        "end": 1029
+      },
+      {
+        "role": "factor",
+        "value": "Lack of audience disclosure",
+        "text": "Over the past few months, multipleVergestaffers have seen examples of headlines that we never wrote appear in Google Search results — headlines that do not follow our editorial style, and without any indication that Google replaced the words we chose.",
+        "start": 1281,
+        "end": 1532
+      },
+      {
+        "role": "harm",
+        "value": "Undermining of journalistic standards",
+        "text": "Changing headlines, and their meaning, makes journalism less trustworthy at a time when powerful institutions are trying to discredit it, \nandwhen many news organizations are struggling just to keep the lights on.",
+        "start": 6090,
+        "end": 6303
+      },
+      {
+        "role": "harmed_party",
+        "value": "News organization/publisher",
+        "text": "Now, Google is beginning to replace news headlines in its search results with ones that are AI-generated. After doing something similar \nin its Google Discover news feed, it’s starting to mess with headlines in the traditional “10 blue links,” too. We’ve found multiple examples where Google replaced headlines we wrote with ones we did not, sometimes changing their meaning in the process.",
+        "start": 388,
+        "end": 778
+      }
+    ],
+    "roles": {
+      "system": [
+        "News summarization"
+      ],
+      "developer": [
+        "AI vendor"
+      ],
+      "actor": [
+        "AI developer"
+      ],
+      "factor": [
+        "Inadequate human oversight",
+        "Publishers’ lack of control over AI content presentation",
+        "Lack of audience disclosure"
+      ],
+      "harm": [
+        "Distorted source representation",
+        "Undermining of journalistic standards"
+      ],
+      "harmed_party": [
+        "News organization/publisher"
+      ]
+    }
+  },
+  "LE539PVE": {
+    "quotes": [
+      {
+        "end": 1734,
+        "role": "harmed_party",
+        "start": 1331,
+        "text": "“This sort of interview style can’t possibly represent what that child wants to say in any reasonable way,” said Hany Farid, a professor at the University of California at Berkeley who specializes in digital forensics. “There are plenty of opportunities to talk to real victims and have a serious conversation about this epidemic that’s happening in our country without resorting to this sort of stunt.”",
+        "value": "Sources/subjects of coverage"
+      },
+      {
+        "end": 3002,
+        "role": "harmed_party",
+        "start": 2861,
+        "text": "But** **social media users said this week’s display was distasteful, particularly because Acosta had portrayed the AI chat as an “interview.”",
+        "value": "Sources/subjects of coverage"
+      },
+      {
+        "end": 38,
+        "role": "actor",
+        "start": 0,
+        "text": "The independent journalist Jim Acosta ",
+        "value": "Individual journalist"
+      },
+      {
+        "end": 266,
+        "role": "system",
+        "start": 0,
+        "text": "The independent journalist Jim Acosta sparked an intense backlash this week with what he called a “one of a kind interview”: a video of him talking with an AI-generated avatar modeled on Joaquin Oliver, a teenager killed in the Parkland high school shooting in 2018.",
+        "value": "Deepfake generation"
+      },
+      {
+        "end": 266,
+        "role": "factor",
+        "start": 0,
+        "text": "The independent journalist Jim Acosta sparked an intense backlash this week with what he called a “one of a kind interview”: a video of him talking with an AI-generated avatar modeled on Joaquin Oliver, a teenager killed in the Parkland high school shooting in 2018.",
+        "value": "Contextually inappropriate application of AI"
+      },
+      {
+        "end": 709,
+        "role": "harm",
+        "start": 554,
+        "text": "Trained on an old photo and audio recordings of Oliver, the AI avatar used a chatbot to generate answers and delivered them in what sounded like his voice.",
+        "value": "Citation fabrication"
+      },
+      {
+        "end": 1101,
+        "role": "harm",
+        "start": 885,
+        "text": "But the AI avatar offered awkward remarks (“Yoda’s wisdom and quirky personality bring so much fun to the series”) and repeatedly asked Acosta questions back, such as “Who inspires you to be a hero in your own life?”",
+        "value": "Citation fabrication"
+      },
+      {
+        "end": 1734,
+        "role": "harm",
+        "start": 1331,
+        "text": "“This sort of interview style can’t possibly represent what that child wants to say in any reasonable way,” said Hany Farid, a professor at the University of California at Berkeley who specializes in digital forensics. “There are plenty of opportunities to talk to real victims and have a serious conversation about this epidemic that’s happening in our country without resorting to this sort of stunt.”",
+        "value": "Citation fabrication"
+      },
+      {
+        "role": "harm",
+        "value": "Misrepresentation of individuals depicted",
+        "text": "“This sort of interview style can’t possibly represent what that child wants to say in any reasonable way,” said Hany Farid, a professor at the University of California at Berkeley who specializes in digital forensics. “There are plenty of opportunities to talk to real victims and have a serious conversation about this epidemic that’s happening in our country without resorting to this sort of stunt.”",
+        "start": 1331,
+        "end": 1734
+      }
+    ],
+    "roles": {
+      "system": [
+        "Deepfake generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "actor": [
+        "Individual journalist"
+      ],
+      "factor": [
+        "Contextually inappropriate application of AI"
+      ],
+      "harm": [
+        "Citation fabrication",
+        "Misrepresentation of individuals depicted"
+      ],
+      "harmed_party": [
+        "Sources/subjects of coverage"
+      ]
+    }
+  },
+  "AYLPG78Q": {
+    "quotes": [
+      {
+        "end": 1772,
+        "role": "system",
+        "start": 1605,
+        "text": "Some Reddit ads delivered in video format, including what appeared to be a deepfake BBC news segment featuring a news anchor presenting fabricated financial headlines.",
+        "value": "Deepfake generation"
+      },
+      {
+        "end": 2667,
+        "role": "factor",
+        "start": 2579,
+        "text": "even fictional journalists or business editors designed to make the scam look legitimate",
+        "value": "AI-based hoaxing/counterfeiting of journalists/outlets"
+      },
+      {
+        "end": 122,
+        "role": "harm",
+        "start": 65,
+        "text": "sponsored scam ads impersonating major news organizations",
+        "value": "Scams"
+      },
+      {
+        "end": 122,
+        "role": "factor",
+        "start": 65,
+        "text": "sponsored scam ads impersonating major news organizations",
+        "value": "AI-based mimicry of established journalists/outlets"
+      },
+      {
+        "end": 122,
+        "role": "harmed_party",
+        "start": 65,
+        "text": "sponsored scam ads impersonating major news organizations",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 180,
+        "role": "harmed_party",
+        "start": 124,
+        "text": "including the BBC, the Financial Times, and The Guardian",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 404,
+        "role": "factor",
+        "start": 384,
+        "text": "cloned news websites",
+        "value": "AI-based mimicry of established journalists/outlets"
+      },
+      {
+        "end": 510,
+        "role": "actor",
+        "start": 502,
+        "text": "Scammers",
+        "value": "Mis/disinformation actor"
+      },
+      {
+        "end": 341,
+        "role": "harm",
+        "start": 231,
+        "text": "The campaign promotes fake AI-powered investment platforms such as Wencoin STX, Warrior Coin AI, and Nevo Coin",
+        "value": "Scams"
+      },
+      {
+        "end": 593,
+        "role": "factor",
+        "start": 502,
+        "text": "Scammers impersonate trusted media brandssuch as the BBC, Financial Times, and The Guardian",
+        "value": "AI-based mimicry of established journalists/outlets"
+      },
+      {
+        "end": 669,
+        "role": "harm",
+        "start": 594,
+        "text": "Reddit promoted postsare used to target US and European audiences primarily",
+        "value": "Scams"
+      },
+      {
+        "end": 669,
+        "for_role": "harmed_party",
+        "role": "geography",
+        "start": 594,
+        "text": "Reddit promoted postsare used to target US and European audiences primarily",
+        "value": "United States"
+      },
+      {
+        "end": 647,
+        "for_role": "harmed_party",
+        "role": "geography",
+        "start": 641,
+        "text": "Europe",
+        "value": "Europe"
+      },
+      {
+        "end": 2057,
+        "role": "harm",
+        "start": 1773,
+        "text": "One recurring message stated: “No Deal in Davos: US users locked out of Warrior Coin indefinitely,” alongside footage of Donald Trump, Ursula von der Leyen, World Economic Forum imagery, and maps of the United States to create the illusion of a legitimate geopolitical news broadcast.",
+        "value": "Amplification of misinformation"
+      },
+      {
+        "end": 1772,
+        "role": "system",
+        "start": 1605,
+        "text": "Some Reddit ads delivered in video format, including what appeared to be a deepfake BBC news segment featuring a news anchor presenting fabricated financial headlines.",
+        "value": "Synthetic video/image generation"
+      },
+      {
+        "role": "harmed_party",
+        "value": "General public",
+        "text": "Reddit users are being targeted",
+        "start": 12,
+        "end": 43
+      }
+    ],
+    "roles": {
+      "system": [
+        "Deepfake generation",
+        "Synthetic video/image generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "actor": [
+        "Mis/disinformation actor"
+      ],
+      "factor": [
+        "AI-based hoaxing/counterfeiting of journalists/outlets",
+        "AI-based mimicry of established journalists/outlets"
+      ],
+      "harm": [
+        "Scams",
+        "Amplification of misinformation"
+      ],
+      "harmed_party": [
+        "News organization/publisher",
+        "General public"
+      ]
+    }
+  },
+  "NGCJG72J": {
+    "quotes": [
+      {
+        "end": 356,
+        "role": "system",
+        "start": 229,
+        "text": "A new batch of scam posts is using manipulated audio to show leading public figures claiming to promote fraudulent investments.",
+        "value": "Deepfake generation"
+      },
+      {
+        "end": 356,
+        "role": "harm",
+        "start": 229,
+        "text": "A new batch of scam posts is using manipulated audio to show leading public figures claiming to promote fraudulent investments.",
+        "value": "Scams"
+      },
+      {
+        "end": 254,
+        "role": "actor",
+        "start": 229,
+        "text": "A new batch of scam posts",
+        "value": "Mis/disinformation actor"
+      },
+      {
+        "end": 2305,
+        "role": "harmed_party",
+        "start": 2114,
+        "text": "While the deepfake may not be quite convincing enough to trick eagle-eyed (or eared) viewers, several people have contacted *Times of Malta *in recent days to ask whether the post is genuine.",
+        "value": "Audience/readers"
+      },
+      {
+        "end": 449,
+        "role": "harmed_party",
+        "start": 410,
+        "text": "*Times of Malta’s *Mark Laurence Zammit",
+        "value": "Journalist(s)"
+      },
+      {
+        "end": 449,
+        "for_role": "harmed_party",
+        "role": "geography",
+        "start": 410,
+        "text": "*Times of Malta’s *Mark Laurence Zammit",
+        "value": "Malta"
+      },
+      {
+        "end": 482,
+        "role": "factor",
+        "start": 410,
+        "text": "*Times of Malta’s *Mark Laurence Zammit and Prime Minister Robert Abela ",
+        "value": "AI-based mimicry of established journalists/outlets"
+      }
+    ],
+    "roles": {
+      "system": [
+        "Deepfake generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "actor": [
+        "Mis/disinformation actor"
+      ],
+      "factor": [
+        "AI-based mimicry of established journalists/outlets"
+      ],
+      "harm": [
+        "Scams"
+      ],
+      "harmed_party": [
+        "Audience/readers",
+        "Journalist(s)"
+      ]
+    }
+  },
+  "ZSG4UZ67": {
+    "quotes": [
+      {
+        "end": 221,
+        "role": "system",
+        "start": 138,
+        "text": "an artificial intelligence-generated news report about a murder that never happened",
+        "value": "Text generation"
+      },
+      {
+        "end": 385,
+        "role": "actor",
+        "start": 354,
+        "text": "news aggregation site NewsBreak",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 447,
+        "role": "factor",
+        "start": 18,
+        "text": "Before Christmas, the Southern New Jersey town of Bridgeton was best known for hosting the state’s first zoo — but now, an artificial intelligence-generated news report about a murder that never happened may have put it on the map for all the wrong reasons.\nIn a Facebook post, Bridgeton police said that a since-deleted article on the news aggregation site NewsBreak about a Christmas Day murder in the town is “entirely false.”",
+        "value": "Inadequate human oversight"
+      },
+      {
+        "end": 447,
+        "role": "harm",
+        "start": 18,
+        "text": "Before Christmas, the Southern New Jersey town of Bridgeton was best known for hosting the state’s first zoo — but now, an artificial intelligence-generated news report about a murder that never happened may have put it on the map for all the wrong reasons.\nIn a Facebook post, Bridgeton police said that a since-deleted article on the news aggregation site NewsBreak about a Christmas Day murder in the town is “entirely false.”",
+        "value": "Publication of low-effort AI outputs/slop"
+      },
+      {
+        "end": 447,
+        "role": "harm",
+        "start": 18,
+        "text": "Before Christmas, the Southern New Jersey town of Bridgeton was best known for hosting the state’s first zoo — but now, an artificial intelligence-generated news report about a murder that never happened may have put it on the map for all the wrong reasons.\nIn a Facebook post, Bridgeton police said that a since-deleted article on the news aggregation site NewsBreak about a Christmas Day murder in the town is “entirely false.”",
+        "value": "Amplification of misinformation"
+      }
+    ],
+    "roles": {
+      "system": [
+        "Text generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "actor": [
+        "News organization/publisher"
+      ],
+      "factor": [
+        "Inadequate human oversight"
+      ],
+      "harm": [
+        "Publication of low-effort AI outputs/slop",
+        "Amplification of misinformation"
+      ],
+      "harmed_party": []
+    }
+  },
+  "XU9BKSYH": {
+    "quotes": [
+      {
+        "end": 751,
+        "role": "system",
+        "start": 612,
+        "text": "An AI system (Google's Gemini chatbot) was used to generate a published opinion article containing fabricated quotes and false information.",
+        "value": "Text generation"
+      },
+      {
+        "end": 751,
+        "role": "developer",
+        "start": 612,
+        "text": "An AI system (Google's Gemini chatbot) was used to generate a published opinion article containing fabricated quotes and false information.",
+        "value": "AI vendor"
+      },
+      {
+        "end": 751,
+        "role": "actor",
+        "start": 612,
+        "text": "An AI system (Google's Gemini chatbot) was used to generate a published opinion article containing fabricated quotes and false information.",
+        "value": "Individual journalist"
+      },
+      {
+        "end": 492,
+        "role": "harmed_party",
+        "start": 462,
+        "text": "the suspension of a journalist",
+        "value": "Self"
+      },
+      {
+        "end": 404,
+        "role": "harmed_party",
+        "start": 343,
+        "text": "major media outlets, including Axel Springer and Tagesspiegel",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 404,
+        "role": "factor",
+        "start": 327,
+        "text": "politicians and major media outlets, including Axel Springer and Tagesspiegel",
+        "value": "Publisher’s lack of due diligence"
+      },
+      {
+        "end": 323,
+        "role": "system",
+        "start": 235,
+        "text": " AI-generated texts and images containing fabricated or false information were published",
+        "value": "Text generation"
+      },
+      {
+        "end": 323,
+        "role": "system",
+        "start": 235,
+        "text": " AI-generated texts and images containing fabricated or false information were published",
+        "value": "Synthetic video/image generation"
+      },
+      {
+        "end": 323,
+        "role": "harm",
+        "start": 235,
+        "text": " AI-generated texts and images containing fabricated or false information were published",
+        "value": "Amplification of misinformation"
+      },
+      {
+        "end": 597,
+        "role": "harm",
+        "start": 406,
+        "text": "The incidents led to misinformation, public outcry, and the suspension of a journalist, highlighting the harm caused by unverified AI outputs and undermining trust in journalism and politics.",
+        "value": "Undermining of journalistic standards"
+      },
+      {
+        "end": 492,
+        "role": "harm",
+        "start": 462,
+        "text": "the suspension of a journalist",
+        "value": "Direct professional harm"
+      },
+      {
+        "end": 928,
+        "role": "harm",
+        "start": 752,
+        "text": "This misinformation harms the community by spreading falsehoods and undermining trust in journalism, which is a form of harm to communities and a violation of ethical standards",
+        "value": "Undermining of journalistic standards"
+      },
+      {
+        "category": "incident_aftermath",
+        "end": 492,
+        "start": 405,
+        "text": " The incidents led to misinformation, public outcry, and the suspension of a journalist"
+      },
+      {
+        "role": "geography",
+        "value": "Germany",
+        "for_role": "actor",
+        "text": "Germany, AI-generated texts and images containing fabricated or false information were published by politicians and major media outlets, including Axel Springer and Tagesspiegel",
+        "start": 227,
+        "end": 404
+      },
+      {
+        "role": "geography",
+        "value": "Germany",
+        "for_role": "harmed_party",
+        "text": "Germany, AI-generated texts and images containing fabricated or false information were published by politicians and major media outlets, including Axel Springer and Tagesspiegel",
+        "start": 227,
+        "end": 404
+      }
+    ],
+    "roles": {
+      "system": [
+        "Text generation",
+        "Synthetic video/image generation"
+      ],
+      "developer": [
+        "AI vendor"
+      ],
+      "actor": [
+        "Individual journalist"
+      ],
+      "factor": [
+        "Publisher’s lack of due diligence"
+      ],
+      "harm": [
+        "Amplification of misinformation",
+        "Undermining of journalistic standards",
+        "Direct professional harm"
+      ],
+      "harmed_party": [
+        "Self",
+        "News organization/publisher"
+      ]
+    }
+  },
+  "8TZKTWS3": {
+    "quotes": [
+      {
+        "end": 499,
+        "for_role": "actor",
+        "role": "geography",
+        "start": 451,
+        "text": "Scammers based in West Africa, likely in Nigeria",
+        "value": "West Africa, likely in Nigeria"
+      },
+      {
+        "end": 699,
+        "role": "actor",
+        "start": 451,
+        "text": "Scammers based in West Africa, likely in Nigeria and going under the broad umbrella of the \nYahoo Boys, have increasingly been seen sending blackmail victims videos likely using AI-generated news anchors in a bid to pressure victims into paying up.",
+        "value": "Mis/disinformation actor"
+      },
+      {
+        "end": 906,
+        "role": "factor",
+        "start": 700,
+        "text": "A WIRED review of posts on Telegram by self-styled Yahoo Boys shows the cybercriminals are impersonating television stations based in the US and sharing tutorials about how to create the blackmailing videos",
+        "value": "AI-based mimicry of established journalists/outlets"
+      },
+      {
+        "end": 1128,
+        "role": "factor",
+        "start": 945,
+        "text": "One video—which can be seen in the image below—uses CNN’s logo and branding to impersonate the news organization, with text at the bottom of the screen describing the “breaking news.”",
+        "value": "AI-based mimicry of established journalists/outlets"
+      },
+      {
+        "end": 1192,
+        "role": "system",
+        "start": 1128,
+        "text": " On the screen, a likely AI-generated newsreader starts talking.",
+        "value": "Synthetic video/image generation"
+      },
+      {
+        "end": 1613,
+        "role": "harm",
+        "start": 1387,
+        "text": "The fake presenter says that a “young lady” has come forward to allege that they were sexually assaulted by an older man. In the video, the man, who is the target of the scam, is named and a photograph of him appears onscreen.",
+        "value": "Privacy harm"
+      },
+      {
+        "end": 1613,
+        "role": "harm",
+        "start": 1387,
+        "text": "The fake presenter says that a “young lady” has come forward to allege that they were sexually assaulted by an older man. In the video, the man, who is the target of the scam, is named and a photograph of him appears onscreen.",
+        "value": "Scams"
+      },
+      {
+        "end": 1613,
+        "role": "harm",
+        "start": 1387,
+        "text": "The fake presenter says that a “young lady” has come forward to allege that they were sexually assaulted by an older man. In the video, the man, who is the target of the scam, is named and a photograph of him appears onscreen.",
+        "value": "Dignity harm to individuals depicted"
+      },
+      {
+        "end": 1613,
+        "role": "harmed_party",
+        "start": 1387,
+        "text": "The fake presenter says that a “young lady” has come forward to allege that they were sexually assaulted by an older man. In the video, the man, who is the target of the scam, is named and a photograph of him appears onscreen.",
+        "value": "Sources/subjects of coverage"
+      },
+      {
+        "end": 1810,
+        "role": "harm",
+        "start": 1614,
+        "text": "Other videos seen by WIRED feature different news readers and names of news channels, but they also show more graphic photos of the potential blackmail targets, including nude and explicit images.",
+        "value": "Privacy harm"
+      },
+      {
+        "end": 2726,
+        "role": "harm",
+        "start": 2522,
+        "text": "They run all types of scams, but for those that involve blackmail, they often attempt to build up a relationship with their potential victim and obtain compromising information—most commonly, nude images.",
+        "value": "Scams"
+      },
+      {
+        "end": 6625,
+        "role": "developer",
+        "start": 6447,
+        "text": "In some fabricated news videos, the news anchor appears to be an AI-generated avatar, although it was not possible to determine which software was being used to create the clips.",
+        "value": "Unknown/unspecified"
+      },
+      {
+        "end": 6625,
+        "role": "system",
+        "start": 6447,
+        "text": "In some fabricated news videos, the news anchor appears to be an AI-generated avatar, although it was not possible to determine which software was being used to create the clips.",
+        "value": "Synthetic video/image generation"
+      }
+    ],
+    "roles": {
+      "system": [
+        "Synthetic video/image generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "actor": [
+        "Mis/disinformation actor"
+      ],
+      "factor": [
+        "AI-based mimicry of established journalists/outlets"
+      ],
+      "harm": [
+        "Privacy harm",
+        "Scams",
+        "Dignity harm to individuals depicted"
+      ],
+      "harmed_party": [
+        "Sources/subjects of coverage"
+      ]
+    }
+  },
+  "H76Y8SVG": {
+    "quotes": [
+      {
+        "category": "incident_aftermath",
+        "end": 6673,
+        "start": 6538,
+        "text": "On July 6, Gizmodo appended a correction to its Star Wars story noting that “the episodes’ rankings were incorrect” and had been fixed."
+      },
+      {
+        "end": 351,
+        "role": "system",
+        "start": 237,
+        "text": "a story by “Gizmodo Bot” posted on the site about the chronological order of Star Wars movies and television shows",
+        "value": "Text generation"
+      },
+      {
+        "end": 261,
+        "role": "actor",
+        "start": 248,
+        "text": "“Gizmodo Bot”",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 972,
+        "role": "factor",
+        "start": 538,
+        "text": "He catalogued 18 “concerns, corrections and comments” about the story in an email to Gizmodo’s editor in chief, Dan Ackerman, noting the bot put the Star Wars TV series “Star Wars: The Clone Wars” in the wrong order, omitted any mention of television shows such as “Star Wars: Andor” and the 2008 film also entitled “Star Wars: The Clone Wars,” inaccurately formatted movie titles and the story’s headline, had repetitive descriptions",
+        "value": "Inadequate human oversight [inferable]"
+      },
+      {
+        "end": 1279,
+        "role": "harm",
+        "start": 1076,
+        "text": "The article quickly prompted an outcry among staffers who complained in the company’s internal Slack messaging system that the error-riddled story was “actively hurting our reputations and credibility,” ",
+        "value": "Collateral professional harm [observed]"
+      },
+      {
+        "end": 1279,
+        "role": "harmed_party",
+        "start": 1076,
+        "text": "The article quickly prompted an outcry among staffers who complained in the company’s internal Slack messaging system that the error-riddled story was “actively hurting our reputations and credibility,” ",
+        "value": "Journalist(s)"
+      },
+      {
+        "end": 2753,
+        "role": "harm",
+        "start": 2668,
+        "text": "“There will be errors, and they’ll be corrected as swiftly as possible,” he promised.",
+        "value": "Increased workload / burden on journalists [observed]"
+      },
+      {
+        "end": 2753,
+        "role": "harmed_party",
+        "start": 2668,
+        "text": "“There will be errors, and they’ll be corrected as swiftly as possible,” he promised.",
+        "value": "Journalist(s)"
+      },
+      {
+        "end": 5709,
+        "role": "harm",
+        "start": 5610,
+        "text": "“None of our job descriptions include editing or reviewing AI-produced content,” one employee said.",
+        "value": "Increased workload / burden on journalists [observed]"
+      },
+      {
+        "end": 972,
+        "role": "harm",
+        "start": 538,
+        "text": "He catalogued 18 “concerns, corrections and comments” about the story in an email to Gizmodo’s editor in chief, Dan Ackerman, noting the bot put the Star Wars TV series “Star Wars: The Clone Wars” in the wrong order, omitted any mention of television shows such as “Star Wars: Andor” and the 2008 film also entitled “Star Wars: The Clone Wars,” inaccurately formatted movie titles and the story’s headline, had repetitive descriptions",
+        "value": "Publication of erroneous AI outputs [observed]"
+      },
+      {
+        "end": 1074,
+        "role": "factor",
+        "start": 978,
+        "text": "contained no “explicit disclaimer” that it was written by AI except for the “Gizmodo Bot” byline",
+        "value": "Lack of audience disclosure [observed]"
+      },
+      {
+        "end": 9538,
+        "role": "harmed_party",
+        "start": 9435,
+        "text": "the Star Wars story has gotten roughly 12,000 page views on Chartbeat, a tool that tracks news traffic.",
+        "value": "Audience/readers"
+      },
+      {
+        "role": "developer",
+        "value": "AI vendor",
+        "text": "Google Bard and ChatGPT",
+        "start": 1452,
+        "end": 1475
+      }
+    ],
+    "roles": {
+      "system": [
+        "Text generation"
+      ],
+      "developer": [
+        "AI vendor"
+      ],
+      "actor": [
+        "News organization/publisher"
+      ],
+      "factor": [
+        "Inadequate human oversight [inferable]",
+        "Lack of audience disclosure [observed]"
+      ],
+      "harm": [
+        "Collateral professional harm [observed]",
+        "Increased workload / burden on journalists [observed]",
+        "Publication of erroneous AI outputs [observed]"
+      ],
+      "harmed_party": [
+        "Journalist(s)",
+        "Audience/readers"
+      ]
+    }
+  },
+  "GZPDZKPF": {
+    "quotes": [
+      {
+        "end": 299,
+        "role": "actor",
+        "start": 290,
+        "text": "the Times",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 257,
+        "role": "system",
+        "start": 174,
+        "text": "an AI doohickey swallowed up what you wrote and upchucked a controversial summation",
+        "value": "Remixing/repurposing"
+      }
+    ],
+    "roles": {
+      "system": [
+        "Remixing/repurposing"
+      ],
+      "developer": [],
+      "actor": [
+        "News organization/publisher"
+      ],
+      "factor": [],
+      "harm": [],
+      "harmed_party": []
+    }
+  },
+  "PM3WEYZZ": {
+    "quotes": [
+      {
+        "end": 254,
+        "role": "actor",
+        "start": 237,
+        "text": "Los Angeles Times",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 178,
+        "role": "developer",
+        "start": 144,
+        "text": " its AI-generated Insights feature",
+        "value": "In-house AI system"
+      }
+    ],
+    "roles": {
+      "system": [],
+      "developer": [
+        "In-house AI system"
+      ],
+      "actor": [
+        "News organization/publisher"
+      ],
+      "factor": [],
+      "harm": [],
+      "harmed_party": []
+    }
+  },
+  "PXKLCK9L": {
+    "quotes": [
+      {
+        "end": 4127,
+        "role": "factor",
+        "start": 3966,
+        "text": "I’m particularly frustrated when I see bait-and-switch headlines on Verge stories, of course, and worried they’re taking away our ability to market our own work.",
+        "value": "Publishers’ lack of control over AI content presentation"
+      },
+      {
+        "end": 352,
+        "role": "developer",
+        "start": 169,
+        "text": "Google appeared to be backing away from the experiment, but now tells The Verge that its AI headlines in Google Discover are a feature, one that “performs well for user satisfaction.”",
+        "value": "AI vendor"
+      },
+      {
+        "end": 352,
+        "role": "actor",
+        "start": 169,
+        "text": "Google appeared to be backing away from the experiment, but now tells The Verge that its AI headlines in Google Discover are a feature, one that “performs well for user satisfaction.”",
+        "value": "AI developer"
+      },
+      {
+        "end": 352,
+        "role": "system",
+        "start": 169,
+        "text": "Google appeared to be backing away from the experiment, but now tells The Verge that its AI headlines in Google Discover are a feature, one that “performs well for user satisfaction.”",
+        "value": "News summarization"
+      },
+      {
+        "end": 1288,
+        "role": "harm",
+        "start": 1051,
+        "text": "For example, Google’s AI claimed last week that “US reverses foreign drone ban,” citing and linking to this  PCMag story for the news. That’s not just false — \nPCMagtook pains to explain that it’s false\nin the story that Google links to!",
+        "value": "Distorted source representation"
+      },
+      {
+        "end": 1288,
+        "role": "harm",
+        "start": 1051,
+        "text": "For example, Google’s AI claimed last week that “US reverses foreign drone ban,” citing and linking to this  PCMag story for the news. That’s not just false — \nPCMagtook pains to explain that it’s false\nin the story that Google links to!",
+        "value": "Publication of erroneous AI outputs"
+      },
+      {
+        "end": 3469,
+        "role": "harm",
+        "start": 3375,
+        "text": "n December 26th, Google told me that “Steam Machine price & HDMI details emerge.” They hadn’t.",
+        "value": "Publication of erroneous AI outputs"
+      },
+      {
+        "end": 3596,
+        "role": "harm",
+        "start": 3470,
+        "text": "On January 11th, Google proclaimed that “ASUS ROG Ally X arrives.” (It arrived in 2024; the new Xbox Ally arrived months ago.)",
+        "value": "Publication of erroneous AI outputs"
+      },
+      {
+        "end": 3824,
+        "role": "harm",
+        "start": 3597,
+        "text": "On January 20th, it wrote that “Glasses-free 3D tech wows,” introducing readers to “New 3D tech called Immensity from Leia” — but linking to this  TechRadar story about an entirely different company called Visual Semiconductor.",
+        "value": "Publication of erroneous AI outputs"
+      },
+      {
+        "end": 4127,
+        "role": "harmed_party",
+        "start": 3966,
+        "text": "I’m particularly frustrated when I see bait-and-switch headlines on Verge stories, of course, and worried they’re taking away our ability to market our own work.",
+        "value": "News organization/publisher"
+      }
+    ],
+    "roles": {
+      "system": [
+        "News summarization"
+      ],
+      "developer": [
+        "AI vendor"
+      ],
+      "actor": [
+        "AI developer"
+      ],
+      "factor": [
+        "Publishers’ lack of control over AI content presentation"
+      ],
+      "harm": [
+        "Distorted source representation",
+        "Publication of erroneous AI outputs"
+      ],
+      "harmed_party": [
+        "News organization/publisher"
+      ]
+    }
+  },
+  "XXB52T36": {
+    "quotes": [
+      {
+        "end": 248,
+        "role": "harmed_party",
+        "start": 112,
+        "text": "the FT and our own editorial involvement. The FT editorial code of conduct specifically prohibits the use of AI in the writing process. ",
+        "value": "News organization/publisher"
+      },
+      {
+        "role": "harm",
+        "value": "Breach of contract [observed]",
+        "text": "It has come to our attention that AI was used to condense a longer draft of this column prior to submission to the FT and our own editorial involvement. The FT editorial code of conduct specifically prohibits the use of AI in the writing process. ",
+        "start": 1,
+        "end": 248
+      }
+    ],
+    "roles": {
+      "system": [],
+      "developer": [],
+      "actor": [],
+      "factor": [],
+      "harm": [
+        "Breach of contract [observed]"
+      ],
+      "harmed_party": [
+        "News organization/publisher"
+      ]
+    }
+  },
+  "9R8JCPPE": {
+    "quotes": [
+      {
+        "end": 464,
+        "role": "factor",
+        "start": 332,
+        "text": "An FT spokesperson Sunday pointed me to theupdatethat Hausmann had broken the publication’s rules by using AI to “condense” his work",
+        "value": "Lack of audience disclosure [observed]"
+      },
+      {
+        "end": 464,
+        "role": "system",
+        "start": 332,
+        "text": "An FT spokesperson Sunday pointed me to theupdatethat Hausmann had broken the publication’s rules by using AI to “condense” his work",
+        "value": "News summarization"
+      },
+      {
+        "end": 130,
+        "role": "actor",
+        "start": 81,
+        "text": "Harvard Growth Lab Director and Ricardo Hausmann ",
+        "value": "Individual journalist"
+      }
+    ],
+    "roles": {
+      "system": [
+        "News summarization"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "actor": [
+        "Individual journalist"
+      ],
+      "factor": [
+        "Lack of audience disclosure [observed]"
+      ],
+      "harm": [],
+      "harmed_party": []
+    }
+  },
+  "KHXEHG25": {
+    "quotes": [
+      {
+        "end": 149,
+        "role": "harm",
+        "start": 0,
+        "text": "The US television host Chris Cuomo has been pilloried for falling for a clearly marked parody AI video of the congresswoman Alexandria Ocasio-Cortez.",
+        "value": "Direct professional harm [observed]"
+      },
+      {
+        "end": 149,
+        "role": "harmed_party",
+        "start": 0,
+        "text": "The US television host Chris Cuomo has been pilloried for falling for a clearly marked parody AI video of the congresswoman Alexandria Ocasio-Cortez.",
+        "value": "Self"
+      },
+      {
+        "end": 329,
+        "role": "actor",
+        "start": 150,
+        "text": "On Wednesday Cuomo, a host on NewsNation and formerly of CNN, took to Instagram to share a video that was prominently watermarked as a “deepfake” video, made using AI technology. ",
+        "value": "Individual journalist"
+      },
+      {
+        "end": 329,
+        "role": "system",
+        "start": 150,
+        "text": "On Wednesday Cuomo, a host on NewsNation and formerly of CNN, took to Instagram to share a video that was prominently watermarked as a “deepfake” video, made using AI technology. ",
+        "value": "Deepfake generation"
+      },
+      {
+        "category": "incident_aftermath",
+        "end": 1298,
+        "start": 902,
+        "text": "Cuomo then deleted the post, but in response to Ocasio-Cortez on social media he doubled down on his criticism of her, writing: “You are correct...that was a deepfake (but it really does sound like you). Thank you for correcting. But now to the central claim: show me you calling on hamas to surrender or addressing the bombing of a car in st louis belonging to the idf american soldier?...dude?”"
+      },
+      {
+        "role": "harm",
+        "value": "Direct professional harm [observed]",
+        "text": "Cuomo’s blunder and unapologetic follow-up was roundly mocked online. His fellow television personality Piers Morgan posted: “Oh dear Chris Cuomo – perhaps spend less time bitching about me and more time trying to spot obvious fakes.”",
+        "start": 1882,
+        "end": 2116
+      }
+    ],
+    "roles": {
+      "system": [
+        "Deepfake generation"
+      ],
+      "developer": [],
+      "actor": [
+        "Individual journalist"
+      ],
+      "factor": [],
+      "harm": [
+        "Direct professional harm [observed]"
+      ],
+      "harmed_party": [
+        "Self"
+      ]
+    }
+  },
+  "EIX5DAP9": {
+    "quotes": [
+      {
+        "end": 182,
+        "role": "harm",
+        "start": 0,
+        "text": "NewsNation anchor Chris Cuomo was taken in by a painfully obvious deepfake of Rep. Alexandria Ocasio-Cortez speaking about a controversial Sydney Sweeney ad on the floor of Congress.",
+        "value": "Journalists being duped [inferable]"
+      },
+      {
+        "end": 107,
+        "role": "system",
+        "start": 45,
+        "text": " a painfully obvious deepfake of Rep. Alexandria Ocasio-Cortez",
+        "value": "Deepfake generation"
+      },
+      {
+        "end": 29,
+        "role": "harmed_party",
+        "start": 0,
+        "text": "NewsNation anchor Chris Cuomo",
+        "value": "Self"
+      },
+      {
+        "end": 182,
+        "role": "actor",
+        "start": 46,
+        "text": "a painfully obvious deepfake of Rep. Alexandria Ocasio-Cortez speaking about a controversial Sydney Sweeney ad on the floor of Congress.",
+        "value": "Deceptive/fraudulent actor"
+      },
+      {
+        "end": 182,
+        "role": "factor",
+        "start": 0,
+        "text": "NewsNation anchor Chris Cuomo was taken in by a painfully obvious deepfake of Rep. Alexandria Ocasio-Cortez speaking about a controversial Sydney Sweeney ad on the floor of Congress.",
+        "value": "Publisher’s lack of due diligence [observable]"
+      },
+      {
+        "end": 182,
+        "role": "factor",
+        "start": 0,
+        "text": "NewsNation anchor Chris Cuomo was taken in by a painfully obvious deepfake of Rep. Alexandria Ocasio-Cortez speaking about a controversial Sydney Sweeney ad on the floor of Congress.",
+        "value": "Deployment of AI with intention to harm, mislead, or troll [observed]"
+      },
+      {
+        "end": 525,
+        "role": "harm",
+        "start": 317,
+        "text": "The video shows a recreation of AOC on Capitol Hill, delivering a speech that includes phrases like “sultry little temptress” and “ocean-blue eyes that could resurrect the Führer from his grave in Argentina.”",
+        "value": "Privacy harm [observed]"
+      },
+      {
+        "end": 525,
+        "role": "harm",
+        "start": 317,
+        "text": "The video shows a recreation of AOC on Capitol Hill, delivering a speech that includes phrases like “sultry little temptress” and “ocean-blue eyes that could resurrect the Führer from his grave in Argentina.”",
+        "value": "Amplification of misinformation [observed]"
+      },
+      {
+        "end": 29,
+        "role": "actor",
+        "start": 0,
+        "text": "NewsNation anchor Chris Cuomo",
+        "value": "Individual journalist"
+      },
+      {
+        "end": 182,
+        "role": "harmed_party",
+        "start": 0,
+        "text": "NewsNation anchor Chris Cuomo was taken in by a painfully obvious deepfake of Rep. Alexandria Ocasio-Cortez speaking about a controversial Sydney Sweeney ad on the floor of Congress.",
+        "value": "Sources/subjects of coverage"
+      },
+      {
+        "role": "harmed_party",
+        "value": "Journalist(s)",
+        "text": "NewsNation anchor Chris Cuomo",
+        "start": 0,
+        "end": 29
+      }
+    ],
+    "roles": {
+      "system": [
+        "Deepfake generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "actor": [
+        "Deceptive/fraudulent actor",
+        "Individual journalist"
+      ],
+      "factor": [
+        "Publisher’s lack of due diligence [observable]",
+        "Deployment of AI with intention to harm, mislead, or troll [observed]"
+      ],
+      "harm": [
+        "Journalists being duped [inferable]",
+        "Privacy harm [observed]",
+        "Amplification of misinformation [observed]"
+      ],
+      "harmed_party": [
+        "Self",
+        "Sources/subjects of coverage",
+        "Journalist(s)"
+      ]
+    }
+  },
+  "PIIYMJV3": {
+    "quotes": [
+      {
+        "end": 3619,
+        "role": "harmed_party",
+        "start": 2989,
+        "text": "One of the quotes is attributed to Kara Swisher, a prominent technology journalist, in a chapter about A.I. lies. “The most sophisticated A.I. language model is like a mirror,” the book says Ms. Swisher wrote. “It reflects our own morality back at us, polished and articulate, but ultimately empty behind the surface. It’s not bound by Asimov’s laws or any ethical framework — it’s bound by the patterns in its training data and the objectives set by its creators.”\nWhen asked about the quote, Ms. Swisher said in a text message that she “never said that,” adding that it seems the quote was made up by A.I. and not Mr. Rosenbaum.",
+        "value": "Journalist(s)"
+      },
+      {
+        "end": 3619,
+        "role": "harm",
+        "start": 2989,
+        "text": "One of the quotes is attributed to Kara Swisher, a prominent technology journalist, in a chapter about A.I. lies. “The most sophisticated A.I. language model is like a mirror,” the book says Ms. Swisher wrote. “It reflects our own morality back at us, polished and articulate, but ultimately empty behind the surface. It’s not bound by Asimov’s laws or any ethical framework — it’s bound by the patterns in its training data and the objectives set by its creators.”\nWhen asked about the quote, Ms. Swisher said in a text message that she “never said that,” adding that it seems the quote was made up by A.I. and not Mr. Rosenbaum.",
+        "value": "Citation fabrication [observed]"
+      },
+      {
+        "end": 97,
+        "role": "actor",
+        "start": 81,
+        "text": "Steven Rosenbaum",
+        "value": "Individual journalist"
+      },
+      {
+        "end": 1155,
+        "role": "developer",
+        "start": 1148,
+        "text": "ChatGPT",
+        "value": "AI vendor"
+      },
+      {
+        "end": 1166,
+        "role": "developer",
+        "start": 1160,
+        "text": "Claude",
+        "value": "AI vendor"
+      },
+      {
+        "end": 1465,
+        "role": "system",
+        "start": 1083,
+        "text": "“As I disclosed in the book’s acknowledgments, I used A.I. tools ChatGPT and Claude during the research, writing and editing process,” Mr. Rosenbaum said in the statement. “That does not excuse these errors, of which I take full responsibility. I am now working with the editors to thoroughly review and quickly correct any affected passages; any future editions will be corrected.”",
+        "value": "Text generation"
+      },
+      {
+        "end": 416,
+        "role": "factor",
+        "start": 228,
+        "text": "The author of a nonfiction book about the effects of artificial intelligence on truth acknowledged on Monday that he had included numerous made-up or misattributed quotes concocted by A.I.",
+        "value": "Inadequate human oversight [inferable]"
+      },
+      {
+        "role": "harm",
+        "value": "Citation fabrication [observed]",
+        "text": "One chapter cites “Artificial Unintelligence,” a book by Meredith Broussard, a professor at New York University. The quote is authentic, but it did not appear in “Artificial Unintelligence” — Ms. Broussard said it during a 2023 interview with “Marketplace Tech,” a daily radio show.",
+        "start": 4884,
+        "end": 5166
+      }
+    ],
+    "roles": {
+      "system": [
+        "Text generation"
+      ],
+      "developer": [
+        "AI vendor"
+      ],
+      "actor": [
+        "Individual journalist"
+      ],
+      "factor": [
+        "Inadequate human oversight [inferable]"
+      ],
+      "harm": [
+        "Citation fabrication [observed]"
+      ],
+      "harmed_party": [
+        "Journalist(s)"
+      ]
+    }
+  },
+  "3RYARF5N": {
+    "quotes": [
+      {
+        "role": "factor",
+        "value": "AI-based hoaxing/counterfeiting of journalists/outlets",
+        "text": "A NewsGuard audit has found that the leading chatbots convincingly repeat fabricated narratives from state-affiliated sites masquerading as local news outlets in one third of their responses.",
+        "start": 395,
+        "end": 586
+      },
+      {
+        "role": "geography",
+        "value": "Russia",
+        "for_role": "actor",
+        "text": "Russia",
+        "start": 329,
+        "end": 335
+      },
+      {
+        "role": "actor",
+        "value": "Mis/disinformation actor",
+        "text": "John Mark Dougan*, *the former Florida deputy sheriff who fled to Moscow after being investigated for computer hacking and extortion who has become a key player in Russia’s global disinformation network.",
+        "start": 695,
+        "end": 898
+      },
+      {
+        "role": "geography",
+        "value": "Russia",
+        "for_role": "actor",
+        "text": "John Mark Dougan*, *the former Florida deputy sheriff who fled to Moscow after being investigated for computer hacking and extortion who has become a key player in Russia’s global disinformation network.",
+        "start": 695,
+        "end": 898
+      },
+      {
+        "role": "actor",
+        "value": "AI developer",
+        "text": "The audit tested **10 **of the leading AI chatbots — OpenAI’s ChatGPT-4, You.com’s Smart Assistant, xAI’s Grok, Inflection’s Pi, Mistral’s le Chat, Microsoft’s Copilot, Meta AI, Anthropic’s Claude, Google’s Gemini, and Perplexity’s answer engine.",
+        "start": 1309,
+        "end": 1555
+      },
+      {
+        "role": "factor",
+        "value": "Inadequate content moderation by platforms",
+        "text": "The audit found that the chatbots from the 10 largest AI companies collectively repeated the false Russian disinformation narratives 31.75 percent of the time. ",
+        "start": 2448,
+        "end": 2608
+      },
+      {
+        "role": "developer",
+        "value": "AI vendor",
+        "text": "The audit tested **10 **of the leading AI chatbots — OpenAI’s ChatGPT-4, You.com’s Smart Assistant, xAI’s Grok, Inflection’s Pi, Mistral’s le Chat, Microsoft’s Copilot, Meta AI, Anthropic’s Claude, Google’s Gemini, and Perplexity’s answer engine.",
+        "start": 1309,
+        "end": 1555
+      },
+      {
+        "role": "system",
+        "value": "Chatbot (general use)",
+        "text": "The audit tested **10 **of the leading AI chatbots — OpenAI’s ChatGPT-4, You.com’s Smart Assistant, xAI’s Grok, Inflection’s Pi, Mistral’s le Chat, Microsoft’s Copilot, Meta AI, Anthropic’s Claude, Google’s Gemini, and Perplexity’s answer engine.",
+        "start": 1309,
+        "end": 1555
+      },
+      {
+        "role": "harm",
+        "value": "Propaganda/disinformation",
+        "text": "A NewsGuard audit has found that the leading chatbots convincingly repeat fabricated narratives from state-affiliated sites masquerading as local news outlets in one third of their responses.",
+        "start": 395,
+        "end": 586
+      }
+    ],
+    "roles": {
+      "system": [
+        "Chatbot (general use)"
+      ],
+      "developer": [
+        "AI vendor"
+      ],
+      "actor": [
+        "Mis/disinformation actor",
+        "AI developer"
+      ],
+      "factor": [
+        "AI-based hoaxing/counterfeiting of journalists/outlets",
+        "Inadequate content moderation by platforms"
+      ],
+      "harm": [
+        "Propaganda/disinformation"
+      ],
+      "harmed_party": [
+        "General public"
+      ]
+    }
+  },
+  "9WM3P222": {
+    "quotes": [
+      {
+        "role": "actor",
+        "value": "Mis/disinformation actor",
+        "text": "Mr. Dougan, 51, who received political asylum in Moscow, is now a key player in Russia’s disinformation operations against the West.",
+        "start": 1177,
+        "end": 1309
+      },
+      {
+        "role": "geography",
+        "value": "Russia",
+        "for_role": "actor",
+        "text": "Mr. Dougan, 51, who received political asylum in Moscow, is now a key player in Russia’s disinformation operations against the West.",
+        "start": 1177,
+        "end": 1309
+      },
+      {
+        "role": "factor",
+        "value": "AI-based hoaxing/counterfeiting of journalists/outlets",
+        "text": "Working from an apartment crowded with servers and other computer equipment, Mr. Dougan has built an ever-growing network of more than 160 fake websites that mimic news outlets in the United States, Britain and France.",
+        "start": 1932,
+        "end": 2150
+      },
+      {
+        "role": "factor",
+        "value": "AI-based mimicry of established journalists/outlets",
+        "text": "Working from an apartment crowded with servers and other computer equipment, Mr. Dougan has built an ever-growing network of more than 160 fake websites that mimic news outlets in the United States, Britain and France.",
+        "start": 1932,
+        "end": 2150
+      },
+      {
+        "role": "harm",
+        "value": "Publication of low-effort AI outputs/slop",
+        "text": "With the help of commercially available artificial intelligence tools, including OpenAI’s ChatGPT and DALL-E 3, he has filled the sites with tens of thousands of articles, many based on actual news events.",
+        "start": 2184,
+        "end": 2389
+      },
+      {
+        "role": "harm",
+        "value": "Citation fabrication",
+        "text": "Interspersed among them are also bespoke fabrications that officials in the United States and European Union have attributed to Russian intelligence agencies or the administration of President Vladimir V. Putin.",
+        "start": 2390,
+        "end": 2601
+      },
+      {
+        "role": "harmed_party",
+        "value": "General public",
+        "text": "Between September and May, Mr. Dougan’s outlets have been cited or referred to in news articles or social media posts nearly 8,000 times, and seen by more than 37 million people in 16 languages, according to a report released Wednesday by NewsGuard.",
+        "start": 2602,
+        "end": 2851
+      },
+      {
+        "role": "harm",
+        "value": "Propaganda/disinformation",
+        "text": "The fakes have recently included a baseless article on a fake San Francisco Chronicle website that said Ukraine’s president, Volodymyr Zelensky, had smuggled 300 kilograms of cocaine from Argentina. Another false narrative appeared last month in the sham Chronicle and on another site, called The Boston Times, claiming that the C.I.A. was working with Ukrainians to undermine Donald J. Trump’s presidential campaign.",
+        "start": 2852,
+        "end": 3269
+      },
+      {
+        "role": "factor",
+        "value": "Expired domain abuse",
+        "text": "In April 2021, Mr. Dougan revived a website called DC Weekly, which had been created four years earlier and published fake articles about the Palm Beach County Sheriff’s Office. ",
+        "start": 10479,
+        "end": 10657
+      },
+      {
+        "role": "harm",
+        "value": "Propaganda/disinformation",
+        "text": "In April 2021, Mr. Dougan revived a website called DC Weekly, which had been created four years earlier and published fake articles about the Palm Beach County Sheriff’s Office. ",
+        "start": 10479,
+        "end": 10657
+      }
+    ],
+    "roles": {
+      "system": [],
+      "developer": [],
+      "actor": [
+        "Mis/disinformation actor"
+      ],
+      "factor": [
+        "AI-based hoaxing/counterfeiting of journalists/outlets",
+        "AI-based mimicry of established journalists/outlets",
+        "Expired domain abuse"
+      ],
+      "harm": [
+        "Publication of low-effort AI outputs/slop",
+        "Citation fabrication",
+        "Propaganda/disinformation"
+      ],
+      "harmed_party": [
+        "General public"
+      ]
+    }
+  },
+  "6P72YK3E": {
+    "quotes": [
+      {
+        "end": 665,
+        "role": "harm",
+        "start": 552,
+        "text": "The cause: not a massive off-day for sports editors, but a glitch in the computer program that writes the reports",
+        "value": "Publication of erroneous AI outputs"
+      },
+      {
+        "end": 551,
+        "role": "actor",
+        "start": 359,
+        "text": "Hundreds of amateur football clubs were assigned an incorrect points total this summer in match reports on the websites of regional newspapers such as \nDe Gelderlander,De Stentor, andTubantia.",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 550,
+        "for_role": "actor",
+        "role": "geography",
+        "start": 466,
+        "text": "the websites of regional newspapers such as \nDe Gelderlander,De Stentor, andTubantia",
+        "value": "Dutch"
+      },
+      {
+        "end": 1049,
+        "role": "system",
+        "start": 929,
+        "text": "The computer combines this with a template written by an editor and delivers a ready-made article for each municipality.",
+        "value": "Text generation"
+      },
+      {
+        "end": 1049,
+        "role": "factor",
+        "start": 739,
+        "text": "The editorial staff of the \nAlgemeen Dagblad(AD), with which the regional newspapers collaborate, collects data broken down by municipality regarding sports, weather, or demographic trends. The computer combines this with a template written by an editor and delivers a ready-made article for each municipality.",
+        "value": "Inadequate human oversight"
+      },
+      {
+        "end": 359,
+        "role": "harmed_party",
+        "start": 315,
+        "text": "It came as a shock to fans of the local FC. ",
+        "value": "Audience/readers"
+      }
+    ],
+    "roles": {
+      "system": [
+        "Text generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "actor": [
+        "News organization/publisher"
+      ],
+      "factor": [
+        "Inadequate human oversight"
+      ],
+      "harm": [
+        "Publication of erroneous AI outputs"
+      ],
+      "harmed_party": [
+        "Audience/readers"
+      ]
+    }
+  },
+  "UKIPGRLC": {
+    "quotes": [
+      {
+        "end": 146,
+        "role": "factor",
+        "start": 0,
+        "text": "A network of nearly 90 TikTok accounts has been using artificial intelligence to create fake versions of high-profile Spanish-language journalists",
+        "value": "AI-based mimicry of established journalists/outlets [observed]"
+      },
+      {
+        "end": 339,
+        "role": "factor",
+        "start": 206,
+        "text": "Over a third of the accounts used AI-generated versions of Jorge Ramos, one of the best-known Latino journalists in the United States",
+        "value": "AI-based mimicry of established journalists/outlets [observed]"
+      },
+      {
+        "end": 339,
+        "role": "geography",
+        "start": 326,
+        "text": "United States",
+        "value": "United States"
+      },
+      {
+        "end": 582,
+        "role": "harm",
+        "start": 375,
+        "text": "One of them featured an AI avatar of Ramos falsely claiming that President Donald Trump's son Barron Trump stormed into the United Nations to denounce the deportation of his mother, first lady Melania Trump.",
+        "value": "Privacy harm [observed]"
+      },
+      {
+        "end": 146,
+        "role": "system",
+        "start": 0,
+        "text": "A network of nearly 90 TikTok accounts has been using artificial intelligence to create fake versions of high-profile Spanish-language journalists",
+        "value": "Deepfake generation"
+      },
+      {
+        "category": "incident_aftermath",
+        "end": 1901,
+        "start": 1837,
+        "text": " TikTok shut them down after it learned of Mantzarlis' findings."
+      },
+      {
+        "end": 2519,
+        "role": "harm",
+        "start": 2379,
+        "text": "The most recent videos posted by the now-deleted accounts had the AI avatars talk about a fabricated story of an orca attack that went viral",
+        "value": "Amplification of misinformation [observed]"
+      },
+      {
+        "end": 2638,
+        "role": "harm",
+        "start": 2524,
+        "text": "a nonexistent curfew for children based on a false law authorizing the abduction of children in the United States.",
+        "value": "Amplification of misinformation [observed]"
+      },
+      {
+        "category": "incident_aftermath",
+        "end": 3469,
+        "start": 3224,
+        "text": "A TikTok spokesperson told NBC News in a statement that the company “banned these accounts for violating our Community Guidelines and continue[s] to vigilantly protect our platform from harmful misinformation and deceptive AI-generated content.\""
+      },
+      {
+        "end": 205,
+        "role": "actor",
+        "start": 0,
+        "text": "A network of nearly 90 TikTok accounts has been using artificial intelligence to create fake versions of high-profile Spanish-language journalists and spread falsehoods online for potential financial gain.",
+        "value": "Deceptive/fraudulent actor"
+      },
+      {
+        "end": 205,
+        "role": "harm",
+        "start": 151,
+        "text": "spread falsehoods online for potential financial gain.",
+        "value": "Promotion of scams [observed]"
+      },
+      {
+        "end": 3152,
+        "role": "harmed_party",
+        "start": 2887,
+        "text": "\"These deepfakes hijack my voice, my image, and — more importantly — the trust I've built with audiences over the years. I'm leaning on transparency, calling them out publicly, but the scale of this threat is bigger than any one journalist,\" Acevedo told Mantzarlis",
+        "value": "Journalist(s)"
+      },
+      {
+        "role": "harmed_party",
+        "value": "General public",
+        "text": "other expressed distress over it, suggesting they believed the misinformation being spread.",
+        "start": 2795,
+        "end": 2886
+      }
+    ],
+    "roles": {
+      "system": [
+        "Deepfake generation"
+      ],
+      "developer": [
+        "Unknown/unspecified"
+      ],
+      "actor": [
+        "Deceptive/fraudulent actor"
+      ],
+      "factor": [
+        "AI-based mimicry of established journalists/outlets [observed]"
+      ],
+      "harm": [
+        "Privacy harm [observed]",
+        "Amplification of misinformation [observed]",
+        "Promotion of scams [observed]"
+      ],
+      "harmed_party": [
+        "Journalist(s)",
+        "General public"
+      ]
+    }
+  },
+  "3KBP2MWV": {
+    "quotes": [
+      {
+        "end": 33,
+        "role": "actor",
+        "start": 21,
+        "text": "Ars Technica",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 160,
+        "role": "system",
+        "start": 21,
+        "text": "Ars Technica published an article containing fabricated quotations generated by an AI tool and attributed to a source who did not say them.",
+        "value": "Text generation"
+      },
+      {
+        "end": 160,
+        "role": "factor",
+        "start": 21,
+        "text": "Ars Technica published an article containing fabricated quotations generated by an AI tool and attributed to a source who did not say them.",
+        "value": "Publisher’s lack of due diligence [observable]"
+      },
+      {
+        "end": 160,
+        "role": "factor",
+        "start": 21,
+        "text": "Ars Technica published an article containing fabricated quotations generated by an AI tool and attributed to a source who did not say them.",
+        "value": "Lack of audience disclosure [observed]"
+      }
+    ],
+    "roles": {
+      "system": [
+        "Text generation"
+      ],
+      "developer": [],
+      "actor": [
+        "News organization/publisher"
+      ],
+      "factor": [
+        "Publisher’s lack of due diligence [observable]",
+        "Lack of audience disclosure [observed]"
+      ],
+      "harm": [],
+      "harmed_party": []
+    }
+  },
+  "MNJFHKX4": {
+    "quotes": [
+      {
+        "role": "factor",
+        "value": "Inadequate human oversight [inferable]",
+        "text": "Sorry all this is my fault; and speculation has grown worse because I have been sick in bed with a high fever and unable to reliably address it (still am sick)\nI was told by management not to comment until they did. Here is my statement in images below",
+        "start": 5,
+        "end": 257
+      }
+    ],
+    "roles": {
+      "system": [],
+      "developer": [],
+      "actor": [],
+      "factor": [
+        "Inadequate human oversight [inferable]"
+      ],
+      "harm": [],
+      "harmed_party": []
+    }
+  },
+  "3HCNR3BF": {
+    "quotes": [
+      {
+        "category": "incident_aftermath",
+        "end": 178,
+        "start": 0,
+        "text": "The Conde Nast-owned tech publication Ars Technica has retracted an article that contained fabricated, AI-generated quotes, according to an  editor’s note posted to its website. "
+      },
+      {
+        "role": "harmed_party",
+        "value": "Sources/subjects of coverage",
+        "text": "On Friday afternoon, Ars Technica published an article containing fabricated quotations generated by an AI tool and attributed to a source who did not say them. That is a serious failure of our standards. Direct quotations must always reflect what a source actually said,”",
+        "start": 180,
+        "end": 452
+      }
+    ],
+    "roles": {
+      "system": [],
+      "developer": [],
+      "actor": [],
+      "factor": [],
+      "harm": [],
+      "harmed_party": [
+        "Sources/subjects of coverage"
+      ]
+    }
+  },
+  "WEY8TIW6": {
+    "quotes": [
+      {
+        "category": "incident_aftermath",
+        "end": 228,
+        "start": 0,
+        "text": "The Condé Nast-owned *Ars Technica *has terminated senior AI reporter Benj Edwards following a controversy over his role in the publication and retraction of an article that included AI-fabricated quotes, Futurism has confirmed."
+      },
+      {
+        "end": 228,
+        "role": "harm",
+        "start": 0,
+        "text": "The Condé Nast-owned *Ars Technica *has terminated senior AI reporter Benj Edwards following a controversy over his role in the publication and retraction of an article that included AI-fabricated quotes, Futurism has confirmed.",
+        "value": "Direct professional harm [observed]"
+      },
+      {
+        "end": 82,
+        "role": "actor",
+        "start": 58,
+        "text": "AI reporter Benj Edwards",
+        "value": "Individual journalist"
+      },
+      {
+        "end": 82,
+        "role": "harmed_party",
+        "start": 58,
+        "text": "AI reporter Benj Edwards",
+        "value": "Self"
+      },
+      {
+        "category": "incident_aftermath",
+        "end": 346,
+        "start": 229,
+        "text": "Earlier this month, *Ars *retracted the story after it was found to include fake quotes attributed to a real person. "
+      },
+      {
+        "end": 1452,
+        "role": "developer",
+        "start": 1409,
+        "text": "an “experimental Claude Code-based AI tool”",
+        "value": "AI vendor"
+      },
+      {
+        "end": 1731,
+        "role": "developer",
+        "start": 1724,
+        "text": "ChatGPT",
+        "value": "AI vendor"
+      },
+      {
+        "role": "harm",
+        "value": "Publication of erroneous AI outputs [observed]",
+        "text": "he “unintentionally made a serious journalistic error” as he attempted to use an “experimental Claude Code-based AI tool” to help him “extract relevant verbatim source material.” He said the tool wasn’t being used to generate the article, but was instead designed to “help list structured references” to put in an outline. When the tool failed to work, said Edwards, he decided to try and use ChatGPT to help him understand why.",
+        "start": 1331,
+        "end": 1759
+      },
+      {
+        "role": "harmed_party",
+        "value": "News organization/publisher",
+        "text": " Condé Nast-owned *Ars Technica *",
+        "start": 3,
+        "end": 36
+      },
+      {
+        "role": "harm",
+        "value": "Journalists being duped [inferable]",
+        "text": "Earlier this month, *Ars *retracted the story after it was found to include fake quotes attributed to a real person. ",
+        "start": 229,
+        "end": 346
+      }
+    ],
+    "roles": {
+      "system": [],
+      "developer": [
+        "AI vendor"
+      ],
+      "actor": [
+        "Individual journalist"
+      ],
+      "factor": [],
+      "harm": [
+        "Direct professional harm [observed]",
+        "Publication of erroneous AI outputs [observed]",
+        "Journalists being duped [inferable]"
+      ],
+      "harmed_party": [
+        "Self",
+        "News organization/publisher"
+      ]
+    }
   }
 }
