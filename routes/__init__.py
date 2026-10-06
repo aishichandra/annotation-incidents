@@ -13,11 +13,12 @@ decides, not as how it is stored.
     incidents  the cards, and every judgement recorded on one
     sync       Pull and Push
     agreement  the Agreement tab: Cohen's kappa between two coders
+    archive    the Archive tab: read-only view of rounds set aside under archive/
 """
-from . import agreement, docs, incidents, pages, schema, sync, vocab
+from . import agreement, archive, docs, incidents, pages, schema, sync, vocab
 
 BLUEPRINTS = (pages.bp, schema.bp, vocab.bp, docs.bp, incidents.bp, sync.bp,
-              agreement.bp)
+              agreement.bp, archive.bp)
 
 
 def register(app) -> None:

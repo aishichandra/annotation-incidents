@@ -3,6 +3,7 @@
 // restores each view's scroll position.
 
 import { loadAgreement } from './agreement.js';
+import { loadArchive } from './archive.js';
 import { loadCodebook } from './codebook.js';
 import { initCoders } from './coder.js';
 import { refreshIncidents } from './incidents/index.js';
@@ -24,6 +25,7 @@ export async function init() {
   document.getElementById('tabIncidents').onclick = () => setView('incidents');
   document.getElementById('tabCodebook').onclick = () => setView('codebook');
   document.getElementById('tabAgreement').onclick = () => setView('agreement');
+  document.getElementById('tabArchive').onclick = () => setView('archive');
   loadDoc(docs.length ? docs[0].index : 0);
   // Land where you left off; Incidents on a first visit.
   let start = 'incidents';
@@ -45,10 +47,10 @@ export async function init() {
 // page and the browser clamps scrollY. Each view's offset is therefore parked on
 // the way out and put back on the way in, the same way loadDoc(keepScroll) does.
 export let CURRENT_VIEW = null;
-export const VIEWS = ['incidents', 'docs', 'codebook', 'agreement'];
+export const VIEWS = ['incidents', 'docs', 'codebook', 'agreement', 'archive'];
 export const TAB_OF = { incidents: 'tabIncidents', docs: 'tabDocs', codebook: 'tabCodebook',
-                       agreement: 'tabAgreement' };
-export const VIEW_SCROLL = { docs: 0, incidents: 0, codebook: 0, agreement: 0 };
+                       agreement: 'tabAgreement', archive: 'tabArchive' };
+export const VIEW_SCROLL = { docs: 0, incidents: 0, codebook: 0, agreement: 0, archive: 0 };
 
 export function setView(v) {
   if (CURRENT_VIEW) VIEW_SCROLL[CURRENT_VIEW] = window.scrollY;
@@ -65,5 +67,6 @@ export function setView(v) {
   else if (v === 'codebook') loadCodebook().then(done);
   // Agreement is computed from everyone's coding, which moves as they work.
   else if (v === 'agreement') loadAgreement().then(done);
+  else if (v === 'archive') loadArchive().then(done);
   else done();
 }

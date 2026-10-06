@@ -69,13 +69,7 @@ async function render() {
           <option value="complete"${DATA.scope === 'complete' ? ' selected' : ''}>both signed off</option>
         </select></label>
     </div>
-    <p class="ag-what">Cohen’s kappa (κ) measures how much two coders agree <i>beyond what luck alone would produce</i>: 1 is perfect agreement, 0 is no better than chance. Click any κ to see how it was worked out.</p>
-    <p>Over <b>${DATA.n_incidents}</b> incident${DATA.n_incidents === 1 ? '' : 's'}
-      (${escapeHtml(DATA.a)} has coded ${DATA.coded_by_a}, ${escapeHtml(DATA.b)} ${DATA.coded_by_b},
-      ${DATA.coded_by_both} by both${DATA.set_aside ? `, ${DATA.set_aside} set aside as not an incident` : ''}).
-      Each code is a yes/no per incident — did the coder apply it? — and a category’s figure pools
-      the codes either coder used. Harm and factor also have a subcategory κ, where a coder
-      “applied” a subcategory by applying any code in it. A “—” means κ is undefined: the coders never varied.</p>`;
+`;
   root.appendChild(head);
   const redo = () => {
     CHOICE = { a: head.querySelector('#agA').value, b: head.querySelector('#agB').value,

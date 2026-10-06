@@ -859,3 +859,54 @@
   .ag-fx-sum { margin-top: 3px; color: #555; }
   .ag-fx-scale { margin-top: 12px; font-size: 11px; color: #8a8a8a; }
   .ag-head p.ag-what { color: #3d3d3d; font-size: 14px; }
+
+  /* ---- Archive view: rounds of coding set aside, read-only ---- */
+  body.view-archive .app, body.view-archive #arrows,
+  body.view-archive #docSelect { display: none; }
+  #archive { display: none; }
+  body.view-archive #archive { display: block; }
+  #archive { padding: calc(var(--bar-h) + 40px) 24px 100px; background: #f6f6f4;
+    min-height: 100vh; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+  .ar-head { max-width: 1100px; margin: 0 auto 22px; padding-bottom: 16px;
+    border-bottom: 2px solid #de5a35; font-size: 13px; }
+  .ar-head h1 { font-family: Georgia, 'Times New Roman', serif; font-size: 30px;
+    color: #254c6f; margin: 0 0 12px; font-weight: 700; }
+  .ar-head select { font: inherit; padding: 4px 6px; }
+  .ar-head p { margin: 10px 0 0; color: #6e6e6e; }
+  .ar-empty { max-width: 1100px; margin: 0 auto; color: var(--muted); padding: 40px 4px; }
+  .ar-inc { max-width: 1100px; margin: 0 auto 12px; background: #fff; border: 1px solid #e0e0e0; }
+  .ar-inc summary { cursor: pointer; padding: 12px 18px; display: flex; gap: 12px;
+    align-items: baseline; font-size: 14px; }
+  .ar-inc[open] summary { border-bottom: 1px solid #ececec; }
+  .ar-inc-title { color: #444; flex: 1; }
+  .ar-by { color: #8a8a8a; font-size: 12px; white-space: nowrap; }
+  .ar-docs { padding: 8px 18px; font-size: 12px; color: #8a8a8a; }
+  .ar-cols { display: flex; gap: 0; align-items: flex-start; }
+  .ar-coder { flex: 1; min-width: 0; padding: 12px 18px 18px; font-size: 13px; line-height: 1.6; }
+  .ar-coder + .ar-coder { border-left: 1px solid #ececec; }
+  .ar-coder-h { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
+  .ar-coder-h span { color: #8a8a8a; font-size: 12px; }
+  .ar-sec { margin: 12px 0 4px; font-size: 10px; text-transform: uppercase;
+    letter-spacing: .07em; color: #8a8a8a; font-weight: 700; }
+  .ar-claim { margin: 4px 0; padding: 6px 8px; background: #fafaf8; border: 1px solid #eee; }
+  .ar-chip { display: inline-block; border: 1px solid; border-radius: 4px; padding: 0 6px; margin: 1px 1px; font-size: 12px; }
+  .ar-k { color: #8a8a8a; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; margin-right: 6px; }
+  .ar-comment { white-space: pre-wrap; color: #333; }
+  .ar-doc-t { font-weight: 600; color: #254c6f; margin-top: 8px; }
+  .ar-quote { margin: 3px 0; color: #444; }
+  @media (max-width: 800px) { .ar-cols { flex-direction: column; } .ar-coder + .ar-coder { border-left: 0; border-top: 1px solid #ececec; } }
+  .ar-docs { padding: 4px 18px 10px; }
+  .ar-docblock { margin: 4px 0; font-size: 13px; }
+  .ar-docblock > summary { cursor: pointer; padding: 4px 0; color: #254c6f; display: flex; gap: 12px; }
+  .ar-docblock > summary .ar-by { margin-left: auto; }
+  .ar-read { border: 1px solid #e6e6e2; background: #fff; padding: 12px 18px; margin: 4px 0 10px; }
+  .ar-pick { font-size: 12px; color: #6e6e6e; margin: 8px 0; }
+  .ar-pick label { margin-right: 10px; cursor: pointer; }
+  .ar-text { max-height: 520px; overflow-y: auto; line-height: 1.65; font-size: 14px;
+    font-family: Georgia, 'Times New Roman', serif; color: #222; }
+  .ar-text mark { color: inherit; border-radius: 2px; }
+  .ar-text mark { cursor: help; }
+  .ar-tip { position: absolute; z-index: 60; background: #111; color: #fff; font-size: 12px;
+    line-height: 1.5; padding: 6px 9px; border-radius: 6px; max-width: 340px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.25); pointer-events: none; }
+  .ar-tip-cat { color: #111; font-weight: 700; border-radius: 3px; padding: 0 5px; margin-right: 4px; }

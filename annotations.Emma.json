@@ -1,1 +1,112 @@
-{}
+{
+  "HZ3WYBSH": {
+    "quotes": [
+      {
+        "end": 197,
+        "role": "harm",
+        "start": 0,
+        "text": "Australian journalism is largely “invisible” in AI-generated news summaries from Microsoft Copilot, which overwhelmingly favour US or European media, research by the University of Sydney has found.",
+        "value": "Disintermediation"
+      },
+      {
+        "end": 604,
+        "role": "harm",
+        "start": 397,
+        "text": "In his paper, Invisible journalists and dominant algorithms, Koskie warns the increasing use of these tools will almost certainly lead to more news deserts, fewer independent voices and a weakened democracy.",
+        "value": "Disintermediation"
+      },
+      {
+        "end": 294,
+        "role": "harm",
+        "start": 198,
+        "text": "Roughly one-fifth of responses to Copilot news prompts feature links to Australian media sources",
+        "value": "Disintermediation"
+      },
+      {
+        "end": 1054,
+        "role": "harm",
+        "start": 849,
+        "text": "When users receive AI summaries without clicking through to the original news website, they starve news outlets of web traffic and revenue, posing a threat to Australian media outlets’ financial viability.",
+        "value": "Economic harm to publisher(s)/journalist(s)"
+      },
+      {
+        "end": 1054,
+        "role": "harm",
+        "start": 849,
+        "text": "When users receive AI summaries without clicking through to the original news website, they starve news outlets of web traffic and revenue, posing a threat to Australian media outlets’ financial viability.",
+        "value": "Disintermediation"
+      },
+      {
+        "end": 98,
+        "role": "developer",
+        "start": 81,
+        "text": "Microsoft Copilot",
+        "value": "AI vendor"
+      },
+      {
+        "end": 98,
+        "role": "actor",
+        "start": 81,
+        "text": "Microsoft Copilot",
+        "value": "AI developer"
+      },
+      {
+        "end": 99,
+        "role": "system",
+        "start": 48,
+        "text": "AI-generated news summaries from Microsoft Copilot,",
+        "value": "News summarization"
+      },
+      {
+        "end": 1489,
+        "role": "harm",
+        "start": 1226,
+        "text": "The technology “basically sidelined Australian news”, he said, and when Australian sources were used they were usually big players like Nine and the ABC and not smaller, independent media. No [local] journalist was ever mentioned,” Koskie told Guardian Australia.",
+        "value": "Disintermediation"
+      },
+      {
+        "end": 1054,
+        "role": "harmed_party",
+        "start": 849,
+        "text": "When users receive AI summaries without clicking through to the original news website, they starve news outlets of web traffic and revenue, posing a threat to Australian media outlets’ financial viability.",
+        "value": "News organization/publisher"
+      },
+      {
+        "end": 197,
+        "role": "factor",
+        "start": 0,
+        "text": "Australian journalism is largely “invisible” in AI-generated news summaries from Microsoft Copilot, which overwhelmingly favour US or European media, research by the University of Sydney has found.",
+        "value": "Publishers’ lack of control over AI content presentation"
+      },
+      {
+        "role": "geography",
+        "value": "Australia",
+        "for_role": "harmed_party",
+        "text": "Australian journalism is largely “invisible” in AI-generated news summaries from Microsoft Copilot",
+        "start": 0,
+        "end": 98
+      }
+    ],
+    "roles": {
+      "system": [
+        "News summarization"
+      ],
+      "developer": [
+        "AI vendor"
+      ],
+      "actor": [
+        "AI developer"
+      ],
+      "factor": [
+        "Publishers’ lack of control over AI content presentation"
+      ],
+      "harm": [
+        "Disintermediation",
+        "Economic harm to publisher(s)/journalist(s)"
+      ],
+      "harmed_party": [
+        "News organization/publisher"
+      ]
+    }
+  }
+}

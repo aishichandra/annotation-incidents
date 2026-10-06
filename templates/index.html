@@ -14,6 +14,7 @@
     <button id="tabDocs" class="tab">Documents</button>
     <button id="tabCodebook" class="tab">Codebook</button>
     <button id="tabAgreement" class="tab">Agreement</button>
+    <button id="tabArchive" class="tab">Archive</button>
   </div>
   <label class="coderpick" title="Whose coding you are viewing and editing. Each coder's work is saved separately.">
     Coding as <select id="coderSelect"></select>
@@ -33,6 +34,9 @@
 
 <!-- Inter-coder agreement (Cohen's kappa), from /api/agreement -->
 <div id="agreement"></div>
+
+<!-- Rounds of coding set aside under archive/, read-only, from /api/archives -->
+<div id="archive"></div>
 
 <div class="app">
   <div class="reader">
@@ -68,6 +72,7 @@
     form.js       the coding form: cards, selects, text answers, evidence
     arming.js     which field a highlight will land in; the roles panel
     codebook.js   the Codebook tab: the codes and what they mean
+    archive.js    the Archive tab: archived rounds, read-only
     agreement.js  the Agreement tab: Cohen's kappa per category and code
     sync.js       Push and Pull
     persist.js    debounced save, escapeHtml, outside-click close

@@ -1,0 +1,536 @@
+{
+  "INC-044": {
+    "fields": {},
+    "notes": {},
+    "claims": [
+      {
+        "id": "1",
+        "harm": "Privacy harm",
+        "harmed_parties": [
+          "Sources/subjects of coverage"
+        ],
+        "actor": "Content farm/SEO-manipulation actor",
+        "systems": [
+          "Remixing/repurposing"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Publisher’s lack of due diligence",
+          "Inadequate human oversight"
+        ],
+        "omit": []
+      },
+      {
+        "id": "2",
+        "harm": "Plagiarism",
+        "harmed_parties": [
+          "Journalist(s)"
+        ],
+        "actor": "Content farm/SEO-manipulation actor",
+        "systems": [
+          "Remixing/repurposing"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Publisher’s lack of due diligence",
+          "AI-based hoaxing/counterfeiting of journalists/outlets"
+        ],
+        "omit": []
+      },
+      {
+        "id": "3",
+        "harm": "Citation fabrication",
+        "harmed_parties": [
+          "Audience/readers"
+        ],
+        "actor": "Content farm/SEO-manipulation actor",
+        "systems": [
+          "Remixing/repurposing"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Inadequate human oversight",
+          "Publisher’s lack of due diligence",
+          "AI-based hoaxing/counterfeiting of journalists/outlets"
+        ],
+        "omit": []
+      },
+      {
+        "id": "4",
+        "harm": "Publication of erroneous AI outputs",
+        "harmed_parties": [
+          "Audience/readers"
+        ],
+        "actor": "Content farm/SEO-manipulation actor",
+        "systems": [
+          "Remixing/repurposing"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "AI-based hoaxing/counterfeiting of journalists/outlets",
+          "Publisher’s lack of due diligence",
+          "Inadequate human oversight"
+        ],
+        "omit": []
+      },
+      {
+        "id": "5",
+        "harm": "Publication of low-effort AI outputs/slop",
+        "harmed_parties": [
+          "Audience/readers"
+        ],
+        "actor": "Content farm/SEO-manipulation actor",
+        "systems": [
+          "Remixing/repurposing"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "AI-based hoaxing/counterfeiting of journalists/outlets",
+          "Publisher’s lack of due diligence",
+          "Inadequate human oversight"
+        ],
+        "omit": []
+      },
+      {
+        "id": "6",
+        "harm": "Amplification of misinformation",
+        "harmed_parties": [
+          "Audience/readers"
+        ],
+        "actor": "Content farm/SEO-manipulation actor",
+        "systems": [
+          "Remixing/repurposing"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "AI-based hoaxing/counterfeiting of journalists/outlets",
+          "Publisher’s lack of due diligence",
+          "Inadequate human oversight"
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-045": {
+    "fields": {},
+    "notes": {},
+    "claims": [
+      {
+        "id": "1",
+        "harm": "Undermining of journalistic standards",
+        "harmed_parties": [
+          "General public",
+          "News organization/publisher"
+        ],
+        "actor": "AI developer",
+        "systems": [
+          "Chatbot (general use)"
+        ],
+        "developers": [
+          "AI vendor"
+        ],
+        "factors": [
+          "Publishers’ lack of control over AI content presentation"
+        ],
+        "omit": []
+      },
+      {
+        "id": "2",
+        "harm": "Publication of erroneous AI outputs",
+        "harmed_parties": [
+          "General public",
+          "News organization/publisher"
+        ],
+        "actor": "AI developer",
+        "systems": [
+          "Chatbot (general use)"
+        ],
+        "developers": [
+          "AI vendor"
+        ],
+        "factors": [
+          "Publishers’ lack of control over AI content presentation"
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-046": {
+    "fields": {},
+    "notes": {},
+    "claims": [
+      {
+        "id": "1",
+        "harm": "Journalists being duped",
+        "harmed_parties": [
+          "News organization/publisher"
+        ],
+        "actor": "Mis/disinformation actor",
+        "systems": [
+          "Text generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Deployment of AI with intention to harm, mislead, or troll"
+        ],
+        "omit": []
+      },
+      {
+        "id": "2",
+        "harm": "Collateral professional harm",
+        "harmed_parties": [
+          "News organization/publisher"
+        ],
+        "actor": "News organization/publisher",
+        "systems": [],
+        "developers": [],
+        "factors": [
+          "Publisher’s lack of due diligence"
+        ],
+        "omit": [
+          "system",
+          "developer"
+        ]
+      },
+      {
+        "id": "3",
+        "harm": "Undermining of journalistic standards",
+        "harmed_parties": [
+          "News organization/publisher"
+        ],
+        "actor": "News organization/publisher",
+        "systems": [],
+        "developers": [],
+        "factors": [
+          "Publisher’s lack of due diligence"
+        ],
+        "omit": [
+          "system",
+          "developer"
+        ]
+      }
+    ],
+    "comment": "- do we want to have newsrooms that had a factor of due diligence as an actor unto themselves? and if so, how do we account for the lack of system or developer in the primary claim?",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-047": {
+    "fields": {},
+    "notes": {},
+    "claims": [
+      {
+        "id": "1",
+        "harm": "Propaganda/disinformation",
+        "harmed_parties": [
+          "General public"
+        ],
+        "actor": "Mis/disinformation actor",
+        "systems": [
+          "Synthetic video/image generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Deployment of AI with intention to harm, mislead, or troll",
+          "AI-based hoaxing/counterfeiting of journalists/outlets",
+          "Inadequate content moderation by platforms"
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "- for widespread incidents, how do we add in geography/location?",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-050": {
+    "fields": {
+      "incident_geography": {
+        "answer": [
+          "Denmark"
+        ]
+      }
+    },
+    "notes": {},
+    "claims": [
+      {
+        "id": "1",
+        "harm": "Privacy harm",
+        "harmed_parties": [
+          "Sources/subjects of coverage"
+        ],
+        "actor": "Mis/disinformation actor",
+        "systems": [
+          "Deepfake generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Deployment of AI with intention to harm, mislead, or troll",
+          "AI-based mimicry of established journalists/outlets"
+        ],
+        "omit": []
+      },
+      {
+        "id": "2",
+        "harm": "Scams",
+        "harmed_parties": [
+          "Audience/readers"
+        ],
+        "actor": "Mis/disinformation actor",
+        "systems": [
+          "Deepfake generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Deployment of AI with intention to harm, mislead, or troll",
+          "AI-based mimicry of established journalists/outlets"
+        ],
+        "omit": []
+      },
+      {
+        "id": "3",
+        "harm": "Dignity harm to individuals depicted",
+        "harmed_parties": [
+          "Sources/subjects of coverage"
+        ],
+        "actor": "Mis/disinformation actor",
+        "systems": [
+          "Deepfake generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Deployment of AI with intention to harm, mislead, or troll",
+          "AI-based mimicry of established journalists/outlets"
+        ],
+        "omit": []
+      },
+      {
+        "id": "4",
+        "harm": "Privacy harm",
+        "harmed_parties": [
+          "Sources/subjects of coverage"
+        ],
+        "actor": "Tech platform",
+        "systems": [
+          "Deepfake generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Inadequate content moderation by platforms"
+        ],
+        "omit": []
+      },
+      {
+        "id": "5",
+        "harm": "Dignity harm to individuals depicted",
+        "harmed_parties": [
+          "Sources/subjects of coverage"
+        ],
+        "actor": "Tech platform",
+        "systems": [
+          "Deepfake generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Inadequate content moderation by platforms"
+        ],
+        "omit": []
+      },
+      {
+        "id": "6",
+        "harm": "Scams",
+        "harmed_parties": [
+          "Audience/readers"
+        ],
+        "actor": "Tech platform",
+        "systems": [
+          "Deepfake generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "factors": [
+          "Inadequate content moderation by platforms"
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-176": {
+    "fields": {},
+    "notes": {},
+    "claims": [
+      {
+        "id": "1",
+        "harm": "Promotion of scams [observed]",
+        "harmed_parties": [
+          "General public"
+        ],
+        "actor": "Deceptive/fraudulent actor",
+        "factors": [
+          "AI-based mimicry of established journalists/outlets [observed]"
+        ],
+        "systems": [
+          "Deepfake generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "omit": []
+      },
+      {
+        "id": "2",
+        "harm": "Privacy harm [observed]",
+        "harmed_parties": [
+          "Journalist(s)"
+        ],
+        "actor": "Deceptive/fraudulent actor",
+        "factors": [
+          "AI-based mimicry of established journalists/outlets [observed]"
+        ],
+        "systems": [
+          "Deepfake generation"
+        ],
+        "developers": [
+          "Unknown/unspecified"
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  },
+  "INC-197": {
+    "fields": {},
+    "notes": {},
+    "claims": [
+      {
+        "id": "1",
+        "harm": "Increased workload / burden on journalists [observed]",
+        "harmed_parties": [
+          "Journalist(s)"
+        ],
+        "actor": "Aggregator",
+        "factors": [
+          "AI substitution for human journalists [observed]",
+          "Inadequate human oversight [inferable]"
+        ],
+        "systems": [
+          "Remixing/repurposing"
+        ],
+        "developers": [
+          "AI vendor"
+        ],
+        "omit": []
+      },
+      {
+        "id": "2",
+        "harm": "Displacement of human labor [observed]",
+        "harmed_parties": [
+          "Sources/subjects of coverage",
+          "Journalist(s)"
+        ],
+        "actor": "Aggregator",
+        "factors": [
+          "AI substitution for human journalists [observed]"
+        ],
+        "systems": [
+          "Remixing/repurposing"
+        ],
+        "developers": [
+          "AI vendor"
+        ],
+        "omit": []
+      },
+      {
+        "id": "3",
+        "harm": "Dignity harm to individuals depicted",
+        "harmed_parties": [
+          "Sources/subjects of coverage"
+        ],
+        "actor": "Aggregator",
+        "factors": [
+          "Inadequate human oversight [inferable]",
+          "AI substitution for human journalists [observed]"
+        ],
+        "systems": [
+          "Remixing/repurposing"
+        ],
+        "developers": [
+          "AI vendor"
+        ],
+        "omit": []
+      },
+      {
+        "id": "4",
+        "harm": "Misrepresentation of individuals depicted",
+        "harmed_parties": [
+          "Sources/subjects of coverage"
+        ],
+        "actor": "Aggregator",
+        "factors": [
+          "Inadequate human oversight [inferable]",
+          "AI substitution for human journalists [observed]"
+        ],
+        "systems": [
+          "Remixing/repurposing"
+        ],
+        "developers": [
+          "AI vendor"
+        ],
+        "omit": []
+      }
+    ],
+    "comment": "- i went remixing/repurposing because news summarization said that the audience would know it was ai-generated, which this does not specify.",
+    "status": "",
+    "completed_at": "",
+    "flagged": false,
+    "role_geo": {}
+  }
+}
