@@ -105,8 +105,11 @@ def api_archive(name):
                     for p in d.glob("incident_coding.*.json"))
     inc_store = {c: _read(d / f"incident_coding.{c}.json", {}) for c in coders}
     ann_store = {c: _read(d / f"annotations.{c}.json", {}) for c in coders}
+    texts = _documents(d)
     titles = dict(zip(doc_source.df["doc_key"], doc_source.df["title"])) \
         if len(doc_source.df) else {}
+    title_of = lambda k: (texts.get(k) or {}).get("title") or titles.get(k, k)
+    date_of = lambda k: ((texts.get(k) or {}).get("date") or "").strip()
 
     incidents = []
     for inc_id in done:
@@ -116,7 +119,11 @@ def api_archive(name):
             "title": next((a.get("incident_title") for a in assign.values()
                            if (a or {}).get("incident_id") == inc_id
                            and a.get("incident_title")), ""),
-            "documents": [{"key": k, "title": titles.get(k, k)} for k in keys],
+            # Oldest first, as the story unfolded; ISO dates sort as text, and an
+            # undated document goes last rather than being guessed at.
+            "documents": sorted(
+                [{"key": k, "title": title_of(k), "date": date_of(k)} for k in keys],
+                key=lambda x: (not x["date"], x["date"])),
             "coders": {},
         }
         for c in coders:
@@ -126,7 +133,7 @@ def api_archive(name):
                 continue
             incident["coders"][c] = {
                 **(entry or {}),
-                "evidence": [{"doc": k, "title": titles.get(k, k),
+                "evidence": [{"doc": k, "title": title_of(k),
                               "quotes": r.get("quotes") or []}
                              for k, r in docs.items()],
             }

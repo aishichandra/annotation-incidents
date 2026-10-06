@@ -86,17 +86,21 @@ def _blank_incident(inc_id: str, role_defs: list) -> dict:
     }
 
 
-def _document_entry(i: int, key: str, rec: dict, all_stores: dict) -> dict:
+def _document_entry(i: int, key: str, rec: dict, all_stores: dict, dates=None) -> dict:
     """One member document as a card lists it.
 
     `date` and `domain` are read off the document rather than coded — the date
-    from Zotero via zotero_docs.csv, the domain from the URL — so neither is
-    anybody's to enter. `coded_by` is progress across the team, never anyone's
+    from Zotero via zotero_docs.csv, the domain from the URL. Where Zotero has no
+    date one can be filled in (doc_dates.json), and `date_manual` says it was: a
+    date Zotero supplied is never editable. `coded_by` is progress across the team, never anyone's
     codes: coders stay blind to each other's judgements while coding."""
     return {
         "index": i, "doc_key": key, "title": cell(i, "title"),
         "url": cell(i, "url"), "quotes": len(rec["quotes"]),
-        "date": cell(i, "date"), "domain": doc_source.domain(cell(i, "url")),
+        "date": cell(i, "date") or (dates or {}).get(key, ""),
+        "date_manual": not cell(i, "date") and bool((dates or {}).get(key)),
+        "editable_date": not cell(i, "date"),
+        "domain": doc_source.domain(cell(i, "url")),
         "coded_by": coded_by(key, all_stores),
     }
 
@@ -271,7 +275,12 @@ def _derive_from_documents(g: dict) -> None:
 
     `undated` is carried rather than inferred from the two lengths, so a card can
     say "and two we have no date for" instead of quietly showing a range that
-    covers fewer articles than the incident holds."""
+    covers fewer articles than the incident holds.
+
+    Also puts the documents in the order the story unfolded — oldest first. Dates
+    are ISO, so they sort as text; an undated document goes last rather than
+    being placed by a guess, and ties keep their corpus order."""
+    g["documents"].sort(key=lambda d: (not d["date"], d["date"]))
     g["dates"] = sorted({d["date"] for d in g["documents"] if d["date"]})
     g["domains"] = sorted({d["domain"] for d in g["documents"] if d["domain"]})
     g["undated"] = sum(1 for d in g["documents"] if not d["date"])
@@ -302,13 +311,14 @@ def aggregate_incidents(coder: str):
     role_defs = schema.get("claim_roles", [])
     inc_store = storage.load_incident_coding(coder)
 
+    dates_filled = storage.load_doc_dates()
     incidents = {}
     for i in range(len(doc_source.df)):
         key = doc_source.df["doc_key"].iloc[i]
         rec = storage.doc_ann(store, key)
         inc_id = storage.incident_of(key, assignments)
         g = incidents.setdefault(inc_id, _blank_incident(inc_id, role_defs))
-        g["documents"].append(_document_entry(i, key, rec, all_stores))
+        g["documents"].append(_document_entry(i, key, rec, all_stores, dates_filled))
         if not g["title"]:
             g["title"] = storage.incident_title_for(inc_id, assignments)
         if not g["field_values"]:          # the first document to name it

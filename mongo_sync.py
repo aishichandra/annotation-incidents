@@ -15,6 +15,7 @@ import os
 import time
 from datetime import datetime, timezone
 
+import doc_dates
 from doc_source import cell
 from incidents_vocab import ensure_collection
 import storage
@@ -127,8 +128,14 @@ def push_documents(items) -> int:
     op_ranges = []  # (start, end) into `ops`, parallel to `items`
     for i, key, record, coder, inc_id in items:
         start = len(ops)
+        # Zotero's date, else one filled in here, else whatever Atlas already has:
+        # a host whose disk was rebuilt has neither of the first two, and must not
+        # blank a date somebody entered.
+        date = doc_dates.effective(key, cell(i, "date")) or next(
+            (d.get("date") for inc in snapshot for d in (inc.get("documents") or [])
+             if d.get("doc_id") == key and d.get("date")), "")
         doc_entry = {"doc_id": key, "url": cell(i, "url"), "title": cell(i, "title"),
-                     "date": cell(i, "date")}
+                     "date": date}
         # Every coder's evidence for this document, wherever it currently sits, so
         # a move carries all of it rather than just this coder's.
         carried = {}
@@ -294,6 +301,34 @@ def incident_coding_from_mongo(coder: str) -> dict:
                                     "completed_at": sub.get("completed_at") or "",
                                     "flagged": bool(sub.get("flagged"))}
     return out
+
+
+def doc_dates_from_mongo() -> dict:
+    """{doc_key: date} for every document Atlas holds a date for."""
+    out = {}
+    if mongo_db is None:
+        return out
+    for inc in mongo_db.incidents.find({}, {"documents": 1}):
+        for d in (inc.get("documents") or []):
+            if d.get("doc_id") and d.get("date"):
+                out[str(d["doc_id"])] = d["date"]
+    return out
+
+
+def set_doc_date(key: str, date: str) -> bool:
+    """Write one document's date onto its entry in `documents[]`, wherever it is
+    filed. False if there is no Mongo or nothing to write it to."""
+    if mongo_db is None:
+        return False
+    try:
+        r = mongo_db.incidents.update_many(
+            {"documents.doc_id": key},
+            {"$set": {"documents.$[d].date": date}}, array_filters=[{"d.doc_id": key}])
+    except Exception as e:
+        print(f"[mongo] date write failed ({e.__class__.__name__}: {e})")
+        return False
+    invalidate_mongo_cache()
+    return r.matched_count > 0
 
 
 def assignments_from_mongo() -> dict:

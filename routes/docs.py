@@ -5,7 +5,7 @@ the highlighted passages and the characteristics they justify — is stored per
 document, per coder. The incident-level answers a document inherits are joined
 back on when it is read, and are not stored here.
 """
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, abort, jsonify, request
 
 from config import ROLE_KEYS, clean_fields, current_coder
 from doc_source import cell, markdown_no_title
@@ -15,6 +15,7 @@ from storage import (
     load_annotations, load_assignments, load_incident_coding, record_assignment,
     save_annotations, save_incident_coding, sync_doc_geo,
 )
+import doc_dates
 import doc_source
 import mongo_sync
 
@@ -54,6 +55,25 @@ def api_doc(i):
                        "notes": (load_incident_coding(coder).get(incident_of(key, assignments))
                                  or {}).get("notes") or {}},
     })
+
+
+@bp.route("/api/docdate/<key>", methods=["POST"])
+def api_set_doc_date(key):
+    """Fill in (or correct, or clear) the date of a document Zotero has none for.
+    Body: {date: "YYYY-MM-DD" | ""}. Shared by every coder, since when an article
+    was published is a fact about it. A date Zotero supplied is refused (409): it
+    would be overwritten by the next import."""
+    rows = doc_source.df[doc_source.df["doc_key"] == key]
+    if rows.empty:
+        abort(404, f"unknown document {key!r}")
+    if str(rows.iloc[0].get("date") or "").strip() not in ("", "nan"):
+        return jsonify({"ok": False, "error": "this document's date comes from Zotero"}), 409
+    date = str((request.get_json(force=True) or {}).get("date") or "").strip()
+    if not doc_dates.valid(date):
+        return jsonify({"ok": False, "error": "use a real date as YYYY-MM-DD"}), 400
+    doc_dates.save(key, date)
+    synced = mongo_sync.set_doc_date(key, date)
+    return jsonify({"ok": True, "key": key, "date": date, "synced": synced})
 
 
 @bp.route("/api/doc/<int:i>/annotations", methods=["POST"])

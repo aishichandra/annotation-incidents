@@ -20,6 +20,7 @@ from config import (
     _atomic_write, _read_json, annotated_csv_path, annotations_path,
     incident_coding_path, load_schema,
 )
+import doc_dates
 import doc_source
 import mongo_sync
 
@@ -215,6 +216,18 @@ def load_assignments() -> dict:
     for key, entry in remote.items():
         if entry.get("incident_id"):
             store.setdefault(key, entry)
+    return store
+
+
+def load_doc_dates() -> dict:
+    """Dates filled in for documents Zotero has none for: {doc_key: "YYYY-MM-DD"}.
+    The local file, plus any date Atlas holds that the file hasn't heard about — a
+    local entry wins, as with assignments."""
+    store = dict(doc_dates.load())
+    if mongo_sync.mongo_db is not None:
+        for key, date in mongo_sync._mongo_snapshot(
+                "doc_dates", mongo_sync.doc_dates_from_mongo).items():
+            store.setdefault(key, date)
     return store
 
 

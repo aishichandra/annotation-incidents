@@ -163,9 +163,11 @@ export function refreshCardPanels(inc) {
 // its claims and its JSON panel. Shared so a single re-rendered card comes back
 // as live as one from a full render.
 export function wireIncidentCard(root) {
+  root.querySelectorAll('.ddate.edit').forEach(wireDateEdit);
   root.querySelectorAll('.tow-doc').forEach(el => {
     el.onclick = (e) => {
-      if (e.target.closest('.durl')) return;   // let the external link work
+      if (e.target.closest('.durl') || e.target.closest('.ddate.edit')
+          || e.target.closest('.ddate-input')) return;   // external link / date editing
       const i = +el.dataset.index;
       setView('docs');
       document.getElementById('docSelect').value = i;
@@ -180,6 +182,65 @@ export function wireIncidentCard(root) {
   root.querySelectorAll('.inc-complete').forEach(el => wireComplete(el));
   root.querySelectorAll('.json-btn').forEach(btn => btn.onclick = () => toggleJson(btn.dataset.inc));
   root.querySelectorAll('.card-close').forEach(btn => btn.onclick = () => closeIncident());
+}
+
+// A document's date, when Zotero has none: click it to type one in. Saved on its
+// own as soon as it is chosen, shared by every coder, and the documents re-sort so
+// the list stays oldest-first. Clearing the field removes the date again.
+function wireDateEdit(span) {
+  const open = (e) => {
+    e.stopPropagation();
+    if (span.querySelector('input')) return;
+    const input = document.createElement('input');
+    input.type = 'date'; input.className = 'ddate-input';
+    input.value = span.dataset.date || '';
+    span.textContent = ''; span.appendChild(input);
+    input.focus();
+    let done = false;
+    const finish = async (save) => {
+      if (done) return; done = true;
+      const date = input.value;
+      if (!save || date === (span.dataset.date || '')) { show(span.dataset.date || ''); return; }
+      try {
+        const r = await fetch('/api/docdate/' + encodeURIComponent(span.dataset.key), {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ date }) });
+        const d = await r.json();
+        if (!d.ok) { alert(d.error || 'Could not save the date'); show(span.dataset.date || ''); return; }
+        span.dataset.date = d.date;
+        const inc = INCIDENTS[span.closest('.tow-card').dataset.card];
+        const doc = inc && inc.documents.find(x => x.doc_key === span.dataset.key);
+        if (doc) { doc.date = d.date; doc.date_manual = !!d.date; }
+        show(d.date);
+        reorderDocs(span.closest('.tow-headdocs'));
+      } catch (err) { show(span.dataset.date || ''); }
+    };
+    input.onblur = () => finish(true);
+    input.onchange = () => finish(true);
+    input.onkeydown = (ev) => {
+      if (ev.key === 'Escape') { ev.stopPropagation(); finish(false); }
+      else if (ev.key === 'Enter') finish(true);
+    };
+  };
+  const show = (date) => {
+    span.textContent = date || 'add date';
+    span.classList.toggle('none', !date);
+    span.title = date ? 'Edit this date' : 'Zotero has no date for this — click to add one';
+  };
+  span.onclick = open;
+  span.onkeydown = (e) => { if (e.key === 'Enter') open(e); };
+}
+
+// Keep a card's documents oldest-first after a date changes; undated go last.
+function reorderDocs(box) {
+  const text = (el) => {
+    const s = el.querySelector('.ddate');
+    return s.dataset.date !== undefined ? s.dataset.date : (s.textContent === 'no date' ? '' : s.textContent);
+  };
+  [...box.querySelectorAll('.tow-doc')]
+    .map((el, i) => ({ el, i, d: text(el) }))
+    .sort((a, b) => (!a.d - !b.d) || (a.d < b.d ? -1 : a.d > b.d ? 1 : a.i - b.i))
+    .forEach(x => box.appendChild(x.el));
 }
 
 // ---------- the collapsed index ----------

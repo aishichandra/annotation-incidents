@@ -27,21 +27,14 @@ export function incidentCard(inc, fields) {
     return `<div class="tow-field"><div class="tow-label">${escapeHtml(f.label)}</div>`
       + `<div class="tow-value">${valHtml}${cmtHtml}</div></div>`;
   };
-  // The two characteristics nobody codes: when the incident's articles were
-  // published, and where. Both are read off the documents — the date from
-  // Zotero, the domain from the URL — so they are plain text rather than chips:
-  // there is no judgement here to drag into a claim or to justify with a quote.
+  // A characteristic nobody codes: where the incident's articles were published.
+  // Read off the documents' URLs, so it is plain text rather than chips: there is
+  // no judgement here to drag into a claim or to justify with a quote. (When they
+  // were published is the date on each document in the card header.)
   const derivedBlock = (label, html) =>
     `<div class="tow-field"><div class="tow-label">${label}</div>`
     + `<div class="tow-value tow-derived">${html}</div></div>`;
-  const dates = inc.dates || [], domains = inc.domains || [];
-  // A range covering fewer articles than the incident holds would read as the
-  // whole story, so the documents Zotero has no date for are counted out loud.
-  const undated = inc.undated
-    ? `<span class="tow-undated">${inc.undated} undated</span>` : '';
-  const publishedBlock = derivedBlock('Published date', !dates.length ? NODATA
-    : escapeHtml(dates.length > 1 ? `${dates[0]} – ${dates[dates.length - 1]}` : dates[0])
-      + (undated ? ' ' + undated : ''));
+  const domains = inc.domains || [];
   const domainBlock = derivedBlock(domains.length > 1 ? 'Domains' : 'Domain',
     !domains.length ? NODATA : escapeHtml(domains.join(', ')));
 
@@ -65,6 +58,12 @@ export function incidentCard(inc, fields) {
           by.map(c => `<span class="dcoder${c === CODER ? ' me' : ''}">${escapeHtml(c)}</span>`).join('')}</span>`
       : '<span class="dcoders"><span class="dcoder none">uncoded</span></span>';
     return `<div class="tow-doc" data-index="${d.index}">`
+      + (d.editable_date
+          ? `<span class="ddate edit${d.date ? '' : ' none'}" data-key="${escapeHtml(d.doc_key)}" `
+            + `data-date="${escapeHtml(d.date || '')}" tabindex="0" `
+            + `title="${d.date ? 'Edit this date' : 'Zotero has no date for this — click to add one'}">`
+            + `${escapeHtml(d.date || 'add date')}</span>`
+          : `<span class="ddate${d.date ? '' : ' none'}">${escapeHtml(d.date || 'no date')}</span>`)
       + `<span class="dtitle">${escapeHtml(d.title || '(untitled document)')}</span>${badge}${url}</div>`;
   }).join('');
 
@@ -78,7 +77,6 @@ export function incidentCard(inc, fields) {
     <div class="tow-body">
       <div class="tow-col c1">
         ${leftFieldBlocks}
-        ${publishedBlock}
         ${domainBlock}
         <div class="tow-cardfields" data-inc="${encId}"></div>
         <div class="tow-palette" data-inc="${encId}"></div>

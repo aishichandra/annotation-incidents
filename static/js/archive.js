@@ -118,7 +118,7 @@ function documentBlock(inc, d) {
   el.className = 'ar-docblock';
   const coders = Object.keys(inc.coders).filter(c =>
     (inc.coders[c].evidence || []).some(e => e.doc === d.key && e.quotes.length));
-  el.innerHTML = `<summary>${escapeHtml(d.title)}
+  el.innerHTML = `<summary><span class="ar-date">${escapeHtml(d.date || 'no date')}</span>${escapeHtml(d.title)}
     <span class="ar-by">${coders.map(c => `${escapeHtml(c)} ${inc.coders[c].evidence
       .filter(e => e.doc === d.key).reduce((n, e) => n + e.quotes.length, 0)} highlights`).join(' · ')}</span></summary>
     <div class="ar-read"></div>`;
