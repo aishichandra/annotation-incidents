@@ -86,17 +86,12 @@ function coderColumn(name, c) {
     return `<div><span class="ar-k">${escapeHtml(k.replace(/^incident_/, ''))}</span> ${escapeHtml(a)}
       ${f.comments ? `<em>${escapeHtml(f.comments)}</em>` : ''}</div>`;
   }).join('');
-  const evidence = (c.evidence || []).map(e => `
-    <div class="ar-doc"><div class="ar-doc-t">${escapeHtml(e.title)}</div>
-      ${e.quotes.map(q => `<div class="ar-quote">${chip(q.role || 'aftermath', quoteLabel(q))}
-        <span>“${escapeHtml(q.text || '')}”</span></div>`).join('')}</div>`).join('');
   return `<div class="ar-coder">
     <div class="ar-coder-h"><b>${escapeHtml(name)}</b><span>${escapeHtml(statusText(c))}</span></div>
     ${(c.claims || []).length ? `<div class="ar-sec">Claims</div>${c.claims.map(cl =>
       `<div class="ar-claim">${claimLine(cl)}</div>`).join('')}` : ''}
     ${fields ? `<div class="ar-sec">Answers</div>${fields}` : ''}
     ${c.comment ? `<div class="ar-sec">Comment</div><div class="ar-comment">${escapeHtml(c.comment)}</div>` : ''}
-    ${evidence ? `<div class="ar-sec">Highlights</div>${evidence}` : ''}
   </div>`;
 }
 
