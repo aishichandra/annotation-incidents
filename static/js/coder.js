@@ -25,12 +25,54 @@ export async function initCoders() {
   try { d = await _fetch('/api/coders').then(r => r.json()); }
   catch (e) { sel.style.display = 'none'; return; }
   const coders = d.coders || [];
+  const removable = d.removable || [];
   if (!coders.includes(CODER)) { CODER = d.current || coders[0] || ''; }
   localStorage.setItem('coder', CODER);
   sel.innerHTML = coders.map(c =>
-    `<option value="${c}"${c === CODER ? ' selected' : ''}>${c}</option>`).join('');
-  sel.onchange = () => {
-    localStorage.setItem('coder', sel.value);
+    `<option value="${c}"${c === CODER ? ' selected' : ''}>${c}</option>`).join('')
+    + '<option value="__add__">+ Add coder…</option>'
+    + (removable.length ? '<option value="__rename__">✎ Rename coder…</option>'
+                      + '<option value="__remove__">− Delete coder…</option>' : '');
+  sel.onchange = async () => {
+    if (sel.value === '__rename__') {
+      sel.value = CODER;
+      const old = (prompt('Rename which coder? ' + removable.join(', ')) || '').trim();
+      if (!old) return;
+      const name = (prompt(`New name for ${old} (letters, digits, - or _):`, old) || '').trim();
+      if (!name || name === old) return;
+      const r = await _fetch('/api/coders/' + encodeURIComponent(old), {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name }),
+      });
+      const d = await r.json();
+      if (!d.ok) { alert(d.error || 'Could not rename coder'); return; }
+      if (old === CODER) localStorage.setItem('coder', d.name);
+    } else if (sel.value === '__remove__') {
+      sel.value = CODER;
+      const name = (prompt('Delete which coder? ' + removable.join(', ')) || '').trim();
+      if (!name) return;
+      const typed = (prompt(`This permanently deletes ${name} AND all their coding `
+        + '(local files and MongoDB). It cannot be undone.\n\n'
+        + `Type ${name} to confirm:`) || '').trim();
+      if (typed !== name) return;
+      const r = await _fetch('/api/coders/' + encodeURIComponent(name), { method: 'DELETE' });
+      const d = await r.json();
+      if (!d.ok) { alert(d.error || 'Could not remove coder'); return; }
+      if (name === CODER) localStorage.removeItem('coder');
+    } else if (sel.value === '__add__') {
+      const name = (prompt('Name for the new coder (letters, digits, - or _):') || '').trim();
+      sel.value = CODER;
+      if (!name) return;
+      const r = await _fetch('/api/coders', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name }),
+      });
+      const d = await r.json();
+      if (!d.ok) { alert(d.error || 'Could not add coder'); return; }
+      localStorage.setItem('coder', d.name);
+    } else {
+      localStorage.setItem('coder', sel.value);
+    }
     location.reload();
   };
 }

@@ -43,10 +43,12 @@ def coded_by(key, stores) -> list:
 
 def claim_is_complete(cl: dict) -> bool:
     """A claim reads as finished when it says who was harmed by what, who did
-    it, and how — harm, at least one harmed party, actor, at least one factor.
+    it, and how — at least one harm, at least one harmed party, actor, at least
+    one factor.
     The optional `developed by … because of …` clauses are not part of the
     sentence's core."""
-    return bool(cl.get("harm") and (cl.get("harmed_parties") or [])
+    return bool(storage._fold_legacy(cl.get("harm"), cl.get("harms"))
+                and (cl.get("harmed_parties") or [])
                 and cl.get("actor") and (cl.get("factors") or []))
 
 
@@ -196,16 +198,14 @@ def _prune_claim(g: dict, cl: dict):
 
     A claim that still names anything is kept, since even one value is the
     beginning of an assertion, and a claim holding only an omission still
-    holds a decision. Harm and actor stay single-valued and harmed parties,
-    factors, systems and developers are lists, for the reason build_validator
-    gives: one harm reaching several parties, or one actor running on several
-    systems, is a conjunction anyone can read back, whereas plural harms
-    alongside plural parties would leave "which harm hit which party?"
-    unanswerable. Claims written before this flat structure carried harm and
+    holds a decision. Actor stays single-valued; harms, harmed parties,
+    factors, systems and developers are lists. A claim's harms are read as a
+    conjunction, so which harm hit which party is a question for a second
+    claim. Claims written before this flat structure carried harm and
     harmed_parties on an enclosing group instead; they aren't convertible
     without a coder deciding how to split them, so they are skipped rather
-    than half-rendered."""
-    harm = _keep(g, "harm", cl.get("harm"))
+    than half-rendered. `harm` singular is the pre-plural shape, folded in."""
+    harms = _keep_list(g, "harm", cl.get("harms"), cl.get("harm"))
     parties = [p for p in (cl.get("harmed_parties") or [])
                if _still_coded(g, "harmed_party", p)]
     actor = _keep(g, "actor", cl.get("actor"))
@@ -216,9 +216,9 @@ def _prune_claim(g: dict, cl: dict):
     # "inapplicable here" rather than "not answered yet", which is a judgement
     # and so survives a reload like any other.
     omit = [r for r in (cl.get("omit") or []) if r in OPTIONAL_CLAIM_ROLES]
-    if not (harm or parties or actor or factors or systems or developers or omit):
+    if not (harms or parties or actor or factors or systems or developers or omit):
         return None
-    return {"id": cl.get("id"), "harm": harm, "harmed_parties": parties,
+    return {"id": cl.get("id"), "harms": harms, "harmed_parties": parties,
             "actor": actor, "factors": factors, "systems": systems,
             "developers": developers, "omit": omit}
 

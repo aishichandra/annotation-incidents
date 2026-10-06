@@ -66,11 +66,11 @@ export function nextId(list) {
 }
 
 export function newClaim(inc) {
-  // harmed_parties, systems, developers and factors are plural — several
+  // harms, harmed_parties, systems, developers and factors are plural — several
   // parties can share one harm, and one actor can run on several systems
   // built by more than one developer. Seeded as empty lists directly, so a
   // fresh claim carries no dead null nobody reads.
-  return { id: nextId(inc.claims || []), harm: null, harmed_parties: [], actor: null,
+  return { id: nextId(inc.claims || []), harms: [], harmed_parties: [], actor: null,
            systems: [], developers: [], factors: [], omit: [] };
 }
 
@@ -100,8 +100,8 @@ export function claimBox(inc, cl, container) {
 // One claim, read as a single sentence: "<harm> allegedly impacted <harmed
 // parties> in part as a result of actions taken by <actor> using <factors>"
 // plus whichever of "developed by <developer>" / "because of <system>" this
-// claim has something to say — both optional. harm and actor are
-// single-valued; harmed parties, factors, systems and developers are lists,
+// claim has something to say — both optional. actor is
+// single-valued; harms, harmed parties, factors, systems and developers are lists,
 // since several contributing causes, or several systems/developers, read
 // unambiguously as a conjunction.
 export function claimRow(inc, cl, container) {
@@ -130,7 +130,7 @@ export function claimRow(inc, cl, container) {
     return span;
   };
 
-  // A single-valued slot (harm, actor). A drop replaces whatever is there;
+  // A single-valued slot (actor). A drop replaces whatever is there;
   // there is no omit, since each is what keeps a claim one countable
   // proposition naming one thing.
   const scalarSlot = (role, placeholder) => {
@@ -145,7 +145,7 @@ export function claimRow(inc, cl, container) {
 
   // A list-valued slot — every value dropped in, joined by "&", each with its
   // own ×. `onOmit`, when given, makes an empty slot optional rather than an
-  // unanswered question (harmed_party and factor are always required, so
+  // unanswered question (harm, harmed_party and factor are always required, so
   // never pass one for them; system and developer always do).
   const listSlot = (role, placeholder, onOmit) => {
     const vals = claimValues(cl, role);
@@ -168,7 +168,7 @@ export function claimRow(inc, cl, container) {
     return span;
   };
 
-  row.appendChild(scalarSlot('harm', 'harm'));
+  row.appendChild(listSlot('harm', 'harm(s)'));
   row.appendChild(document.createTextNode(' allegedly impacted '));
   row.appendChild(listSlot('harmed_party', 'harmed party/ies'));
   row.appendChild(document.createTextNode(' in part as a result of actions taken by '));
@@ -219,7 +219,7 @@ export function claimRow(inc, cl, container) {
       // want it after all, so the drop is never refused for having been put away.
       cl.omit = (cl.omit || []).filter(r => r !== m.role);
     } else {
-      cl[m.role] = m.value;         // scalar (harm, actor): a drop replaces
+      cl[m.role] = m.value;         // scalar (actor): a drop replaces
     }
     rebuild();
   });

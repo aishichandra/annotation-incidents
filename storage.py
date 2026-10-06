@@ -172,6 +172,34 @@ def save_incident_coding(store: dict, coder: str) -> None:
     _atomic_write(incident_coding_path(coder), json.dumps(lean, indent=2, ensure_ascii=False))
 
 
+def seed_excluded_incidents(coder: str) -> int:
+    """Start a new coder with every incident any other coder has set aside as
+    "not_an_incident" already set aside for them, so the exclusions persist
+    rather than being rediscovered. Their own status, written to their own
+    file and Mongo subtree like any other, so they can still put one back.
+    Returns how many incidents were seeded."""
+    store = load_incident_coding(coder)
+    n = 0
+    for other in CODERS:
+        if other == coder:
+            continue
+        for inc_id, theirs in load_incident_coding(other).items():
+            if theirs.get("status") != "not_an_incident":
+                continue
+            entry = store.setdefault(inc_id, blank_incident_coding())
+            if entry.get("status"):
+                continue
+            entry["status"] = "not_an_incident"
+            entry["completed_at"] = theirs.get("completed_at") or ""
+            n += 1
+    if n:
+        save_incident_coding(store, coder)
+        for inc_id, entry in store.items():
+            if entry.get("status") == "not_an_incident":
+                mongo_sync.sync_incident_coding_to_mongo(inc_id, coder, entry)
+    return n
+
+
 def load_assignments() -> dict:
     """The shared doc -> incident mapping every coder codes against.
     Shape: {doc_key: {"incident_id": str, "incident_title": str}}.
@@ -253,14 +281,14 @@ def incident_fields(coder, inc_id, assignments=None, inc_store=None) -> dict:
 # justifies it ({role, value}). Both have to move together or a rename would
 # leave a document selected for a code its quotes no longer name.
 #
-# Incident coding spreads them out instead, flat on the claim: harm and actor
-# are single values; harmed parties, factors, systems and developers are
-# lists. `harmed_party`, `system` and `developer` singular are the pre-plural
+# Incident coding spreads them out instead, flat on the claim: actor
+# is a single value; harms, harmed parties, factors, systems and developers are
+# lists. `harm`, `harmed_party`, `system` and `developer` singular are the pre-plural
 # shapes, still read (see build_validator) so old codings migrate too — `role`
 # itself doubles as that legacy key, so checking it costs nothing for `factor`,
 # which never had one.
-_CLAIM_SCALAR_ROLES = ("harm", "actor")
-_CLAIM_LIST_ROLES = {"harmed_party": "harmed_parties", "factor": "factors",
+_CLAIM_SCALAR_ROLES = ("actor",)
+_CLAIM_LIST_ROLES = {"harm": "harms", "harmed_party": "harmed_parties", "factor": "factors",
                       "system": "systems", "developer": "developers"}
 
 

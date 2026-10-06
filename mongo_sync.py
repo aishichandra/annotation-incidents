@@ -229,6 +229,32 @@ def sync_incident_coding_to_mongo(inc_id: str, coder: str, entry: dict) -> bool:
         return False
 
 
+def rename_coder(old: str, new: str) -> int:
+    """Move one coder's whole subtree, `by_coder.<old>` -> `by_coder.<new>`, on
+    every incident that has one. Returns how many incidents moved. A no-op
+    without Mongo."""
+    if mongo_db is None:
+        return 0
+    n = mongo_db.incidents.update_many(
+        {f"by_coder.{old}": {"$exists": True}},
+        {"$rename": {f"by_coder.{old}": f"by_coder.{new}"}}).modified_count
+    invalidate_mongo_cache()
+    return n
+
+
+def delete_coder(coder: str) -> int:
+    """Drop one coder's whole subtree, `by_coder.<coder>`, from every incident
+    that has one. Permanent. Returns how many incidents were touched. A no-op
+    without Mongo."""
+    if mongo_db is None:
+        return 0
+    n = mongo_db.incidents.update_many(
+        {f"by_coder.{coder}": {"$exists": True}},
+        {"$unset": {f"by_coder.{coder}": ""}}).modified_count
+    invalidate_mongo_cache()
+    return n
+
+
 def store_from_mongo(coder: str) -> dict:
     """Rebuild one coder's local {doc_key: {quotes, roles}} store from Mongo.
 

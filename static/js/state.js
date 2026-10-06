@@ -81,10 +81,10 @@ export const OPTIONAL_CLAIM_ROLES = [
 // role is dropped straight onto the one claim it describes.
 export const CLAIM_ROLES_DROP = ['harm', 'harmed_party', 'actor', 'factor', 'system', 'developer'];
 // Roles a claim holds as a list, and the key each is stored under. Anything not
-// listed here is a single value that a drop replaces. `harm` and `actor` are
-// deliberately absent: harm is what makes a claim one assertion and actor is
-// who makes it, so a second one of either is a second claim, not a second chip.
-export const CLAIM_LIST_KEYS = { harmed_party: 'harmed_parties', factor: 'factors',
+// listed here is a single value that a drop replaces. `actor` is deliberately
+// absent: actor is who makes the claim, so a second one is a second claim, not
+// a second chip.
+export const CLAIM_LIST_KEYS = { harm: 'harms', harmed_party: 'harmed_parties', factor: 'factors',
                                  system: 'systems', developer: 'developers' };
 
 // A claim's values for one role, whichever shape they are stored in — harmed

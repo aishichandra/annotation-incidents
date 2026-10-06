@@ -10,6 +10,7 @@ of the app, so anything here is safe to use from any other module.
 """
 import json
 import os
+import re
 import threading
 from pathlib import Path
 
@@ -43,9 +44,104 @@ _load_dotenv()
 
 # Who may code. Override with e.g. CODERS="aisvarya,priya" (env or .env). The
 # first name is also where pre-multi-coder files and Mongo records are filed.
-CODERS = [c.strip() for c in os.environ.get("CODERS", "").split(",") if c.strip()] \
-    or ["coder1", "coder2"]
+def _env_coders() -> list:
+    return [c.strip() for c in os.environ.get("CODERS", "").split(",") if c.strip()] \
+        or ["Klaudia", "Emma"]
+
+
+CODERS = _env_coders()
 LEGACY_CODER = CODERS[0]
+
+# Coders added from the UI, kept beside the env list so they survive a restart.
+# CODERS is mutated in place (never rebound) because other modules hold the very
+# same list from `from config import CODERS`.
+CODERS_JSON = HERE / "coders.json"
+CODER_NAME_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9_-]{0,31}")
+
+
+def _load_added_coders() -> None:
+    if CODERS_JSON.exists():
+        try:
+            names = json.loads(CODERS_JSON.read_text() or "[]")
+        except ValueError:
+            return
+        CODERS.extend(n for n in names if isinstance(n, str) and n not in CODERS)
+
+
+_load_added_coders()
+
+
+def add_coder(name: str) -> str:
+    """Register a new coder under `name` and return it. The name is also what
+    their files and Mongo subtree are keyed by, so it is limited to letters,
+    digits, `-` and `_`. Raises ValueError if it is invalid or already taken."""
+    name = (name or "").strip()
+    if not CODER_NAME_RE.fullmatch(name):
+        raise ValueError("Use 1-32 letters, digits, - or _ (no spaces), "
+                         "starting with a letter or digit.")
+    if name.lower() in (c.lower() for c in CODERS):
+        raise ValueError(f"{name!r} is already a coder.")
+    CODERS.append(name)
+    _save_added_coders()
+    return name
+
+
+def added_coders() -> list:
+    """The coders added from the UI — the only ones that can be removed there;
+    the rest come from the CODERS env var (or its default)."""
+    env = _env_coders()
+    return [c for c in CODERS if c not in env]
+
+
+def _save_added_coders() -> None:
+    CODERS_JSON.write_text(json.dumps(added_coders(), indent=2) + "\n")
+
+
+def check_rename(old: str, new: str) -> str:
+    """Validate renaming a UI-added coder; returns the cleaned new name or
+    raises ValueError. Coders from the CODERS env var can't be renamed: their
+    name is configuration, and it would revert on the next restart."""
+    new = (new or "").strip()
+    if old not in added_coders():
+        raise ValueError(f"{old!r} can't be renamed here — it is set by the "
+                         "CODERS env var." if old in CODERS else f"No coder {old!r}.")
+    if not CODER_NAME_RE.fullmatch(new):
+        raise ValueError("Use 1-32 letters, digits, - or _ (no spaces), "
+                         "starting with a letter or digit.")
+    if new.lower() in (c.lower() for c in CODERS if c != old):
+        raise ValueError(f"{new!r} is already a coder.")
+    for path_for in (annotations_path, incident_coding_path, annotated_csv_path):
+        if new != old and path_for(new).exists() and new.lower() != old.lower():
+            raise ValueError(f"Files for {new!r} already exist; remove or "
+                             "move them first.")
+    return new
+
+
+def rename_coder(old: str, new: str) -> str:
+    """Rename a UI-added coder: the name in the list and their files on disk.
+    (The Mongo subtree is moved by mongo_sync.rename_coder, called first.)"""
+    new = check_rename(old, new)
+    if new == old:
+        return new
+    for path_for in (annotations_path, incident_coding_path, annotated_csv_path):
+        if path_for(old).exists():
+            path_for(old).rename(path_for(new))
+    CODERS[CODERS.index(old)] = new
+    _save_added_coders()
+    return new
+
+
+def remove_coder(name: str) -> None:
+    """Take a UI-added coder off the list and delete their files on disk (the
+    Mongo subtree is dropped by mongo_sync.delete_coder). Permanent. Raises
+    ValueError for a coder that can't be removed."""
+    if name not in added_coders():
+        raise ValueError(f"{name!r} can't be removed here — it is set by the "
+                         "CODERS env var." if name in CODERS else f"No coder {name!r}.")
+    for path_for in (annotations_path, incident_coding_path, annotated_csv_path):
+        path_for(name).unlink(missing_ok=True)
+    CODERS.remove(name)
+    _save_added_coders()
 
 
 def annotations_path(coder: str) -> Path:

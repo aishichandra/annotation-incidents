@@ -6,7 +6,7 @@
 // the card can be stale, the server cannot.
 
 import { escapeHtml } from '../persist.js';
-import { RULES } from '../state.js';
+import { RULES, claimValues } from '../state.js';
 import { roleLabel } from './card.js';
 import { INCIDENTS, loadIncidents, nextInSectionAfter, refreshTile } from './index.js';
 
@@ -19,7 +19,7 @@ import { INCIDENTS, loadIncidents, nextInSectionAfter, refreshTile } from './ind
 export const MISSING_LABEL = { complete_claim: 'a complete claim' };
 
 export function claimIsComplete(cl) {
-  return !!(cl.harm && (cl.harmed_parties || []).length
+  return !!(claimValues(cl, 'harm').length && (cl.harmed_parties || []).length
             && cl.actor && (cl.factors || []).length);
 }
 

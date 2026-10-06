@@ -293,25 +293,22 @@ def build_validator(vocab: dict | None = None) -> dict:
         },
     }
     # One element per claim — who did what to whom, in full: harm, harmed
-    # parties, actor, and optionally what systems and whose models. Harm and
-    # actor are single values; `harmed_parties`, `factors`, `systems` and
-    # `developers` are lists. The asymmetry is deliberate — one harm reaching
-    # several parties, or one actor running on several systems, is a
-    # conjunction anyone can read back, whereas plural harms alongside plural
-    # parties would leave "which harm hit which party?" unanswerable. Holding
-    # harm and actor each to one value is what keeps a claim a single
-    # countable proposition.
+    # parties, actor, and optionally what systems and whose models. Actor is a
+    # single value; `harms`, `harmed_parties`, `factors`, `systems` and
+    # `developers` are lists, each read back as a conjunction. Holding actor to
+    # one value is what keeps a claim a single countable proposition.
     claims_array = {
         "bsonType": "array",
         "items": {"bsonType": "object", "properties": {
             "id": {"bsonType": ["string", "null"]},
-            "harm": {"bsonType": ["string", "null"]},
+            "harms": {"bsonType": "array"},
             "harmed_parties": {"bsonType": "array"},
             "actor": {"bsonType": ["string", "null"]},
             "systems": {"bsonType": "array"},
             "developers": {"bsonType": "array"},
             "factors": {"bsonType": "array"},
             # pre-plural single values, still permitted so older claims validate
+            "harm": {"bsonType": ["string", "null"]},
             "harmed_party": {"bsonType": ["string", "null"]},
             "system": {"bsonType": ["string", "null"]},
             "developer": {"bsonType": ["string", "null"]},

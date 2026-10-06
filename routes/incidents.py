@@ -144,9 +144,9 @@ def api_incident_json(inc_id):
 @bp.route("/api/incident/<path:inc_id>/claims", methods=["POST"])
 def api_save_claims(inc_id):
     """Persist the active coder's card-view claims for one incident.
-    Body: {claims:[…]}. A claim is who did what to whom, in full — {id, harm,
+    Body: {claims:[…]}. A claim is who did what to whom, in full — {id, harms:[],
     harmed_parties:[], actor, systems:[], developers:[], factors:[], omit:[]}
-    — where harm and actor are single values, and harmed_parties, systems,
+    — where actor is a single value, and harms, harmed_parties, systems,
     developers and factors are lists. This is the single home for links now
     that the document view codes characteristics flat; each coder links their
     own claims, so they are per coder.
