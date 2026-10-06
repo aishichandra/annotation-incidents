@@ -2,6 +2,7 @@
 // init() loads schema + docs; setView() flips Incidents/Documents and
 // restores each view's scroll position.
 
+import { loadAgreement } from './agreement.js';
 import { loadCodebook } from './codebook.js';
 import { initCoders } from './coder.js';
 import { refreshIncidents } from './incidents/index.js';
@@ -22,6 +23,7 @@ export async function init() {
   document.getElementById('tabDocs').onclick = () => setView('docs');
   document.getElementById('tabIncidents').onclick = () => setView('incidents');
   document.getElementById('tabCodebook').onclick = () => setView('codebook');
+  document.getElementById('tabAgreement').onclick = () => setView('agreement');
   loadDoc(docs.length ? docs[0].index : 0);
   // Land where you left off; Incidents on a first visit.
   let start = 'incidents';
@@ -43,9 +45,10 @@ export async function init() {
 // page and the browser clamps scrollY. Each view's offset is therefore parked on
 // the way out and put back on the way in, the same way loadDoc(keepScroll) does.
 export let CURRENT_VIEW = null;
-export const VIEWS = ['incidents', 'docs', 'codebook'];
-export const TAB_OF = { incidents: 'tabIncidents', docs: 'tabDocs', codebook: 'tabCodebook' };
-export const VIEW_SCROLL = { docs: 0, incidents: 0, codebook: 0 };
+export const VIEWS = ['incidents', 'docs', 'codebook', 'agreement'];
+export const TAB_OF = { incidents: 'tabIncidents', docs: 'tabDocs', codebook: 'tabCodebook',
+                       agreement: 'tabAgreement' };
+export const VIEW_SCROLL = { docs: 0, incidents: 0, codebook: 0, agreement: 0 };
 
 export function setView(v) {
   if (CURRENT_VIEW) VIEW_SCROLL[CURRENT_VIEW] = window.scrollY;
@@ -60,5 +63,7 @@ export function setView(v) {
   // The scheme is shared, so it can have moved under you while you were coding —
   // always re-read it rather than trusting what this tab drew last time.
   else if (v === 'codebook') loadCodebook().then(done);
+  // Agreement is computed from everyone's coding, which moves as they work.
+  else if (v === 'agreement') loadAgreement().then(done);
   else done();
 }

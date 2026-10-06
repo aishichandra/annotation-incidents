@@ -13,6 +13,7 @@
     <button id="tabIncidents" class="tab active">Incidents</button>
     <button id="tabDocs" class="tab">Documents</button>
     <button id="tabCodebook" class="tab">Codebook</button>
+    <button id="tabAgreement" class="tab">Agreement</button>
   </div>
   <label class="coderpick" title="Whose coding you are viewing and editing. Each coder's work is saved separately.">
     Coding as <select id="coderSelect"></select>
@@ -29,6 +30,9 @@
 
 <!-- The coding scheme itself: categories and their definitions, from /api/vocab -->
 <div id="codebook"></div>
+
+<!-- Inter-coder agreement (Cohen's kappa), from /api/agreement -->
+<div id="agreement"></div>
 
 <div class="app">
   <div class="reader">
@@ -64,6 +68,7 @@
     form.js       the coding form: cards, selects, text answers, evidence
     arming.js     which field a highlight will land in; the roles panel
     codebook.js   the Codebook tab: the codes and what they mean
+    agreement.js  the Agreement tab: Cohen's kappa per category and code
     sync.js       Push and Pull
     persist.js    debounced save, escapeHtml, outside-click close
 

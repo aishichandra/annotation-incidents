@@ -12,10 +12,12 @@ decides, not as how it is stored.
     docs       the documents, and one coder's evidence on them
     incidents  the cards, and every judgement recorded on one
     sync       Pull and Push
+    agreement  the Agreement tab: Cohen's kappa between two coders
 """
-from . import docs, incidents, pages, schema, sync, vocab
+from . import agreement, docs, incidents, pages, schema, sync, vocab
 
-BLUEPRINTS = (pages.bp, schema.bp, vocab.bp, docs.bp, incidents.bp, sync.bp)
+BLUEPRINTS = (pages.bp, schema.bp, vocab.bp, docs.bp, incidents.bp, sync.bp,
+              agreement.bp)
 
 
 def register(app) -> None:
