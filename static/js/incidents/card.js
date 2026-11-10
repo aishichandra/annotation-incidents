@@ -38,14 +38,12 @@ export function incidentCard(inc, fields) {
   const domainBlock = derivedBlock(domains.length > 1 ? 'Domains' : 'Domain',
     !domains.length ? NODATA : escapeHtml(domains.join(', ')));
 
-  // Aftermath renders last of all, under the claim groups; the rest sit up left.
+  // Aftermath is pooled into the Characteristics palette.
   // Card-only fields are answered here rather than read here, so they are left
   // to buildCardFields below instead of rendering as chips.
   const leftFieldBlocks = fields
     .filter(f => f.key !== 'incident_aftermath' && !f.card_only)
     .map(fieldBlock).join('');
-  const aftermath = fields.find(f => f.key === 'incident_aftermath');
-  const aftermathBlock = aftermath ? fieldBlock(aftermath) : '';
 
   const docsHtml = inc.documents.map(d => {
     const url = d.url
@@ -83,7 +81,6 @@ export function incidentCard(inc, fields) {
       </div>
       <div class="tow-col c2">
         <div class="tow-claims" data-inc="${encId}"></div>
-        ${aftermathBlock}
       </div>
     </div>
     <div class="inc-note" data-inc="${encId}">
@@ -103,7 +100,7 @@ export function incidentCard(inc, fields) {
 
 export const roleColor = (role) => (CLAIM_ROLE[role] && CLAIM_ROLE[role].color) || '#e5e7eb';
 
-export const roleLabel = (role) => (CLAIM_ROLE[role] && CLAIM_ROLE[role].label) || role;
+export const roleLabel = (role) => (CLAIM_ROLE[role] && CLAIM_ROLE[role].label) || (role === 'aftermath' ? 'Aftermath' : role);
 
 // The palette in ROLES is chip *background* colour — pale by design, and too light
 // to read as text on white (yellow worst of all). Darken it toward black for the

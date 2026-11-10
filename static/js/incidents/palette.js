@@ -44,13 +44,14 @@ export function buildPalette(container, inc) {
   palette.innerHTML = `<div class="tow-label">Characteristics</div>`;
   // Every characteristic, System and Developer included — one list, one way to
   // code, one way to drag into a claim.
-  const anyValues = ROLES.some(r => (inc.role_values[r.role] || []).length)
+  const roles = [...ROLES, { role: 'aftermath', label: 'Aftermath' }];
+  const anyValues = roles.some(r => (inc.role_values[r.role] || []).length)
     || Object.keys(inc.role_notes || {}).length;
   if (!anyValues) {
     const nd = document.createElement('div'); nd.innerHTML = NODATA;
     palette.appendChild(nd);
   } else {
-    ROLES.forEach(r => {
+    roles.forEach(r => {
       const vals = inc.role_values[r.role] || [];
       if (!vals.length && !(inc.role_notes || {})[r.role]) return;
       const row = document.createElement('div'); row.className = 'pal-row';
@@ -64,11 +65,12 @@ export function buildPalette(container, inc) {
         n.textContent = note;
         chips.appendChild(n);
       }
+      const kind = r.role === 'aftermath' ? 'incident_aftermath' : r.role;
       vals.forEach(v => {
-        chips.appendChild(makeChip(r.role, v, usedInClaims(inc, r.role, v), inc, r.role));
+        chips.appendChild(makeChip(r.role, v, usedInClaims(inc, r.role, v), inc, kind));
         // The open panel follows its own chip, breaking the flex row so it reads
         // as belonging to that value rather than to the role as a whole.
-        if (isQuotesOpen(inc, r.role, v)) chips.appendChild(quotePanel(inc, r.role, v));
+        if (isQuotesOpen(inc, kind, v)) chips.appendChild(quotePanel(inc, kind, v));
       });
       row.appendChild(lbl); row.appendChild(chips);
       palette.appendChild(row);

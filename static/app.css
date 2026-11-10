@@ -366,6 +366,14 @@
     font-family: Georgia, 'Times New Roman', serif; border-radius: 0 0 4px 4px;
     transition: background .15s ease; }
   .grp-sentence.over { background: #eaf0f6; box-shadow: inset 0 0 0 2px #254c6f; }
+  .claim-aftermath { margin-top: 8px; padding: 8px 12px;
+    background: #f5f7f9; line-height: 1.5;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+  .claim-aftermath .sent-slot { display: grid; gap: 6px; margin-top: 4px; }
+  .grp-sentence .claim-aftermath .sent-v { display: flex; align-items: flex-start;
+    justify-content: space-between; gap: 8px; min-width: 0; margin: 0; padding: 6px 8px;
+    line-height: 1.5; overflow-wrap: anywhere; }
+  .claim-aftermath .sent-x { flex: none; }
   .grp-sentence .sent-v { display: inline-flex; align-items: center; gap: 3px; margin: 0 3px;
     padding: 2px 5px 2px 8px; border-radius: 3px; border: 1px solid #e0e0e0;
     font-family: 'Helvetica Neue', Helvetica, sans-serif; font-size: 12.5px; line-height: 1.3;

@@ -97,13 +97,7 @@ export function claimBox(inc, cl, container) {
   return box;
 }
 
-// One claim, read as a single sentence: "<harm> allegedly impacted <harmed
-// parties> in part as a result of actions taken by <actor> using <factors>"
-// plus whichever of "developed by <developer>" / "because of <system>" this
-// claim has something to say — both optional. actor is
-// single-valued; harms, harmed parties, factors, systems and developers are lists,
-// since several contributing causes, or several systems/developers, read
-// unambiguously as a conjunction.
+// A claim sentence with optional system and developer clauses.
 export function claimRow(inc, cl, container) {
   const row = document.createElement('div');
   row.className = 'grp-sentence';
@@ -154,10 +148,11 @@ export function claimRow(inc, cl, container) {
       if (onOmit) sp.classList.add('opt');
       return sp;
     }
-    const span = document.createElement('span');
+    const isAftermath = role === 'aftermath';
+    const span = document.createElement(isAftermath ? 'div' : 'span');
     span.className = 'sent-slot';
     vals.forEach((v, i) => {
-      if (i) span.appendChild(document.createTextNode(' & '));
+      if (i && !isAftermath) span.appendChild(document.createTextNode(' & '));
       const geo = GEO_ROLES.has(role) ? valueGeo(inc, role, v, rebuild) : null;
       span.appendChild(valueChip(role, v, () => {
         cl[CLAIM_LIST_KEYS[role]] = claimValues(cl, role).filter(x => x !== v);
@@ -173,15 +168,10 @@ export function claimRow(inc, cl, container) {
   row.appendChild(listSlot('harmed_party', 'harmed party/ies'));
   row.appendChild(document.createTextNode(' in part as a result of actions taken by '));
   row.appendChild(scalarSlot('actor', 'Actor'));
-  row.appendChild(document.createTextNode(' using '));
+  row.appendChild(document.createTextNode(' influenced by '));
   row.appendChild(listSlot('factor', 'factor(s)'));
 
-  // "developed by …" / "because of …" appear once the incident has something
-  // to drop there, or once they're filled; otherwise the sentence reads as
-  // complete without them. A claim that doesn't need one can also drop it
-  // outright — not every claim is about a named system, and an empty clause
-  // left standing reads as an unanswered question rather than an
-  // inapplicable one.
+  // Show optional clauses when filled or when a value is available.
   OPTIONAL_CLAIM_ROLES.forEach(cfg => {
     const filled = claimValues(cl, cfg.role).length;
     const available = ((inc.role_values || {})[cfg.role] || []).length;
@@ -193,6 +183,17 @@ export function claimRow(inc, cl, container) {
     }));
   });
   row.appendChild(document.createTextNode('.'));
+
+  if (claimValues(cl, 'aftermath').length) {
+    const evidence = document.createElement('div');
+    evidence.className = 'claim-aftermath';
+    const label = document.createElement('div');
+    label.className = 'tow-label';
+    label.textContent = 'Aftermath';
+    evidence.appendChild(label);
+    evidence.appendChild(listSlot('aftermath', 'Aftermath'));
+    row.appendChild(evidence);
+  }
 
   // Bringing a dropped clause back. Only offered where there is something to
   // put in it, matching the rule for showing the clause in the first place.

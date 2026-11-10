@@ -160,6 +160,8 @@ def _collect_value_quotes(g: dict, rec: dict, key: str, i: int) -> None:
         value = str(q.get("value") or "").strip()
         text = str(q.get("text") or "").strip()
         kind = q.get("role") or q.get("category")
+        if kind == "incident_aftermath":
+            value = text
         if not (value and text and kind):
             continue
         bucket = g["value_quotes"].setdefault(str(kind), {}).setdefault(value, [])
@@ -216,15 +218,16 @@ def _prune_claim(g: dict, cl: dict):
     factors = [f for f in (cl.get("factors") or []) if _still_coded(g, "factor", f)]
     systems = _keep_list(g, "system", cl.get("systems"), cl.get("system"))
     developers = _keep_list(g, "developer", cl.get("developers"), cl.get("developer"))
+    aftermath = _keep_list(g, "aftermath", cl.get("aftermath_passages"), None)
     # The optional clauses this claim has taken out of its sentence:
     # "inapplicable here" rather than "not answered yet", which is a judgement
     # and so survives a reload like any other.
     omit = [r for r in (cl.get("omit") or []) if r in OPTIONAL_CLAIM_ROLES]
-    if not (harms or parties or actor or factors or systems or developers or omit):
+    if not (harms or parties or actor or factors or systems or developers or aftermath or omit):
         return None
     return {"id": cl.get("id"), "harms": harms, "harmed_parties": parties,
             "actor": actor, "factors": factors, "systems": systems,
-            "developers": developers, "omit": omit}
+            "developers": developers, "aftermath_passages": aftermath, "omit": omit}
 
 
 def _prune_role_geo(geo: dict, role_values: dict, incident_places) -> dict:
@@ -328,6 +331,10 @@ def aggregate_incidents(coder: str):
 
     for inc_id, g in incidents.items():
         entry = inc_store.get(inc_id) or {}
+        g["role_values"]["aftermath"] = list(dict.fromkeys([
+            *g["value_quotes"].get("incident_aftermath", {}),
+            *g["field_values"].get("incident_aftermath", []),
+        ]))
         saved = entry.get("claims") or []
         g["claims"] = [c for c in (_prune_claim(g, x) for x in saved) if c]
         # Pruned against role_values, which is only fully pooled once every

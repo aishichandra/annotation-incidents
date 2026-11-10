@@ -74,18 +74,18 @@ export const CLAIM_ROLE = ROLE;
 // one party, so "A & B" is an ordinary thing to need to say for either.
 // The two clauses a claim reads as complete without.
 export const OPTIONAL_CLAIM_ROLES = [
+  { role: 'system', key: 'systems', lead: ', using ', placeholder: 'system' },
   { role: 'developer', key: 'developers', lead: ' developed by ', placeholder: 'developer' },
-  { role: 'system',    key: 'systems',    lead: ' because of ',   placeholder: 'system' },
 ];
 // Every claim is now flat and self-contained — no grouping tier, so every
 // role is dropped straight onto the one claim it describes.
-export const CLAIM_ROLES_DROP = ['harm', 'harmed_party', 'actor', 'factor', 'system', 'developer'];
+export const CLAIM_ROLES_DROP = ['harm', 'harmed_party', 'actor', 'factor', 'system', 'developer', 'aftermath'];
 // Roles a claim holds as a list, and the key each is stored under. Anything not
 // listed here is a single value that a drop replaces. `actor` is deliberately
 // absent: actor is who makes the claim, so a second one is a second claim, not
 // a second chip.
 export const CLAIM_LIST_KEYS = { harm: 'harms', harmed_party: 'harmed_parties', factor: 'factors',
-                                 system: 'systems', developer: 'developers' };
+                                 system: 'systems', developer: 'developers', aftermath: 'aftermath_passages' };
 
 // A claim's values for one role, whichever shape they are stored in — harmed
 // parties, systems and developers all went plural after claims had already

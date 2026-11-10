@@ -70,10 +70,10 @@ function claimLine(cl) {
     chips('harmed_party', list('harmed_parties', 'harmed_party')) || '<i>[no harmed party]</i>',
     ' in part as a result of actions taken by ',
     cl.actor ? chip('actor', cl.actor) : '<i>[no actor]</i>',
-    ' using ',
+    ' influenced by ',
     chips('factor', cl.factors) || '<i>[no factor]</i>',
+    part('system', list('systems', 'system'), ', using '),
     part('developer', list('developers', 'developer'), ' developed by '),
-    part('system', list('systems', 'system'), ' because of '),
     '.',
   ].join('');
 }
@@ -98,7 +98,8 @@ function coderColumn(name, c) {
   return `<div class="ar-coder">
     <div class="ar-coder-h"><b>${escapeHtml(name)}</b><span>${escapeHtml(statusText(c))}</span></div>
     ${(c.claims || []).length ? `<div class="ar-sec">Claims</div>${c.claims.map(cl =>
-      `<div class="ar-claim">${claimLine(cl)}</div>`).join('')}` : ''}
+      `<div class="ar-claim">${claimLine(cl)}${cl.aftermath_passages?.length
+        ? `<div>Aftermath: ${chips('aftermath', cl.aftermath_passages)}</div>` : ''}</div>`).join('')}` : ''}
     ${fields ? `<div class="ar-sec">Answers</div>${fields}` : ''}
     ${c.comment ? `<div class="ar-sec">Comment</div><div class="ar-comment">${escapeHtml(c.comment)}</div>` : ''}
   </div>`;
